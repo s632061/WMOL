@@ -1,0 +1,2404 @@
+/* =========================================================
+   WMOL — CLEAN STYLESHEET (single source of truth)
+   Replaces: /mnt/data/styles.css
+   ========================================================= */
+
+/* =========================================================
+   0) RESET / GLOBALS
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #000;
+  overflow: hidden;              /* prevent stray full-screen scrollbars */
+}
+
+html{
+  -webkit-text-size-adjust: 100%; /* stop iOS/Chromium font “auto zoom” */
+  text-size-adjust: 100%;
+}
+
+
+/* ✅ allow scrolling, but only the homepage scroll container will show it */
+body{
+  overflow: hidden;
+}
+
+/* =========================================================
+   1) TOKENS (single source of truth)
+   ========================================================= */
+:root {
+  --package-width: 520px;
+  --title-font: Georgia, "Times New Roman", serif;
+  --body-font: Georgia, "Times New Roman", serif;
+
+  /* Your new “one title size” + “one body size” system */
+  --title-size: clamp(20px, 1.6vmin, 24px);
+  --body-size: clamp(15px, 1.15vmin, 17px);
+
+  --title-line: 1.35;
+  --body-line: 1.6;
+
+  --gold: #d4af37;
+  --navy: #020826;
+  --paper: #f8f4e9;
+
+  --text: #2b2b2b;
+  --text-strong: #1a1a1a;
+
+  --card: rgba(255,255,255,0.35);
+  --stroke: rgba(0,0,0,0.08);
+  --stroke-soft: rgba(0,0,0,0.06);
+
+  --shadow: 0 10px 28px rgba(0,0,0,0.14);
+  --shadow-hover: 0 14px 32px rgba(0,0,0,0.18);
+  
+}
+
+/* =========================================================
+   2) TYPOGRAPHY NORMALIZATION
+   (This is what makes the page feel “not messy.”)
+   ========================================================= */
+
+/* Titles / headings used in the Medicine page content */
+h2,
+h3,
+.med-explainer-title,
+.med-subhead,
+.access-title,
+.packages-intro h2,
+.packages-intro h3 {
+  font-family: var(--title-font);
+  font-size: var(--title-size);
+  line-height: var(--title-line);
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  color: var(--text-strong);
+}
+
+/* Body text across content areas */
+.med-copy,
+.med-explainer p,
+.callout p,
+.packages-intro p,
+.package-note,
+.med-copy p,
+.med-copy .list div,
+.fit-card li {
+  font-family: var(--body-font);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  color: var(--text);
+}
+
+/* --- Vertical rhythm: make heading->first paragraph spacing consistent --- */
+.med-explainer p,
+.med-below-right p{
+  margin: 0 0 0.8rem 0;   /* match .med-copy p */
+}
+
+/* =========================================================
+   3) HOME PAGE GRID + RAIL BASE
+   ========================================================= */
+/* ============================
+   HOME: fixed canvas + scrollbars
+   ============================ */
+
+
+/* =========================================================
+   HOME VIEWPORT + SCROLL MODE (NO DISTORTION)
+   ========================================================= */
+
+:root{
+  --home-u: 1;               /* JS sets this scale */
+  --home-canvas-w: 1440px;   /* JS can override */
+  --home-canvas-h: 900px;    /* JS can override */
+}
+
+/* The viewport is the "window" */
+.home-viewport{
+  width: 100dvw;
+  height: 100dvh;
+  background: #000;
+
+  /* Normal: no scrollbars */
+  overflow: hidden;
+
+  /* IMPORTANT: when we later enable scrolling, we want top-left anchoring */
+  display: block;
+}
+
+/* Normal mode: fill the viewport box */
+.wml-home{
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+/* Scroll mode: ONLY when user shrinks window after initial load */
+.home-viewport.home-scroll{
+  overflow: auto;            /* show scrollbars as needed */
+}
+
+/* =========================================================
+   HOME scroll-mode: freeze the intro animations + force text visible
+   (Fixes “Technology title/CTA disappear” when half height/width)
+   ========================================================= */
+.wml-home.home-scroll .wml-title,
+.wml-home.home-scroll .wml-title-tech,
+.wml-home.home-scroll .wml-cta,
+.wml-home.home-scroll .wml-cta-tech,
+.wml-home.home-scroll .wml-cta-gadgets,
+.wml-home.home-scroll .wml-cta-lifestyle{
+  animation: none !important;
+  opacity: 1 !important;
+}
+
+/* Titles/CTAs use translate(-50%, …) in their keyframes.
+   When we kill animation, make sure they still sit centered. */
+.wml-home.home-scroll .wml-title,
+.wml-home.home-scroll .wml-title-tech,
+.wml-home.home-scroll .wml-cta,
+.wml-home.home-scroll .wml-cta-tech,
+.wml-home.home-scroll .wml-cta-gadgets,
+.wml-home.home-scroll .wml-cta-lifestyle{
+  transform: translateX(-50%) !important;
+}
+
+
+/* In scroll mode, the home becomes a fixed-size "canvas" that can overflow */
+.wml-home.home-scroll{
+  width: var(--home-canvas-w);
+  height: var(--home-canvas-h);
+}
+
+
+
+/* CRITICAL: stop rails from obeying viewport-height rules (100vh).
+   In scroll mode rails must fill the canvas height instead. */
+.wml-home.home-scroll .wml-rail{
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+/* Prevent the caret/blinking cursor when clicking the circle image */
+.wml-home .rail-image-wrap img{
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+
+
+
+.wml-rail{
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+
+/* Scale only the inner content so proportions stay identical */
+/* Do NOT scale inner content with transforms (it distorts text/logo).
+   We keep proportions by scaling specific sizes with --home-u instead. */
+.wml-home .rail-inner{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform: none;
+  transform-origin: center;
+}
+
+
+
+.wml-home > *{
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  outline: none !important;
+}
+
+/* Base rail */
+.wml-rail{
+  position: relative;
+  min-height: 100%;
+  overflow: hidden;
+  background-color: #000;
+  transform: translateX(0);
+  will-change: transform, opacity;
+}
+
+/* Help GPUs render animated ::before images without seams */
+.wml-rail::before{
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+
+
+
+/* =========================================================
+   4) COMMON HOME NAV TEXT STYLES
+   ========================================================= */
+
+/* One source of truth for ALL top + bottom text on the homepage */
+.wml-home{
+  /* Large-screen “ideal” sizes (MAX). Small screens scale DOWN via --home-u */
+  --home-title-max: 36px;
+  --home-cta-max:   22px;
+
+  /* Optional floors so it never becomes unreadably tiny */
+  --home-title-min: 26px;
+  --home-cta-min:   16px;
+
+  /* Actual computed sizes: scale down only */
+  --home-title-size: clamp(var(--home-title-min), calc(var(--home-title-max) * var(--home-u)), var(--home-title-max));
+  --home-cta-size:   clamp(var(--home-cta-min),   calc(var(--home-cta-max)   * var(--home-u)), var(--home-cta-max));
+
+  --home-title-line: 1.25;
+}
+
+/* Stop the blinking text caret when clicking titles/labels */
+.wml-home .wml-title,
+.wml-home .wml-title-tech,
+.wml-home .wml-link,
+.wml-home .wml-link-tech,
+.wml-home .wml-link-gadgets,
+.wml-home .wml-link-lifestyle{
+  user-select: none;
+  -webkit-user-select: none;
+  caret-color: transparent;
+}
+
+/* Prevent selection/caret artifacts on the homepage */
+.wml-home,
+.wml-home *{
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* Don’t let the logo receive focus/caret behavior */
+.wml-home .rail-image-wrap img{
+  pointer-events: none;
+  cursor: default;
+}
+
+.wml-home .wml-title,
+.wml-home .wml-title-tech{
+  cursor: default;
+}
+
+
+.wml-home img{
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.wml-home .rail-image-wrap{
+  user-select: none;
+}
+
+.wml-home .rail-title,
+.wml-home .rail-subtitle{
+  user-select: none;   /* stops caret blinking when clicking titles */
+}
+
+/* Don’t let the logo receive focus/caret behavior */
+.wml-home .rail-image-wrap img{
+  pointer-events: none;
+  cursor: default;
+}
+
+.wml-home .wml-title,
+.wml-home .wml-title-tech{
+  cursor: default;
+}
+
+
+.wml-home a{
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+.wml-home .wml-title,
+.wml-home .wml-title-tech{
+  font-family: "Times New Roman", Georgia, serif;
+  font-weight: 600;
+  font-size: var(--home-title-size);
+  line-height: var(--home-title-line);
+  margin: 0;
+}
+
+.wml-home .wml-link,
+.wml-home .wml-link-tech,
+.wml-home .wml-link-gadgets,
+.wml-home .wml-link-lifestyle{
+  font-family: "Times New Roman", Georgia, serif;
+  font-weight: 600;
+  font-size: var(--home-cta-size);
+  text-decoration: none;
+}
+
+.wml-home .wml-link:hover,
+.wml-home .wml-link-tech:hover,
+.wml-home .wml-link-gadgets:hover,
+.wml-home .wml-link-lifestyle:hover{
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   5) Q1 — MEDICINE RAIL (HOME + MEDICINE PAGE)
+   ========================================================= */
+
+
+/* Shared */
+.rail-medicine{
+  background: var(--navy);
+  color: var(--gold);
+  min-height: 100%;
+}
+
+/* CRITICAL: prevent Medicine banner from compressing */
+.wml-rail.medicine {
+  height: auto !important;
+  min-height: max-content !important;
+  align-self: flex-start;
+}
+
+/* STEP 2: stop vertical centering that causes squish */
+.wml-rail.medicine {
+  align-items: flex-start !important;
+}
+
+
+/* Q1 blue background rises ONLY on fresh load (home-intro) */
+html.home-intro .wml-home .rail-medicine{
+  clip-path: inset(100% 0 0 0); /* start hidden */
+  animation: med-rail-reveal 1100ms cubic-bezier(.22,1,.36,1) 0s forwards;
+  will-change: clip-path;
+}
+
+/* default state (no clip) */
+.wml-home .rail-medicine{
+  clip-path: none;
+}
+
+
+/* Make all text in medicine rail gold */
+.rail-medicine .wml-title,
+.rail-medicine .wml-cta,
+.rail-medicine .wml-link{
+  color: var(--gold);
+}
+
+/* Inner stack (used on home and medicine page) */
+.rail-medicine .rail-inner{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+/* Image wrapper (used both places) */
+.rail-image-wrap{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.rail-image-wrap img{
+  display: block;
+
+  /* Scale the *max size* using --home-u (no transform distortion) */
+  width: min(88%, calc(430px * var(--home-u)));
+
+  height: auto;
+  object-fit: contain;
+}
+
+
+/* --- HOME ONLY: animate background + title + logo + CTA --- */
+@keyframes med-bg-fly-up{
+  0%   { opacity: 0; transform: translateY(100vh); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes med-text-fly-up{
+  0%   { opacity:0; transform: translate(-50%, 100vh); }
+  100% { opacity:1; transform: translate(-50%, 0); }
+}
+@keyframes med-img-fly-up{
+  0%   { opacity:0; transform: translateY(100vh); }
+  100% { opacity:1; transform: translateY(0); }
+}
+@keyframes med-rail-reveal{
+  0%   { clip-path: inset(100% 0 0 0); }
+  100% { clip-path: inset(0 0 0 0); }
+}
+
+
+
+/* Home: keep inner content above animated background */
+.wml-home .rail-medicine .rail-inner{
+  position: relative;
+  z-index: 1;
+}
+
+
+
+
+/* Home: title position/animation */
+.wml-home .rail-medicine .wml-title{
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  width: calc(100% - 64px);
+  text-align: center;
+  margin: 0;
+
+  font-family:"Times New Roman", Georgia, serif;
+  font-weight: 600;
+  font-size: var(--home-title-size);
+  line-height: 1.25;
+
+  opacity: 0;
+  animation: med-text-fly-up 1100ms cubic-bezier(.22,1,.36,1) 0s forwards;
+}
+
+/* Home: logo centered */
+.wml-home .rail-medicine .rail-image-wrap{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.wml-home .rail-medicine .rail-image-wrap img{
+  opacity: 0;
+  transform: translateY(100vh);
+  animation: med-img-fly-up 1000ms cubic-bezier(.22,1,.36,1) 0s forwards;
+  will-change: transform, opacity;
+}
+
+/* Home: CTA position/animation */
+.wml-home .rail-medicine .wml-cta{
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  width: max-content;
+  text-align: center;
+
+  opacity: 0;
+  animation: med-text-fly-up 1100ms cubic-bezier(.22,1,.36,1) .15s forwards;
+}
+
+/* --- MEDICINE PAGE LEFT RAIL (static) --- */
+/* --- MEDICINE PAGE LEFT RAIL (static) --- */
+.medicine-layout{
+  display: grid;
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  min-height: 100%;
+  width: 100%;
+}
+
+
+/* ✅ Medicine page rail: match HOME alignment system (top 10 / center 50 / bottom 10) */
+.medicine-layout .rail-medicine .rail-inner{
+  position: relative;
+  height: 100vh;
+  padding: 0;              /* important: stop flex padding from shifting things */
+}
+
+/* Title: same anchors as home */
+.medicine-layout .rail-medicine .wml-title{
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 64px);
+  text-align: center;
+  margin: 0;
+  opacity: 1;
+  animation: none;
+}
+
+/* Circle: centered like home */
+.medicine-layout .rail-medicine .rail-image-wrap{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ✅ Keep your "circle size cap" so CTA never gets clipped */
+.medicine-layout .rail-medicine .rail-image-wrap img{
+  width: min(92%, calc(430px * var(--home-u)));
+  max-height: 80vh;
+  height: auto;
+  object-fit: contain;
+}
+
+
+/* CTA: same anchors as home */
+.medicine-layout .rail-medicine .wml-cta{
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  text-align: center;
+  margin: 0;
+  opacity: 1;
+  animation: none;
+}
+
+/* Static logo should be visible immediately */
+.rail-medicine.rail-static .rail-image-wrap img{
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+/* Disable hover underline on the static “For Medicine” label */
+.rail-medicine.rail-static .wml-cta .wml-link:hover{
+  text-decoration: none !important;
+}
+
+/* STEP 3: allow scrolling instead of compression */
+html, body {
+  overflow: auto;
+}
+
+.wml-home,
+.home-viewport {
+  overflow: auto !important;
+}
+
+/* STEP 4: freeze Medicine content — no squish allowed */
+.wml-rail.medicine * {
+  flex-shrink: 0 !important;
+}
+
+/* STEP 1: let Medicine rail grow naturally */
+.wml-rail.medicine {
+  height: auto !important;
+  min-height: max-content !important;
+  align-self: flex-start;
+}
+
+.rail-clickable {
+  cursor: pointer;
+}
+
+/* Make sure children don't block the click */
+.rail-clickable * {
+  pointer-events: none;
+}
+
+/* But keep links accessible for keyboard / screen readers */
+.rail-clickable a {
+  pointer-events: auto;
+}
+
+
+/* =========================================================
+   6) HOME -> MEDICINE LEAVE / RETURN ANIMATION
+   ========================================================= */
+
+/* =========================================================
+   6.5) CROSS-PAGE MORPH (Home <-> Medicine) — View Transitions
+   ========================================================= */
+
+/* Enable navigation transitions (works with the meta tag in <head>) */
+@view-transition { navigation: auto; }
+
+/* Tell the browser which elements are "the same" across pages */
+.wml-home .rail-medicine            { view-transition-name: med-rail; }
+.wml-home .rail-medicine .wml-title { view-transition-name: med-title; }
+.wml-home .rail-medicine .rail-image-wrap { view-transition-name: med-logo; }
+.wml-home .rail-medicine .wml-cta   { view-transition-name: med-cta; }
+
+.medicine-layout .rail-medicine            { view-transition-name: med-rail; }
+.medicine-layout .rail-medicine .wml-title { view-transition-name: med-title; }
+.medicine-layout .rail-medicine .rail-image-wrap { view-transition-name: med-logo; }
+.medicine-layout .rail-medicine .wml-cta   { view-transition-name: med-cta; }
+
+/* Optional: make the morph feel softer */
+::view-transition-old(med-rail),
+::view-transition-new(med-rail),
+::view-transition-old(med-title),
+::view-transition-new(med-title),
+::view-transition-old(med-logo),
+::view-transition-new(med-logo),
+::view-transition-old(med-cta),
+::view-transition-new(med-cta){
+  animation-duration: 520ms;
+  animation-timing-function: cubic-bezier(.22,1,.36,1);
+}
+
+
+/* Disable default full-page crossfade (prevents medicine content flashing) */
+::view-transition-old(root),
+::view-transition-new(root){
+  animation: none !important;
+}
+
+
+/* Stagger exit delays */
+.rail-technology { --leave-delay: 0ms; }
+.rail-gadgets,
+.rail-widgets   { --leave-delay: 180ms; }
+.rail-lifestyle { --leave-delay: 360ms; }
+
+/* Rail transitions */
+.wml-rail{
+  transition:
+    transform 2400ms cubic-bezier(.22,1,.36,1) var(--leave-delay, 0ms),
+    opacity   100ms  ease                     var(--leave-delay, 0ms);
+}
+
+/* Leaving home to medicine: slide Q2–Q4 away */
+.wml-home.leaving-med{ background: var(--paper); }
+.wml-home.leaving-med .rail-medicine{ z-index: 2; }
+
+.wml-home.leaving-med .rail-technology,
+.wml-home.leaving-med .rail-gadgets,
+.wml-home.leaving-med .rail-widgets,
+.wml-home.leaving-med .rail-lifestyle{
+  transform: translateX(120vw);
+  opacity: 1; /* <-- keep visible while sliding */
+}
+
+
+.wml-home.enter-from-med .rail-technology,
+.wml-home.enter-from-med .rail-gadgets,
+.wml-home.enter-from-med .rail-widgets,
+.wml-home.enter-from-med .rail-lifestyle{
+  transform: translateX(120vw);
+  opacity: 1; /* keep visible during their slide-in/out */
+}
+
+.wml-home.enter-from-med{ background: var(--paper); }
+
+/* Returning via Back: keep Q1 visible and stable */
+
+
+.wml-home.from-med .rail-medicine .rail-image-wrap img{
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+
+/* =========================================================
+   BACK (Medicine -> Home): freeze HOME intro animations
+   BEFORE first paint to prevent the "drop then appear" effect
+   ========================================================= */
+
+/* When returning from medicine, DO NOT replay the home intro animations */
+.returning-from-med .wml-home .rail-medicine .wml-title,
+.returning-from-med .wml-home .rail-medicine .wml-cta{
+  animation: none !important;
+  opacity: 1 !important;
+  transform: translate(-50%, 0) !important;
+}
+
+.returning-from-med .wml-home .rail-medicine .rail-image-wrap img{
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* On return from medicine, permanently disable the HOME fly-up intro */
+.returning-from-med .wml-home .rail-medicine .wml-title,
+.returning-from-med .wml-home .rail-medicine .wml-cta,
+.returning-from-med .wml-home .rail-medicine .rail-image-wrap img{
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Also freeze during the short post-morph window */
+
+
+.wml-home.from-med .rail-medicine .rail-image-wrap img{
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+
+.wml-home.from-med .rail-medicine .wml-title,
+.wml-home.from-med .rail-medicine .wml-cta,
+.returning-from-med .wml-home .rail-medicine .wml-title,
+.returning-from-med .wml-home .rail-medicine .wml-cta{
+  animation: none !important;
+  opacity: 1 !important;
+  transform: translateX(-50%) !important;
+}
+
+/* Ensure the rail establishes a stacking context */
+.wml-rail,
+.rail-inner {
+  position: relative;
+}
+
+/* Circle image should sit BELOW text */
+.rail-image-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+/* Title must be ABOVE the circle */
+.wml-title {
+  position: relative;
+  z-index: 3;
+}
+
+/* "For Medicine" link must also be ABOVE the circle */
+.wml-cta {
+  position: relative;
+  z-index: 3;
+}
+
+/* =========================================================
+   7) MEDICINE PAGE — RIGHT COLUMN
+   ========================================================= */
+/* =========================================================
+   7) MEDICINE PAGE — RIGHT COLUMN
+   ========================================================= */
+
+:root{
+  --sbw: 14px; /* scrollbar/gutter width */
+}
+
+.med-content{
+  position: relative;
+
+  /* Beige everywhere EXCEPT a dedicated black strip on the far right */
+  background: var(--paper);
+  color: var(--text);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+  /* Keep your existing padding, but add extra room so text never sits under the scrollbar */
+  padding: clamp(8px, 2.2vmin, 20px);
+  padding-right: calc(clamp(8px, 2.2vmin, 20px) + var(--sbw));
+
+  min-width: 0;
+  height: 100vh;
+}
+
+/* Make the scrollbar itself fit the black strip */
+.med-content::-webkit-scrollbar{
+  width: var(--sbw);
+}
+.med-content::-webkit-scrollbar-track{
+  background: #000; /* make track explicitly black */
+}
+
+.med-content::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,0.45);
+  border-radius: 999px;
+  border: 4px solid #000;      /* this “pads” it evenly inside the strip */
+  background-clip: padding-box; /* more reliable than content-box */
+}
+
+.med-content::-webkit-scrollbar-thumb:hover{
+  background: rgba(255,255,255,0.65);
+  border: 4px solid #000;
+  background-clip: padding-box;
+}
+
+/* ===== Medicine page content sizing: single source of truth ===== */
+
+:root{
+  --content-max: 1140px;
+  --content-pad: clamp(16px, 2.2vmin, 24px);
+}
+
+.med-content{
+  position: relative;
+  background: var(--paper);
+  color: var(--text);
+
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+
+  /* consistent breathing room */
+  padding: var(--content-pad);
+}
+
+.content-inner{
+  width: 100%;
+  max-width: var(--content-max);
+
+  /* this is what gives you that “nice ratio” */
+  margin: 56px auto 80px;
+  padding: 0 var(--content-pad);
+}
+
+
+/* Headline above hero */
+.med-headline{
+  font-family: var(--title-font);
+  font-weight: 700;
+  font-size: clamp(18px, 1.6vmin, 26px);
+  line-height: 1.2;
+  text-align: center;
+  margin: 0 auto 24px auto;
+  position: relative;
+  top: -32px;
+  max-width: 1200px;
+  white-space: normal;
+}
+
+/* Hero: gallery (left) + copy (right) */
+.med-hero{
+  display: grid;
+  grid-template-columns: minmax(460px, 520px) minmax(480px, 640px);
+  gap: clamp(28px, 3vmin, 56px);
+  align-items: start;
+  justify-content: center;
+  justify-items: stretch;
+  max-width: 1200px;
+  margin: 0 auto 24px auto;
+}
+
+/* ===== Responsive: preserve the “same ratio” across screens ===== */
+
+@media (max-width: 1060px){
+  .med-hero{
+    grid-template-columns: 1fr;
+    max-width: 760px;
+  }
+
+  .wmol-gallery{
+    max-width: 520px;
+    margin: 0 auto 18px;
+  }
+
+  .med-copy{
+    max-width: 680px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 760px){
+  .med-headline{
+    top: 0;              /* remove the “pull up” on small screens */
+    margin-bottom: 16px;
+  }
+
+  .wmol-gallery-main{
+    height: min(54vh, 420px); /* keeps your image/arrow frame proportional */
+  }
+}
+
+
+/* Copy column */
+.med-copy{
+  --desc-offset: 0px;
+  position: relative;
+  top: var(--desc-offset);
+
+  max-width: 620px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+/* Paragraph spacing */
+.med-copy p{ margin: 0 0 0.8rem; }
+.med-copy .lead{ margin: 0 0 14px 0; }
+
+/* List formatting (dash-style) */
+.med-copy .list-title{
+  margin-bottom: 0;
+  font-weight: 600;
+  color: #222;
+}
+.med-copy .list{
+  margin: 0 0 1.5rem;
+  padding-left: 0;
+}
+.med-copy .list div{
+  padding-left: 1.2rem;
+  position: relative;
+  margin-bottom: 0.25rem;
+  line-height: 1.4;
+}
+.med-copy .list div::before{
+  content: "-";
+  position: absolute;
+  left: 0;
+}
+
+
+
+/* =========================================================
+   8) WMOL PROOF GALLERY
+   ========================================================= */
+.wmol-gallery{
+  max-width: 520px;
+  margin: 0px auto 24px;
+  text-align: center;
+}
+
+.med-book .wmol-gallery{
+  width: 100%;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Big image + arrows (FIX: keep arrows stationary + never overlap image) */
+.wmol-gallery-main{
+  display: grid;
+  grid-template-columns: 44px 1fr 44px; /* left arrow | image | right arrow */
+  align-items: center;
+  width: 100%;
+  height: 480px; /* fixed frame so arrows never move */
+  gap: 10px;
+}
+
+/* Keep the image centered in the middle column */
+.wmol-gallery-main img{
+  justify-self: center;
+  width: 100%;
+  max-width: 480px;
+  max-height: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+  background: #fff;
+}
+
+/* Arrows live in their own grid columns (no absolute positioning) */
+.wmol-gallery-arrow{
+  position: static;          /* <-- key change */
+  transform: none;           /* no translate needed now */
+  border: none;
+  background: rgba(0,0,0,0.06);
+  border-radius: 999px;
+  width: 34px;
+  height: 34px;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s ease;
+  justify-self: center;
+  z-index: 1;
+}
+
+.wmol-gallery-arrow:hover{ background: rgba(0,0,0,0.12); }
+
+/* Remove the old negative offsets */
+.wmol-gallery-arrow.prev{ left: auto; right: auto; }
+.wmol-gallery-arrow.next{ left: auto; right: auto; }
+
+
+/* Thumbnails */
+.wmol-gallery-thumbs{
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.wmol-gallery-thumbs img{
+  width: 70px;
+  height: auto;
+  cursor: pointer;
+  opacity: 0.75;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.wmol-gallery-thumbs img:hover{
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,.12);
+}
+.wmol-gallery-thumbs img.active{
+  opacity: 1;
+  box-shadow: 0 0 0 2px #b8963a, 0 6px 16px rgba(0,0,0,.14);
+}
+
+@media (max-width: 640px){
+  .wmol-gallery-main img{ max-width: 320px; }
+  .wmol-gallery-thumbs img{ width: 56px; }
+}
+
+/* =========================================================
+   9) BELOW-HERO GRID (Left explainer, Right packages/story)
+   ========================================================= */
+.med-below-grid{
+  max-width: 1200px;
+  margin: 28px auto 24px auto;
+  padding: 0 24px;
+
+  display: grid;
+  grid-template-columns: minmax(360px, 1fr) minmax(480px, 1.25fr);
+  gap: clamp(24px, 3vmin, 56px);
+
+  align-items: stretch; /* 🔑 force equal height columns */
+}
+
+@media (max-width: 1060px){
+  .med-below-grid{
+    grid-template-columns: 1fr;
+    max-width: 760px;
+    margin: 18px auto 32px;
+  }
+}
+
+
+.med-below-right{ min-width: 0; }
+
+/* Explainer card */
+/* Clean left explainer: remove card background/border */
+.med-explainer{
+  background: transparent;
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* Make both columns flex so we can control vertical alignment */
+.med-explainer,
+.med-below-right{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+/* Fit grid */
+.fit-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 18px;
+  text-align: left;
+}
+.fit-card{
+  background: rgba(255,255,255,0.45);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  padding: 14px 14px;
+}
+.fit-card h4{
+  margin: 0 0 8px 0;
+  font-family: var(--title-font);
+  font-size: 16px;
+  font-weight: 600;
+}
+.fit-card ul{ margin: 0; padding-left: 18px; }
+
+@media (max-width: 860px){
+  .fit-grid{ grid-template-columns: 1fr; }
+}
+
+/* Align left/right columns to the same top line */
+.med-below-grid{
+  align-items: start; /* keep */
+}
+
+.med-below-right > :first-child{
+  margin-top: 0 !important; /* removes the extra drop on the first right block */
+}
+
+/* Push the fit grid to the bottom of the left column */
+.med-explainer .fit-grid{
+  margin-top: 18px;
+}
+
+/* Ensure last access block sits at the bottom */
+.med-below-right .access-block:last-child{
+  margin-top: 0;
+}
+
+/* make right-column spacing consistent so bottom alignment is stable */
+.med-below-right{
+  gap: 22px;
+}
+
+.med-below-right .access-block{
+  margin: 0;           /* overrides 26px auto 18px auto */
+  max-width: none;     /* prevents weird width behavior */
+}
+
+
+/* =========================================================
+   10) ACCESS BLOCKS (callouts)
+   ========================================================= */
+/* Default spacing between access sections */
+.access-block{
+  margin-bottom: 2rem;
+}
+
+/* Remove extra space AFTER the last access block */
+.access-block:last-of-type{
+  margin-bottom: 0;
+}
+
+
+/* Clean callouts: no gray background, no left indent bar */
+.callout{
+  background: transparent;
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+}
+
+
+.callout p{ margin: 0 0 12px 0; }
+.callout p:last-child{ margin-bottom: 0; }
+
+/* Questions about fit — align with the two-column grid */
+.med-below-grid .fit-contact{
+  grid-column: 1 / -1;     /* span both columns */
+  width: 100%;             /* fill the grid width */
+  margin: 10px 0 0;        /* spacing above */
+  background: #ece8df;
+  border-left: 4px solid var(--gold);
+  border-radius: 10px;
+  padding: 14px 22px;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+}
+
+.med-below-grid .fit-contact h3{
+  margin: 0 0 4px;
+  font-size: 20px;
+}
+
+.med-below-grid .fit-contact p{
+  margin: 0 0 6px;
+}
+
+.med-below-grid .fit-contact .fit-contact-line{
+  margin: 0;
+}
+
+.med-below-grid .fit-contact a{
+  color: var(--gold);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.med-below-grid .fit-contact a:hover{
+  text-decoration: underline;
+}
+
+/* =========================================================
+   11) PACKAGES
+   ========================================================= */
+.packages-intro{
+  max-width: 1040px;
+  margin: 24px auto 4px auto;
+  color: #444;
+}
+
+.packages-grid{
+  max-width: 1040px;
+  margin: 40px auto 64px auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
+  gap: 32px;
+}
+
+.package-card{
+  background: #F6EDD6;
+  border-radius: 14px;
+  padding: 20px 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--stroke);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+.package-card:hover{
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Package headings should still follow your title system */
+.package-card h3{
+  font-family: var(--title-font);
+  font-size: var(--title-size);
+  line-height: var(--title-line);
+  font-weight: 600;
+  margin: 0 0 0.6rem;
+}
+
+.nowrap-title{
+  white-space: nowrap;
+}
+
+.package-card ul{
+  margin: 0 0 1rem 1.1rem;
+  padding: 0;
+}
+
+.package-note{
+  margin: 0;
+  font-style: italic;
+  color: #444;
+}
+
+/* Stack cards on smaller screens */
+@media (max-width: 900px){
+  .packages-grid{ grid-template-columns: 1fr; }
+}
+
+/* Packages: two cards side-by-side within the same page boundaries */
+.packages{
+  max-width: 1200px;         /* match your content-inner boundary */
+  margin: 16px auto 64px;
+  padding: 0 24px;           /* match content-inner padding */
+  display: grid;
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+.packages .package-card{
+  width: 100%;
+  margin: 0;                 /* override any default spacing */
+}
+
+/* Make Standard package slightly lighter/shorter */
+.package-card.standard{
+  padding: 18px 22px;              /* slightly tighter than default */
+}
+
+/* Slightly reduce spacing under the list for Standard */
+.package-card.standard ul{
+  margin-bottom: 0.75rem;
+}
+
+/* Slightly tighter paragraph spacing in Standard */
+.package-card.standard .package-note{
+  margin-top: 0.25rem;
+  font-size: calc(var(--body-size) * 0.97);
+}
+
+/* Let Extended feel more substantial */
+.package-card.extended{
+  padding: 22px 26px;              /* a touch more air */
+}
+
+.package-card.extended ul{
+  margin-bottom: 1.25rem;
+}
+
+.package-card.extended .package-note{
+  margin-top: 0.75rem;
+}
+
+/* Subtle emphasis for Extended */
+.package-card.extended{
+  box-shadow: 0 14px 34px rgba(0,0,0,0.16);
+}
+
+
+/* Price badge: top-right of the package card */
+.package-card{
+  position: relative;         /* enables absolute positioning inside */
+  padding-top: 44px;          /* creates room so price doesn't collide with title */
+}
+
+.package-price{
+  position: absolute;
+  top: 18px;
+  right: 20px;
+
+  font-family: var(--title-font);
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* Make sure the title doesn't run under the badge */
+.package-card h3{
+  padding-right: 120px;       /* room for the price */
+}
+
+/* Master right-column alignment rail */
+.med-right-rail{
+  max-width: 520px;        /* controls the right edge */
+  margin-left: auto;      /* pins it to the right consistently */
+}
+
+/* Master left-column alignment rail */
+.med-left-rail{
+  max-width: 520px;     /* match the right rail */
+  margin-right: auto;  /* pins it to the left */
+}
+
+
+/* Packages container still centered */
+.packages{
+  max-width: 1200px;
+  margin: 16px auto 64px;
+  padding: 0 24px;
+}
+
+.package-card{
+  width: 100%;
+  max-width: var(--package-width);
+}
+
+.package-card.standard{
+  justify-self: start;
+}
+
+.package-card.extended{
+  justify-self: end;
+}
+
+
+/* When using alignment rails, don't auto-center them */
+.med-left-rail,
+.med-right-rail{
+  margin-top: 0;
+}
+
+
+/* Kill accidental right-side indentation */
+.med-copy,
+.med-below-right{
+  padding-right: 0;
+}
+
+.med-copy > *,
+.med-below-right > *{
+  margin-right: 0;
+}
+
+
+@media (max-width: 900px){
+  .packages{
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   11.5) PACKAGE DENSITY + HIERARCHY
+   ========================================================= */
+
+.package-summary{
+  margin: 0.25rem 0 1rem 0;
+  font-family: var(--body-font);
+  font-size: calc(var(--body-size) * 0.98);
+  color: #333;
+  opacity: 0.95;
+}
+
+/* Group headings inside cards */
+.package-group{ margin: 0.9rem 0 0; }
+
+.package-group-title{
+  margin: 0 0 0.4rem 0;
+  font-family: var(--title-font);
+  font-size: calc(var(--body-size) * 0.98);
+  font-weight: 700;
+  color: #222;
+}
+
+/* Bullets: slightly tighter + less visual weight */
+.package-bullets{
+  margin: 0 0 0.4rem 1.1rem;
+  padding: 0;
+}
+.package-bullets li{
+  margin: 0 0 0.35rem 0;
+  line-height: 1.45;
+}
+
+/* “Best for:” line stays, just emphasize label */
+.package-note strong{ font-weight: 700; }
+
+/* Calm CTA: small, confident, no animation */
+.package-cta{
+  display: inline-block;
+  margin-top: 0.9rem;
+  padding: 9px 16px;
+  border-radius: 999px;
+
+  border: 1px solid var(--gold);
+  background: var(--gold);          /* stronger presence */
+  color: #1a1a1a;                   /* readable, confident */
+
+  text-decoration: none;
+  font-family: var(--body-font);
+  font-size: calc(var(--body-size) * 0.95);
+  font-weight: 700;
+}
+
+
+
+.package-cta:hover{
+  background: #e1bf4a;
+}
+
+.package-title.nowrap {
+  white-space: nowrap;
+}
+
+.package-subtitle {
+  font-weight: 600;
+}
+
+.package-subtitle {
+  margin-top: 0.2rem;
+
+  /* MATCH Standard subtitle size */
+  font-family: var(--title-font);
+  font-size: var(--title-size);
+  line-height: var(--title-line);
+  font-weight: 600;
+
+  color: var(--text-strong);
+}
+
+.package-subtitle.nowrap {
+  white-space: nowrap;
+}
+
+
+
+
+/* =========================================================
+   12) RESPONSIVE MEDICINE PAGE
+   ========================================================= */
+@media (max-width: 980px){
+  .med-below-grid{ grid-template-columns: 1fr; }
+}
+
+@media (max-width: 860px){
+  .med-hero{ grid-template-columns: 1fr; }
+  .med-book{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .med-headline{ text-align: center; }
+}
+
+/* =========================================================
+   13) Q2 — TECHNOLOGY RAIL
+   ========================================================= */
+@keyframes fly-up{
+  0%   { opacity: 0; transform: translate(-50%, 100vh); }
+  100% { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.rail-technology{
+  position: relative;
+  min-height: 100%;
+  overflow: hidden;
+  background: none;
+
+  --tech-scale: 1;
+  --tech-bg-size: 180% auto;
+  --tech-pos-x: 50%;
+  --tech-pos-y: 50%;
+}
+
+.rail-technology::before{
+  content:"";
+  position: absolute;
+  inset: 0;
+  background: url("/static/img/technology.png")
+              var(--tech-pos-x) var(--tech-pos-y) / var(--tech-bg-size) no-repeat;
+  opacity: 0;
+  transform: translateY(100vh) scale(var(--tech-scale));
+  animation: wml-png-fly-up 1400ms cubic-bezier(.2,.8,.2,1) 0s forwards;
+}
+
+@keyframes wml-png-fly-up{
+  0%   { opacity:0; transform:translateY(100vh) scale(var(--tech-scale)); }
+  100% { opacity:1; transform:translateY(0) scale(var(--tech-scale)); }
+}
+
+.wml-title-tech{
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  width: calc(100% - 64px);
+  margin: 0;
+  text-align: center;
+  opacity: 0;
+  animation: fly-up 1800ms cubic-bezier(.2,.8,.2,1) 0s forwards;
+  will-change: transform, opacity;
+
+  font-family:"Times New Roman", Georgia, serif;
+  font-weight: 600;
+  font-size: var(--home-title-size);
+  line-height: 1.25;
+  color: rgba(255,255,255,0.68);
+
+}
+
+
+
+@keyframes tech-cta-fly-up{
+  0%   { opacity: 0; transform: translate(-50%, 100vh); }
+  100% { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.wml-cta-tech{
+  position: absolute;
+  left: 50%;
+  bottom: 10%;
+  opacity: 0;
+  animation: tech-cta-fly-up 2000ms cubic-bezier(.2,.8,.2,1) .30s both;
+  display: inline-block;
+  width: max-content;
+  text-align: center;
+}
+
+.wml-link-tech{
+  display: inline-block;
+  font-family:"Times New Roman", Georgia, serif;
+  font-weight: 600;
+  font-size: var(--home-cta-size);
+
+  color: rgba(255,255,255,0.62);
+  text-decoration: none;
+}
+.wml-link-tech:hover{ text-decoration: underline; }
+
+/* ===== Technology rail: clearly UNDER DEVELOPMENT ===== */
+.rail-technology.rail-disabled .wml-title-tech{
+  color: rgba(210, 210, 210, 0.55);   /* darker, less contrast than white */
+  letter-spacing: 0.02em;             /* subtle “inactive” feel */
+  opacity: 0.75;
+  filter: saturate(0.7) blur(0.2px);  /* slightly muted, not sharp */
+}
+
+.rail-technology.rail-disabled .wml-link-tech{
+  color: rgba(200, 200, 200, 0.45);   /* even dimmer than title */
+  opacity: 0.65;
+  text-decoration: none;
+  cursor: default;
+  filter: saturate(0.65);
+}
+
+.rail-technology.rail-disabled{
+  filter: grayscale(0.15);
+}
+
+
+/* Make it feel less clickable */
+.rail-technology.rail-disabled .wml-link-tech:hover{
+  text-decoration: none;
+  cursor: default;
+}
+
+.rail-technology.rail-disabled{
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   14) Q3 — GADGETS RAIL
+   ========================================================= */
+.rail-gadgets{
+  position: relative;
+  min-height: 100%;
+  overflow: hidden;
+  background: none;
+}
+
+.rail-gadgets::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: url("/static/img/gadgets.png") center/cover no-repeat;
+  opacity:0;
+  transform: translateY(100vh);
+  animation: gadgets-img-fly-up 1800ms cubic-bezier(.22,1,.36,1) 0s forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes gadgets-img-fly-up{
+  0%   { opacity:0; transform: translateY(100vh); }
+  100% { opacity:1; transform: translateY(0); }
+}
+
+@keyframes gadgets-cta-fly-up{
+  0%   { opacity:0; transform: translate(-50%, 100vh); }
+  100% { opacity:1; transform: translate(-50%, 0); }
+}
+
+.wml-cta-gadgets{
+  position:absolute;
+  left:50%;
+  bottom:10%;
+  opacity:0;
+  animation: gadgets-cta-fly-up 2200ms cubic-bezier(.2,.8,.2,1) .30s both;
+  display:inline-block;
+  width:max-content;
+  text-align:center;
+  will-change: transform, opacity;
+}
+
+.wml-link-gadgets{
+  display:inline-block;
+  font-family:"Times New Roman", Georgia, serif;
+  font-weight:700;
+  font-size: var(--home-cta-size);
+  color:#1b1b1b;
+  text-decoration:none;
+}
+.wml-link-gadgets:hover{ text-decoration:underline; }
+
+/* ===== Widgets & Gadgets: under development (non-clickable) ===== */
+.rail-gadgets.rail-disabled{
+  pointer-events: none;
+}
+
+.rail-gadgets.rail-disabled .wml-link-gadgets{
+  cursor: default;
+  text-decoration: none;
+}
+
+
+/* =========================================================
+   15) Q4 — LIFESTYLE RAIL
+   ========================================================= */
+.rail-lifestyle{
+  grid-column: 4;
+  position: relative;
+  min-height: 100%;
+  overflow: hidden;
+  background: none;
+}
+
+.rail-lifestyle::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  background:url("/static/img/lifestyle.png") center/cover no-repeat;
+  opacity:0;
+  transform:translateY(100vh);
+  animation:lifestyle-img-fly-up 2400ms cubic-bezier(.22,1,.36,1) 0s forwards;
+}
+
+@keyframes lifestyle-img-fly-up{
+  0%   { opacity:0; transform:translateY(100vh); }
+  100% { opacity:1; transform:translateY(0); }
+}
+
+@keyframes lifestyle-cta-fly-up{
+  0%   { opacity:0; transform:translate(-50%, 100vh); }
+  100% { opacity:1; transform:translate(-50%, 0); }
+}
+
+.wml-cta-lifestyle{
+  position:absolute;
+  left:50%;
+  bottom:10%;
+  display:inline-block;
+  width:max-content;
+  text-align:center;
+  z-index:1;
+  opacity:0;
+  animation:lifestyle-cta-fly-up 2400ms cubic-bezier(.2,.8,.2,1) .25s both;
+  will-change: transform, opacity;
+}
+
+.wml-link-lifestyle{
+  display:inline-block;
+  font-family:"Times New Roman", Georgia, serif;
+  font-weight:700;
+  font-size: var(--home-cta-size);
+  color:#fff;
+  text-decoration:none;
+}
+.wml-link-lifestyle:hover{ text-decoration:underline; }
+
+/* ===== Lifestyle: under development (non-clickable) ===== */
+.rail-lifestyle.rail-disabled{
+  pointer-events: none;
+  filter: grayscale(0.15);
+}
+
+.rail-lifestyle.rail-disabled .wml-link-lifestyle{
+  color: rgba(255,255,255,0.55);
+  opacity: 0.65;
+  text-decoration: none;
+  cursor: default;
+  filter: saturate(0.65);
+}
+
+.rail-lifestyle.rail-disabled .wml-link-lifestyle:hover{
+  text-decoration: none;
+  cursor: default;
+}
+
+
+/* =========================================================
+   16) LIGHTBOX (single, non-duplicated definition)
+   ========================================================= */
+.image-modal{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.image-modal.is-open{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+
+.image-modal-arrow:hover{
+  background: rgba(0,0,0,0.85);
+}
+
+/* Close button pinned to the image frame (top-right) */
+.image-modal-close{
+  position: absolute;       /* ✅ key change (was fixed) */
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border: none;
+
+  background: transparent;  /* ✅ no black circle */
+  color: #000;              /* ✅ black X */
+  font-size: 26px;
+  line-height: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  z-index: 20;
+}
+
+/* optional: subtle hover without always showing a circle */
+.image-modal-close:hover{
+  background: rgba(255,255,255,0.7);
+  border-radius: 999px;
+}
+
+
+
+
+/* HOME Q1: keep BOTH title and CTA above the circle */
+.wml-home .rail-medicine .wml-title,
+.wml-home .rail-medicine .wml-cta{
+  position: absolute;  /* ensure it's in the same stacking system */
+  z-index: 6;
+}
+
+.wml-home .rail-medicine .rail-image-wrap{
+  z-index: 2;
+}
+
+.wml-home .rail-medicine::after{
+  z-index: 0;
+}
+
+/* Lightbox: image-centered layout */
+.image-modal-inner{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Frame holds image + close button */
+.image-modal-frame{
+  position: relative;
+  display: inline-block;
+}
+
+/* Give the lightbox a consistent "image viewport" width */
+.image-modal-frame{
+  position: relative;
+  width: min(900px, 90vw);   /* ✅ fixed visual width for ALL images */
+  height: min(90vh, 720px);  /* ✅ consistent height window */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Make ONLY the Schedule image open larger in the lightbox */
+.image-modal.is-schedule .image-modal-frame{
+  width: min(1200px, 96vw);
+  height: min(92vh, 840px);
+}
+
+/* Step-1: keep it fully visible on small screens (avoid cut-off) */
+.image-modal.is-step1 .image-modal-frame{
+  width: min(500px, 88vw);
+  height: min(100vh, 640px);
+}
+
+
+/* Extra safety on very small screens */
+@media (max-width: 520px){
+  .image-modal.is-step1 .image-modal-frame{
+    width: 94vw;
+    height: 82vh;
+  }
+}
+
+
+/* Now the image just fits inside that viewport */
+.image-modal-frame img{
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  background: transparent;
+}
+
+
+/* Bottom-centered arrow group */
+.image-modal-nav{
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 14px;
+  z-index: 5;
+}
+
+/* Arrow buttons */
+.image-modal-arrow{
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(0,0,0,0.65);
+  color: #fff;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.image-modal-arrow:hover{
+  background: rgba(0,0,0,0.85);
+}
+
+
+.image-modal-arrow:hover{
+  background: rgba(0,0,0,0.85);
+}
+
+/* Anchor X to the actual image box (shrink-wrap) */
+.image-modal-figure{
+  position: relative;
+  display: inline-block;  /* shrink-wrap to image */
+  max-width: 100%;
+  max-height: 100%;
+  line-height: 0;
+}
+
+/* This wrapper shrink-wraps to the rendered image size */
+.image-modal-figure{
+  position: relative;   /* <-- makes the X anchor here */
+  display: inline-block; /* <-- shrink-wrap to img */
+  line-height: 0;        /* avoids tiny inline gaps */
+}
+
+
+
+/* Make sure the image is sizing from the same box */
+.image-modal-figure img{
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* X pins to the actual image box (NOT the screen) */
+.image-modal-close{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  width: 34px;
+  height: 34px;
+  border: none;
+
+  background: transparent;
+  color: #000;
+  font-size: 26px;
+  line-height: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  z-index: 20;
+}
+
+
+.image-modal-close:hover{
+  background: rgba(255,255,255,0.7);
+  border-radius: 999px;
+}
+
+/* ===== HOME Q1 (Medicine) — mobile fix so everything fits ===== */
+
+
+
+/* =========================
+   Testimonials Carousel
+   ========================= */
+.testimonials{
+  max-width: 1200px;
+  margin: 56px auto 72px;
+  padding: 0 24px;
+}
+
+.testimonials-head{
+  max-width: 900px;
+  margin: 0 auto 18px;
+  text-align: center;
+}
+
+.testimonials-title{
+  font-family: var(--title-font);
+  font-size: clamp(22px, 2vmin, 30px);
+  margin: 0 0 8px;
+}
+
+.testimonials-subtitle{
+  margin: 0;
+  font-family: var(--body-font);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  color: #2b2b2b;
+}
+
+.testimonial-shell{
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  gap: 14px;
+  align-items: center;
+  max-width: 920px;
+  margin: 18px auto 10px;
+}
+
+.t-nav{
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(255,255,255,0.55);
+  cursor: pointer;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.testimonial-card{
+  background: rgba(255,255,255,0.35);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 14px;
+  padding: 18px 18px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.10);
+}
+
+.t-top{
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+
+.t-name{
+  font-family: var(--title-font);
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.t-meta{
+  font-family: var(--body-font);
+  font-size: 14px;
+  color: rgba(0,0,0,0.65);
+  margin-top: 2px;
+}
+
+.t-count{
+  font-family: var(--body-font);
+  font-size: 13px;
+  color: rgba(0,0,0,0.55);
+}
+
+.t-headline{
+  font-family: var(--body-font);
+  font-size: clamp(16px, 1.2vmin, 18px);
+  line-height: 1.55;
+  margin: 0 0 12px;
+  color: #1a1a1a;
+}
+
+.t-proof{
+  margin: 0 0 14px;
+  padding-left: 18px;
+  font-family: var(--body-font);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+}
+
+.t-actions{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.t-read{
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.55);
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-family: var(--body-font);
+  font-weight: 600;
+}
+
+.t-dots{
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 10px 0 0;
+}
+
+.t-dot{
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.18);
+  background: rgba(255,255,255,0.45);
+  cursor: pointer;
+}
+
+.t-dot.active{
+  background: rgba(0,0,0,0.35);
+}
+
+/* Modal */
+.t-modal{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 18px;
+}
+.t-modal.is-open{
+  display: flex;
+}
+.t-modal-inner{
+  width: min(860px, 92vw);
+  max-height: 86vh;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px 18px 14px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  position: relative;
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.t-modal-close{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: #fff;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+}
+.t-modal-name{
+  margin: 0 0 2px;
+  font-family: var(--title-font);
+}
+.t-modal-meta{
+  margin: 0 0 12px;
+  color: rgba(0,0,0,0.65);
+  font-family: var(--body-font);
+}
+.t-modal-body p{
+  margin: 0 0 10px;
+  font-family: var(--body-font);
+  line-height: 1.6;
+}
+
+/* Full testimonial formatting */
+.t-modal-body h4{
+  margin: 14px 0 6px;
+  font-family: var(--title-font);
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.t-modal-body ul{
+  margin: 8px 0 12px 20px;
+}
+
+.t-modal-body table{
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0 14px;
+  font-family: var(--body-font);
+  font-size: 14px;
+}
+
+.t-modal-body th,
+.t-modal-body td{
+  border: 1px solid rgba(0,0,0,0.12);
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.t-modal-body th{
+  background: rgba(0,0,0,0.04);
+  font-weight: 700;
+}
+
+/* Testimonial modal: Pull quote + At-a-glance + disclaimer */
+.t-modal-body .t-pullquote{
+  margin: 6px 0 14px;
+  padding: 12px 14px;
+  border-left: 4px solid rgba(0,0,0,0.18);
+  background: rgba(0,0,0,0.03);
+  font-style: italic;
+  font-family: var(--body-font);
+  line-height: 1.6;
+}
+
+.t-modal-body .t-glance{
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.60);
+}
+
+.t-modal-body .t-glance h4{
+  margin-top: 0;
+}
+
+.t-modal-body .t-disclaimer{
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0,0,0,0.10);
+  color: rgba(0,0,0,0.65);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ✅ Make only the content area scroll */
+.t-modal-body{
+  overflow: auto;
+  flex: 1;
+  padding-right: 6px; /* tiny space so scrollbar doesn't sit on text */
+}
+
+/* Hide scrollbar but keep scrolling */
+.t-modal-body{
+  overflow-y: auto;
+
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* IE / Edge legacy */
+  -ms-overflow-style: none;
+}
+
+/* WebKit browsers (Chrome, Safari) */
+.t-modal-body::-webkit-scrollbar{
+  display: none;
+}
+
+.t-modal-body{
+  mask-image: linear-gradient(to bottom, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent);
+}
+
+/* Hide back button when testimonial modal is open */
+.t-modal.is-open ~ .back-row,
+.t-modal.is-open ~ .btn-back {
+  display: none !important;
+}
+
+/* Fallback: hide globally when modal is open */
+body:has(.t-modal.is-open) #backHome {
+  display: none !important;
+}
+
+/* “View full breakdown” toggle inside testimonial modal */
+.t-deep{
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0,0,0,0.10);
+}
+
+
+
+/* Back button (normal flow, so it doesn’t drift into the gutter on wide screens) */
+/* Back button: pin to the top-left of the content column (stable on all screens) */
+/* Back button (pinned to the rail edge) */
+:root{
+  --rail-w: 320px;   /* MUST match your .medicine-layout left column width */
+}
+
+.back-row{
+  position: fixed;
+  top: 16px;
+  left: calc(var(--rail-w) + 16px);
+  z-index: 999;
+}
+
+/* ============================
+   Back Button (Medicine Page)
+   ============================ */
+
+/* Back button: fixed position relative to the left rail */
+.back-row{
+  position: fixed;
+  top: 18px;
+  left: calc(var(--rail-w) + 18px);  /* always next to the rail */
+  z-index: 9999;
+}
+
+.btn-back{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 14px;
+  border-radius: 9999px;
+
+  border: 1px solid #e5e5e5;
+  background: #fff;
+  color: #111;
+
+  font: 600 14px/1 "Inter", system-ui, Arial, sans-serif;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+}
+
+.btn-back:hover{ background: #f7f7f7; }
+
+/* Hide back button when gallery modal is open */
+body.gallery-open .btn-back {
+  display: none !important;
+}
+
+
+/* Hide Back button when image modal is open */
+.image-modal.is-open + * .btn-back,
+.image-modal.is-open ~ * .btn-back {
+  display: none;
+}
+
+body.image-modal-open .btn-back {
+  display: none;
+}
+
+/* Hide back button whenever a modal is open */
+body.modal-open .btn-back {
+  display: none !important;
+}
+
+
+
+@media (max-width: 900px){
+  .back-row{
+    left: 16px;
+  }
+}
+
+
+
+
+.t-deep-content{
+  margin-top: 12px;
+}
+
+/* Subtle scrollbar for the right-side medicine content */
+.med-content{
+  scrollbar-width: thin; /* Firefox */
+}
+
+.med-content::-webkit-scrollbar{
+  width: 10px;
+}
+
+.med-content::-webkit-scrollbar-track{
+  background: transparent;
+}
+
+.med-content::-webkit-scrollbar-thumb{
+  background: rgba(0,0,0,0.18);
+  border-radius: 999px;
+  border: 3px solid transparent; /* makes it look slimmer */
+  background-clip: content-box;
+}
+
+.med-content::-webkit-scrollbar-thumb:hover{
+  background: rgba(0,0,0,0.28);
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+
+/* Mobile */
+@media (max-width: 720px){
+  .testimonial-shell{
+    grid-template-columns: 38px minmax(0, 1fr) 38px;
+  }
+}

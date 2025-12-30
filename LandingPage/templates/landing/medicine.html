@@ -1,0 +1,1129 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}For Medicine{% endblock %}
+
+{% block content %}
+<section class="medicine-layout">
+
+  <!-- Left rail (static) -->
+  <aside class="wml-rail rail-medicine rail-static">
+    <div class="rail-inner">
+      <h1 class="wml-title">Wang Method of<br>Learning</h1>
+
+      <div class="rail-image-wrap">
+        <img src="{% static 'img/coat-circle.png' %}" alt="Wang Method of Learning logo">
+      </div>
+
+      <nav class="wml-cta">
+        <span class="wml-link">For Medicine</span>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <!-- Back button: fixed to the content edge next to the rail -->
+  <div class="back-row">
+    <button id="backHome" class="btn-back" aria-label="Back to Home">← Back</button>
+  </div>
+
+  <!-- Main content -->
+  <main class="med-content" role="main">
+    <div class="content-inner">
+
+
+
+      <h2 class="med-headline">Better Clarity in Learning. Less Time in Studying. More Fulfillment in Living.</h2>
+
+      <!-- Hero: Gallery + copy -->
+      <section class="med-hero">
+
+        <figure class="med-book med-left-rail">
+          <section class="wmol-gallery">
+            <div class="wmol-gallery-main">
+              <button class="wmol-gallery-arrow prev" aria-label="Previous image">‹</button>
+
+              <img
+                id="wmol-gallery-image"
+                src="{% static 'img/book-cover.png' %}"
+                alt="Wang Method of Learning book cover"
+              >
+              
+              <button class="wmol-gallery-arrow next" aria-label="Next image">›</button>
+            </div>
+
+            <div class="wmol-gallery-thumbs">
+              <img data-index="0" src="{% static 'img/book-cover.png' %}" alt="Book cover" class="active">
+              <img data-index="1" src="{% static 'img/Goals-Reached.png' %}" alt="Goals Reached in 1st Year of Medical School">
+              <img data-index="2" src="{% static 'img/Schedule.png' %}" alt="Study schedule and time graph">
+              <img data-index="3" src="{% static 'img/Step-1.png' %}" alt="USMLE Step 1 score report">
+            </div>
+          </section>
+
+         
+        </figure>
+
+        <div class="med-copy">
+          <h3 class="med-subhead">
+            Designed for students who want a clearer, more sustainable way to learn complex material under time or energy constraints.
+          </h3>
+
+          <p class="lead">
+            The Wang Method of Learning combines structured understanding, personalized memory construction, and exam-style application so that effort leads to clarity, confidence, and consistency over time.
+          </p>
+
+          <p class="list-title">The System Integrates:</p>
+
+          <div class="list">
+            <div>Proven memory techniques</div>
+            <div>Efficient, high-yield study resources</div>
+            <div>Targeted, exam-focused practice questions</div>
+            <div>A structured and adaptive plan tying these elements together</div>
+          </div>
+    
+
+          <section class="packages-intro">
+          <h2>Why this Method Exists</h2>
+          <p>
+            I developed this method after a decade of studying in environments where time, energy, and resources were limited.
+          </p>  
+            <p>What I found was that most learning struggles weren’t due to a lack of discipline or intelligence, but rather inefficiencies in the learning process itself.</p>
+            <p>The Wang Method of Learning is the system I wish I had earlier: a way to learn deeply without sacrificing health, relationships, or identity.
+          </p>
+          </section>
+        </div>
+
+      </section> <!-- end .med-hero -->
+
+<section class="med-below-grid">
+
+  <!-- LEFT: What this method solves -->
+  <section class="med-explainer med-left-rail">
+    <h2 class="med-explainer-title">What this Method Solves</h2>
+
+    <p>
+      Most students don’t struggle because they lack discipline or intelligence.
+      They struggle because friction in their learning process makes progress inefficient and unsustainable.
+    </p>
+
+    <p>
+      The Wang Method of Learning removes those friction points so effort translates directly into clarity, confidence, and results.
+    </p>
+
+    <div class="fit-grid">
+      <div class="fit-card">
+        <h4>Who this is for</h4>
+        <ul>
+          <li>Students who are motivated but maybe overwhelmed by volume</li>
+          <li>Learners who want time to understand the material without cramming</li>
+          <li>People who value balance, health, and long-term sustainability</li>
+        </ul>
+      </div>
+
+      <div class="fit-card">
+        <h4>Who this is not for</h4>
+        <ul>
+          <li>Anyone looking for shortcuts or guarantees</li>
+          <li>Passive learners unwilling to engage actively</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- RIGHT: everything that used to be below -->
+
+<div class="med-below-right med-right-rail">
+
+  <!-- MOVED HERE -->
+  <section class="access-block">
+    <h2 class="access-title">What this Method Assumes</h2>
+    <div class="callout">
+      <p>
+        This method works best for students who are already using standard medical study resources and are willing to engage actively with the material.
+        It is designed to integrate with common third-party tools rather than replace them.
+      </p>
+    </div>
+  </section>
+
+    <section class="access-block">
+      <h2 class="access-title">Access Options</h2>
+      <div class="callout">
+          <p>
+          Choose the level of support you want as you implement the system. Some students prefer independence, while others want added structure and feedback
+          as they build consistency. In all cases, the framework requires active engagement from the student.
+        </p>
+      </div>
+    </section>
+
+    <section class="access-block">
+      <h2 class="access-title">What Happens After Access</h2>
+      <div class="callout">
+        <p>
+          After selecting an access option, you receive the full framework and clear guidance on how to begin applying it to your current study setup.
+        </p>
+        <p>
+          Some students choose to work through the system independently. Others prefer structured guidance while adapting it to their schedule, energy, and goals. Both paths are valid.
+        </p>
+      </div>
+    </section>
+
+
+  </div>
+
+      <!-- Questions about fit (spans both columns) -->
+<aside class="fit-contact" aria-label="Questions about fit">
+  <h3>Questions about fit?</h3>
+  <p>
+    If you’re unsure whether this framework aligns with your learning style or current constraints, you’re welcome to reach out.
+    I’m happy to answer brief questions or help clarify whether this approach is appropriate for you before you get started.
+  </p>
+  <p class="fit-contact-line">
+    Contact: <a href="mailto:WangMethodofLearning@gmail.com">WangMethodofLearning@gmail.com</a>
+  </p>
+</aside>
+
+</section>
+
+
+
+ <section class="packages">
+
+  <!-- Standard -->
+  <div class="package-card standard">
+    <div class="package-price">$45.43 / month</div>
+
+    <h3>Standard Package<br><span>(Self-Guided Foundation)</span></h3>
+    <p class="package-summary">Independent structure with minimal oversight.</p>
+
+    <div class="package-group">
+      <h4 class="package-group-title">What’s included</h4>
+      <ul class="package-bullets">
+        <li>Digital copy of the Wang Method of Learning book</li>
+        <li>Initial 2-hour strategy session to map the system to your study setup</li>
+        <li>Ongoing check-ins through exam day</li>
+      </ul>
+    </div>
+
+    <div class="package-group">
+      <h4 class="package-group-title">Support & safeguards</h4>
+      <ul class="package-bullets">
+        <li>Weekly check-ins during month one</li>
+        <li>Bi-monthly alignment and course correction</li>
+        <li>60-day satisfaction guarantee or full refund</li>
+      </ul>
+    </div>
+
+    <p class="package-note"><strong>Best for:</strong> students who are self-directed and want a clear structure they can execute independently once the system is understood.</p>
+
+    <a class="package-cta" href="#contact">Continue with this package →</a>
+  </div>
+
+
+  <!-- Extended -->
+  <div class="package-card extended">
+    <div class="package-price">$75.57 / month</div>
+
+<h3>
+  Extended Package<br>
+  <span class="nowrap-title">(Full Mentorship &amp; Optimization)</span>
+</h3>
+
+
+    <p class="package-summary">Ongoing guidance, accountability, and adaptation. Designed to replace trial-and-error with ongoing guidance. </p>
+
+    <div class="package-group">
+      <h4 class="package-group-title">What’s included</h4>
+      <ul class="package-bullets">
+        <li>Everything in the Standard Package</li>
+        <li>Continuous study plan adaptation</li>
+        <li>Real-time corrections to prevent inefficient habits</li>
+      </ul>
+    </div>
+
+    <div class="package-group">
+      <h4 class="package-group-title">Support and Safeguards</h4>
+      <ul class="package-bullets">
+        <li>Priority email & text support (responses ~12 hours)</li>
+        <li>Priority review if expectations are not being met</li>
+      </ul>
+    </div>
+
+    <p class="package-note"><strong>Best for:</strong> students who want structured guidance, accountability, and ongoing refinement while implementing the system.</p>
+
+    <a class="package-cta" href="#contact">Continue with this package →</a>
+  </div>
+
+</section>
+
+
+<section class="testimonials" aria-label="Student testimonials">
+  <div class="testimonials-head">
+    <h2 class="testimonials-title">Student Testimonials</h2>
+    <p class="testimonials-subtitle">
+      Real students describing time saved, lower stress, and better recall. (Names abbreviated to protect student privacy)
+    </p>
+  </div>
+
+  <div class="testimonial-shell">
+    <button class="t-nav prev" type="button" aria-label="Previous testimonial">‹</button>
+
+    <article class="testimonial-card" id="testimonialCard" aria-live="polite">
+      <!-- JS injects content here -->
+    </article>
+
+    <button class="t-nav next" type="button" aria-label="Next testimonial">›</button>
+  </div>
+
+  <div class="t-dots" id="testimonialDots" aria-label="Testimonial navigation"></div>
+
+  <!-- Modal -->
+  <div class="t-modal" id="tModal" aria-hidden="true">
+    <div class="t-modal-inner" role="dialog" aria-modal="true" aria-label="Full testimonial">
+      <button class="t-modal-close" type="button" aria-label="Close">×</button>
+      <h3 class="t-modal-name" id="tModalName"></h3>
+      <p class="t-modal-meta" id="tModalMeta"></p>
+      <div class="t-modal-body" id="tModalBody"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  const testimonials = [
+    {
+  name: "Kyle B.",
+  meta: "MS2, Prior Military Service, Husband",
+  headline: "My average NBME score rose from ~69.6% to 77% while my study hours dropped dramatically.",
+  proof: [
+    "Study hours dropped from ~150–160 hours/final to as low as ~35–45 hours (self-tracked).",
+    "Stress decreased as the method became consistent; reclaimed family and fitness priorities."
+  ],
+
+  // ✅ THIS is what “Read full” will display (formatted like the full document)
+  fullHtml: `
+    <h4>Academic background</h4>
+    <p>
+      Student at USUHS, Class of 2027. Graduated high school in 2010, enlisted in the U.S. Marine Corps, returned to
+      school in phases, completed a BS (Strategic Studies and Defense Analysis, 2019), then EMDP2 (2021) before USUHS.
+      Graduated Summa Cum Laude from Norwich University.
+    </p>
+
+    <h4>How fast it took to learn the method / stress effects</h4>
+    <p>
+      Read <em>Remember It</em> in ~6 hours, applied immediately, and saw meaningful improvement in ~2 weeks.
+      Stress progressively decreased the more the method was practiced.
+    </p>
+
+    <h4>Study time + grade changes</h4>
+    <p>
+      Tracked total study hours per module. Before using the method: ~120–130 hours per midterm and ~150–160 hours per final.
+      After applying the method: Repro/Endo dropped to 70 and 60 hours; Multisystems dropped to 45 and 35 hours.
+    </p>
+
+    <table aria-label="NBME grades rounded to nearest percent">
+      <thead>
+        <tr>
+          <th>Module</th>
+          <th>Midterm</th>
+          <th>Final</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Foundations</td><td>61%</td><td>75%</td></tr>
+        <tr><td>MSK</td><td>78%</td><td>70%</td></tr>
+        <tr><td>CPR</td><td>64%</td><td>76%</td></tr>
+        <tr><td>Neuro</td><td>76%</td><td>66%</td></tr>
+        <tr><td>GI</td><td>68%</td><td>62%</td></tr>
+        <tr><td>Repro/Endo</td><td>78%</td><td>74%</td></tr>
+        <tr><td>Multisystem</td><td>76%</td><td>80%</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      In summary: average NBME score pre-method was 69.6%; post-method average was 77%.
+      Highest score (80%) was achieved using ~22% of prior “final week” study hours.
+    </p>
+
+    <h4>Time back outside school</h4>
+    <p>
+      Reported getting significant time back and using it to repair family strain.
+      Pre-method: studied 7 days/week, ~5 hours/day outside class, with no days off.
+    </p>
+
+    <p>
+      With the method improving efficiency and performance, reclaimed time and rebuilt balance, especially time with spouse
+      after years of prior enlisted service and deployments/training separations.
+    </p>
+
+    <h4>Fitness / balance</h4>
+    <p>
+      Also used time back to readdress fitness and nutrition, describing “fitness as medicine” and rebuilding balance alongside family time.
+    </p>
+
+      <p class="t-disclaimer">
+    Results reflect one student’s experience. Outcomes vary based on engagement, prior preparation, and consistency of application.
+    Time and score data are self-reported.
+  </p>
+  `
+}
+,
+    {
+  name: "Mitchell H.",
+  meta: "MS2",
+  headline: "By the final, I felt more in control, less overwhelmed, and my performance jumped.",
+  proof: [
+    "Reported >40% improvement on CPR final vs CPR midterm.",
+    "Also reported >40% higher score on an NBME midterm retake with <1 week to study."
+  ],
+
+
+  // ✅ “View full breakdown” (full doc-style narrative)
+  fullHtml: `
+    <h4>Academic background</h4>
+    <p>
+      Attended public high school and Towson University. Describes being an average student and not typically spending hours studying.
+      Took a year off after college for clinical experience and MCAT prep before medical school.
+    </p>
+
+    <h4>How fast it took to learn the method / stress effects</h4>
+    <p>
+      Started after the CPR midterm; by the final (~1 month later) had a fair sense of how it worked.
+      Stress improved: felt less overwhelmed and more in control of what was known versus what still needed work.
+    </p>
+
+    <h4>Study time, effort, and grade changes</h4>
+    <p>
+      Cut out writing out all notes (removed the “middle man”), but effort improved because studying became more enjoyable and purposeful.
+      “Ridiculous stories” helped concepts make sense and stick; practice questions then reinforced it.
+    </p>
+
+    <h4>Results</h4>
+    <ul>
+      <li>Over 40% better on the CPR final than the CPR midterm.</li>
+      <li>Over 40% higher on an NBME midterm retake with less than a week to study.</li>
+      <li>Reports neuro module grades “have never been better.”</li>
+    </ul>
+
+    <h4>Time back outside school</h4>
+    <p>
+      Reports more time for family, returning to working out, feeling ahead of the curve, better practice question performance,
+      and improved recall of facts others didn’t recognize.
+    </p>
+
+    <h4>Have you used anything like this before?</h4>
+    <p>
+      Had used mnemonics before, but they blurred together. In contrast, stories/pictures were unique and tied to specific topics,
+      with trigger words bringing back the content even after the module ended.
+    </p>
+    <p class="t-disclaimer">
+      Results reflect one student’s experience. Outcomes vary based on engagement,
+      prior preparation, and consistency of application.
+    </p>
+  `,
+  
+}
+,
+    {
+  name: "Paul R.",
+  meta: "MS2, Prior Military Service, Parent",
+  headline: "I got ~15–20 hours/week back, and the time with my family was worth a small GPA drop.",
+  proof: [
+    "Time saved: ~1–2 hours/day weekdays and ~5–10 hours on weekends.",
+    "Tradeoff: ~3-point GPA drop, still passing with pretty good grades."
+  ],
+
+  fullHtml: `
+    <h4>Academic background</h4>
+    <p>
+      I graduated with a BS in Biology in 2012 with decent grades. I did no school for 10 years before beginning pre-med
+      post-bachelor studies. I did very well in my post-graduate studies and decent on my MCAT. I’ve never really struggled
+      with school, and I’ve been performing very well in medical school so far.
+    </p>
+
+    <h4>How fast it took to learn the method / stress effects</h4>
+    <p>
+      It took about 2–3 weeks to really understand the method, although I had to adjust a little to make it work with my
+      learning modality. It wasn’t until after the first midterm exams that I felt confident in the method.
+    </p>
+    <p>
+      My stress went down once I realized I could pass comfortably and still do very well on my exams. For the final, I was
+      very confident I would pass.
+    </p>
+
+    <h4>Time saved / outcomes</h4>
+    <p>
+      It shaved off about 1–2 hours per day during the week and between 5–10 hours on the weekends. I estimate between 15 and
+      20 hours a week, with only a small point drop in my GPA—about 3 points. I still pass with pretty good grades, and now I
+      have more time for me.
+    </p>
+
+    <h4>Time back outside school</h4>
+    <p>
+      I am a father of two small children, and I chose this path to create a better life for them and be able to raise them
+      rather than watch them grow old through FaceTime overseas. The slight drop in my GPA was well worth the time I got back
+      with my family. I got to be present for my kids’ lives and help mend a marriage that the Army lifestyle challenged on so
+      many occasions.
+    </p>
+
+    <h4>One concrete example</h4>
+    <p>
+      I take my son to the park and do Saturday fun days instead of coming into the library and spending hours in my cubicle.
+    </p>
+
+    <h4>Have I used anything like this before?</h4>
+    <p>No.</p>
+
+    <p class="t-disclaimer">
+      Results reflect one student’s experience. Outcomes vary based on engagement, prior preparation, and consistency of application.
+      Time saved and GPA change are self-reported.
+    </p>
+  `
+},
+
+{
+  name: "Anthony B.",
+  meta: "MS2 • Classmate",
+  headline: "I stopped feeling buried by volume and finally felt ahead instead of catching up.",
+  proof: [
+    "Studying felt more efficient without needing longer hours.",
+    "Stress dropped once I stopped rewriting notes and focused on retention."
+  ],
+
+  fullHtml: `
+    <h4>Before using the method</h4>
+    <p>
+      Before using the method, I constantly felt behind. I spent a lot of time rewriting notes,
+      organizing material, and trying to cover everything, but it never translated into confidence.
+      The volume felt overwhelming and mentally exhausting.
+    </p>
+
+    <h4>What changed</h4>
+    <p>
+      Once I started using the method, studying became much more intentional.
+      Instead of guessing what mattered, I had a clear structure for how to learn and what to focus on.
+    </p>
+
+    <h4>Time and energy</h4>
+    <p>
+      I didn’t necessarily study more hours, but I got more out of the time I did spend.
+      That made a huge difference in my energy levels and overall stress.
+    </p>
+
+    <h4>What I did with the time back</h4>
+    <p>
+      Having time back allowed me to rest, exercise, and decompress.
+      That balance made it easier to stay consistent and avoid burnout as the block continued.
+    </p>
+
+    <p class="t-disclaimer">
+      Results reflect one student’s experience. Outcomes vary based on engagement,
+      prior preparation, and consistency of application.
+    </p>
+  `
+},
+{
+  name: "Mia D.",
+  meta: "MS2, USNA graduate",
+  headline: "Even with a concussion and limited energy, I kept my performance the same with about half the effort.",
+  proof: [
+    "Used the method during recovery from a concussion with restricted screen time and no exercise.",
+    "Maintained exam performance while reducing effort and reclaiming time to recover."
+  ],
+
+  fullHtml: `
+    <h4>Academic background</h4>
+    <p>
+      I graduated from the U.S. Naval Academy and came straight to USU.
+      I studied applied physics and generally avoided subjects that required heavy memorization.
+    </p>
+
+    <h4>Time, energy, and stress constraints</h4>
+    <p>
+      In January, I sustained a concussion and missed a week of school.
+      Because it was my fifth concussion, staring at screens for the next eight weeks was uncomfortable and exhausting.
+      I needed 9–10 hours of sleep per night and couldn’t exercise at all without getting dizzy.
+    </p>
+    <p>
+      Although I passed every exam, the continuous doctor appointments, inability to fully rest,
+      and social isolation during recovery made the lifestyle exhausting.
+    </p>
+
+    <h4>Learning the method</h4>
+    <p>
+      During the last few weeks of the neuroscience module, Will talked me through his method for retaining information.
+      I used the method during those final weeks and received the same scores with about half the effort.
+      Most importantly, I was actually able to rest.
+    </p>
+
+    <h4>Changes in efficiency and performance</h4>
+    <p>
+      While my overall work quality stayed the same, the time it took me to complete material and retain it shrank significantly.
+      The method allowed me to tailor information to how my memory works.
+    </p>
+    <p>
+      Because I spent less time trying to retain information, I had more time to use it.
+      In pathology and small groups, I became a more active participant and could reason through cases
+      without constantly consulting peers or instructors.
+    </p>
+    <p>
+      My pathology quiz scores improved from mostly 2-3s to nearly straight 5s,
+      and when instructors asked questions, I actually had an idea of the answer.
+    </p>
+
+    <h4>What I did with the time back</h4>
+    <p>
+      The additional free time supported my recovery, but it also opened new opportunities.
+      I prepared to serve as ACME TA XO for the MS2 MilMed exercise, which became my first leadership role at USU.
+    </p>
+    <p>
+      I was also able to start swimming and cycling again and am now training for a triathlon.
+      I even earned my scuba certification during the Neuro and GI modules.
+    </p>
+
+    <h4>What would have happened without the method</h4>
+    <p>
+      Without this method, I think I would have burned out and struggled significantly during GI.
+      The ability to rest made a critical difference.
+    </p>
+
+    <h4>Have I used anything like this before?</h4>
+    <p>
+      I had experienced something similar when memorizing Shakespeare for my theater company,
+      but this approach was far more intentional and structured.
+    </p>
+
+    <p class="t-disclaimer">
+      Results reflect one student’s experience. Outcomes vary based on engagement,
+      prior preparation, and individual circumstances.
+    </p>
+  `
+},
+
+{
+  name: "Kyle Q.",
+  meta: "MS2",
+  headline: "I went from 8-10+ hour days to ~5-6, and I finally felt in control instead of behind.",
+  proof: [
+    "Cut study time from 8-10+ hours/day to ~5-6 hours/day while improving retention and confidence.",
+    "Exam prep felt calmer and more deliberate; less note-writing, more actual comprehension."
+  ],
+
+  fullHtml: `
+    <h4>Before the method</h4>
+    <p>
+      I came into medical school with a strong academic background overall, but I struggled early at USU.
+      I’d been out of a traditional academic environment for a bit due to military commitments, and once MS1 started,
+      I felt overwhelmed by the volume, pace, and complexity.
+    </p>
+    <p>
+      I relied on brute-force studying, excessive note-taking, and long hours that didn’t always translate to retention.
+      I was constantly searching for something more efficient and sustainable.
+    </p>
+
+    <h4>Learning the method</h4>
+    <p>
+      It took me about 3-4 weeks to really grasp the method and start applying it the right way.
+      By the two-month mark, I could feel a real shift in how much information I retained and how quickly I could understand new material.
+    </p>
+
+    <h4>Stress, control, and exam prep</h4>
+    <p>
+      The biggest difference was my stress level. Instead of feeling behind or unsure if I was studying the “right” things,
+      I felt in control of my learning. The predictable structure, memory-based approach, and reduced need for notes made everything feel lighter.
+      My exam prep felt calmer and more deliberate rather than frantic.
+    </p>
+
+    <h4>Time and performance changes</h4>
+    <p>
+      Before using this method, I was studying 8-10+ hours a day and still didn’t feel confident.
+      After switching, I averaged about 5-6 hours a day, and the quality of those hours was significantly higher.
+      I wasn’t rewriting notes, I was retaining.
+    </p>
+    <p>
+      My practice question accuracy improved, my ability to reason through unfamiliar questions got better,
+      and my grades and in-class assessments reflected that.
+    </p>
+
+    <h4>What I did with the time back</h4>
+    <p>
+      Getting time back was one of the biggest advantages. Instead of spending every evening buried in material,
+      I had room to breathe again. I could keep up with personal responsibilities and maintain physical training
+      without feeling guilty.
+    </p>
+
+    <h4>What changed outside school</h4>
+    <p>
+      One of the biggest wins was being able to take care of my health without feeling like I was sacrificing academics.
+      I also regained the mental space to enjoy other parts of life without constantly thinking about studying.
+      That balance honestly made me a better student overall.
+    </p>
+
+    <h4>Have I used anything like this before?</h4>
+    <p>
+      I tried things like Anki, passive rereading, handwritten flashcards, and review sessions.
+      None of them gave me the same combination of efficiency, long-term memory, and actual comprehension.
+      The structured memory approach with strategic resource use and targeted question practice ended up being exactly what I needed.
+    </p>
+
+    <p class="t-disclaimer">
+      Results reflect one student’s experience. Outcomes vary based on engagement,
+      prior preparation, and consistency of application.
+    </p>
+  `
+},
+{
+  name: "Nam T.",
+  meta: "MS2",
+  headline: "I didn’t study more hours—I just got through material faster and with better retention.",
+  proof: [
+    "First-pass learning was significantly faster with better retention.",
+    "Grades stayed about the same while freeing time for training and life outside school."
+  ],
+
+  fullHtml: `
+    <h4>Academic background</h4>
+    <p>
+      I graduated from the University of Central Florida with a BS in Biology.
+      I took about a year off from school with little academic work during that time,
+      but did well enough overall to get into USUHS.
+    </p>
+
+    <h4>Learning the method and stress effects</h4>
+    <p>
+      The method allowed me to cut through a lot of the unnecessary work much faster.
+      Instead of drilling endlessly, I could identify what actually mattered and move on.
+    </p>
+    <p>
+      That alone lowered my stress because I didn’t feel like I had to grind nonstop
+      just to keep up.
+    </p>
+
+    <h4>Time, effort, and performance</h4>
+    <p>
+      My total study time stayed about the same, but the first pass through material
+      was much quicker and the information stuck better.
+      Because of that, my grades stayed about the same with less overall effort.
+    </p>
+
+    <h4>What I did with the time back</h4>
+    <p>
+      Since I wasn’t bogged down in the LRC all the time, I could take a few more days
+      off and devote time to other things.
+    </p>
+    <p>
+      I was able to run more consistently and train for the Marine Corps Marathon,
+      and I could also spend more time with friends instead of always being in the library.
+    </p>
+
+    <h4>Have I used anything like this before?</h4>
+    <p>
+      I had used tools like Sketchy before because of the storyboard format,
+      but those often relied on random storylines that had to be memorized.
+      This method felt more natural because it anchored memory to personal experiences
+      rather than arbitrary associations.
+    </p>
+
+    <p class="t-disclaimer">
+      Results reflect one student’s experience. Outcomes vary based on engagement,
+      prior preparation, and consistency of application.
+    </p>
+  `
+},
+
+{
+  name: "Les J.",
+  meta: "MS2",
+  headline: "I studied less, felt more confident, and my grades improved.",
+  proof: [
+    "Learned the method in ~2 weeks and felt less stressed going into exams.",
+    "Spent less total time studying while improving grades."
+  ],
+
+  fullHtml: `
+    <h4>Academic background</h4>
+    <p>
+      Before medical school, I was a non-science major in undergrad and completed a post-baccalaureate program afterward.
+      When I first started medical school, I struggled significantly and ended up having to repeat my first year.
+    </p>
+
+    <h4>Learning the method and stress</h4>
+    <p>
+      After changing my study habits and learning this method, things clicked.
+      It took about two weeks to learn, and once I understood how to apply it,
+      my stress around exams dropped because I felt more confident in what I knew.
+    </p>
+
+    <h4>Time, effort, and grades</h4>
+    <p>
+      I was able to decrease the total amount of time I spent studying while keeping the same level of effort as before.
+      Even though I was spending less time handling material, my grades improved significantly.
+    </p>
+
+    <h4>What I did with the time back</h4>
+    <p>
+      With the extra time, I was able to work out consistently and spend more time with my family,
+      which I didn’t really have the ability to do before.
+    </p>
+
+    <h4>Life outside school</h4>
+    <p>
+      Because I felt more comfortable with the content and less anxious about falling behind,
+      I was able to travel more without constantly stressing about school.
+    </p>
+
+    <h4>Have I used anything like this before?</h4>
+    <p>
+      I tried using other study plans and Sketchy before, but this method worked better for
+      remembering concepts long term rather than just memorizing facts.
+    </p>
+
+    <p class="t-disclaimer">
+      Results reflect one student’s experience. Outcomes vary based on engagement,
+      prior preparation, and consistency of application.
+    </p>
+  `
+},
+
+{
+  name: "William B.",
+  meta: "MS1",
+  headline: "I study about 25% less, keep my grades strong, and finally have time to train seriously again.",
+  proof: [
+    "Estimated ~25% reduction in total study time while maintaining or improving grades.",
+    "Used recovered time to earn a slot at Air Assault School and complete a 30 km ruck."
+  ],
+
+  fullHtml: `
+    <h4>Academic background</h4>
+    <p>
+      I graduated from Southern Methodist University in 2024 with a BS in Biochemistry and minors in Business and Neuroscience.
+      I graduated summa cum laude and was inducted into Phi Beta Kappa. During undergrad, I became very efficient at studying
+      by emphasizing active recall and practice problems, and I did not take time off before starting medical school.
+    </p>
+
+    <h4>Learning the method and stress effects</h4>
+    <p>
+      It took about two sets of exams, roughly two months, for me to really improve with this method.
+      By creating stories and mental images to represent medical concepts, I was able to learn material faster
+      and recall it with less effort.
+    </p>
+    <p>
+      I still use Anki and practice questions, but they now reinforce the mental stories I’ve created instead of being the
+      primary way I learn. This made my reviews faster and allowed me to space them out more without losing retention.
+    </p>
+
+    <h4>Time, effort, and performance</h4>
+    <p>
+      I don’t have an exact hour count, but my studying now feels much more efficient.
+      I stay engaged in lectures because I’m actively building mental images instead of passively listening.
+      Leading up to exams, I’m reinforcing concepts rather than learning everything for the first time.
+    </p>
+    <p>
+      Two days before exams, I no longer need to study intensively. I usually spend only a few hours reviewing.
+      Overall, I estimate my total study time has decreased by about 25%, and my grades have been maintained or improved.
+    </p>
+
+    <h4>What I did with the time back</h4>
+    <p>
+      With the time I saved, I was able to focus on competing in the Order of Merit List (OML) for a slot at Air Assault School.
+      Cardio had always been a weakness of mine, and the OML heavily emphasizes endurance events like 6-12 mile ruck marches
+      and a 5-mile run.
+    </p>
+    <p>
+      Thanks to the extra time this method gave me, I could finally prioritize fitness again.
+      I earned a spot at Air Assault School this summer and completed the Norwegian Ruck March (30 km / 18.6 miles),
+      training twice a week with friends, something that wouldn’t have been possible before.
+    </p>
+
+    <h4>Have I used anything like this before?</h4>
+    <p>
+      I’ve always believed in active learning and avoiding passive note-taking.
+      This method feels like an upgraded version of active learning because it builds on how the brain naturally retains
+      information, through stories and images, and applies it to the volume of medical content we’re expected to master.
+    </p>
+
+    <p class="t-disclaimer">
+      Results reflect one student’s experience. Outcomes vary based on engagement,
+      prior preparation, and consistency of application.
+    </p>
+  `
+}
+
+
+
+
+
+  ];
+
+  // Source anchors (so you remember where each came from)
+  // Prior Enlisted: turn28file1
+  // Haddid: turn28file3
+  // Nam Tran: turn28file7
+  // Paul Rajan: turn28file4
+  // Bongiorno: turn28file0
+
+  let idx = 0;
+
+  const card = document.getElementById("testimonialCard");
+  const dots = document.getElementById("testimonialDots");
+
+  const modal = document.getElementById("tModal");
+  const modalName = document.getElementById("tModalName");
+  const modalMeta = document.getElementById("tModalMeta");
+  const modalBody = document.getElementById("tModalBody");
+  const modalClose = modal.querySelector(".t-modal-close");
+
+  function renderDots(){
+    dots.innerHTML = "";
+    testimonials.forEach((_, i) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "t-dot" + (i === idx ? " active" : "");
+      b.setAttribute("aria-label", `Go to testimonial ${i+1}`);
+      b.addEventListener("click", () => { idx = i; render(); });
+      dots.appendChild(b);
+    });
+  }
+
+function openModal(t){
+  modalName.textContent = t.name || "";
+  modalMeta.textContent = t.meta || "";
+
+  // Show full formatted content when available (Kyle/Mitchell)
+  if (t.fullHtml) {
+    modalBody.innerHTML = t.fullHtml;
+  } else if (Array.isArray(t.full)) {
+    modalBody.innerHTML = t.full.map(p => `<p>${p}</p>`).join("");
+  } else {
+    modalBody.innerHTML = `<p>(No full testimonial text provided.)</p>`;
+  }
+
+  modal.classList.add("is-open");
+  modal.setAttribute("aria-hidden", "false");
+  document.getElementById('backHome')?.classList.add('hidden');
+
+}
+
+function closeModal(){
+  modal.classList.remove("is-open");
+  modal.setAttribute("aria-hidden", "true");
+  document.getElementById('backHome')?.classList.remove('hidden');
+}
+
+// IMPORTANT: make sure the close button actually closes
+modalClose.addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  closeModal();
+});
+
+// Click outside the white modal closes
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) closeModal();
+});
+
+// Escape closes
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && modal.classList.contains("is-open")) closeModal();
+});
+
+
+
+  function render(){
+    const t = testimonials[idx];
+    card.innerHTML = `
+      <div class="t-top">
+        <div>
+          <div class="t-name">${t.name}</div>
+          <div class="t-meta">${t.meta || ""}</div>
+        </div>
+        <div class="t-count">${idx+1} / ${testimonials.length}</div>
+      </div>
+
+      <p class="t-headline">“${t.headline}”</p>
+
+      ${t.proof?.length ? `
+        <ul class="t-proof">
+          ${t.proof.map(x => `<li>${x}</li>`).join("")}
+        </ul>
+      ` : ""}
+
+      <div class="t-actions">
+        <button class="t-read" type="button">Read full</button>
+      </div>
+    `;
+
+    card.querySelector(".t-read").addEventListener("click", () => openModal(t));
+    renderDots();
+  }
+
+  document.querySelector(".t-nav.prev").addEventListener("click", () => { idx = (idx - 1 + testimonials.length) % testimonials.length; render(); });
+  document.querySelector(".t-nav.next").addEventListener("click", () => { idx = (idx + 1) % testimonials.length; render(); });
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+  modalClose.addEventListener("click", closeModal);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
+  });
+
+  render();
+})();
+</script>
+
+    
+
+    </div> <!-- /content-inner -->
+  </main>
+</section>
+
+
+<!--Lightbox-->
+<div id="image-modal" class="image-modal" aria-hidden="true">
+  <div class="image-modal-inner">
+
+    <div class="image-modal-frame">
+  <div class="image-modal-figure">
+    <img
+      id="image-modal-img"
+      src="{% static 'img/book-cover.png' %}"
+      alt="Enlarged Wang Method of Learning page"
+    >
+
+    <!-- Close button pinned to the actual image box -->
+    <button class="image-modal-close" aria-label="Close enlarged image">×</button>
+  </div>
+
+  <!-- Bottom-centered arrows (stay relative to the viewport) -->
+  <div class="image-modal-nav">
+    <button class="image-modal-arrow prev" aria-label="Previous page">‹</button>
+    <button class="image-modal-arrow next" aria-label="Next page">›</button>
+  </div>
+</div>
+
+
+  </div>
+</div>
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const imageSources = [
+      "{% static 'img/book-cover.png' %}",
+      "{% static 'img/Goals-Reached.png' %}",
+      "{% static 'img/Schedule.png' %}",
+      "{% static 'img/Step-1.png' %}",
+      
+    ];
+
+    let currentIndex = 0;
+
+    const mainImg = document.getElementById('wmol-gallery-image');
+    const thumbs  = document.querySelectorAll('.wmol-gallery-thumbs img');
+    const prevBtn = document.querySelector('.wmol-gallery-arrow.prev');
+    const nextBtn = document.querySelector('.wmol-gallery-arrow.next');
+
+    const modal      = document.getElementById('image-modal');
+    const modalImg   = document.getElementById('image-modal-img');
+    const modalPrev  = document.querySelector('.image-modal-arrow.prev');
+    const modalNext  = document.querySelector('.image-modal-arrow.next');
+    const modalClose = document.querySelector('.image-modal-close');
+
+function showImage(index) {
+  const total = imageSources.length;
+  currentIndex = (index + total) % total;
+
+  const src = imageSources[currentIndex];
+
+  if (mainImg)  mainImg.src = src;
+  if (modalImg) modalImg.src = src;
+
+  // ✅ Schedule-only: tell CSS to use a larger lightbox size
+  if (modal) {
+    modal.classList.toggle('is-schedule', src.includes('Schedule.png'));
+    modal.classList.toggle('is-step1', src.includes('Step-1.png'));
+
+  }
+
+  updateThumbs();
+}
+
+
+    function openModal() {
+  if (!modal) return;
+
+  const src = imageSources[currentIndex];
+  if (modalImg) modalImg.src = src;
+
+  // ✅ Schedule-only sizing applies when you open the modal too
+  modal.classList.toggle('is-schedule', src.includes('Schedule.png'));
+  modal.classList.toggle('is-step1', src.includes('Step-1.png'));
+
+
+  modal.classList.add('is-open');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('image-modal-open');
+}
+
+
+    function closeModal() {
+      if (!modal) return;
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('image-modal-open');
+    }
+
+    if (prevBtn && nextBtn && mainImg && thumbs.length) {
+      prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
+      nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
+      thumbs.forEach((thumb, i) => thumb.addEventListener('click', () => showImage(i)));
+    }
+
+    if (mainImg) {
+      mainImg.style.cursor = 'zoom-in';
+      mainImg.addEventListener('click', openModal);
+    }
+
+    if (modalPrev && modalNext) {
+      modalPrev.addEventListener('click', (e) => { e.stopPropagation(); showImage(currentIndex - 1); });
+      modalNext.addEventListener('click', (e) => { e.stopPropagation(); showImage(currentIndex + 1); });
+    }
+
+    if (modalClose) {
+      modalClose.addEventListener('click', (e) => { e.stopPropagation(); closeModal(); });
+    }
+
+    if (modal) {
+      modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal && modal.classList.contains('is-open')) closeModal();
+    });
+
+    showImage(0);
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('backHome');
+    if (!btn) return;
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      sessionStorage.setItem('closingToHome', '1');
+
+      const go = () => { window.location.href = '/'; };
+
+      if (document.startViewTransition) {
+        document.startViewTransition(go);
+      } else {
+        go();
+      }
+    });
+  });
+</script>
+
+{% endblock %}
