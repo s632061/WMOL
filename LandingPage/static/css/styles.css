@@ -2837,15 +2837,20 @@ body.modal-open .btn-back {
   font-family: var(--title-font);
   font-weight: 700;
   color: rgba(245,238,228,0.95);
-  font-size: clamp(34px, 4.6vw, 72px);
+
+  /* slightly smaller + safer on phones */
+  font-size: clamp(26px, 7.2vw, 64px);
+
   line-height: 1.05;
   margin: 0 0 18px 0;
 
-  /* force single line */
-  white-space: nowrap;
+  /* IMPORTANT: allow wrapping (fixes iPhone clipping) */
+  white-space: normal;
+  max-width: 22ch;
 
   text-shadow: 0 14px 46px rgba(0,0,0,0.65);
 }
+
 
 
 /* Subtitle */
@@ -2945,6 +2950,39 @@ body.modal-open .btn-back {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
+  }
+}
+
+/* iPhone / small portrait: keep it clean */
+/* iPhone 13+ portrait: keep single-line title but make it fit */
+@media (min-width: 390px) and (max-width: 430px){
+  .wmol-landing-title{
+    white-space: nowrap;                 /* no wrap on iPhone 13 */
+    font-size: clamp(24px, 6.2vw, 36px); /* smaller so it fits */
+    max-width: none;                     /* don't constrain */
+  }
+}
+
+/* Smaller phones: allow wrapping naturally */
+@media (max-width: 389px){
+  .wmol-landing-title{
+    white-space: normal;                 /* wrapping allowed */
+    font-size: clamp(26px, 7.2vw, 40px);
+    max-width: 18ch;
+  }
+}
+
+
+/* Phone landscape: 2-line title + better vertical balance */
+@media (max-width: 932px) and (orientation: landscape){
+  .wmol-landing-inner{
+    padding-top: 10px;
+  }
+
+  .wmol-landing-title{
+    font-size: clamp(26px, 4.8vw, 42px);
+    max-width: 26ch;   /* wider = fewer wraps (2 lines instead of 3) */
+    line-height: 1.05;
   }
 }
 
