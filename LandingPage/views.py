@@ -13,3 +13,5 @@ def medicine(request):
 def widgets(request):
     return render(request, 'landing/widgets.html')
 
+def domains(request):
+    return render(request, 'landing/domains.html')

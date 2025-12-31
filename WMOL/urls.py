@@ -14,14 +14,20 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-# WMOL/urls.py
 from django.contrib import admin
 from django.urls import path
-from LandingPage import views   # <- was from core import views
+from django.conf import settings
+from django.conf.urls.static import static
+from LandingPage import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
+    path('domains/', views.domains, name='domains'),
     path('medicine/', views.medicine, name='medicine'),
     path('widgets/', views.widgets, name='widgets'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

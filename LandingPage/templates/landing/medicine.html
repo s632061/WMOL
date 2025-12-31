@@ -144,7 +144,7 @@
     </div>
   </section>
 
-    <section class="access-block">
+    <section class="access-block access-options">
       <h2 class="access-title">Access Options</h2>
       <div class="callout">
           <p>
@@ -154,7 +154,7 @@
       </div>
     </section>
 
-    <section class="access-block">
+    <section class="access-block after-access">
       <h2 class="access-title">What Happens After Access</h2>
       <div class="callout">
         <p>
@@ -185,7 +185,7 @@
 
 
 
- <section class="packages">
+ <section class="packages packages-section">
 
   <!-- Standard -->
   <div class="package-card standard">
@@ -285,6 +285,7 @@
     </div>
   </div>
 </section>
+
 
 <script>
 (function(){
@@ -1030,6 +1031,36 @@ document.addEventListener("keydown", (e) => {
     const modalNext  = document.querySelector('.image-modal-arrow.next');
     const modalClose = document.querySelector('.image-modal-close');
 
+// ✅ MOBILE: reorder sections to the exact sequence you want
+(function reorderMedicineMobile() {
+  const mq = window.matchMedia('(max-width: 900px)');
+  if (!mq.matches) return;
+
+  // prevent double-running if you hot-reload
+  if (document.body.dataset.reordered === '1') return;
+  document.body.dataset.reordered = '1';
+
+  const access = document.querySelector('.access-options');
+  const after  = document.querySelector('.after-access');
+  const pkgs   = document.querySelector('.packages-section');
+  const testi  = document.querySelector('.testimonials');
+  const fit    = document.querySelector('.fit-contact');
+
+  if (!access || !after || !pkgs || !testi || !fit) return;
+
+  // Insert in order:
+  // Access Options (anchor stays where it is)
+  // → Packages
+  // → What Happens After Access
+  // → Testimonials
+  // → Questions about fit
+  access.insertAdjacentElement('afterend', pkgs);
+  pkgs.insertAdjacentElement('afterend', after);
+  after.insertAdjacentElement('afterend', testi);
+  testi.insertAdjacentElement('afterend', fit);
+})();
+
+
 function showImage(index) {
   const total = imageSources.length;
   currentIndex = (index + total) % total;
@@ -1108,14 +1139,88 @@ function showImage(index) {
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // Back button (keep your current behavior)
+    const btn = document.getElementById('backHome');
+    if (btn) {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        sessionStorage.setItem('closingToHome', '1');
+
+        const go = () => { window.location.href = "{% url 'domains' %}"; };
+
+        if (document.startViewTransition) {
+          document.startViewTransition(go);
+        } else {
+          go();
+        }
+      });
+    }
+
+    // ✅ MOBILE: tap the left banner to hide it
+    const mq = window.matchMedia('(max-width: 900px)');
+    const rail = document.querySelector('.medicine-layout .rail-medicine');
+
+    if (mq.matches && rail) {
+      rail.style.cursor = 'pointer';
+      rail.setAttribute('role', 'button');
+      rail.setAttribute('tabindex', '0');
+      rail.setAttribute('aria-label', 'Hide banner');
+
+      const hide = () => document.body.classList.add('med-rail-hidden');
+
+      rail.addEventListener('click', (e) => {
+        // if you ever add a real link inside the banner later, don't hijack it
+        if (e.target.closest('a, button')) return;
+        hide();
+      });
+
+      rail.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          hide();
+        }
+      });
+    }
+  });
+</script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
     const btn = document.getElementById('backHome');
     if (!btn) return;
+
+    // ✅ MOBILE: tap the blue rail to hide it
+    const mq = window.matchMedia('(max-width: 900px)');
+    const rail = document.querySelector('.medicine-layout .rail-medicine');
+
+    if (mq.matches && rail) {
+      rail.style.cursor = 'pointer';
+      rail.setAttribute('role', 'button');
+      rail.setAttribute('tabindex', '0');
+      rail.setAttribute('aria-label', 'Hide banner');
+
+      const hideRail = () => document.body.classList.add('med-rail-hidden');
+
+      rail.addEventListener('click', (e) => {
+        // If you ever add links inside the rail later, don't hijack those
+        if (e.target.closest('a, button')) return;
+        hideRail();
+      });
+
+      rail.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          hideRail();
+        }
+      });
+    }
 
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       sessionStorage.setItem('closingToHome', '1');
 
-      const go = () => { window.location.href = '/'; };
+      const go = () => { window.location.href = "{% url 'domains' %}"; };
 
       if (document.startViewTransition) {
         document.startViewTransition(go);

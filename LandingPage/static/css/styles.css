@@ -118,6 +118,101 @@ h3,
   --home-canvas-h: 900px;    /* JS can override */
 }
 
+/* =========================================================
+   DOMAINS PAGE — MOBILE CAROUSEL (quarters)
+   ========================================================= */
+
+.domains-carousel-ui{
+  display: none; /* desktop: hidden */
+}
+
+/* Mobile breakpoint: turn the 4-column grid into a swipe carousel */
+@media (max-width: 900px){
+
+  /* show the UI */
+  .domains-carousel-ui{
+    display: flex;
+    position: fixed;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    align-items: center;
+    gap: 14px;
+    z-index: 9999;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  .domains-nav-btn{
+    width: 42px;
+    height: 42px;
+    border-radius: 999px;
+    border: none;
+    background: rgba(0,0,0,0.65);
+    color: #fff;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .domains-nav-btn:active{ transform: scale(0.98); }
+  .domains-nav-btn:hover{ background: rgba(0,0,0,0.85); }
+
+  .domains-dots{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .domains-dot{
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.35);
+  }
+  .domains-dot.is-active{
+    background: rgba(255,255,255,0.95);
+    transform: scale(1.25);
+  }
+
+  /* IMPORTANT: carousel layout */
+  .home-viewport{
+    overflow: hidden; /* the scroll happens on .wml-home */
+  }
+
+  .home-viewport .wml-home{
+    display: flex;                 /* instead of 4-column grid */
+    flex-direction: row;
+    width: 100%;
+    height: 100dvh;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* each rail becomes a full-screen slide */
+  .home-viewport .wml-home .wml-rail{
+    flex: 0 0 100vw;
+    width: 100vw;
+    height: 100dvh;
+    scroll-snap-align: start;
+  }
+
+  /* hide the scrollbar */
+  .home-viewport .wml-home::-webkit-scrollbar{
+    height: 0;
+  }
+
+  /* stop your home scaling from shrinking fonts weirdly on mobile */
+  html{ --home-u: 1; }
+}
+
 /* The viewport is the "window" */
 .home-viewport{
   width: 100dvw;
@@ -356,6 +451,29 @@ h3,
 /* =========================================================
    5) Q1 — MEDICINE RAIL (HOME + MEDICINE PAGE)
    ========================================================= */
+/* =========================================
+   MEDICINE: remove blinking caret + text selection
+   (carousel images, close X, copy, testimonials)
+   ========================================= */
+
+/* Turn off selection/caret everywhere on the medicine page */
+.medicine-layout,
+.medicine-layout *:not(input):not(textarea):not([contenteditable="true"]){
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;      /* iOS long-press menu */
+  -webkit-tap-highlight-color: transparent;
+  caret-color: transparent;          /* kills the blinking caret */
+}
+
+/* If you ever add real inputs later, keep them usable */
+.medicine-layout input,
+.medicine-layout textarea,
+.medicine-layout [contenteditable="true"]{
+  -webkit-user-select: text;
+  user-select: text;
+  caret-color: auto;
+}
 
 
 /* Shared */
@@ -561,6 +679,24 @@ html.home-intro .wml-home .rail-medicine{
   animation: none;
 }
 
+/* =========================================================
+   MEDICINE (mobile) — tap blue rail to hide it
+   ========================================================= */
+@media (max-width: 900px){
+  body.med-rail-hidden .medicine-layout{
+    grid-template-columns: 1fr; /* single column */
+  }
+
+  body.med-rail-hidden .medicine-layout .rail-medicine{
+    display: none !important;  /* remove the blue banner */
+  }
+
+  /* keep back button pinned nicely when rail is gone */
+  body.med-rail-hidden .back-row{
+    left: 16px !important;
+  }
+}
+
 /* Static logo should be visible immediately */
 .rail-medicine.rail-static .rail-image-wrap img{
   opacity: 1 !important;
@@ -571,16 +707,6 @@ html.home-intro .wml-home .rail-medicine{
 /* Disable hover underline on the static “For Medicine” label */
 .rail-medicine.rail-static .wml-cta .wml-link:hover{
   text-decoration: none !important;
-}
-
-/* STEP 3: allow scrolling instead of compression */
-html, body {
-  overflow: auto;
-}
-
-.wml-home,
-.home-viewport {
-  overflow: auto !important;
 }
 
 /* STEP 4: freeze Medicine content — no squish allowed */
@@ -864,6 +990,48 @@ html, body {
   white-space: normal;
 }
 
+/* =========================================================
+   MEDICINE — elevate headline on large screens
+   ========================================================= */
+@media (min-width: 1200px){
+  .med-headline{
+    font-size: clamp(30px, 2.2vw, 36px); /* smaller ceiling */
+    line-height: 1.2;
+    max-width: 72ch;   /* allow one clean line */
+    margin-bottom: 22px;
+    letter-spacing: -0.005em; /* barely there */
+  }
+}
+
+/* =========================================================
+   MEDICINE — headline wraps naturally on small screens
+   ========================================================= */
+/* =========================================================
+   MEDICINE — headline wraps naturally (tuned)
+   ========================================================= */
+
+/* Medium phones/tablets: modest bump, NOT forced into 3 lines */
+@media (max-width: 900px){
+  .med-headline{
+    font-size: clamp(22px, 5.2vw, 30px);
+    line-height: 1.22;
+    max-width: 34ch;  /* wider = fewer wraps */
+    top: 0;
+    margin: 0 auto 18px;
+  }
+}
+
+/* Small phones: force the 3 “sentence lines” naturally */
+@media (max-width: 520px){
+  .med-headline{
+    font-size: clamp(26px, 7.2vw, 34px);
+    line-height: 1.24;
+    max-width: 22ch;  /* tighter = each period tends to drop */
+  }
+}
+
+
+
 /* Hero: gallery (left) + copy (right) */
 .med-hero{
   display: grid;
@@ -917,6 +1085,43 @@ html, body {
   margin: 0 auto;
   text-align: left;
 }
+
+/* =========================================================
+   MEDICINE — Force a single consistent reading column width
+   (matches the "Why this Method Exists" feel)
+   ========================================================= */
+
+/* One token for the reading column */
+:root{
+  --med-read: 650px; /* matches .med-copy default :contentReference[oaicite:3]{index=3} */
+}
+
+/* On the 1-column breakpoint, your .med-copy widens to 680px :contentReference[oaicite:4]{index=4}
+   so we keep everything aligned with that behavior */
+@media (max-width: 1060px){
+  :root{ --med-read: 700px; }
+}
+
+/* Apply the same "reading column" to all relevant blocks */
+.med-copy,
+.med-below-grid > .med-explainer,
+.med-below-grid > .med-below-right{
+  width: 100%;
+  max-width: var(--med-read);
+  margin-left: auto;
+  margin-right: auto;
+
+  /* CRITICAL for grid children: stop stretching across the column */
+  justify-self: center;
+}
+
+/* Extra safety: make the inner sections not accidentally expand */
+.med-below-right .access-block,
+.med-below-right .callout{
+  width: 100%;
+  max-width: 100%;
+}
+
 
 /* Paragraph spacing */
 .med-copy p{ margin: 0 0 0.8rem; }
@@ -1045,19 +1250,67 @@ html, body {
 }
 
 /* =========================================================
+   MEDICINE — Center carousel on mobile
+   ========================================================= */
+@media (max-width: 900px){
+
+  .wmol-gallery{
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* centers thumbs + main image */
+  }
+
+  .wmol-gallery-main{
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+/* =========================================================
+   MEDICINE — Mobile reorder of sections
+   ========================================================= */
+@media (max-width: 900px){
+
+  /* Flatten the below-grid so its children can be ordered with other sections */
+  .med-below-grid{
+    display: contents;
+  }
+
+  /* Make sure these participate in ordering */
+  .access-options,
+  .after-access,
+  .packages-section,
+  .testimonials,
+  .fit-contact{
+    order: 0;
+  }
+
+  /* Desired sequence */
+  .access-options{ order: 10; }     /* Access Options first */
+  .packages-section{ order: 20; }   /* then Packages */
+  .after-access{ order: 30; }       /* then What Happens After Access */
+  .testimonials{ order: 40; }       /* then Testimonials */
+  .fit-contact{ order: 50; }        /* then Questions about fit */
+}
+
+/* =========================================================
    9) BELOW-HERO GRID (Left explainer, Right packages/story)
    ========================================================= */
+
 .med-below-grid{
   max-width: 1200px;
   margin: 28px auto 24px auto;
-  padding: 0 24px;
+
+  /* was: padding: 0 24px; */
+  padding: 0;
 
   display: grid;
   grid-template-columns: minmax(360px, 1fr) minmax(480px, 1.25fr);
   gap: clamp(24px, 3vmin, 56px);
-
-  align-items: stretch; /* 🔑 force equal height columns */
+  align-items: stretch;
 }
+
 
 @media (max-width: 1060px){
   .med-below-grid{
@@ -1351,6 +1604,22 @@ html, body {
 .med-left-rail{
   max-width: 520px;     /* match the right rail */
   margin-right: auto;  /* pins it to the left */
+}
+
+/* =========================================================
+   MEDICINE — center the gallery rail on single-column layouts
+   ========================================================= */
+@media (max-width: 1060px){
+  .med-left-rail,
+  .med-right-rail{
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .wmol-gallery-main{
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 
@@ -1814,6 +2083,37 @@ html, body {
 }
 
 
+/* =========================================================
+   LIGHTBOX: remove blinking caret / text-selection on iOS
+   ========================================================= */
+
+.image-modal,
+.image-modal *{
+  caret-color: transparent;          /* kills the blinking caret */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Make sure the image never becomes "selectable" */
+.image-modal img{
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Buttons: prevent focus-selection weirdness on iOS */
+.image-modal-close,
+.image-modal-arrow{
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Optional: hide the default focus outline (ONLY do this if you don’t care about keyboard nav) */
+.image-modal-close:focus,
+.image-modal-arrow:focus{
+  outline: none;
+}
 
 
 /* HOME Q1: keep BOTH title and CTA above the circle */
@@ -2302,6 +2602,34 @@ body:has(.t-modal.is-open) #backHome {
   z-index: 999;
 }
 
+/* =========================================
+   TESTIMONIALS — MOBILE WIDTH EXPANSION
+   ========================================= */
+@media (max-width: 900px){
+
+  /* Let the whole testimonial area breathe */
+  .testimonials{
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  /* Allow the shell to use most of the screen */
+  .testimonial-shell{
+    max-width: 100%;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Make the card itself wider */
+  .testimonial-card{
+    width: 100%;
+    max-width: 100vw;   /* 🔑 this is the key line */
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 /* ============================
    Back Button (Medicine Page)
    ============================ */
@@ -2400,5 +2728,429 @@ body.modal-open .btn-back {
 @media (max-width: 720px){
   .testimonial-shell{
     grid-template-columns: 38px minmax(0, 1fr) 38px;
+  }
+}
+
+/* =========================================================
+   LANDING (NEW HOMEPAGE) — single source of truth
+   ========================================================= */
+/* =========================================================
+   LANDING — “Decision Field” (single source of truth)
+   ========================================================= */
+
+.wmol-landing{
+  position: relative;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: clamp(22px, 5vw, 56px);
+  overflow: hidden;
+  background: #0f0f12; /* fallback */
+}
+
+/* Background image */
+.wmol-landing-bg{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    /* copper highlight sweep (top-right → center) */
+    linear-gradient(
+      135deg,
+      rgba(198,132,90,0.38) 0%,
+      rgba(198,132,90,0.22) 28%,
+      rgba(0,0,0,0.0) 55%
+    ),
+
+    /* soft secondary warmth */
+    radial-gradient(
+      900px 600px at 65% 30%,
+      rgba(160,95,65,0.35),
+      rgba(0,0,0,0.0) 65%
+    ),
+
+    /* plum-brown atmospheric base */
+    linear-gradient(
+      180deg,
+      #2b1e22 0%,
+      #1f1619 40%,
+      #1a1416 100%
+    );
+
+      animation: wmol-bg-drift 22s ease-in-out infinite;
+  will-change: background-position;
+
+}
+
+
+/* readability overlay (keeps text visible anywhere) */
+.wmol-landing-bg::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(900px 320px at 50% 45%,
+      rgba(0,0,0,0.62),
+      rgba(0,0,0,0.30) 55%,
+      rgba(0,0,0,0.00) 100%);
+  pointer-events:none;
+}
+
+/* ultra-fine grain (subtle) */
+.wmol-landing-bg::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.040'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  opacity: 0.9;
+  pointer-events:none;
+}
+
+/* Content */
+.wmol-landing-inner{
+  position: relative;
+  z-index: 1;
+  width: min(92vw, 980px);
+  text-align: center;
+  padding: clamp(18px, 3vw, 28px);
+}
+
+/* HOME — Landing inner container */
+.wmol-landing-inner{
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* horizontal centering */
+  text-align: center;      /* center text lines */
+}
+
+/* HOME — Main title */
+.wmol-landing-title{
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Title */
+.wmol-landing-title{
+  font-family: var(--title-font);
+  font-weight: 700;
+  color: rgba(245,238,228,0.95);
+  font-size: clamp(34px, 4.6vw, 72px);
+  line-height: 1.05;
+  margin: 0 0 18px 0;
+
+  /* force single line */
+  white-space: nowrap;
+
+  text-shadow: 0 14px 46px rgba(0,0,0,0.65);
+}
+
+
+/* Subtitle */
+.wmol-landing-subtitle{
+  font-family: var(--body-font);
+  color: rgba(235,226,214,0.70);
+  max-width: 840px;
+  margin: 0 auto 28px auto;
+  font-size: clamp(15px, 1.55vw, 20px);
+  line-height: 1.6;
+  text-shadow: 0 12px 40px rgba(0,0,0,0.55);
+}
+
+/* CTA */
+.wmol-landing-cta{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 22px;
+  border-radius: 999px;
+  text-decoration: none;
+
+  font-family: var(--body-font);
+  font-weight: 700;
+  font-size: 17px;
+
+  color: rgba(255,255,255,0.92);
+  background: linear-gradient(180deg, #6b4a2f, #4f3624);
+  color: #f4efe8;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.wmol-landing-cta:hover{ transform: translateY(-1px); filter: brightness(1.06); }
+.wmol-landing-cta:active{ transform: translateY(0); }
+
+/* =========================================================
+   LANDING TEXT ANIMATION (matches your “rise up” style)
+   ========================================================= */
+
+/* Reuse the same easing vibe as your rails */
+@keyframes wmol-rise-soft{
+  0%   { opacity: 0; transform: translateY(22px); filter: blur(1.6px); }
+  100% { opacity: 1; transform: translateY(0);   filter: blur(0); }
+}
+
+.wmol-landing .wmol-landing-title{
+  animation: wmol-rise-soft 1100ms cubic-bezier(.22,1,.36,1) 80ms both;
+}
+.wmol-landing .wmol-landing-subtitle{
+  animation: wmol-rise-soft 1100ms cubic-bezier(.22,1,.36,1) 220ms both;
+}
+.wmol-landing .wmol-landing-cta{
+  animation: wmol-rise-soft 1100ms cubic-bezier(.22,1,.36,1) 360ms both;
+}
+
+@keyframes wmol-fade-in{
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Start hidden so the animation actually shows */
+.wmol-landing .wmol-landing-title,
+.wmol-landing .wmol-landing-subtitle,
+.wmol-landing .wmol-landing-cta{
+  opacity: 0;
+  will-change: transform, opacity, filter;
+}
+
+/* Staggered reveal */
+.wmol-landing .wmol-landing-title{
+  animation: wmol-rise-soft 900ms cubic-bezier(.22,1,.36,1) 60ms both;
+}
+
+.wmol-landing .wmol-landing-subtitle{
+  animation: wmol-rise-soft 950ms cubic-bezier(.22,1,.36,1) 180ms both;
+}
+
+.wmol-landing .wmol-landing-cta{
+  animation: wmol-rise-soft 950ms cubic-bezier(.22,1,.36,1) 320ms both;
+}
+
+/* Optional: a tiny “settle” pop on the button only (very subtle) */
+.wmol-landing .wmol-landing-cta{
+  transform-origin: center;
+}
+.wmol-landing .wmol-landing-cta:hover{
+  transform: translateY(-1px);
+}
+
+/* Respect accessibility */
+@media (prefers-reduced-motion: reduce){
+  .wmol-landing .wmol-landing-title,
+  .wmol-landing .wmol-landing-subtitle,
+  .wmol-landing .wmol-landing-cta{
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+
+/* =========================================================
+   LANDING BACKGROUND MICRO DRIFT
+   ========================================================= */
+
+@keyframes wmol-bg-drift{
+  0%{
+    background-position:
+      0% 0%,
+      0% 0%,
+      0% 0%;
+  }
+  50%{
+    background-position:
+      6% 4%,
+      -4% 3%,
+      0% 0%;
+  }
+  100%{
+    background-position:
+      0% 0%,
+      0% 0%,
+      0% 0%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .wmol-landing-bg{
+    animation: none !important;
+  }
+}
+
+/* =========================================================
+   HOME LANDING — disable caret + selection everywhere
+   ========================================================= */
+
+.wmol-landing,
+.wmol-landing *{
+  user-select: none;
+  -webkit-user-select: none;
+  caret-color: transparent;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Keep buttons/links clickable but caret-free */
+.wmol-landing a,
+.wmol-landing button{
+  user-select: none;
+  -webkit-user-select: none;
+  caret-color: transparent;
+}
+
+
+/* =========================================
+   CTA CLICK: tactile press + page exit
+   ========================================= */
+
+/* 1) tactile press (instant feedback) */
+.wmol-landing-cta{
+  transform: translateY(0) scale(1);
+  transition: transform 140ms ease, filter 160ms ease, box-shadow 160ms ease;
+}
+
+.wmol-landing-cta:active{
+  transform: translateY(1px) scale(0.985);
+  filter: brightness(1.06);
+}
+
+/* 2) exit animation (clean + subtle) */
+@keyframes wmol-exit-copy{
+  0%   { opacity: 1; transform: translateY(0); filter: blur(0); }
+  100% { opacity: 0; transform: translateY(-10px); filter: blur(1px); }
+}
+
+@keyframes wmol-exit-bg{
+  0%   { transform: scale(1); filter: contrast(1.05) brightness(0.78); }
+  100% { transform: scale(1.03); filter: contrast(1.05) brightness(0.74); }
+}
+
+.wmol-landing-bg{
+  transform: scale(1);
+  transition: transform 320ms cubic-bezier(.22,1,.36,1), filter 320ms cubic-bezier(.22,1,.36,1);
+  will-change: transform, filter;
+}
+
+/* When leaving, animate out */
+.wmol-landing.is-leaving .wmol-landing-inner{
+  animation: wmol-exit-copy 220ms cubic-bezier(.22,1,.36,1) forwards;
+}
+
+.wmol-landing.is-leaving .wmol-landing-bg{
+  animation: wmol-exit-bg 240ms cubic-bezier(.22,1,.36,1) forwards;
+}
+
+/* Accessibility: no motion */
+@media (prefers-reduced-motion: reduce){
+  .wmol-landing.is-leaving .wmol-landing-inner{ animation: none !important; opacity: 1 !important; }
+  .wmol-landing.is-leaving .wmol-landing-bg{ animation: none !important; transform: none !important; }
+}
+
+/* =========================================================
+   MEDICINE (mobile) — tap banner to hide it
+   ========================================================= */
+@media (max-width: 900px){
+  body.med-rail-hidden .medicine-layout{
+    grid-template-columns: 1fr !important;
+  }
+
+  body.med-rail-hidden .medicine-layout .rail-medicine{
+    display: none !important;
+  }
+
+  /* keep the Back button pinned to the screen edge after banner is gone */
+  body.med-rail-hidden .back-row{
+    left: 16px !important;
+  }
+}
+
+/* =========================================================
+   MEDICINE — MOBILE: hide the left blue banner completely
+   ========================================================= */
+@media (max-width: 900px){
+
+  /* 1) single-column layout */
+  .medicine-layout{
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 2) remove the blue banner rail */
+  .medicine-layout .rail-medicine{
+    display: none !important;
+  }
+
+  /* 3) make the content fill the screen cleanly */
+  .med-content{
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100dvh;
+  }
+
+  /* 4) fix the Back button so it isn't offset by the old rail width calc */
+  .back-row{
+    left: 16px !important;
+    top: 16px !important;
+  }
+}
+
+
+/* FINAL OVERRIDE — keep all reading blocks perfectly aligned */
+:root{
+  --med-read: 650px;
+}
+
+@media (max-width: 1060px){
+  :root{ --med-read: 700px; }
+}
+
+
+/* =========================================================
+   PACKAGES — MOBILE: make cards fit screen + keep CTAs clickable
+   ========================================================= */
+@media (max-width: 900px){
+
+  /* Use a single, full-width column */
+  .packages,
+  .packages-grid{
+    max-width: 100% !important;
+    width: 100% !important;
+    grid-template-columns: 1fr !important;
+    padding-left: var(--content-pad) !important;
+    padding-right: var(--content-pad) !important;
+  }
+
+  /* Let cards actually be full width */
+  .package-card{
+    width: 100% !important;
+    max-width: 100% !important;     /* overrides --package-width: 520px */
+    justify-self: stretch !important; /* overrides start/end */
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+  /* Don’t force left/right placement on mobile */
+  .package-card.standard,
+  .package-card.extended{
+    justify-self: stretch !important;
+  }
+
+  /* Prevent the price badge logic from shrinking the title area too much */
+  .package-card h3{
+    padding-right: 0 !important; /* overrides the 120px desktop reserve */
+  }
+
+  .package-price{
+    right: 16px !important;
+    top: 14px !important;
+    font-size: 14px !important;
+  }
+
+  /* If any headings were forced nowrap, allow wrapping on phones */
+  .nowrap-title,
+  .package-title.nowrap,
+  .package-subtitle.nowrap{
+    white-space: normal !important;
   }
 }

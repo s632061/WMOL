@@ -1,0 +1,418 @@
+{% extends "base.html" %}
+{% block title %}Wang Method of Learning{% endblock %}
+
+{% block content %}
+
+<script>
+  // EARLY: runs before first paint
+  (function () {
+    if (sessionStorage.getItem('closingToHome') === '1') {
+      document.documentElement.classList.add('returning-from-med');
+    } else {
+      document.documentElement.classList.add('home-intro');
+    }
+  })();
+</script>
+
+<div class="home-viewport">
+
+    <!-- Mobile-only carousel UI -->
+<div class="domains-carousel-ui" aria-label="Domain carousel controls">
+  <button class="domains-nav-btn prev" type="button" aria-label="Previous domain">‹</button>
+  <div class="domains-dots" aria-label="Domain position"></div>
+  <button class="domains-nav-btn next" type="button" aria-label="Next domain">›</button>
+</div>
+
+<section class="wml-home">
+
+  <!-- Q1 — Medicine -->
+  <aside class="wml-rail rail-medicine rail-clickable" data-href="/medicine/">
+    <div class="rail-inner">
+      <h1 class="wml-title">Wang Method of<br>Learning</h1>
+
+      <div class="rail-image-wrap">
+        <img src="/static/img/coat-circle.png" alt="Wang Method of Learning logo">
+      </div>
+
+      <nav class="wml-cta">
+        <a id="go-medicine" class="wml-link" href="/medicine/">For Medicine</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Q2 — Technology -->
+  <aside class="wml-rail rail-technology rail-disabled">
+    <h1 class="wml-title-tech">Wang Method of<br>Learning</h1>
+    <nav class="wml-cta-tech">
+      <a class="wml-link-tech" href="/technology/">For Technology</a>
+    </nav>
+  </aside>
+
+  <!-- Q3 — Gadgets -->
+  <aside class="wml-rail rail-gadgets rail-disabled">
+    <nav class="wml-cta-gadgets">
+      <a class="wml-link-gadgets" href="/gadgets/">Widgets and Gadgets</a>
+    </nav>
+
+  </aside>
+
+
+
+
+  <!-- Q4 — Lifestyle -->
+  <aside class="wml-rail rail-lifestyle rail-disabled">
+    <nav class="wml-cta-lifestyle">
+      <a class="wml-link-lifestyle" href="/lifestyle/">Lifestyle</a>
+    </nav>
+  </aside>
+
+</section>
+</div>
+
+<script>
+(() => {
+  function resetHomeState() {
+    // If we're returning from medicine, don't clear state first (prevents the “drop” flash)
+    if (sessionStorage.getItem('closingToHome') === '1') return;
+
+    const home = document.querySelector('.wml-home');
+    if (!home) return;
+
+    home.classList.remove('leaving-med', 'from-med', 'enter-from-med');
+    document.body.style.pointerEvents = '';
+  }
+
+function wireHomeNav() {
+  const home = document.querySelector('.wml-home');
+  const trigger = document.getElementById('go-medicine');
+  const rail = document.querySelector('.wml-home .rail-medicine');
+  if (!home || !trigger || !rail) return;
+
+  function startMedicineTransition() {
+    home.classList.add('leaving-med');
+    document.body.style.pointerEvents = 'none';
+
+    const go = () => { window.location.href = trigger.href; };
+
+    const SLIDE_PREVIEW = 400;
+
+    window.setTimeout(() => {
+      if (document.startViewTransition) {
+        document.startViewTransition(go);
+      } else {
+        go();
+      }
+    }, SLIDE_PREVIEW);
+  }
+
+  // Clicking the actual link
+  trigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    startMedicineTransition();
+  });
+
+  // Clicking anywhere on the rail (same timing)
+  rail.addEventListener('click', (e) => {
+    if (e.target.closest('a')) return; // let link handler handle it
+    e.preventDefault();
+    startMedicineTransition();
+  });
+
+  // Keyboard accessibility
+  rail.setAttribute('role', 'link');
+  rail.setAttribute('tabindex', '0');
+  rail.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      startMedicineTransition();
+    }
+  });
+}
+
+  
+  function playReturnFromMedicineIfNeeded() {
+    const home = document.querySelector('.wml-home');
+    if (!home) return;
+
+    if (sessionStorage.getItem('closingToHome') === '1') {
+      sessionStorage.removeItem('closingToHome');
+
+      // Keep the freeze class ON during the morph
+      home.classList.add('from-med', 'enter-from-med');
+
+      const MORPH_MS = 520;
+
+      // After morph: bring Q2–Q4 back
+      window.setTimeout(() => {
+        home.classList.remove('enter-from-med');
+      }, MORPH_MS);
+    }
+  }
+
+  // ===== Scrollbars-on-shrink canvas scaling (no distortion) =====
+  const baseW = 1440;
+  const baseH = 900;
+
+  // IMPORTANT:
+  // - Normal fullscreen on “small” screens should STILL fit with no scrollbars
+  // - But half-width / half-height should STOP shrinking and instead scroll
+  // This threshold makes half-height trigger (e.g., 540/900 = 0.60) without
+  // forcing scrollbars on typical smaller fullscreen heights (e.g., 600/900 = 0.67).
+
+// ===== HOME: resize behavior =====
+// Goal:
+// - In normal fullscreen: fit-to-screen, no scrollbars.
+// - The INSTANT the user shrinks the window (even 1px): STOP scaling smaller.
+//   Instead, freeze the look and let scrollbars appear (no squish).
+
+let baseVW = 0;
+let baseVH = 0;
+let baseU  = 1;
+let isScrollMode = false;
+
+function fitHomeInnerScale() {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+
+    // ===== MOBILE: let the carousel layout run (no scaling / no scroll-mode canvas) =====
+  if (window.matchMedia('(max-width: 900px)').matches) {
+    const viewport = document.querySelector('.home-viewport');
+    const home = document.querySelector('.wml-home');
+    if (!viewport || !home) return;
+
+    // kill scroll-mode + canvas sizing
+    viewport.classList.remove('home-scroll');
+    home.classList.remove('home-scroll');
+    home.style.width = '100%';
+    home.style.height = '100%';
+
+    // stop any scaling from affecting mobile
+    document.documentElement.style.setProperty('--home-u', '1');
+    document.documentElement.style.setProperty('--home-canvas-w', vw + 'px');
+    document.documentElement.style.setProperty('--home-canvas-h', vh + 'px');
+    return;
+  }
+
+  const viewport = document.querySelector('.home-viewport');
+  const home = document.querySelector('.wml-home');
+  if (!viewport || !home) return;
+
+  // First run baseline
+  if (baseVW === 0 || baseVH === 0) {
+    baseVW = vw;
+    baseVH = vh;
+    baseU = Math.min(vw / baseW, vh / baseH);
+    baseU = Math.min(baseU, 1.35);
+  }
+
+  // If window grows, update baseline (new "best" fullscreen look)
+  if (!isScrollMode && (vw > baseVW || vh > baseVH)) {
+    baseVW = vw;
+    baseVH = vh;
+    baseU = Math.min(vw / baseW, vh / baseH);
+    baseU = Math.min(baseU, 1.35);
+  }
+
+  // ENTER scroll mode immediately on ANY shrink
+  const shouldEnterScroll = (vw < baseVW) || (vh < baseVH);
+  const shouldExitScroll  = (vw >= baseVW) && (vh >= baseVH);
+
+  if (!isScrollMode && shouldEnterScroll) isScrollMode = true;
+  if (isScrollMode && shouldExitScroll) isScrollMode = false;
+
+  if (isScrollMode) {
+    viewport.classList.add('home-scroll');
+    home.classList.add('home-scroll');
+
+    // Freeze the scale at the baseline look (NO more shrinking)
+    const u = baseU;
+
+    // Canvas is the frozen design size (scaled),
+    // but if user drags wider/taller after shrinking, expand canvas to avoid black bars.
+    const baseCanvasW = Math.round(baseW * u);
+    const baseCanvasH = Math.round(baseH * u);
+
+    const canvasW = Math.max(baseCanvasW, vw);
+    const canvasH = Math.max(baseCanvasH, vh);
+
+    home.style.width  = canvasW + 'px';
+    home.style.height = canvasH + 'px';
+
+    document.documentElement.style.setProperty('--home-u', String(u));
+    document.documentElement.style.setProperty('--home-canvas-w', canvasW + 'px');
+    document.documentElement.style.setProperty('--home-canvas-h', canvasH + 'px');
+    return;
+  }
+
+  // Normal fullscreen: fit-to-screen, no scrollbars
+  viewport.classList.remove('home-scroll');
+  home.classList.remove('home-scroll');
+
+  home.style.width  = '100%';
+  home.style.height = '100%';
+
+  // In normal mode we scale to the current window (because we are not shrunk)
+  let sFit = Math.min(vw / baseW, vh / baseH);
+  sFit = Math.min(sFit, 1.35);
+
+  document.documentElement.style.setProperty('--home-u', String(sFit));
+  document.documentElement.style.setProperty('--home-canvas-w', vw + 'px');
+  document.documentElement.style.setProperty('--home-canvas-h', vh + 'px');
+}
+
+   function initMobileDomainsCarousel() {
+  const mq = window.matchMedia('(max-width: 900px)');
+  const scroller = document.querySelector('.home-viewport .wml-home');
+  const rails = Array.from(document.querySelectorAll('.home-viewport .wml-home .wml-rail'));
+  const ui = document.querySelector('.domains-carousel-ui');
+  const prev = document.querySelector('.domains-nav-btn.prev');
+  const next = document.querySelector('.domains-nav-btn.next');
+  const dotsWrap = document.querySelector('.domains-dots');
+
+  if (!scroller || rails.length < 2 || !ui || !prev || !next || !dotsWrap) return;
+
+  let idx = 0;
+  let ticking = false;
+
+  function buildDots() {
+    dotsWrap.innerHTML = rails.map((_, i) =>
+      `<span class="domains-dot ${i === 0 ? 'is-active' : ''}" aria-hidden="true"></span>`
+    ).join('');
+  }
+
+  function setActiveDot(i) {
+    const dots = dotsWrap.querySelectorAll('.domains-dot');
+    dots.forEach((d, k) => d.classList.toggle('is-active', k === i));
+  }
+
+  function goTo(i) {
+    idx = (i + rails.length) % rails.length;
+    rails[idx].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+    setActiveDot(idx);
+  }
+
+  function onScroll() {
+    if (!mq.matches) return;
+    if (ticking) return;
+    ticking = true;
+
+    requestAnimationFrame(() => {
+      const vw = window.innerWidth || 1;
+      const newIdx = Math.round(scroller.scrollLeft / vw);
+      idx = Math.max(0, Math.min(rails.length - 1, newIdx));
+      setActiveDot(idx);
+      ticking = false;
+    });
+  }
+
+  function enable() {
+    ui.style.display = 'flex';
+    buildDots();
+    setActiveDot(idx);
+
+    prev.onclick = () => goTo(idx - 1);
+    next.onclick = () => goTo(idx + 1);
+
+    scroller.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  function disable() {
+    ui.style.display = 'none';
+    scroller.removeEventListener('scroll', onScroll);
+  }
+
+  // init + breakpoint changes
+  if (mq.matches) enable();
+  mq.addEventListener?.('change', (e) => e.matches ? enable() : disable());
+}
+
+
+
+
+  
+
+  // Wire everything
+  document.addEventListener('DOMContentLoaded', () => {
+    resetHomeState();
+    wireHomeNav();
+    playReturnFromMedicineIfNeeded();
+    fitHomeInnerScale();
+    initMobileDomainsCarousel();
+  });
+
+  window.addEventListener('pageshow', () => {
+    resetHomeState();
+    playReturnFromMedicineIfNeeded();
+    fitHomeInnerScale();
+  });
+
+  window.addEventListener('resize', fitHomeInnerScale);
+
+    // ===== Extra robustness: detect monitor/DPI moves and re-baseline =====
+  // Some monitor moves (especially different DPI scaling) don't reliably trigger
+  // a normal resize event. We'll watch for changes and force a recalculation.
+
+   // ===== Extra robustness: detect monitor/DPI moves and re-baseline =====
+  // IMPORTANT: Do NOT treat normal resize (innerWidth/innerHeight) as env change,
+  // or we'll constantly re-baseline while shrinking and scrollbars will never appear.
+
+  let lastEnv = {
+    dpr: window.devicePixelRatio || 1,
+    sw: window.screen.width,
+    sh: window.screen.height
+  };
+
+  function envChanged() {
+    const now = {
+      dpr: window.devicePixelRatio || 1,
+      sw: window.screen.width,
+      sh: window.screen.height
+    };
+
+    const changed =
+      now.dpr !== lastEnv.dpr ||
+      now.sw !== lastEnv.sw ||
+      now.sh !== lastEnv.sh;
+
+    lastEnv = now;
+    return changed;
+  }
+
+  function forceRebaseline() {
+    // Reset baseline so fitHomeInnerScale() treats the NEXT call like a first run
+    baseVW = 0;
+    baseVH = 0;
+    baseU  = 1;
+    isScrollMode = false;
+    fitHomeInnerScale();
+  }
+
+  // 1) Poll lightly (cheap + very reliable)
+  setInterval(() => {
+    if (envChanged()) {
+      forceRebaseline();
+    }
+  }, 200);
+
+  window.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      if (envChanged()) forceRebaseline();
+      else fitHomeInnerScale();
+    }
+  });
+
+  window.addEventListener('focus', () => {
+    if (envChanged()) forceRebaseline();
+    else fitHomeInnerScale();
+  });
+
+
+})();
+
+
+</script>
+
+
+
+
+{% endblock %}
