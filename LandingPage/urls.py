@@ -9,4 +9,6 @@ urlpatterns = [
     path("medicine/", views.medicine, name="medicine"),
     path("widgets/", views.widgets, name="widgets"),
     path("create-checkout-session/", views.create_checkout_session, name="create_checkout_session"),
+    path("stripe/webhook/", views.stripe_webhook, name="stripe_webhook"),
+
 ]

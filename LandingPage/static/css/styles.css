@@ -479,6 +479,10 @@ h3,
   caret-color: auto;
 }
 
+/* Allow vertical scroll, but make horizontal swipes feel clean */
+.testimonial-shell{
+  touch-action: pan-y;
+}
 
 /* Shared */
 .rail-medicine{

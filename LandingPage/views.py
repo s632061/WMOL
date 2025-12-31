@@ -1,4 +1,10 @@
 from django.shortcuts import render
+import stripe
+from django.conf import settings
+from django.core.mail import send_mail
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
 
 # Create your views here.
 # LandingPage/views.py
@@ -60,3 +66,43 @@ def widgets(request):
 
 def domains(request):
     return render(request, 'landing/domains.html')
+
+
+@csrf_exempt
+def stripe_webhook(request):
+    payload = request.body
+    sig_header = request.META.get("HTTP_STRIPE_SIGNATURE", "")
+    whsec = getattr(settings, "STRIPE_WEBHOOK_SECRET", "")
+
+    if not whsec:
+        return HttpResponse("Missing STRIPE_WEBHOOK_SECRET", status=500)
+
+    try:
+        event = stripe.Webhook.construct_event(payload, sig_header, whsec)
+    except ValueError:
+        return HttpResponse("Invalid payload", status=400)
+    except stripe.error.SignatureVerificationError:
+        return HttpResponse("Invalid signature", status=400)
+
+    if event["type"] == "checkout.session.completed":
+        session = event["data"]["object"]
+
+        email = (
+            (session.get("customer_details") or {}).get("email")
+            or session.get("customer_email")
+            or ""
+        )
+        package = (session.get("metadata") or {}).get("package", "unknown")
+        session_id = session.get("id", "")
+
+        notify_to = getattr(settings, "NOTIFY_EMAIL_TO", "")
+        if notify_to:
+            send_mail(
+                subject=f"New WMOL purchase: {package}",
+                message=f"Email: {email}\nPackage: {package}\nSession: {session_id}",
+                from_email=getattr(settings, "DEFAULT_FROM_EMAIL", None),
+                recipient_list=[notify_to],
+                fail_silently=False,
+            )
+
+    return HttpResponse(status=200)
