@@ -3285,3 +3285,58 @@ body.modal-open .btn-back {
     transform: translateY(10px);
   }
 }
+
+
+/* =========================================================
+   DOMAINS — iPhone landscape fix (short height devices)
+   ========================================================= */
+@media (max-height: 500px) and (orientation: landscape){
+
+  /* Hide the mobile carousel UI */
+  .domains-carousel-ui{
+    display: none !important;
+  }
+
+  /* Force desktop-style 4-column grid */
+  .home-viewport .wml-home{
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    width: 100% !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+    scroll-snap-type: none !important;
+  }
+
+  .home-viewport .wml-home .wml-rail{
+    width: auto !important;
+    height: 100% !important;
+    flex: initial !important;
+  }
+
+  /* Titles: smaller so they fit 2 lines */
+  .wml-title,
+  .wml-title-tech{
+    font-size: clamp(18px, 2.4vw, 24px) !important;
+    line-height: 1.05 !important;
+    top: 8% !important;
+  }
+
+  /* Bottom labels */
+  .wml-cta,
+  .wml-cta-tech,
+  .wml-cta-gadgets,
+  .wml-cta-lifestyle{
+    font-size: clamp(12px, 1.6vw, 15px) !important;
+    bottom: 7% !important;
+  }
+
+  /* Move the circle DOWN (your earlier rule tried top:33%, we want more center) */
+  .wml-home .rail-medicine .rail-image-wrap{
+    top: 52% !important;
+  }
+
+  /* Make circle a bit smaller so it doesn't collide */
+  .wml-home .rail-medicine .rail-image-wrap img{
+    width: min(32vmin, 240px) !important;
+  }
+}
