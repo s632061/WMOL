@@ -1173,7 +1173,7 @@ function showImage(index) {
       e.preventDefault();
       sessionStorage.setItem('closingToHome', '1');
 
-      const go = () => { window.location.href = "{% url 'domains' %}"; };
+      const go = () => { window.location.href = "{% url 'landing:domains' %}"; };
 
       if (document.startViewTransition) {
         document.startViewTransition(go);
@@ -1190,7 +1190,7 @@ function showImage(index) {
       const form = new FormData();
       form.append("package", pkg);
 
-      const res = await fetch("/create-checkout-session/", {
+      const res = await fetch("{% url 'landing:create_checkout_session' %}", {
         method: "POST",
         body: form
       });

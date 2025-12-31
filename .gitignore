@@ -1,20 +1,22 @@
-# Python
+# ===== Python =====
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 
-# Django
+# ===== Django =====
 db.sqlite3
 *.log
 media/
 staticfiles/
 
-# Virtual environments
+# ===== Virtual environments & secrets =====
 .env
+.env.*
+*.env
 .venv/
 venv/
 
-# OS
+# ===== OS files =====
 .DS_Store
 Thumbs.db

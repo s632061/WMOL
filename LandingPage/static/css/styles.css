@@ -3340,3 +3340,172 @@ body.modal-open .btn-back {
     width: min(32vmin, 240px) !important;
   }
 }
+
+/* =========================================================
+   MOBILE FIXES (iPhone+ and down)
+   - Testimonials: hide arrows, widen card
+   - Packages: smaller titles, prevent price overlap
+   ========================================================= */
+
+@media (max-width: 900px){
+
+  /* -------------------------
+     TESTIMONIALS (mobile)
+     ------------------------- */
+
+  /* Hide left/right arrow buttons */
+  .testimonials .t-nav{
+    display: none !important;
+  }
+
+  /* Make shell single-column so card can expand */
+  .testimonials .testimonial-shell{
+    grid-template-columns: 1fr !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    gap: 0 !important;
+  }
+
+  /* Let the card fill the screen width (with a little padding from the section) */
+  .testimonials{
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .testimonials .testimonial-card{
+    width: 100% !important;
+    max-width: 100% !important;   /* <- fills the container */
+    margin: 0 auto !important;
+  }
+
+  /* Optional: dots a touch larger for thumb tapping */
+  .testimonials .t-dot{
+    width: 12px;
+    height: 12px;
+  }
+
+
+  /* -------------------------
+     PACKAGES (mobile)
+     ------------------------- */
+
+  /* Make the package title smaller so it doesn’t crash into the price */
+  .package-card h3{
+    font-size: clamp(18px, 4.8vw, 22px) !important;
+    line-height: 1.15 !important;
+    padding-right: 0 !important; /* remove the desktop "reserve space" */
+  }
+
+  /* Make the subtitle smaller too */
+  .package-card h3 span{
+    font-size: clamp(15px, 4.1vw, 18px) !important;
+    line-height: 1.15 !important;
+  }
+
+  /* Price badge: keep it small and predictable on phones */
+  .package-price{
+    top: 12px !important;
+    right: 14px !important;
+    font-size: 13px !important;
+    white-space: nowrap;
+  }
+
+  /* If you have nowrap titles, let them wrap on phones */
+  .nowrap-title,
+  .package-title.nowrap,
+  .package-subtitle.nowrap{
+    white-space: normal !important;
+  }
+}
+
+@media (max-width: 900px){
+  .packages{
+    gap: 14px !important;         /* tighter spacing between cards */
+    margin-top: 10px !important;  /* pull section up a bit */
+    margin-bottom: 40px !important;
+  }
+}
+
+/* =========================================
+   PACKAGES — MOBILE TITLE + DENSITY FIX
+   (paste at VERY bottom of styles.css)
+   ========================================= */
+@media (max-width: 900px){
+
+  /* Let cards use more of the screen */
+  .packages{
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .packages .package-card{
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 16px 16px 18px !important; /* less beige space */
+    padding-top: 40px !important;       /* still leaves room for price */
+  }
+
+  /* Smaller title, guaranteed override */
+  .packages .package-card h3{
+    font-size: 26px !important;     /* <- change to 19px if you want smaller */
+    line-height: 1.12 !important;
+    margin-bottom: 8px !important;
+    padding-right: 0 !important;    /* don't reserve title space on mobile */
+  }
+
+  /* If you have a subtitle span inside h3 (Extended) */
+  .packages .package-card h3 span{
+    font-size: 16px !important;
+    line-height: 1.12 !important;
+    white-space: normal !important; /* allow wrapping */
+  }
+
+  /* Keep price small + out of the way */
+  .packages .package-price{
+    top: 12px !important;
+    right: 12px !important;
+    font-size: 12px !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* =========================================
+   Tighten gap above "Questions about fit"
+   without revealing beige padding
+   ========================================= */
+@media (max-width: 900px){
+
+  /* 1) Remove space AFTER the testimonials block itself */
+  .testimonials{
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* 2) Remove extra space under the dots row (common culprit) */
+  .t-dots{
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* 3) Pull the fit box up slightly, but not into empty padding */
+  .fit-contact{
+    margin-top: 10px !important; /* tune: 6–14 */
+  }
+}
+
+/* =========================================
+   MOBILE — add breathing room at page bottom
+   (after "Questions about fit")
+   ========================================= */
+@media (max-width: 900px){
+
+  /* Give the Questions box space from bottom of screen */
+  .fit-contact{
+    margin-bottom: 32px !important;  /* tune: 24–48 */
+  }
+
+  /* Ensure the scroll container has enough bottom padding */
+  .content-inner{
+    padding-bottom: 48px !important; /* prevents hard stop at bottom */
+  }
+}
