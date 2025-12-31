@@ -214,7 +214,7 @@
 
     <p class="package-note"><strong>Best for:</strong> students who are self-directed and want a clear structure they can execute independently once the system is understood.</p>
 
-    <a class="package-cta" href="#contact">Continue with this package →</a>
+    <a class="package-cta" href="#contact" data-package="standard">Continue with this package →</a>
   </div>
 
 
@@ -249,7 +249,7 @@
 
     <p class="package-note"><strong>Best for:</strong> students who want structured guidance, accountability, and ongoing refinement while implementing the system.</p>
 
-    <a class="package-cta" href="#contact">Continue with this package →</a>
+    <a class="package-cta" href="#contact" data-package="extended">Continue with this package →</a>
   </div>
 
 </section>
@@ -1137,53 +1137,6 @@ function showImage(index) {
   });
 </script>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Back button (keep your current behavior)
-    const btn = document.getElementById('backHome');
-    if (btn) {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        sessionStorage.setItem('closingToHome', '1');
-
-        const go = () => { window.location.href = "{% url 'domains' %}"; };
-
-        if (document.startViewTransition) {
-          document.startViewTransition(go);
-        } else {
-          go();
-        }
-      });
-    }
-
-    // ✅ MOBILE: tap the left banner to hide it
-    const mq = window.matchMedia('(max-width: 900px)');
-    const rail = document.querySelector('.medicine-layout .rail-medicine');
-
-    if (mq.matches && rail) {
-      rail.style.cursor = 'pointer';
-      rail.setAttribute('role', 'button');
-      rail.setAttribute('tabindex', '0');
-      rail.setAttribute('aria-label', 'Hide banner');
-
-      const hide = () => document.body.classList.add('med-rail-hidden');
-
-      rail.addEventListener('click', (e) => {
-        // if you ever add a real link inside the banner later, don't hijack it
-        if (e.target.closest('a, button')) return;
-        hide();
-      });
-
-      rail.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          hide();
-        }
-      });
-    }
-  });
-</script>
-
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -1229,6 +1182,35 @@ function showImage(index) {
       }
     });
   });
+</script>
+
+<script>
+  (function () {
+    async function goToCheckout(pkg) {
+      const form = new FormData();
+      form.append("package", pkg);
+
+      const res = await fetch("/create-checkout-session/", {
+        method: "POST",
+        body: form
+      });
+
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.error || "Checkout failed. Please try again.");
+      }
+    }
+
+    document.querySelectorAll(".package-cta[data-package]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const pkg = btn.dataset.package;
+        goToCheckout(pkg);
+      });
+    });
+  })();
 </script>
 
 {% endblock %}
