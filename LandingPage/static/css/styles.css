@@ -3545,3 +3545,87 @@ body.modal-open .btn-back {
   }
 }
 
+/* =========================================================
+   PACKAGES — TABLETS (iPad range) + SPLIT SCREEN
+   Single source of truth (delete older duplicates)
+   ========================================================= */
+
+/* 1) iPad/tablet range: keep 2 columns but compress typography */
+@media (min-width: 768px) and (max-width: 1024px){
+
+  .packages{
+    gap: 18px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .packages .package-card{
+    max-width: 100%;
+    padding-top: 42px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .packages .package-card h3{
+    font-size: 22px;
+    line-height: 1.12;
+    padding-right: 0;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+
+  .packages .package-card h3 span{
+    display: block;
+    font-size: 18px;
+    margin-top: 2px;
+    white-space: normal;
+  }
+
+  .packages .package-price{
+    top: 14px;
+    right: 16px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+}
+
+.med-content{
+  container-type: inline-size;
+}
+
+/* Compress titles when the CONTENT column is tight */
+@container (max-width: 980px){
+  .packages .package-card h3{
+    font-size: 22px;
+    line-height: 1.12;
+    padding-right: 0;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+
+  .packages .package-card h3 span{
+    display: block;
+    font-size: 18px;
+    margin-top: 2px;
+  }
+
+  .packages .package-price{
+    top: 14px;
+    right: 16px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+}
+
+/* Stack to one column when it’s REALLY tight */
+@container (max-width: 860px){
+  .packages{
+    grid-template-columns: 1fr;
+  }
+
+  .packages .package-card{
+    max-width: 760px;
+    width: 100%;
+    justify-self: center;
+  }
+}
