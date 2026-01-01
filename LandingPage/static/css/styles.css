@@ -3513,3 +3513,35 @@ body.modal-open .btn-back {
     padding-bottom: 48px !important; /* prevents hard stop at bottom */
   }
 }
+
+/* =========================================
+   TESTIMONIALS — mobile "swipe" hint (text only)
+   ========================================= */
+@media (max-width: 900px){
+
+  .t-dots{
+    position: relative;
+    margin-top: 12px;
+  }
+
+  .t-dots::after{
+    content: "Swipe to see more →";
+    position: absolute;
+    left: 50%;
+    top: -38px;               /* adjust: -22px to -30px */
+    transform: translateX(-50%);
+
+    font-family: var(--body-font);
+    font-size: 13px;
+    line-height: 1;
+    color: rgba(0,0,0,0.55);
+
+    background: none;         /* 👈 no pill */
+    border: none;             /* 👈 no edge */
+    padding: 0;               /* 👈 pure text */
+
+    white-space: nowrap;
+    pointer-events: none;
+  }
+}
+
