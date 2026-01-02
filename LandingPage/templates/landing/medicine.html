@@ -259,7 +259,7 @@
   <div class="testimonials-head">
     <h2 class="testimonials-title">Student Testimonials</h2>
     <p class="testimonials-subtitle">
-      Real students describing time saved, lower stress, and better recall. (Names abbreviated to protect student privacy)
+      Real students describing time saved, lower stress, and better recall. (All testimonials are anonymized.)
     </p>
   </div>
 
@@ -291,7 +291,7 @@
 (function(){
   const testimonials = [
     {
-  name: "Kyle B.",
+  name: "Second-year Medical Student",
   meta: "MS2, Prior Military Service, Husband",
   headline: "My average NBME score rose from ~69.6% to 77% while my study hours dropped dramatically.",
   proof: [
@@ -299,14 +299,14 @@
     "Stress decreased as the method became consistent; reclaimed family and fitness priorities."
   ],
 
-  // ✅ THIS is what “Read full” will display (formatted like the full document)
   fullHtml: `
     <h4>Academic background</h4>
     <p>
-      Student at USUHS, Class of 2027. Graduated high school in 2010, enlisted in the U.S. Marine Corps, returned to
-      school in phases, completed a BS (Strategic Studies and Defense Analysis, 2019), then EMDP2 (2021) before USUHS.
-      Graduated Summa Cum Laude from Norwich University.
+      Medical student. Graduated high school in 2010, enlisted in the U.S. Marine Corps, returned to
+      school in phases, completed a BS (Strategic Studies and Defense Analysis, 2019), then EMDP2 (2021)
+      before medical school. Graduated Summa Cum Laude from Norwich University.
     </p>
+
 
     <h4>How fast it took to learn the method / stress effects</h4>
     <p>
@@ -368,7 +368,7 @@
 }
 ,
     {
-  name: "Mitchell H.",
+  name: "Second-year Medical Student",
   meta: "MS2",
   headline: "By the final, I felt more in control, less overwhelmed, and my performance jumped.",
   proof: [
@@ -424,7 +424,7 @@
 }
 ,
     {
-  name: "Paul R.",
+  name: "Second-year Medical Student",
   meta: "MS2, Prior Military Service, Parent",
   headline: "I got ~15–20 hours/week back, and the time with my family was worth a small GPA drop.",
   proof: [
@@ -481,7 +481,7 @@
 },
 
 {
-  name: "Anthony B.",
+  name: "Second-year Medical Student",
   meta: "MS2 • Classmate",
   headline: "I stopped feeling buried by volume and finally felt ahead instead of catching up.",
   proof: [
@@ -522,7 +522,7 @@
   `
 },
 {
-  name: "Mia D.",
+  name: "Second-year Medical Student",
   meta: "MS2, USNA graduate",
   headline: "Even with a concussion and limited energy, I kept my performance the same with about half the effort.",
   proof: [
@@ -533,7 +533,7 @@
   fullHtml: `
     <h4>Academic background</h4>
     <p>
-      I graduated from the U.S. Naval Academy and came straight to USU.
+      I graduated from the U.S. Naval Academy and came straight to medical school.
       I studied applied physics and generally avoided subjects that required heavy memorization.
     </p>
 
@@ -550,7 +550,7 @@
 
     <h4>Learning the method</h4>
     <p>
-      During the last few weeks of the neuroscience module, Will talked me through his method for retaining information.
+      During the last few weeks of the neuroscience module, I was walked through the method for retaining information.
       I used the method during those final weeks and received the same scores with about half the effort.
       Most importantly, I was actually able to rest.
     </p>
@@ -573,7 +573,7 @@
     <h4>What I did with the time back</h4>
     <p>
       The additional free time supported my recovery, but it also opened new opportunities.
-      I prepared to serve as ACME TA XO for the MS2 MilMed exercise, which became my first leadership role at USU.
+      I prepared to serve as TA for a MilMed exercise, which became my first leadership role at my medical school.
     </p>
     <p>
       I was also able to start swimming and cycling again and am now training for a triathlon.
@@ -600,7 +600,7 @@
 },
 
 {
-  name: "Kyle Q.",
+  name: "Second-year Medical Student",
   meta: "MS2",
   headline: "I went from 8-10+ hour days to ~5-6, and I finally felt in control instead of behind.",
   proof: [
@@ -611,7 +611,7 @@
   fullHtml: `
     <h4>Before the method</h4>
     <p>
-      I came into medical school with a strong academic background overall, but I struggled early at USU.
+      I came into medical school with a strong academic background overall, but I struggled early in medical school.
       I’d been out of a traditional academic environment for a bit due to military commitments, and once MS1 started,
       I felt overwhelmed by the volume, pace, and complexity.
     </p>
@@ -672,7 +672,7 @@
   `
 },
 {
-  name: "Nam T.",
+  name: "Second-year Medical Student",
   meta: "MS2",
   headline: "I didn’t study more hours—I just got through material faster and with better retention.",
   proof: [
@@ -685,7 +685,7 @@
     <p>
       I graduated from the University of Central Florida with a BS in Biology.
       I took about a year off from school with little academic work during that time,
-      but did well enough overall to get into USUHS.
+      but did well enough overall to get into medical school.
     </p>
 
     <h4>Learning the method and stress effects</h4>
@@ -731,7 +731,7 @@
 },
 
 {
-  name: "Les J.",
+  name: "Second-year Medical Student",
   meta: "MS2",
   headline: "I studied less, felt more confident, and my grades improved.",
   proof: [
@@ -785,7 +785,7 @@
 },
 
 {
-  name: "William B.",
+  name: "First-year Medical Student",
   meta: "MS1",
   headline: "I study about 25% less, keep my grades strong, and finally have time to train seriously again.",
   proof: [
@@ -959,14 +959,6 @@ document.addEventListener("keydown", (e) => {
 
   document.querySelector(".t-nav.prev").addEventListener("click", () => { idx = (idx - 1 + testimonials.length) % testimonials.length; render(); });
   document.querySelector(".t-nav.next").addEventListener("click", () => { idx = (idx + 1) % testimonials.length; render(); });
-
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) closeModal();
-  });
-  modalClose.addEventListener("click", closeModal);
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeModal();
-  });
 
   render();
 })();
