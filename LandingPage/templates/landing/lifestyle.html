@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Lifestyle · WML{% endblock %}
+
+{% block content %}
+<section class="lifestyle-page">
+  <!-- Left rail, same “anchor” style as Medicine but Lifestyle colors -->
+  <aside class="wml-rail rail-lifestyle-page rail-static">
+    <div class="rail-inner">
+      <h1 class="wml-title">Wang Method of<br>Learning</h1>
+
+      <div class="rail-image-wrap">
+        <img src="{% static 'img/lifestyle.png' %}" alt="Lifestyle domain mark">
+      </div>
+
+      <nav class="wml-cta">
+        <span class="wml-link">For Lifestyle</span>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Right content -->
+  <div class="back-row">
+    <a class="btn-back" href="/domains/">← Back</a>
+  </div>
+
+  <main class="lifestyle-content" role="main">
+    <header class="lifestyle-hero">
+      <div class="lifestyle-hero-inner">
+        <h2 class="lifestyle-headline">Sustainable performance — without burnout or injury.</h2>
+        <p class="lifestyle-subhead">
+          The point isn’t to “optimize life.” It’s to build training systems you can maintain,
+          that keep you hungry to train, and still let you do hard things.
+        </p>
+
+        <div class="lifestyle-hero-cta">
+          <a class="btn-primary" href="#highlights">See the highlights</a>
+          <a class="btn-secondary" href="#rogo">Get programs on ROGO →</a>
+        </div>
+
+        <div class="lifestyle-principles" aria-label="Lifestyle principles">
+          <div class="lp-card">
+            <div class="lp-title">Sustainability first</div>
+            <div class="lp-text">No disgust. No “all or nothing.” Training that feels repeatable.</div>
+          </div>
+          <div class="lp-card">
+            <div class="lp-title">Progress that compounds</div>
+            <div class="lp-text">Push intelligently, recover deliberately, and stay consistent.</div>
+          </div>
+          <div class="lp-card">
+            <div class="lp-title">Injury-aware structure</div>
+            <div class="lp-text">Hard work is useless if it breaks you before it builds you.</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="lifestyle-section" id="highlights">
+      <h3 class="section-title">Highlight Reel</h3>
+      <p class="section-lead">
+        Proof matters — but the real goal is what comes after: staying fit and wanting to stay fit.
+      </p>
+
+      <!-- Replace these cards with your actual accomplishments -->
+      <div class="highlights-grid">
+        <article class="highlight-card">
+          <div class="highlight-top">
+            <div class="highlight-title">Endurance milestone</div>
+            <div class="highlight-year">YYYY</div>
+          </div>
+          <p class="highlight-desc">One sentence: what you did + why it’s meaningful.</p>
+        </article>
+
+        <article class="highlight-card">
+          <div class="highlight-top">
+            <div class="highlight-title">Strength milestone</div>
+            <div class="highlight-year">YYYY</div>
+          </div>
+          <p class="highlight-desc">One sentence: what you did + what training principle it reflects.</p>
+        </article>
+
+        <article class="highlight-card">
+          <div class="highlight-top">
+            <div class="highlight-title">Consistency streak</div>
+            <div class="highlight-year">YYYY</div>
+          </div>
+          <p class="highlight-desc">One sentence: “what I maintained” is often more impressive than peaks.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="lifestyle-section" id="rogo">
+      <div class="rogo-bridge">
+        <h3 class="section-title">Programs & delivery</h3>
+        <p class="section-lead">
+          I build the systems and progression. ROGO is the platform for hosting, delivery, and updates.
+        </p>
+
+        <!-- Put your real ROGO profile link here -->
+        <a class="btn-primary" href="https://example.com" target="_blank" rel="noopener">
+          View programs on ROGO →
+        </a>
+
+        <p class="tiny-note">Opens in a new tab • secure checkout • updates included</p>
+      </div>
+    </section>
+
+    <section class="lifestyle-section">
+      <div class="coming-soon">
+        <h3 class="section-title">In development</h3>
+        <p class="section-lead">
+          This domain is being built with the same rigor as Medicine. Early access will be limited.
+        </p>
+      </div>
+    </section>
+
+  </main>
+</section>
+{% endblock %}

@@ -452,6 +452,7 @@ h3,
 }
 
 
+
 /* =========================================================
    5) Q1 — MEDICINE RAIL (HOME + MEDICINE PAGE)
    ========================================================= */
@@ -1034,7 +1035,7 @@ html.home-intro .wml-home .rail-medicine{
   .med-headline{
     font-size: clamp(26px, 7.2vw, 34px);
     line-height: 1.24;
-    max-width: 22ch;  /* tighter = each period tends to drop */
+    max-width: 20ch;  /* tighter = each period tends to drop */
   }
 }
 
@@ -2800,8 +2801,8 @@ body.modal-open .btn-back {
   inset:0;
   background:
     radial-gradient(900px 320px at 50% 45%,
-      rgba(0,0,0,0.62),
-      rgba(0,0,0,0.30) 55%,
+      rgba(0,0,0,0.42),
+      rgba(0,0,0,0.18) 55%,
       rgba(0,0,0,0.00) 100%);
   pointer-events:none;
 }
@@ -2854,23 +2855,38 @@ body.modal-open .btn-back {
 
   /* IMPORTANT: allow wrapping (fixes iPhone clipping) */
   white-space: normal;
-  max-width: 22ch;
+  max-width: 20ch;
 
   text-shadow: 0 14px 46px rgba(0,0,0,0.65);
 }
 
-
-
-/* Subtitle */
-.wmol-landing-subtitle{
+/* Subheader (new) */
+.wmol-landing-subheader{
   font-family: var(--body-font);
-  color: rgba(235,226,214,0.70);
-  max-width: 840px;
-  margin: 0 auto 28px auto;
-  font-size: clamp(15px, 1.55vw, 20px);
-  line-height: 1.6;
-  text-shadow: 0 12px 40px rgba(0,0,0,0.55);
+  color: rgba(241,236,232,0.90);
+  max-width: 2400px;
+  text-wrap: balance;
+  margin: 0 auto 10px auto;
+  font-size: clamp(16px, 1.8vw, 22px);
+  line-height: 1.35;
+  font-weight: 600;
+  text-shadow: 0 12px 36px rgba(0,0,0,0.45);
 }
+
+
+/* Description (new) */
+.wmol-landing-description{
+  font-family: var(--body-font);
+  color: rgba(214,206,200,0.88);
+  max-width: 560px;
+  margin: 0 auto 22px auto;
+  font-size: clamp(14px, 1.35vw, 18px);
+  line-height: 1.55;
+  text-shadow: 0 12px 34px rgba(0,0,0,0.40);
+}
+
+
+
 
 /* CTA */
 .wmol-landing-cta{
@@ -2880,7 +2896,7 @@ body.modal-open .btn-back {
   padding: 14px 22px;
   border-radius: 999px;
   text-decoration: none;
-
+  margin-top: 18px;
   font-family: var(--body-font);
   font-weight: 700;
   font-size: 17px;
@@ -2889,10 +2905,16 @@ body.modal-open .btn-back {
   background: linear-gradient(180deg, #6b4a2f, #4f3624);
   color: #f4efe8;
   box-shadow: 0 10px 28px rgba(0,0,0,0.35);
-  transition: transform 180ms ease, filter 180ms ease;
+  transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
+
 }
 
-.wmol-landing-cta:hover{ transform: translateY(-1px); filter: brightness(1.06); }
+.wmol-landing-cta:hover{
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.42);
+}
+
 .wmol-landing-cta:active{ transform: translateY(0); }
 
 /* =========================================================
@@ -2921,8 +2943,10 @@ body.modal-open .btn-back {
 }
 
 /* Start hidden so the animation actually shows */
+/* Initial hidden state */
 .wmol-landing .wmol-landing-title,
-.wmol-landing .wmol-landing-subtitle,
+.wmol-landing .wmol-landing-subheader,
+.wmol-landing .wmol-landing-description,
 .wmol-landing .wmol-landing-cta{
   opacity: 0;
   will-change: transform, opacity, filter;
@@ -2933,13 +2957,18 @@ body.modal-open .btn-back {
   animation: wmol-rise-soft 900ms cubic-bezier(.22,1,.36,1) 60ms both;
 }
 
-.wmol-landing .wmol-landing-subtitle{
+.wmol-landing .wmol-landing-subheader{
   animation: wmol-rise-soft 950ms cubic-bezier(.22,1,.36,1) 180ms both;
+}
+
+.wmol-landing .wmol-landing-description{
+  animation: wmol-rise-soft 950ms cubic-bezier(.22,1,.36,1) 240ms both;
 }
 
 .wmol-landing .wmol-landing-cta{
   animation: wmol-rise-soft 950ms cubic-bezier(.22,1,.36,1) 320ms both;
 }
+
 
 /* Optional: a tiny “settle” pop on the button only (very subtle) */
 .wmol-landing .wmol-landing-cta{
@@ -3630,3 +3659,673 @@ body.modal-open .btn-back {
   }
 }
 
+
+
+
+
+
+/* =========================================================
+   LIFESTYLE PAGE — bridge gradient + proof layout
+   ========================================================= */
+
+.lifestyle-page{
+  display: grid;
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  min-height: 100vh;
+  width: 100%;
+  background: #000;
+}
+
+/* Left rail for Lifestyle page */
+.rail-lifestyle-page{
+  background: #0b0d12;
+  color: var(--gold);
+  min-height: 100vh;
+}
+
+.rail-lifestyle-page .rail-inner{
+  position: relative;
+  height: 100vh;
+  padding: 0;
+}
+
+.rail-lifestyle-page .wml-title{
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 64px);
+  text-align: center;
+  margin: 0;
+  color: #eae6dc;
+}
+
+.rail-lifestyle-page .rail-image-wrap{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rail-lifestyle-page .rail-image-wrap img{
+  width: min(92%, 430px);
+  max-height: 80vh;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.95;
+}
+
+.rail-lifestyle-page .wml-cta{
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  margin: 0;
+}
+
+.rail-lifestyle-page .wml-link{
+  color: #d9d4c8;
+  text-decoration: none;
+}
+
+/* Right content */
+.lifestyle-content{
+  position: relative;
+  overflow-y: auto;
+  background: #0b0d12; /* same base as hero */
+  color: rgba(243,240,231,0.92);
+  color: var(--text);
+  height: 100vh;
+  padding: clamp(16px, 2.2vmin, 24px);
+}
+
+/* Hero with “meet in the middle” gradient */
+.lifestyle-hero{
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin: 56px auto 26px;
+  max-width: 1140px;
+
+  background:
+  radial-gradient(900px 500px at 40% 10%, rgba(110,130,160,0.35), rgba(0,0,0,0) 60%),
+  linear-gradient(180deg, #0b0d12 0%, #141a22 55%, #243041 100%);
+
+}
+
+.lifestyle-hero-inner{
+  padding: clamp(22px, 3vmin, 34px);
+}
+
+.lifestyle-headline{
+  font-family: var(--title-font);
+  font-weight: 700;
+  font-size: clamp(24px, 2.2vw, 38px);
+  line-height: 1.15;
+  margin: 0 0 12px 0;
+  color: #f3f0e7;
+  max-width: 34ch;
+}
+
+.lifestyle-subhead{
+  font-family: var(--body-font);
+  font-size: clamp(15px, 1.25vw, 18px);
+  line-height: 1.6;
+  margin: 0 0 18px 0;
+  color: rgba(243, 240, 231, 0.85);
+  max-width: 70ch;
+}
+
+.lifestyle-hero-cta{
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 8px 0 18px;
+}
+
+.btn-primary,
+.btn-secondary{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 999px;
+  font-family: var(--body-font);
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.18);
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+}
+
+.btn-primary{
+  background: rgba(255,255,255,0.92);
+  color: #111;
+}
+
+.btn-secondary{
+  background: rgba(0,0,0,0.22);
+  color: rgba(255,255,255,0.92);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover{
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-hover);
+}
+
+.lifestyle-principles{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.lp-card{
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 14px;
+  padding: 14px 14px;
+}
+
+.lp-title{
+  font-family: var(--title-font);
+  font-weight: 700;
+  font-size: 16px;
+  color: rgba(255,255,255,0.92);
+  margin-bottom: 6px;
+}
+
+.lp-text{
+  font-family: var(--body-font);
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.80);
+}
+
+/* Sections */
+.lifestyle-section{
+  max-width: 1140px;
+  margin: 0 auto 26px;
+}
+
+.section-title{
+  font-family: var(--title-font);
+  font-size: clamp(18px, 1.6vmin, 26px);
+  line-height: 1.2;
+  margin: 0 0 10px 0;
+  color: var(--text-strong);
+}
+
+.section-lead{
+  font-family: var(--body-font);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  margin: 0 0 14px 0;
+  color: var(--text);
+  max-width: 78ch;
+}
+
+.highlights-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.highlight-card{
+  background: rgba(255,255,255,0.55);
+  border: 1px solid var(--stroke);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.10);
+}
+
+.highlight-top{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.highlight-title{
+  font-family: var(--title-font);
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.highlight-year{
+  font-family: var(--body-font);
+  color: rgba(0,0,0,0.55);
+  font-weight: 700;
+}
+
+.highlight-desc{
+  margin: 0;
+  font-family: var(--body-font);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  color: var(--text);
+}
+
+.rogo-bridge,
+.coming-soon{
+  background: rgba(255,255,255,0.45);
+  border: 1px solid var(--stroke-soft);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+}
+
+.tiny-note{
+  margin: 10px 0 0 0;
+  font-family: var(--body-font);
+  font-size: 13px;
+  color: rgba(0,0,0,0.55);
+}
+
+/* =========================================================
+   DOMAINS — prompt + button labels
+   ========================================================= */
+
+.domains-prompt{
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-family: "Times New Roman", Georgia, serif;
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+
+  /* 👇 single-line guarantee */
+  white-space: nowrap;
+
+  /* 👇 responsive shrink instead of wrap */
+  font-size: clamp(13px, 1.6vw, 18px);
+
+  letter-spacing: 0.01em;
+  text-align: center;
+
+  /* ❌ kill pill look */
+  background: none;
+  padding: 0;
+  border-radius: 0;
+
+  z-index: 10;
+  pointer-events: none; /* purely informational */
+    user-select: none;
+  -webkit-user-select: none;
+  caret-color: transparent;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+
+}
+
+
+/* Base “button” look for all domain CTAs */
+.wml-domain-btn{
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none !important;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(0,0,0,0.25);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.28);
+  transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
+}
+
+.wml-domain-btn:hover{
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow: 0 14px 34px rgba(0,0,0,0.38);
+}
+
+/* Medicine button: gold on navy */
+.rail-medicine .wml-domain-btn{
+  color: var(--gold) !important;
+  border-color: rgba(212,175,55,0.45);
+  background: rgba(212,175,55,0.10);
+}
+
+/* Technology button: muted white */
+.rail-technology .wml-domain-btn{
+  color: rgba(255,255,255,0.74) !important;
+  border-color: rgba(255,255,255,0.20);
+  background: rgba(0,0,0,0.22);
+}
+
+/* Gadgets/Tools button: dark text on light pill (sketch background) */
+.rail-gadgets .wml-domain-btn{
+  color: rgba(20,20,20,0.88) !important;
+  border-color: rgba(0,0,0,0.20);
+  background: rgba(255,255,255,0.72);
+}
+
+/* Lifestyle button: muted white */
+.rail-lifestyle .wml-domain-btn{
+  color: rgba(255,255,255,0.74) !important;
+  border-color: rgba(255,255,255,0.20);
+  background: rgba(0,0,0,0.22);
+}
+
+.wml-home .wml-link:hover,
+.wml-home .wml-link-tech:hover,
+.wml-home .wml-link-gadgets:hover,
+.wml-home .wml-link-lifestyle:hover{
+  text-decoration: none;
+}
+
+/* ===== DOMAIN CTA BUTTONS ===== */
+.wml-home .wml-link,
+.wml-home .wml-link-tech,
+.wml-home .wml-link-gadgets,
+.wml-home .wml-link-lifestyle{
+  display: inline-block;
+
+  padding: 10px 22px;
+  border-radius: 999px;
+
+  font-weight: 700;
+  letter-spacing: 0.02em;
+
+  text-decoration: none;
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    transform 0.1s ease;
+}
+
+/* subtle press */
+.wml-home .wml-link:active,
+.wml-home .wml-link-tech:active,
+.wml-home .wml-link-gadgets:active,
+.wml-home .wml-link-lifestyle:active{
+  transform: scale(0.98);
+}
+
+/* HOME ONLY: keep the Medicine quadrant CTA as a gold button */
+.wml-home .rail-medicine .wml-link{
+  background: var(--gold);
+  color: #1a1a1a;
+}
+
+.wml-home .rail-medicine .wml-link:hover{
+  background: #e3c45a;
+}
+
+.rail-technology.rail-disabled .wml-link-tech{
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.55);
+  cursor: default;
+}
+
+.rail-gadgets .wml-link-gadgets{
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+}
+
+.rail-gadgets .wml-link-gadgets:hover{
+  background: rgba(0,0,0,0.9);
+}
+
+.rail-lifestyle .wml-link-lifestyle{
+  background: rgba(0,0,0,0.65);
+  color: #fff;
+}
+
+.rail-lifestyle .wml-link-lifestyle:hover{
+  background: rgba(0,0,0,0.85);
+}
+
+/* Tools rail (disabled): fade the CTA more */
+.rail-gadgets.rail-disabled .wml-link-gadgets{
+  background: rgba(0,0,0,0.45);
+  color: rgba(255,255,255,0.55);
+  opacity: 0.55;
+  filter: saturate(0.75);
+}
+
+
+
+.package-cta.secondary{
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+}
+
+/* Tier 3 should span full width (fixes “orphan card” on desktop) */
+
+
+/* make headings + text readable on black */
+.packages .package-card.custom h3{
+  color: rgba(255,255,255,0.95);
+}
+
+.packages .package-card.custom .package-summary,
+.packages .package-card.custom .custom-contact{
+  color: rgba(255,255,255,0.78);
+}
+
+/* gold email link pops */
+.packages .package-card.custom .custom-contact a{
+  color: var(--gold);
+  font-weight: 800;
+  text-decoration: none;
+}
+.packages .package-card.custom .custom-contact a:hover{
+  text-decoration: underline;
+}
+
+/* keep it steady (no “lift”) */
+.packages .package-card.custom:hover{
+  transform: none;
+  box-shadow: 0 16px 44px rgba(0,0,0,0.35);
+}
+
+/* Make the content inside Tier 3 readable (not too wide) */
+.packages .package-card.custom > *{
+  max-width: 78ch;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+
+/* Keep Tier 3 readable without “centered paragraph wobble” */
+.packages .package-card.custom > *{
+  max-width: 78ch;
+}
+
+
+.packages .package-card.custom .package-summary,
+.packages .package-card.custom .package-note{
+  line-height: 1.6;
+}
+
+.package-cta.secondary{
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(212,175,55,0.65);
+  color: #6d5a17;
+  background: transparent;
+  text-decoration: none;
+}
+
+.package-cta.secondary:hover{
+  background: rgba(212,175,55,0.10);
+}
+
+/* Tier 3: make it feel like the "fit" callout (gold strip, serious) */
+.packages .package-card.custom{
+  grid-column: 1 / -1;
+  justify-self: center;
+
+  /* Match width of the two-card row visually */
+  max-width: calc((var(--package-width) * 2) + 24px);
+
+  /* Remove the "price badge headroom" reserved by .package-card */
+  padding-top: 22px;
+
+  background: #ece8df;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-left: 4px solid var(--gold);
+  border-radius: 10px;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+
+  text-align: left;
+}
+
+/* Custom tier should NOT "lift" on hover like the paid tiers */
+.packages .package-card.custom:hover{
+  transform: none;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+}
+
+/* Tighten text spacing so it doesn't look “crooked” */
+.packages .package-card.custom .package-summary{
+  margin-top: 6px;
+  margin-bottom: 10px;
+}
+
+.packages .package-card.custom .package-note{
+  margin-bottom: 14px;
+  font-style: normal; /* feels more institutional */
+}
+
+.packages .package-card.custom .custom-contact{
+  margin: 10px 0 0;
+  font-family: var(--body-font);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  color: var(--text);
+}
+
+.packages .package-card.custom .custom-contact a{
+  color: var(--gold);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.packages .package-card.custom .custom-contact a:hover{
+  text-decoration: underline;
+}
+
+/* Medicine rail CTA — section marker (stronger, still not a button) */
+/* Medicine rail CTA — normal (matches your usual type) */
+.rail-medicine.rail-static .wml-cta .wml-link{
+  color: var(--gold);
+  font-family: var(--title-font);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  opacity: 0.95;
+  padding: 0;
+  cursor: default;
+}
+
+/* Remove the underline/highlighter bar entirely */
+.rail-medicine.rail-static .wml-cta .wml-link::after{
+  content: none;
+}
+
+
+
+/* soft hover = intentional, but not clickable */
+.rail-medicine.rail-static .wml-cta .wml-link:hover{
+  opacity: 1;
+}
+
+.rail-medicine.rail-static .wml-cta .wml-link:hover::after{
+  background: rgba(212,175,55,0.70);
+  width: 50%;
+}
+
+/* Tier 3: give it “mode switch” authority without going black */
+.packages .package-card.custom{
+  position: relative;
+  padding: 22px 26px;
+  box-shadow: 0 14px 30px rgba(0,0,0,0.10);
+}
+
+/* Optional: a subtle top “eyebrow” label effect */
+.packages .package-card.custom h3{
+  letter-spacing: 0.01em;
+}
+
+/* Make the contact line feel more deliberate */
+.packages .package-card.custom .custom-contact{
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+
+/* ✅ FINAL OVERRIDE: Tier 3 matches "Questions about fit?" panel */
+.packages .package-card.custom{
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: 100%;
+  max-width: calc((var(--package-width) * 2) + 24px);
+
+  background: #ece8df;                 /* same as fit-contact */
+  border: 1px solid rgba(0,0,0,0.08);
+  border-left: 4px solid var(--gold);
+  border-radius: 10px;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+
+  color: var(--text);
+  text-align: left;
+}
+
+/* Make sure text is readable (undo any black-mode text colors) */
+.packages .package-card.custom h3{
+  color: var(--text-strong);
+}
+
+.packages .package-card.custom .package-summary,
+.packages .package-card.custom .custom-contact{
+  color: var(--text);
+}
+
+/* No "lift" hover */
+.packages .package-card.custom:hover{
+  transform: none;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+}
+
+/* Subtle section marker under "Explore Medicine" */
+.rail-medicine.rail-static .wml-cta .wml-link{
+  position: relative;
+  padding-bottom: 6px;
+}
+
+.rail-medicine.rail-static .wml-cta .wml-link::after{
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 36%;
+  height: 2px;
+  background: rgba(212, 175, 55, 0.55); /* soft gold */
+  border-radius: 999px;
+}
+
+
+/* Responsive */
+@media (max-width: 1060px){
+  .lifestyle-principles{ grid-template-columns: 1fr; }
+  .highlights-grid{ grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px){
+  .lifestyle-page{ grid-template-columns: 1fr; }
+  .rail-lifestyle-page{ display: none; } /* match your Medicine mobile behavior style */
+}

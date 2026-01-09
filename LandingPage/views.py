@@ -5,6 +5,9 @@ from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
+from django.shortcuts import render
+
+
 
 # Create your views here.
 # LandingPage/views.py
@@ -67,6 +70,11 @@ def widgets(request):
 def domains(request):
     return render(request, 'landing/domains.html')
 
+def lifestyle(request):
+    return render(request, "landing/lifestyle.html")
+
+
+
 
 @csrf_exempt
 def stripe_webhook(request):
@@ -106,3 +114,5 @@ def stripe_webhook(request):
             )
 
     return HttpResponse(status=200)
+
+
