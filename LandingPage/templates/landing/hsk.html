@@ -1,0 +1,596 @@
+{% extends "base.html" %}
+{% block title %}HSK 1-6 Companion App (Beta){% endblock %}
+
+
+{% block content %}
+<section class="hsk-page">
+  <div class="hsk-inner">
+
+    <div class="hsk-toprow">
+      <a class="hsk-back" href="/tools/">← Back</a>
+    </div>
+
+<header class="hsk-hero">
+  <h1 class="hsk-title">HSK 1-6 Companion App <span class="hsk-pill">Beta</span></h1>
+
+  <p class="hsk-subtitle">Stability, Structure, Smoothness</p>
+
+<p class="hsk-desc">
+  The HSK 1-6 Companion App is an integrated Chinese learning framework designed to remove common friction points in language study, making it easier to understand, remember, and apply information efficiently.
+</p>
+
+<p class="hsk-desc">
+  The system is adapted from a decade-long, patent-pending generalized learning framework developed to help learners organize, compress, and revisit information in a way that reduces wasted effort and cognitive overload.
+</p>
+
+
+
+</header>
+
+<section class="hsk-carousel" aria-label="Preview carousel">
+  <button class="hsk-car-btn" data-dir="-1" aria-label="Previous">‹</button>
+
+  <div class="hsk-car-viewport">
+    <div class="hsk-car-track" id="hskTrack">
+      <div class="hsk-slide">
+        <img class="hsk-shot" src="/static/img/hsk/shot-01.png" alt="HSK app screenshot 1">
+      </div>
+      <div class="hsk-slide">
+        <img class="hsk-shot" src="/static/img/hsk/shot-02.png" alt="HSK app screenshot 2">
+      </div>
+      <div class="hsk-slide">
+        <img class="hsk-shot" src="/static/img/hsk/shot-03.png" alt="HSK app screenshot 3">
+      </div>
+      <div class="hsk-slide">
+        <img class="hsk-shot" src="/static/img/hsk/shot-04.png" alt="HSK app screenshot 4">
+      </div>
+      <div class="hsk-slide">
+        <img class="hsk-shot" src="/static/img/hsk/shot-05.png" alt="HSK app screenshot 5">
+      </div>
+      <div class="hsk-slide">
+        <img class="hsk-shot" src="/static/img/hsk/shot-06.png" alt="HSK app screenshot 6">
+      </div>
+      <div class="hsk-slide">
+        <img class="hsk-shot" src="/static/img/hsk/shot-07.png" alt="HSK app screenshot 7">
+      </div>
+      <div class="hsk-slide">
+        <img class="hsk-shot" src="/static/img/hsk/shot-08.png" alt="HSK app screenshot 8">
+      </div>
+      <div class="hsk-slide">
+        <img class="hsk-shot" src="/static/img/hsk/shot-09.png" alt="HSK app screenshot 9">
+      </div>
+      <div class="hsk-slide">
+        <img class="hsk-shot" src="/static/img/hsk/shot-10.png" alt="HSK app screenshot 10">
+      </div>
+    </div>
+  </div>
+
+  <button class="hsk-car-btn" data-dir="1" aria-label="Next">›</button>
+
+  <!-- dots go UNDER the viewport -->
+  <div class="hsk-dots" id="hskDots" aria-label="Carousel pagination"></div>
+</section>
+
+<section class="hsk-section" id="info">
+
+
+  <div class="hsk-acc" data-acc>
+    <button class="hsk-acc-btn" type="button" data-acc-btn>
+      How it started
+      <span class="hsk-acc-icon" aria-hidden="true">+</span>
+    </button>
+<div class="hsk-acc-panel" data-acc-panel>
+
+    <h3 class="hsk-subhead">The Problem</h3>
+  <p class="hsk-text">
+    I didn’t grow up being very good at learning languages. In fact, in first grade,
+    I ended up failing Chinese school twice. And for a long time after that, every attempt to learn a language
+    felt like a repeated cycle of effort without traction: memorize a
+    little, forget a lot, and never feel fluent enough to actually connect.
+    What made it frustrating wasn’t a lack of resources.
+    There were plenty of apps, decks, videos, and textbooks.
+    The problem was that they were scattered, inconsistent, and often built
+    around studying instead of actually using the language. That made steady progress hard to sustain, especially when time was short and energy was low.
+    I’d lose momentum not because I lacked discipline, but because the workflow
+    itself had too many friction points.
+  </p>
+
+    <h3 class="hsk-subhead">The System</h3>
+  <p class="hsk-text">
+    While I eventually sidelined language learning because of those friction
+    points, I never stopped trying to understand why they existed and how to
+    remove them. That process eventually became the Wang Method of Learning.
+    Over the course of more than a decade, across demanding academic and
+    professional environments, I refined a system designed to succeed under
+    constraint in both time and energy, not abundance.
+    By systematically identifying and removing friction that had nothing to
+    do with the work itself, the method helps people learn, understand, and
+    apply large amounts of information in significantly less time.
+    It wasn’t developed in ideal conditions; it was stress-tested when time
+    was limited, energy was low, and competing priorities were unavoidable.
+    That’s where most systems fail and where mine thrives.
+  </p>
+
+   <h3 class="hsk-subhead">Why Chinese</h3>
+  <p class="hsk-text">
+    Chinese became an obvious and personal place to apply it.
+    I learned that language isn’t just information; it’s access.
+    It’s the ability to meet people where they are, understand them with
+    precision, and communicate with warmth and respect.
+    I wanted that for myself, especially in an area tied to my roots that I
+    never fully had the tools to explore.
+    And I wanted a way for others to get there without the usual chaos:
+    ten tools, a hundred tabs, and constant uncertainty about what actually
+    matters next.
+  </p>
+
+  <h3 class="hsk-subhead">What This Means For You</h3>
+  <p class="hsk-text">
+    So I built what I wished I’d had from the start:
+    a single, integrated framework that makes Chinese feel stable.
+    Vocabulary organized into structured blocks.
+    Practice designed around real usage, not isolated recognition.
+    Sentences that build automaticity.
+    And small decisions, what to review, what to repeat, what to skip, etc., handled
+    by the system so your attention can stay on learning.
+    The HSK 1-6 Companion App is the result of applying a decade-refined method
+    to language learning under real-world constraints.
+    It’s not a language app.
+    It’s a reliable learning system built to help you move from effort to
+    fluency without losing yourself along the way.
+  </p>
+</div>
+
+
+    <button class="hsk-acc-btn" type="button" data-acc-btn>
+      How This Is Different
+      <span class="hsk-acc-icon" aria-hidden="true">+</span>
+    </button>
+    <div class="hsk-acc-panel" data-acc-panel>
+
+  <h3 class="hsk-subhead">Designed For Constraint</h3>
+  <p class="hsk-text">
+    Most language apps assume you have abundant time, high energy, and perfect consistency.
+    This system is built for the opposite: busy schedules, low-energy days, and real life.
+    The goal isn’t to “feel productive", it's to make progress inevitable.
+  </p>
+
+  <h3 class="hsk-subhead">Structured Blocks, Not Scattered Lists</h3>
+  <p class="hsk-text">
+    Instead of endless decks and disconnected word banks, content is organized into structured blocks
+    with a clear path forward. You always know what you’re working on, what’s next,
+    and what “done” looks like without hunting across multiple resources.
+  </p>
+
+  <h3 class="hsk-subhead">Real Acceptance Logic</h3>
+  <p class="hsk-text">
+    This app recognizes correct variation, alternate phrasing, spacing, punctuation, and common natural answers
+    so you don’t get punished for being right in a different way, especially in later blocks.
+  </p>
+
+  <h3 class="hsk-subhead">Application First Practice</h3>
+  <p class="hsk-text">
+    Sentences are the backbone of the system, so words are applied in context as early as possible.
+  </p>
+
+  <h3 class="hsk-subhead">A Smooth Review Loop</h3>
+  <p class="hsk-text">
+    Review is built to be simple and predictable:
+    redo omitted, redo incorrect, revisit intelligently.
+    The system handles the small decisions so your attention stays on learning.
+    Less friction, less mental bookkeeping, and a workflow that feels steady instead of exhausting.
+  </p>
+
+</div>
+
+    <button class="hsk-acc-btn" type="button" data-acc-btn>
+      How This Fits Your Learning
+      <span class="hsk-acc-icon" aria-hidden="true">+</span>
+    </button>
+   <div class="hsk-acc-panel" data-acc-panel>
+
+  <h3 class="hsk-subhead">What This Is</h3>
+  <p class="hsk-text">
+    This app is for learners who care about understanding, not just checking boxes.
+    If you want a system that helps you actually use Chinese, to read, listen, think,
+    and communicate, this was built with you in mind.
+    It’s especially suited for people with busy schedules, multiple commitments,
+    or limited daily energy, who still want steady, meaningful progress without burnout.
+  </p>
+
+  <h3 class="hsk-subhead">How This Fits Into Your Learning Path</h3>
+  <p class="hsk-text">
+    This app is designed to work alongside many different learning contexts.
+    It can be used as a companion for students currently taking classes,
+    helping organize, reinforce, and stabilize what’s being taught elsewhere.
+  </p>
+  <p class="hsk-text">
+    It can also augment immersive experiences like travel, conversation partners,
+    or daily exposure, by giving structure to what you’re encountering in real time.
+  </p>
+  <p class="hsk-text">
+    For others, it serves as a foundation: a way to train what’s already written,
+    spoken, and standardized so that new material is easier to absorb later.
+ </p>
+  <p class="hsk-text">
+    And for learners who don’t have access to expensive classes, tutors,
+    or immersive environments, this system provides a structured, self-directed path forward.
+  </p>
+
+  <h3 class="hsk-subhead">About Writing And Handwriting</h3>
+  <p class="hsk-text">
+    This app is intentionally typing-based. That choice is deliberate.
+    Handwriting and calligraphy are valuable skills, but they’re different skills from comprehension,
+    recognition, and functional use. This system is optimized for understanding, recall,
+    and application, the foundations that make writing meaningful instead of mechanical.
+  </p>
+  <p class="hsk-text">
+    If handwriting is important to you, this app pairs well with dedicated writing practice.
+    Many learners find that once comprehension is stable and vocabulary is automatic,
+    writing improves faster and with far less friction.
+  </p>
+
+  <h3 class="hsk-subhead">What This Is Not</h3>
+  <p class="hsk-text">
+    This is not a handwriting-first or calligraphy training tool.
+    If your primary goal is stroke-order mastery or traditional calligraphy,
+    this won’t replace dedicated writing practice.
+    It’s also not designed for learners who want random drills, heavy gamification,
+    or endless novelty without structure.
+  </p>
+
+  <h3 class="hsk-subhead">What To Expect If You Use It</h3>
+  <p class="hsk-text">
+    You should expect a calm, predictable learning experience.
+    Progress that feels stable instead of frantic.
+    Clear structure, fewer decisions, and a system that meets you where you are and helps you move forward without unnecessary friction.
+  </p>
+
+</div>
+
+
+    <button class="hsk-acc-btn" type="button" data-acc-btn>
+      Features
+      <span class="hsk-acc-icon" aria-hidden="true">+</span>
+    </button>
+ <div class="hsk-acc-panel" data-acc-panel>
+
+  <h3 class="hsk-subhead">HSK Alignment & Character Set</h3>
+  <p class="hsk-text">
+    The app is built around Simplified Chinese, aligning directly with HSK requirements.
+    Vocabulary follows the new HSK 3.0 framework, with words organized by their official bands
+    so learners always know where they stand.
+  </p>
+
+    <h3 class="hsk-subhead">Progress Tracking & Weekly Structure</h3>
+<p class="hsk-text">
+  Progress is structured around weekly plans designed to define the minimum effective work
+  needed to move forward. Each week outlines exactly what to train, removing guesswork
+  while keeping expectations realistic.
+</p>
+<p class="hsk-text">
+  Learners can move faster, slower, or jump ahead as needed, but the baseline structure
+  ensures progress remains steady even during busy or low-energy periods.
+  The system tracks completion through structured blocks rather than abstract streaks
+  or gamified metrics.
+</p>
+
+  <h3 class="hsk-subhead">Structured Word Blocks</h3>
+  <p class="hsk-text">
+    Vocabulary is organized into 100-word blocks sorted by HSK 3.0 level.
+    This creates clear, finite units of progress and removes the ambiguity of endless word lists.
+  </p>
+
+  <h3 class="hsk-subhead">Offline Support & Data Syncing</h3>
+  <p class="hsk-text">
+    The app works fully offline for normal use.
+    An internet connection is only required after extended periods away from the app
+    for subscription validation and updates.
+    Learning content is delivered in small, secure packages to support offline access
+    while protecting the integrity of the system’s data.
+  </p>
+
+  <h3 class="hsk-subhead">Platform Support</h3>
+  <p class="hsk-text">
+    The HSK 1-6 Companion App is available on iOS and Android,
+    designed for consistent performance and long-term use across both platforms.
+  </p>
+
+  <h3 class="hsk-subhead">Adapted Memory Techniques</h3>
+  <p class="hsk-text">
+    The app incorporates a structured memory approach inspired by techniques developed
+    by six-time USA Memory Champion Nelson Dellis, adapted specifically for language learning
+    to improve retention, recall, and long-term stability.
+  </p>
+
+  <h3 class="hsk-subhead">Practice Designed For Real-World Skills</h3>
+  <p class="hsk-text">
+    Each question type targets a specific friction point in language learning:
+    sentence construction under pressure, active pronunciation,
+    real-time listening comprehension, writing and character encoding,
+    and increasing fluency across all of these skills.
+    The goal is not to replicate the exam, but to make exam questions feel trivial by comparison.
+  </p>
+
+  <h3 class="hsk-subhead">Audio & Pronunciation Training</h3>
+  <p class="hsk-text">
+    Listening practice, pronunciation training, and audio support are built in,
+    using recorded speech and text-to-speech to train both recognition and production.
+  </p>
+
+  <h3 class="hsk-subhead">Study Plans Built For Sustainability</h3>
+  <p class="hsk-text">
+    Study plans are designed to build stamina, reduce burnout,
+    and deliver maximum results with minimum effective time investment.
+  </p>
+
+  <h3 class="hsk-subhead">HSK Exam Breakdowns & Integration</h3>
+  <p class="hsk-text">
+    Each level includes a clear breakdown of exam structure,
+    guidance on external resources, and instructions on how to integrate
+    exam preparation with daily training inside the app.
+  </p>
+
+  <h3 class="hsk-subhead">Specialized Word Lists & Dictionary</h3>
+  <p class="hsk-text">
+    Curated word lists for topics like food, sports, surnames, and many more are included
+    alongside a built-in dictionary that shows block placement and usage context.
+  </p>
+
+  <h3 class="hsk-subhead">Practice Sentence Generation</h3>
+  <p class="hsk-text">
+    A dedicated practice sentence system allows learners to generate
+    and train sentences dynamically, reinforcing grammar and comprehension.
+  </p>
+
+  <h3 class="hsk-subhead">Visual Comfort Modes</h3>
+  <p class="hsk-text">
+    Two visual themes are available: Volcanic Ash for low-light environments
+    and Bamboo Paper for a brighter, reading-focused experience.
+  </p>
+
+  <h3 class="hsk-subhead">Data & Account Approach</h3>
+<p class="hsk-text">
+  This app does not require a separate user account.
+  Subscriptions are handled through the App Store or Google Play.
+  Learning progress is stored locally on your device, and the system is designed
+  to function without collecting or selling personal study data.
+</p>
+<p class="hsk-text">
+  Internet access is only used when needed for subscription validation
+  or periodic updates, allowing the app to remain usable offline
+  while keeping user data private and lightweight.
+</p>
+
+
+</div>
+
+
+    <button class="hsk-acc-btn" type="button" data-acc-btn>
+      Development Log
+      <span class="hsk-acc-icon" aria-hidden="true">+</span>
+    </button>
+<div class="hsk-acc-panel" data-acc-panel>
+
+  <p class="hsk-text">
+    Initial public beta release planned for mid-March, with coverage through HSK 4.
+  </p>
+
+</div>
+
+
+    <button class="hsk-acc-btn" type="button" data-acc-btn>
+      Beta &amp; Pricing
+      <span class="hsk-acc-icon" aria-hidden="true">+</span>
+    </button>
+<div class="hsk-acc-panel" data-acc-panel>
+
+  <h3 class="hsk-subhead">Beta Status</h3>
+  <p class="hsk-text">
+    The HSK 1-6 Companion App is currently in active beta.
+    This period is focused on refinement, stability, and continued feature development
+    while the full system is stress-tested in real-world use.
+  </p>
+
+  <h3 class="hsk-subhead">Current Beta Pricing</h3>
+  <p class="hsk-text">
+    During beta, access is available for $20 per month.
+    This pricing reflects early access to the system while development continues
+    toward full HSK 6 completion.
+  </p>
+
+  <h3 class="hsk-subhead">Future Pricing</h3>
+  <p class="hsk-text">
+    After the system is complete and HSK 6 has been fully validated in practice
+    (anticipated around August), the subscription price will transition to $45 per month.
+    This change reflects the expanded feature set, long-term maintenance,
+    and continued development, not simply the addition of more vocabulary levels.
+  </p>
+
+  <h3 class="hsk-subhead">Early User Thank You</h3>
+  <p class="hsk-text">
+    As a thank you to early users, anyone subscribed during the beta period
+    will retain the $20/month rate for an additional six months after the price increase.
+    After that period, beta users will be grandfathered into the standard pricing structure.
+  </p>
+
+</div>
+
+
+    <button class="hsk-acc-btn" type="button" data-acc-btn>
+      Terms Of Use
+      <span class="hsk-acc-icon" aria-hidden="true">+</span>
+    </button>
+<div class="hsk-acc-panel" data-acc-panel>
+
+  <h3 class="hsk-subhead">General Use</h3>
+  <p class="hsk-text">
+    The HSK 1-6 Companion App is provided as an educational tool designed to support
+    language learning. By using the app, you agree to use it for personal,
+    non-commercial purposes and to engage with the content responsibly.
+  </p>
+
+  <h3 class="hsk-subhead">Beta Status</h3>
+  <p class="hsk-text">
+    This app is currently in beta. Features, content, and behavior may change
+    as the system continues to be refined. While reasonable efforts are made
+    to ensure stability and accuracy, the app is provided “as is” during this phase.
+  </p>
+
+  <h3 class="hsk-subhead">Educational Disclaimer</h3>
+  <p class="hsk-text">
+    The app is designed to support learning but does not guarantee exam outcomes,
+    fluency, or specific results. Progress depends on individual effort,
+    consistency, and prior experience.
+  </p>
+
+  <h3 class="hsk-subhead">Accounts & Subscriptions</h3>
+  <p class="hsk-text">
+    Subscriptions are managed through the App Store or Google Play.
+    The app does not require a separate user account, and access is governed
+    by the terms of the platform through which the subscription is purchased.
+  </p>
+
+  <h3 class="hsk-subhead">Intellectual Property</h3>
+  <p class="hsk-text">
+    All app content, structure, and system design are the property of the creator
+    and may not be copied, redistributed, or used to create derivative products
+    without permission.
+  </p>
+
+  <h3 class="hsk-subhead">Changes To The Terms</h3>
+  <p class="hsk-text">
+    These terms may be updated as the app evolves. Continued use of the app
+    after updates indicates acceptance of the revised terms.
+  </p>
+
+</div>
+
+
+    <button class="hsk-acc-btn" type="button" data-acc-btn>
+      Privacy Policy
+      <span class="hsk-acc-icon" aria-hidden="true">+</span>
+    </button>
+<div class="hsk-acc-panel" data-acc-panel>
+
+  <h3 class="hsk-subhead">Data Collection</h3>
+  <p class="hsk-text">
+    The HSK 1-6 Companion App is designed to function without collecting personal study data.
+    The app does not track, sell, or analyze individual learning behavior
+    for advertising or third-party purposes.
+  </p>
+
+  <h3 class="hsk-subhead">Local Storage</h3>
+  <p class="hsk-text">
+    Learning progress and usage data are stored locally on your device.
+    This information is used only to support the app’s functionality
+    and is not transmitted to external servers for profiling or analytics.
+  </p>
+
+  <h3 class="hsk-subhead">Accounts & Subscriptions</h3>
+  <p class="hsk-text">
+    The app does not require a separate user account.
+    Subscription management and payment processing are handled
+    through the App Store or Google Play, in accordance with their respective privacy policies.
+  </p>
+
+  <h3 class="hsk-subhead">Internet Usage</h3>
+  <p class="hsk-text">
+    Internet access is used only when necessary for subscription validation,
+    updates, or content delivery. The app is designed to remain usable offline
+    during normal use.
+  </p>
+
+  <h3 class="hsk-subhead">Policy Updates</h3>
+  <p class="hsk-text">
+    This privacy policy may be updated as the app evolves.
+    Continued use of the app indicates acceptance of the updated policy.
+  </p>
+
+</div>
+
+  </div>
+
+  <p class="hsk-close">
+    All the information in the world, sorted, structured, and compressed into one place.
+  </p>
+</section>
+
+  </div>
+<script>
+  (function(){
+    // ===== Carousel (works with any number of slides) + dots =====
+    const track = document.getElementById('hskTrack');
+    const slides = track ? Array.from(track.querySelectorAll('.hsk-slide')) : [];
+    const dotsEl = document.getElementById('hskDots');
+    const btnPrev = document.querySelector('.hsk-car-btn[data-dir="-1"]');
+    const btnNext = document.querySelector('.hsk-car-btn[data-dir="1"]');
+
+    let i = 0;
+
+    function renderDots(){
+      if (!dotsEl) return;
+      dotsEl.innerHTML = '';
+
+      slides.forEach((_, idx) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'hsk-dot' + (idx === i ? ' is-active' : '');
+        dot.setAttribute('aria-label', `Go to slide ${idx + 1} of ${slides.length}`);
+        dot.addEventListener('click', () => goTo(idx));
+        dotsEl.appendChild(dot);
+      });
+    }
+
+    function goTo(nextIndex){
+      if (!track || slides.length === 0) return;
+      i = (nextIndex + slides.length) % slides.length;
+      track.style.transform = `translateX(${-i * 100}%)`;
+      renderDots();
+    }
+
+    if (btnPrev) btnPrev.addEventListener('click', () => goTo(i - 1));
+    if (btnNext) btnNext.addEventListener('click', () => goTo(i + 1));
+
+    // init
+    goTo(0);
+
+
+    // ===== Accordion (single-open, click to toggle) =====
+    const acc = document.querySelector('[data-acc]');
+    if (acc){
+      const btns = Array.from(acc.querySelectorAll('[data-acc-btn]'));
+      const panels = Array.from(acc.querySelectorAll('[data-acc-panel]'));
+
+      function closeAll(){
+        btns.forEach(b => b.setAttribute('aria-expanded', 'false'));
+        panels.forEach(p => p.style.maxHeight = '0px');
+      }
+
+      closeAll();
+
+      btns.forEach((btn, idx) => {
+        btn.setAttribute('aria-expanded', 'false');
+        btn.addEventListener('click', () => {
+          const panel = panels[idx];
+          const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+          closeAll();
+
+          if (!isOpen){
+            btn.setAttribute('aria-expanded', 'true');
+           const cap = 420; // <- adjust: 340, 380, 420 depending on how tall you want it
+const full = panel.scrollHeight;
+
+panel.style.maxHeight = Math.min(full, cap) + 'px';
+panel.style.overflowY = (full > cap) ? 'auto' : 'hidden';
+
+          }
+        });
+      });
+    }
+  })();
+</script>
+
+</section>
+{% endblock %}

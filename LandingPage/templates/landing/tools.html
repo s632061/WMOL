@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% block title %}Explore Tools{% endblock %}
+
+{% block content %}
+<section class="tools-layout">
+
+
+
+
+  <!-- Left rail (Medicine-style banner) -->
+  <aside class="rail-tools">
+  <div class="rail-inner">
+    <h1 class="wml-title">Wang Method of<br>Learning</h1>
+
+    <div class="rail-image-wrap">
+      <img src="/static/img/gadgets.png" alt="Tools icon">
+    </div>
+
+    <nav class="wml-cta">
+      <span class="wml-link rail-bottom-label">Ways We Connect</span>
+      <span class="rail-select-underline" aria-hidden="true"></span>
+    </nav>
+  </div>
+</aside>
+
+  <!-- Right content -->
+  <main class="tools-hub">
+<div class="back-row tools-back">
+  <a class="btn-back" href="/domains/">← Back</a>
+</div>
+
+    <header class="tools-hub-hero">
+      <h1 class="tools-hub-title">Select Your System</h1>
+
+      <p class="tools-hub-subtitle">Curated tools designed for steady, compounding progress.</p>
+
+    </header>
+
+    <div class="tools-grid">
+      <a class="tool-icon-card" href="/tools/hsk/" data-hub-theme="hsk">
+
+        <div class="tool-icon-imgwrap">
+          <img src="/static/img/hsk-app-icon.png" alt="HSK App icon">
+        </div>
+        <div class="tool-icon-name">HSK 1-6 App</div>
+        <div class="tool-icon-desc">Streamline study, Strengthen retention, Cultivate confidence</div>
+      </a>
+
+      <div class="tool-icon-card tool-icon-disabled">
+        <div class="tool-icon-imgwrap"></div>
+        <div class="tool-icon-name">Coming soon</div>
+        <div class="tool-icon-desc">More WMOL tools in the pipeline.</div>
+      </div>
+    </div>
+  </main>
+
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const hub = document.querySelector(".tools-hub");
+  const layout = document.querySelector(".tools-layout");
+  if (!hub || !layout) return;
+
+  const themedCards = document.querySelectorAll(".tool-icon-card[data-hub-theme]");
+
+  const applyTheme = (theme) => {
+    hub.setAttribute("data-hub-theme", theme);
+    layout.setAttribute("data-hub-theme", theme); // <- makes the whole stage change
+  };
+
+  const clearTheme = () => {
+    hub.removeAttribute("data-hub-theme");
+    layout.removeAttribute("data-hub-theme");
+  };
+
+  themedCards.forEach(card => {
+    const theme = card.getAttribute("data-hub-theme");
+    if (!theme) return;
+
+    card.addEventListener("mouseenter", () => applyTheme(theme));
+    card.addEventListener("mouseleave", clearTheme);
+
+    // keyboard accessibility
+    card.addEventListener("focus", () => applyTheme(theme));
+    card.addEventListener("blur", clearTheme);
+  });
+});
+</script>
+
+<script>
+(() => {
+  const back = document.querySelector('.tools-back .btn-back');
+  if (!back) return;
+
+  back.addEventListener('click', (e) => {
+    e.preventDefault();
+    sessionStorage.setItem('closingToHomeTools', '1');
+
+    const go = () => { window.location.href = back.href; };
+
+    if (document.startViewTransition) {
+      document.startViewTransition(go);
+    } else {
+      go();
+    }
+  });
+})();
+</script>
+
+<script>
+  // =========================================================
+  // TOOLS: lock left-rail proportion after a breakpoint
+  // =========================================================
+  (() => {
+    const layout = document.querySelector(".tools-layout");
+    if (!layout) return;
+
+    const REF_VIEWPORT_W = 1200;
+    const REF_RAIL_W = 250;
+
+    const RATIO = REF_RAIL_W / REF_VIEWPORT_W;
+    const MIN_RAIL = 300;
+    const MAX_RAIL = 520;
+
+    function apply() {
+      const vw = window.innerWidth;
+
+      if (vw <= REF_VIEWPORT_W) {
+        layout.style.removeProperty("--tools-rail-w");
+        return;
+      }
+
+      const rail = Math.round(
+        Math.min(MAX_RAIL, Math.max(MIN_RAIL, vw * RATIO))
+      );
+
+      layout.style.setProperty("--tools-rail-w", `${rail}px`);
+    }
+
+    let raf = null;
+    function onResize() {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(apply);
+    }
+
+    apply();
+    window.addEventListener("resize", onResize, { passive: true });
+  })();
+</script>
+
+
+{% endblock %}
+

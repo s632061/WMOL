@@ -1,25 +1,15 @@
-from django.shortcuts import render
-import stripe
-from django.conf import settings
-from django.core.mail import send_mail
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-
-from django.shortcuts import render
-
-
-
-# Create your views here.
-# LandingPage/views.py
-from django.shortcuts import render
 import os
 import stripe
 
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
+from django.conf import settings
+from django.core.mail import send_mail
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
+
 
 PRICE_STANDARD = os.environ.get("STRIPE_PRICE_STANDARD", "")
 PRICE_EXTENDED = os.environ.get("STRIPE_PRICE_EXTENDED", "")
@@ -72,6 +62,13 @@ def domains(request):
 
 def lifestyle(request):
     return render(request, "landing/lifestyle.html")
+
+def tools_hub(request):
+    return render(request, "landing/tools.html")
+
+def hsk_page(request):
+    return render(request, "landing/hsk.html")
+
 
 
 

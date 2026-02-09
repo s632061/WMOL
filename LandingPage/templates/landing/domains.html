@@ -8,14 +8,20 @@
   (function () {
     if (sessionStorage.getItem('closingToHome') === '1') {
       document.documentElement.classList.add('returning-from-med');
+    } else if (sessionStorage.getItem('closingToHomeTools') === '1') {
+      document.documentElement.classList.add('returning-from-tools');
     } else {
       document.documentElement.classList.add('home-intro');
     }
   })();
 </script>
 
+
 <div class="home-viewport">
-<p class="domains-prompt">Choose a domain to see how the Wang Method of Learning adapts</p>
+  <p class="domains-prompt domains-thesis">
+    A Single Learning System Expressed Across Domains.
+  </p>
+
 
     <!-- Mobile-only carousel UI -->
 <div class="domains-carousel-ui" aria-label="Domain carousel controls">
@@ -30,59 +36,103 @@
   <!-- Q1 — Medicine -->
   <aside class="wml-rail rail-medicine rail-clickable" data-href="/medicine/">
     <div class="rail-inner">
-      <h1 class="wml-title">Wang Method of<br>Learning</h1>
+      <h1 class="wml-title">
+  Wang Method of<br>Learning
+  <span class="wml-subtitle">Curriculum &amp; Systems Unification</span>
+</h1>
+
 
       <div class="rail-image-wrap">
         <img src="/static/img/coat-circle.png" alt="Wang Method of Learning logo">
       </div>
 
       <nav class="wml-cta">
-        <a id="go-medicine" class="wml-link" href="/medicine/">Explore Medicine</a>
+        <a id="go-medicine" class="wml-link" href="/medicine/">Explore Seamless Learning</a>
       </nav>
     </div>
   </aside>
 
-  <!-- Q2 — Technology -->
+  <!-- Q2 — Leverage -->
   <aside class="wml-rail rail-technology rail-disabled">
-    <h1 class="wml-title-tech">Wang Method of<br>Learning</h1>
-    <nav class="wml-cta-tech">
-      <a class="wml-link-tech" href="/technology/">Explore Technology</a>
-    </nav>
+    <div class="rail-inner">
+     <h1 class="wml-title-tech">
+  Wang Method of<br>Learning
+  <span class="wml-subtitle">Tools for Building Leverage</span>
+</h1>
+
+
+      <nav class="wml-cta-tech">
+        <a id="go-tech" class="wml-link-tech" href="/technology/">Coming Soon</a>
+      </nav>
+    </div>
   </aside>
 
-  <!-- Q3 — Gadgets -->
-  <aside class="wml-rail rail-gadgets rail-disabled">
+
+
+<!-- Q3 — Gadgets / Tools -->
+<aside class="wml-rail rail-gadgets rail-clickable" data-href="/tools/">
+  <div class="rail-inner">
+<h1 class="wml-title">
+  Wang Method of<br>Learning
+  <span class="wml-subtitle">Accelerated Learning Across Domains</span>
+</h1>
+
+
     <nav class="wml-cta-gadgets">
-      <a class="wml-link-gadgets" href="/gadgets/">Explore Tools</a>
+      <a id="go-tools" class="wml-link-gadgets" href="/tools/">Explore Ways We Connect</a>
     </nav>
-
-  </aside>
-
-
+  </div>
+</aside>
 
 
-  <!-- Q4 — Lifestyle -->
+  <!-- Q4 — Durable Performance -->
   <aside class="wml-rail rail-lifestyle rail-disabled">
-    <nav class="wml-cta-lifestyle">
-      <a class="wml-link-lifestyle" href="/lifestyle/">Explore Lifestyle</a>
-    </nav>
+    <div class="rail-inner">
+<h1 class="wml-title">
+  Wang Method of<br>Learning
+  <span class="wml-subtitle">Long-Term Human Performance</span>
+</h1>
+
+
+      <div class="rail-image-wrap rail-image-wrap-performance">
+        <!-- IMPORTANT: set this to your actual wreath-circle filename -->
+        <img src="/static/img/lifestyle.png" alt="Olive wreath on stone">
+      </div>
+
+      <nav class="wml-cta-lifestyle">
+        <a class="wml-link-lifestyle" href="/lifestyle/">Coming Soon</a>
+      </nav>
+    </div>
   </aside>
+
 
 </section>
 </div>
 
 <script>
 (() => {
-  function resetHomeState() {
-    // If we're returning from medicine, don't clear state first (prevents the “drop” flash)
-    if (sessionStorage.getItem('closingToHome') === '1') return;
+function resetHomeState() {
+  // If we're returning from medicine/tools, don't clear state first (prevents flashes)
+  if (sessionStorage.getItem('closingToHome') === '1' || sessionStorage.getItem('closingToHomeTools') === '1') return;
 
-    const home = document.querySelector('.wml-home');
-    if (!home) return;
+  const home = document.querySelector('.wml-home');
+  if (!home) return;
 
-    home.classList.remove('leaving-med', 'from-med', 'enter-from-med');
-    document.body.style.pointerEvents = '';
-  }
+  home.classList.remove(
+    'leaving-med',
+    'leaving-tools',
+    'from-med',
+    'enter-from-med',
+    'from-tools',
+    'enter-from-tools'
+  );
+
+  // IMPORTANT: restore the thesis line if we came back via bfcache
+  document.documentElement.classList.remove('leaving-tools-ui');
+
+  document.body.style.pointerEvents = '';
+}
+
 
 function wireHomeNav() {
   const home = document.querySelector('.wml-home');
@@ -131,6 +181,82 @@ function wireHomeNav() {
   });
 }
 
+
+function wireToolsNav() {
+  const home = document.querySelector(".wml-home");
+  const trigger = document.getElementById("go-tools");
+  const rail = document.querySelector(".wml-home .rail-gadgets");
+  if (!home || !trigger || !rail) return;
+
+  function startToolsTransition() {
+  document.body.style.pointerEvents = "none";
+  const go = () => { window.location.href = trigger.href; };
+
+  // ✅ MOBILE (carousel): skip the desktop "leaving-tools" morph
+  // This prevents the background/rail animation weirdness on small screens.
+  if (window.matchMedia("(max-width: 900px)").matches) {
+    if (document.startViewTransition) document.startViewTransition(go);
+    else go();
+    return;
+  }
+
+  // Desktop / large screens: keep your existing morph animation
+  home.classList.add("leaving-tools");
+  document.documentElement.classList.add("leaving-tools-ui");
+
+  const toolsRail = document.querySelector(".wml-home .rail-gadgets");
+  let didGo = false;
+
+  const fallbackTotal = 1400; // > animation duration
+  const fallbackTimer = window.setTimeout(() => {
+    if (didGo) return;
+    didGo = true;
+    if (document.startViewTransition) document.startViewTransition(go);
+    else go();
+  }, fallbackTotal);
+
+  function goNow() {
+    if (didGo) return;
+    didGo = true;
+    window.clearTimeout(fallbackTimer);
+    if (document.startViewTransition) document.startViewTransition(go);
+    else go();
+  }
+
+  if (toolsRail) {
+    const onAnimEnd = (ev) => {
+      if (ev.animationName !== "tools-dock-morph") return;
+      toolsRail.removeEventListener("animationend", onAnimEnd);
+      goNow();
+    };
+    toolsRail.addEventListener("animationend", onAnimEnd, { once: true });
+  } else {
+    goNow();
+  }
+}
+
+
+  trigger.addEventListener("click", (e) => {
+    e.preventDefault();
+    startToolsTransition();
+  });
+
+  rail.addEventListener("click", (e) => {
+    if (e.target.closest("a")) return;
+    e.preventDefault();
+    startToolsTransition();
+  });
+
+  rail.setAttribute("role", "link");
+  rail.setAttribute("tabindex", "0");
+  rail.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      startToolsTransition();
+    }
+  });
+}
+
   
   function playReturnFromMedicineIfNeeded() {
     const home = document.querySelector('.wml-home');
@@ -142,7 +268,7 @@ function wireHomeNav() {
       // Keep the freeze class ON during the morph
       home.classList.add('from-med', 'enter-from-med');
 
-      const MORPH_MS = 520;
+      const MORPH_MS = 700;
 
       // After morph: bring Q2–Q4 back
       window.setTimeout(() => {
@@ -150,6 +276,53 @@ function wireHomeNav() {
       }, MORPH_MS);
     }
   }
+function playReturnFromToolsIfNeeded() {
+  const home = document.querySelector('.wml-home');
+  if (!home) return;
+
+  if (sessionStorage.getItem('closingToHomeTools') === '1') {
+    // ✅ MOBILE: do NOT run the desktop return morph (prevents visible rail movement)
+if (window.matchMedia('(max-width: 900px)').matches) {
+  sessionStorage.removeItem('closingToHomeTools');
+
+  // Clean state (bfcache safety)
+  home.classList.remove('from-tools', 'enter-from-tools', 'leaving-tools');
+  document.documentElement.classList.remove('leaving-tools-ui');
+  document.body.style.pointerEvents = '';
+
+  // Hide-before-paint is handled by CSS; we just "unlock" when ready.
+  const viewport = document.querySelector('.home-viewport');
+  const scroller = document.querySelector('.home-viewport .wml-home');
+  const toolsRail = document.querySelector('.home-viewport .wml-home .rail-gadgets');
+
+  if (viewport) viewport.classList.remove('home-ready'); // ensure hidden state applies
+  if (scroller && toolsRail) {
+    // Hard snap: no scrollIntoView, no smooth, no visible spin
+    const prevBehavior = scroller.style.scrollBehavior;
+    scroller.style.scrollBehavior = 'auto';
+    scroller.scrollLeft = toolsRail.offsetLeft;
+    scroller.style.scrollBehavior = prevBehavior || '';
+  }
+
+  // Reveal immediately after we snap
+  if (viewport) viewport.classList.add('home-ready');
+
+  return;
+}
+
+
+    // Desktop / large screens: keep your existing return morph
+    sessionStorage.removeItem('closingToHomeTools');
+
+    home.classList.add('from-tools', 'enter-from-tools');
+
+    const MORPH_MS = 700;
+
+    window.setTimeout(() => {
+      home.classList.remove('enter-from-tools');
+    }, MORPH_MS);
+  }
+}
 
   // ===== Scrollbars-on-shrink canvas scaling (no distortion) =====
   const baseW = 1440;
@@ -337,7 +510,9 @@ function fitHomeInnerScale() {
   document.addEventListener('DOMContentLoaded', () => {
     resetHomeState();
     wireHomeNav();
+    wireToolsNav();
     playReturnFromMedicineIfNeeded();
+    playReturnFromToolsIfNeeded();
     fitHomeInnerScale();
     initMobileDomainsCarousel();
   });
