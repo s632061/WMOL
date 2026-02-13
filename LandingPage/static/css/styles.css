@@ -5972,6 +5972,116 @@ color: rgba(24,24,24,0.94);
   transition: opacity 160ms ease;
 }
 
+/* =========================================
+   HSK — bullet lists match .hsk-text
+   ========================================= */
+.hsk-acc-panel .hsk-list{
+  max-width: 78ch;
+  margin: 0 auto 14px auto;
+
+  padding-left: 22px;
+
+  font-family: var(--body-font);
+  font-size: clamp(16px, 1.05vw, 18px);
+  line-height: 1.78;
+
+  color: rgba(255,255,255,0.88);
+}
+
+.hsk-acc-panel .hsk-list li{
+  margin: 0 0 10px 0;
+}
+
+/* Optional: make the bullet markers subtly gold */
+.hsk-acc-panel .hsk-list li::marker{
+  color: rgba(201,161,90,0.72);
+}
+
+/* =========================================
+   HSK — Bottom CTA: one-line row (text left, buttons right)
+   ========================================= */
+
+.hsk-cta{
+  /* row layout */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  /* keep within the same reading rail as the rest */
+  max-width: 1100px;
+  margin: 56px auto 40px;
+
+  text-align: left;
+}
+
+/* sentence */
+.hsk-cta-text{
+  font-family: var(--title-font);
+  font-size: clamp(18px, 1.25vw, 22px); /* smaller so it fits with buttons */
+  font-weight: 700;
+  color: rgba(255,255,255,0.92);
+  margin: 0;
+  line-height: 1.2;
+  white-space: nowrap; /* keep it one line on desktop */
+}
+
+/* buttons container (right side) */
+.hsk-cta-links{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* buttons */
+.hsk-cta-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px 18px;          /* smaller */
+  border-radius: 999px;
+  text-decoration: none;
+
+  font-family: var(--title-font);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+
+  background: linear-gradient(145deg, #caa45f, #a67c32);
+  color: #111;
+
+  transition: transform 0.18s ease, box-shadow 0.22s ease, filter 0.18s ease;
+}
+
+.hsk-cta-btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(202,164,95,0.28);
+}
+
+.hsk-cta-btn:active{
+  transform: translateY(0);
+}
+
+/* Mobile: allow wrap so it never overflows */
+@media (max-width: 720px){
+  .hsk-cta{
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hsk-cta-text{
+    white-space: normal;  /* allow wrap on small screens */
+  }
+}
+
+.hsk-cta-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(202,164,95,0.35);
+}
+
 /* NEW: instant fade when you click Tools */
 html.leaving-tools-ui .domains-thesis{
   opacity: 0;
