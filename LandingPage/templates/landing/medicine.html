@@ -69,7 +69,7 @@
        alt="WMOL pilot study design endpoints">
 
   <img data-index="2"
-       src="{% static 'img/schedule.png' %}"
+       src="{% static 'img/schedules.png' %}"
        alt="Structured study schedule">
 
   <img data-index="3"
@@ -1282,7 +1282,7 @@ document.addEventListener("keydown", (e) => {
    const imageSources = [
   "{% static 'img/wmol-framework.png' %}",
   "{% static 'img/irb-endpoints.png' %}",
-  "{% static 'img/schedule.png' %}",
+  "{% static 'img/schedules.png' %}",
   "{% static 'img/time-graph.png' %}",
   "{% static 'img/step1-pass.png' %}",
   "{% static 'img/wmol-book.png' %}",
@@ -1341,7 +1341,7 @@ function showImage(index) {
 
   // ✅ Schedule-only: tell CSS to use a larger lightbox size
   if (modal) {
-    modal.classList.toggle('is-schedule', src.includes('schedule.png'));
+    modal.classList.toggle('is-schedule', src.includes('schedules.png'));
 modal.classList.toggle('is-step1', src.includes('step1-pass.png'));
 
   }
@@ -1355,7 +1355,7 @@ function openModal() {
   const src = imageSources[currentIndex];
   if (modalImg) modalImg.src = src;
 
-  modal.classList.toggle('is-schedule', src.includes('schedule.png'));
+  modal.classList.toggle('is-schedule', src.includes('schedules.png'));
   modal.classList.toggle('is-step1', src.includes('step1-pass.png'));
 
   renderModalThumbs();
