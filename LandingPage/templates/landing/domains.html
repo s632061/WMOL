@@ -194,7 +194,7 @@ function wireToolsNav() {
 
   // ✅ MOBILE (carousel): skip the desktop "leaving-tools" morph
   // This prevents the background/rail animation weirdness on small screens.
-  if (window.matchMedia("(max-width: 900px)").matches) {
+  if (window.matchMedia("(max-width: 650px)").matches) {
     if (document.startViewTransition) document.startViewTransition(go);
     else go();
     return;
@@ -282,7 +282,7 @@ function playReturnFromToolsIfNeeded() {
 
   if (sessionStorage.getItem('closingToHomeTools') === '1') {
     // ✅ MOBILE: do NOT run the desktop return morph (prevents visible rail movement)
-if (window.matchMedia('(max-width: 900px)').matches) {
+if (window.matchMedia('(max-width: 650px)').matches) {
   sessionStorage.removeItem('closingToHomeTools');
 
   // Clean state (bfcache safety)
@@ -309,18 +309,24 @@ if (window.matchMedia('(max-width: 900px)').matches) {
 
   return;
 }
+// Desktop / large screens: keep your existing return morph
+sessionStorage.removeItem('closingToHomeTools');
 
+// ✅ IMPORTANT: unhide the home viewport (otherwise you get a black screen)
+const viewport = document.querySelector('.home-viewport');
+if (viewport) viewport.classList.add('home-ready');
 
-    // Desktop / large screens: keep your existing return morph
-    sessionStorage.removeItem('closingToHomeTools');
+// bfcache / UI safety
+document.documentElement.classList.remove('leaving-tools-ui');
+document.body.style.pointerEvents = '';
 
-    home.classList.add('from-tools', 'enter-from-tools');
+home.classList.add('from-tools', 'enter-from-tools');
 
-    const MORPH_MS = 700;
+const MORPH_MS = 700;
 
-    window.setTimeout(() => {
-      home.classList.remove('enter-from-tools');
-    }, MORPH_MS);
+window.setTimeout(() => {
+  home.classList.remove('enter-from-tools');
+}, MORPH_MS);
   }
 }
 
@@ -350,7 +356,7 @@ function fitHomeInnerScale() {
   const vh = window.innerHeight;
 
     // ===== MOBILE: let the carousel layout run (no scaling / no scroll-mode canvas) =====
-  if (window.matchMedia('(max-width: 900px)').matches) {
+  if (window.matchMedia('(max-width: 650px)').matches) {
     const viewport = document.querySelector('.home-viewport');
     const home = document.querySelector('.wml-home');
     if (!viewport || !home) return;
@@ -436,7 +442,7 @@ function fitHomeInnerScale() {
 }
 
    function initMobileDomainsCarousel() {
-  const mq = window.matchMedia('(max-width: 900px)');
+  const mq = window.matchMedia('(max-width: 650px)');
   const scroller = document.querySelector('.home-viewport .wml-home');
   const rails = Array.from(document.querySelectorAll('.home-viewport .wml-home .wml-rail'));
   const ui = document.querySelector('.domains-carousel-ui');
