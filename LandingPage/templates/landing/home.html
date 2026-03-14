@@ -2,25 +2,75 @@
 {% block title %}Wang Method of Learning{% endblock %}
 {% block content %}
 
-<section class="wmol-landing">
+<section class="wmol-landing" id="wmol-landing">
   <div class="wmol-landing-bg" aria-hidden="true"></div>
 
   <div class="wmol-landing-inner">
-    <h1 class="wmol-landing-title">Wang Method of Learning</h1>
+    <div class="wmol-view wmol-hero-view" id="wmolHeroView">
+      <h1 class="wmol-landing-title">Wang Method of Learning</h1>
 
-<h2 class="wmol-landing-subheader">
-  Systems for reliably building high-level competence in new domains
-</h2>
+      <h2 class="wmol-landing-subheader">
+        Systems for reliably building high-level competence across domains
+      </h2>
 
-<p class="wmol-landing-description">
-  Designed to help people rebuild mastery when environments, demands, or careers change
-</p>
+      <p class="wmol-landing-description">
+        Designed to help people rebuild mastery when environments, demands, or careers change
+      </p>
+    </div>
 
+<div class="wmol-view wmol-architecture-view" id="wmolArchitectureView" aria-hidden="true">
+  <h2 class="wmol-landing-subheader wmol-architecture-principles">
+    Structure Builds Momentum. Momentum Builds Structure. Performance Emerges from Stability in Unstable Environments.
+  </h2>
 
-    <a class="wmol-landing-cta" href="{% url 'landing:domains' %}">
-      Explore Systems
-    </a>
+  <p class="wmol-landing-description wmol-architecture-mini">
+    We believe competence is portable, mastery can be rebuilt, and learning should remove non-essential noise.
+  </p>
+</div>
+
+    <div class="wmol-landing-actions">
+      <a class="wmol-landing-cta wmol-landing-cta-primary" href="{% url 'landing:domains' %}">
+        Explore Systems
+      </a>
+
+      <button
+        class="wmol-landing-cta wmol-landing-cta-secondary"
+        type="button"
+        id="wmolViewArchitectureBtn"
+        aria-controls="wmolArchitectureView"
+        aria-expanded="false"
+      >
+        View Architecture
+      </button>
+    </div>
   </div>
 </section>
+
+<script>
+  (function () {
+    const landing = document.getElementById("wmol-landing");
+    const heroView = document.getElementById("wmolHeroView");
+    const architectureView = document.getElementById("wmolArchitectureView");
+    const architectureBtn = document.getElementById("wmolViewArchitectureBtn");
+
+    if (!landing || !heroView || !architectureView || !architectureBtn) return;
+
+    architectureBtn.addEventListener("click", function () {
+      const isArchitecture = landing.classList.contains("is-architecture");
+
+      if (isArchitecture) {
+        landing.classList.remove("is-architecture");
+        heroView.setAttribute("aria-hidden", "false");
+        architectureView.setAttribute("aria-hidden", "true");
+        architectureBtn.setAttribute("aria-expanded", "false");
+      } else {
+        landing.classList.add("is-architecture");
+        heroView.setAttribute("aria-hidden", "true");
+        architectureView.setAttribute("aria-hidden", "false");
+        architectureBtn.setAttribute("aria-expanded", "true");
+      }
+    });
+  })();
+</script>
 
 {% endblock %}
