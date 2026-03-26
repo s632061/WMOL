@@ -2986,7 +2986,7 @@ body.gallery-open .btn-back{
   }
 
 .wmol-architecture-principles{
-  max-width: 18.5ch;
+  max-width: 21ch;
   font-size: clamp(26px, 6vw, 32px);
   line-height: 1.14;
   margin: 0 auto 26px auto;
@@ -2994,7 +2994,7 @@ body.gallery-open .btn-back{
 }
 
 .wmol-architecture-mini{
-  max-width: 25ch;
+  max-width: 31ch;
   font-size: clamp(15px, 3.5vw, 17px);
   line-height: 1.5;
   opacity: 0.9;
