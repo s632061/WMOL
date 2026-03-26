@@ -2941,8 +2941,9 @@ body.gallery-open .btn-back{
 
 .wmol-landing-subheader{
   max-width: 20ch;
-  font-size: clamp(27px, 6.4vw, 34px);
-  line-height: 1.14;
+  font-size: clamp(24px, 5.8vw, 30px);
+  line-height: 1.12;
+  opacity: 0.92;
   margin: 0 auto 16px auto;
   text-align: center;
 }
@@ -2986,17 +2987,18 @@ body.gallery-open .btn-back{
 
 .wmol-architecture-principles{
   max-width: 18.5ch;
-  font-size: clamp(29px, 6.5vw, 36px);
-  line-height: 1.13;
-  margin: 0 auto 20px auto;
+  font-size: clamp(26px, 6vw, 32px);
+  line-height: 1.14;
+  margin: 0 auto 26px auto;
   text-align: center;
 }
 
 .wmol-architecture-mini{
   max-width: 25ch;
-  font-size: clamp(16px, 3.9vw, 18px);
-  line-height: 1.46;
-  margin: 0 auto;
+  font-size: clamp(15px, 3.5vw, 17px);
+  line-height: 1.5;
+  opacity: 0.9;
+  margin: 0 auto 18px auto;
   text-align: center;
 }
 }
