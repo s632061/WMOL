@@ -3013,6 +3013,48 @@ body.gallery-open .btn-back{
     max-width: 30ch;
     line-height: 1.05;
   }
+
+  .wmol-landing-subheader{
+    max-width: 42ch;
+    font-size: clamp(18px, 2.8vw, 28px);
+    line-height: 1.12;
+    margin: 0 auto 12px auto;
+  }
+
+  .wmol-landing-description{
+    max-width: 58ch;
+    font-size: clamp(14px, 2vw, 18px);
+    line-height: 1.4;
+    margin: 0 auto 18px auto;
+  }
+
+  .wmol-landing-actions{
+    margin-top: 18px;
+  }
+
+  .wmol-landing.is-architecture .wmol-architecture-principles{
+    max-width: 34ch;
+    font-size: clamp(20px, 3vw, 30px);
+    line-height: 1.12;
+    margin: 0 auto 14px auto;
+  }
+
+  .wmol-landing.is-architecture .wmol-architecture-mini{
+    max-width: 62ch;
+    font-size: clamp(13px, 1.9vw, 17px);
+    line-height: 1.4;
+    margin: 0 auto 16px auto;
+  }
+
+  .wmol-landing.is-architecture .wmol-landing-actions{
+    margin-top: 16px;
+    gap: 0;
+  }
+
+  .wmol-landing.is-architecture .wmol-landing-cta-primary{
+    flex: 0 0 auto;
+    min-width: 190px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce){
