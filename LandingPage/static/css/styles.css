@@ -2862,7 +2862,7 @@ body.gallery-open .btn-back{
 
 .wmol-landing.is-architecture .wmol-architecture-view{
   opacity: 1;
-  transform: translate(-50%, calc(-50% + 68px));
+  transform: translate(-50%, -50%);
   pointer-events: auto;
   transition: opacity 620ms cubic-bezier(.22,1,36,1), transform 620ms cubic-bezier(.22,1,36,1), filter 620ms cubic-bezier(.22,1,36,1);
 }
@@ -2927,30 +2927,30 @@ body.gallery-open .btn-back{
     margin-inline: auto;
   }
 
-  .wmol-landing-title{
-    font-size: clamp(35px, 8vw, 45px);
-    max-width: 13.4ch;
-    line-height: 1.04;
-    margin: 0 auto 18px auto;
-    text-align: center;
-    letter-spacing: -0.01em;
-  }
+.wmol-landing-title{
+  font-size: clamp(39px, 8.9vw, 49px);
+  max-width: 13.6ch;
+  line-height: 1.05;
+  margin: 0 auto 20px auto;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
 
-  .wmol-landing-subheader{
-    max-width: 20ch;
-    font-size: clamp(21px, 5.2vw, 28px);
-    line-height: 1.16;
-    margin: 0 auto 14px auto;
-    text-align: center;
-  }
+.wmol-landing-subheader{
+  max-width: 20ch;
+  font-size: clamp(23px, 5.8vw, 31px);
+  line-height: 1.17;
+  margin: 0 auto 15px auto;
+  text-align: center;
+}
 
-  .wmol-landing-description{
-    max-width: 25ch;
-    font-size: clamp(15px, 4vw, 17px);
-    line-height: 1.48;
-    margin: 0 auto 24px auto;
-    text-align: center;
-  }
+.wmol-landing-description{
+  max-width: 25ch;
+  font-size: clamp(16px, 4.4vw, 18px);
+  line-height: 1.5;
+  margin: 0 auto 26px auto;
+  text-align: center;
+}
 
   .wmol-landing-actions{
     display: inline-flex;
@@ -3162,9 +3162,9 @@ body.gallery-open .btn-back{
     text-align: center;
   }
 
-  .wmol-landing.is-architecture .wmol-landing-actions{
-    margin-top: 34px;
-  }
+.wmol-landing.is-architecture .wmol-landing-actions{
+  margin-top: 140px;
+}
 }
 
 @media (max-width: 650px) and (orientation: landscape){
