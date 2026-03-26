@@ -2918,19 +2918,72 @@ body.gallery-open .btn-back{
 }
 
 @media (max-width: 430px){
+  .wmol-landing{
+    padding: 22px 16px 28px;
+  }
+
+  .wmol-landing-inner{
+    width: min(100%, 390px);
+    margin-inline: auto;
+  }
+
   .wmol-landing-title{
-    font-size: clamp(2.15rem, 10vw, 2.75rem);
+    font-size: clamp(2.55rem, 8.4vw, 3.2rem);
+    max-width: 12ch;
+    line-height: 1.04;
+    margin: 0 0 14px 0;
+  }
+
+  .wmol-landing-subheader{
+    max-width: 22ch;
+    font-size: clamp(1.5rem, 5.2vw, 1.95rem);
+    line-height: 1.16;
+    margin: 0 auto 10px auto;
+  }
+
+  .wmol-landing-description{
     max-width: 24ch;
-    line-height: 1.08;
+    font-size: clamp(1rem, 3.9vw, 1.08rem);
+    line-height: 1.42;
+    margin: 0 auto 18px auto;
   }
 
   .wmol-landing-actions{
-    flex-direction: column;
-    gap: 12px;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 18px;
+    width: auto;
   }
 
   .wmol-landing-cta{
-    width: min(92vw, 320px);
+    min-width: 156px;
+    height: 46px;
+    padding: 0 16px;
+    font-size: 0.98rem;
+    flex: 0 0 156px;
+    width: auto;
+    border-radius: 999px;
+  }
+
+  .wmol-landing.is-architecture .wmol-landing-cta-primary{
+    flex: 0 0 156px;
+  }
+
+  .wmol-architecture-principles{
+    max-width: 12ch;
+    font-size: clamp(2.1rem, 7.2vw, 2.75rem);
+    line-height: 1.08;
+    margin: 0 auto 14px auto;
+  }
+
+  .wmol-architecture-mini{
+    max-width: 24ch;
+    font-size: clamp(1rem, 3.9vw, 1.08rem);
+    line-height: 1.42;
   }
 }
 
