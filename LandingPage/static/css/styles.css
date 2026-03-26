@@ -325,11 +325,11 @@ h3,
 }
 
 .wml-home{
-  --home-scale: 0.88; 
-  --home-title-max: 36px;
-  --home-cta-max:   22px;
-  --home-title-min: 26px;
-  --home-cta-min:   16px;
+  --home-scale: 1.02; 
+  --home-title-max: 44px;
+  --home-cta-max:   26px;
+  --home-title-min: 32px;
+  --home-cta-min:   19px;
   --home-title-size: clamp(
     var(--home-title-min),
     calc(var(--home-title-max) * var(--home-u) * var(--home-scale)),
@@ -340,9 +340,9 @@ h3,
     calc(var(--home-cta-max) * var(--home-u) * var(--home-scale)),
     var(--home-cta-max)
   );
-  --home-title-line: 1.25;
-  --home-subtitle-max: 18px;
-  --home-subtitle-min: 13px;
+  --home-title-line: 1.18;
+  --home-subtitle-max: 22px;
+  --home-subtitle-min: 16px;
   --home-subtitle-size: clamp(
     var(--home-subtitle-min),
     calc(var(--home-subtitle-max) * var(--home-u) * var(--home-scale)),
