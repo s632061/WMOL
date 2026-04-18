@@ -2951,7 +2951,7 @@ body.gallery-open .btn-back{
 
 .wmol-landing.is-problem .wmol-problem-view{
   opacity: 1;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -45%);
   pointer-events: auto;
 }
 
@@ -3004,14 +3004,14 @@ body.gallery-open .btn-back{
 
 .wmol-landing.is-architecture .wmol-architecture-view{
   opacity: 1;
-  transform: translate(-50%, -58%);
+  transform: translate(-50%, -50%);
   pointer-events: auto;
 }
 
 .wmol-landing.is-architecture .wmol-landing-actions{
   justify-content: center;
   gap: 0;
-  margin-top: 160px;
+  margin-top: 108px;
 }
 .wmol-landing.is-architecture .wmol-landing-cta-primary{
   margin-left: auto;
@@ -3176,7 +3176,7 @@ body.gallery-open .btn-back{
 
 .wmol-landing.is-problem .wmol-problem-view{
   opacity: 1;
-  transform: translate(-50%, -58%);
+  transform: translate(-50%, -47.5%);
   pointer-events: auto;
 }
 
@@ -3295,7 +3295,7 @@ body.gallery-open .btn-back{
 
 .wmol-landing.is-problem .wmol-problem-view{
   opacity: 1 !important;
-  transform: translate(-50%, -50%) !important;
+  transform: translate(-50%, -45%) !important;
 }
 
   .wmol-landing.is-problem .wmol-architecture-view{
