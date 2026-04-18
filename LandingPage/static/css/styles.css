@@ -3137,6 +3137,48 @@ body.gallery-open .btn-back{
     margin-top: 18px;
   }
 
+.wmol-landing.is-problem .wmol-problem-view{
+  opacity: 1;
+  transform: translate(-50%, -54%);
+  pointer-events: auto;
+}
+
+.wmol-landing.is-problem .wmol-problem-title{
+  max-width: 10ch;
+  margin: 0 auto 22px auto;
+  text-align: center;
+}
+
+.wmol-landing.is-problem .wmol-problem-description{
+  max-width: 18.5ch;
+  margin: 0 auto 22px auto;
+  text-align: center;
+  line-height: 1.34;
+}
+
+.wmol-landing.is-problem .wmol-problem-subtitle{
+  max-width: 13ch;
+  margin: 0 auto;
+  text-align: center;
+  line-height: 1.08;
+}
+
+.wmol-landing.is-problem .wmol-landing-actions{
+  justify-content: center;
+  gap: 14px;
+  margin-top: 96px;
+}
+
+.wmol-landing.is-problem .wmol-landing-cta{
+  min-width: 0;
+}
+
+.wmol-landing.is-problem .wmol-landing-cta-primary,
+.wmol-landing.is-problem .wmol-landing-cta-secondary{
+  padding-left: 22px;
+  padding-right: 22px;
+}
+
 .wmol-landing.is-architecture .wmol-architecture-title{
   max-width: 32ch;
   font-size: clamp(28px, 4.4vw, 46px);
@@ -3207,10 +3249,10 @@ body.gallery-open .btn-back{
     transform: translateY(-40px) !important;
   }
 
-  .wmol-landing.is-problem .wmol-problem-view{
-    opacity: 1 !important;
-    transform: translate(-50%, -50%) !important;
-  }
+.wmol-landing.is-problem .wmol-problem-view{
+  opacity: 1 !important;
+  transform: translate(-50%, -54%) !important;
+}
 
   .wmol-landing.is-problem .wmol-architecture-view{
     opacity: 0 !important;
