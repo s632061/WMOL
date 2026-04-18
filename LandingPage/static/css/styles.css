@@ -2951,12 +2951,49 @@ body.gallery-open .btn-back{
 
 .wmol-landing.is-problem .wmol-problem-view{
   opacity: 1;
-  transform: translate(-50%, -58%);
+  transform: translate(-50%, -50%);
   pointer-events: auto;
 }
 
+.wmol-landing.is-problem .wmol-problem-title{
+  max-width: 30ch;
+  font-size: clamp(28px, 7.2vw, 40px);
+  line-height: 1.05;
+  margin: 0 auto 14px auto;
+  letter-spacing: -0.015em;
+  text-align: center;
+}
+
+.wmol-landing.is-problem .wmol-problem-description{
+  max-width: 34ch;
+  font-size: clamp(14px, 3.7vw, 17px);
+  line-height: 1.45;
+  margin: 0 auto 14px auto;
+  text-align: center;
+}
+
+.wmol-landing.is-problem .wmol-problem-subtitle{
+  max-width: 28ch;
+  font-size: clamp(18px, 4.8vw, 24px);
+  line-height: 1.12;
+  margin: 0 auto;
+  text-align: center;
+}
+
 .wmol-landing.is-problem .wmol-landing-actions{
-  margin-top: 164px;
+  justify-content: center;
+  gap: clamp(8px, 2.4vw, 12px);
+  margin-top: 96px;
+}
+
+.wmol-landing.is-problem .wmol-landing-cta{
+  min-width: 0;
+}
+
+.wmol-landing.is-problem .wmol-landing-cta-primary,
+.wmol-landing.is-problem .wmol-landing-cta-secondary{
+  padding-left: clamp(12px, 3vw, 16px);
+  padding-right: clamp(12px, 3vw, 16px);
 }
 
 .wmol-landing.is-architecture .wmol-problem-view{
@@ -3258,7 +3295,7 @@ body.gallery-open .btn-back{
 
 .wmol-landing.is-problem .wmol-problem-view{
   opacity: 1 !important;
-  transform: translate(-50%, -58%) !important;
+  transform: translate(-50%, -50%) !important;
 }
 
   .wmol-landing.is-problem .wmol-architecture-view{
