@@ -4,28 +4,51 @@
 
 <section class="wmol-landing" id="wmol-landing">
   <div class="wmol-landing-bg" aria-hidden="true"></div>
-
   <div class="wmol-landing-inner">
-    <div class="wmol-view wmol-hero-view" id="wmolHeroView">
+    <div class="wmol-view wmol-hero-view" id="wmolHeroView" aria-hidden="false">
       <h1 class="wmol-landing-title">Wang Method of Learning</h1>
 
       <h2 class="wmol-landing-subheader">
-        Systems that work under real conditions
+        Systems that build competency without unnecessary struggle
       </h2>
 
       <p class="wmol-landing-description">
-        Designed to help people rebuild mastery when environments, demands, or careers change
+        Designed to help people rebuild mastery faster and more reliably across changing environments, demands, or careers
+      </p>
+    </div>
+
+    <div class="wmol-view wmol-problem-view" id="wmolProblemView" aria-hidden="true">
+<h1 class="wmol-landing-title wmol-problem-title">
+  You’re putting in the effort, but it’s not turning into progress
+</h1>
+
+      <p class="wmol-landing-description wmol-problem-description">
+        You work harder, but keep plateauing.<br>
+        You learn more, but move in the wrong direction.<br>
+        You want to move forward, but giving up feels easier.
+      </p>
+
+      <p class="wmol-landing-subheader wmol-problem-subtitle">
+        The problem isn’t effort.<br>
+        It’s the lack of a system that holds under pressure.
       </p>
     </div>
 
 <div class="wmol-view wmol-architecture-view" id="wmolArchitectureView" aria-hidden="true">
-  <h2 class="wmol-landing-subheader wmol-architecture-principles">
-    Structure Builds Momentum. Momentum Builds Structure. Performance Emerges from Stability in Unstable Environments.
-  </h2>
+  <h1 class="wmol-landing-title wmol-architecture-title">
+    A system that turns effort into consistent, reliable progress
+  </h1>
 
-  <p class="wmol-landing-description wmol-architecture-mini">
-    We believe competence is portable, mastery can be rebuilt, and learning should remove non-essential noise.
+  <p class="wmol-landing-description wmol-architecture-principles">
+    Structure builds momentum.<br>
+    Momentum builds structure.<br>
+    Performance emerges from stability in unstable environments.
   </p>
+
+<p class="wmol-landing-subheader wmol-architecture-subtitle">
+  Through this system, guesswork is removed, direction is clear,<br>
+  and your effort builds forward even when your time and energy aren’t perfect.
+</p>
 </div>
 
     <div class="wmol-landing-actions">
@@ -36,11 +59,10 @@
       <button
         class="wmol-landing-cta wmol-landing-cta-secondary"
         type="button"
-        id="wmolViewArchitectureBtn"
-        aria-controls="wmolArchitectureView"
+        id="wmolFlowBtn"
         aria-expanded="false"
       >
-        View Architecture
+        See How This Works
       </button>
     </div>
   </div>
@@ -50,26 +72,47 @@
   (function () {
     const landing = document.getElementById("wmol-landing");
     const heroView = document.getElementById("wmolHeroView");
+    const problemView = document.getElementById("wmolProblemView");
     const architectureView = document.getElementById("wmolArchitectureView");
-    const architectureBtn = document.getElementById("wmolViewArchitectureBtn");
+    const flowBtn = document.getElementById("wmolFlowBtn");
 
-    if (!landing || !heroView || !architectureView || !architectureBtn) return;
+    if (!landing || !heroView || !problemView || !architectureView || !flowBtn) return;
 
-    architectureBtn.addEventListener("click", function () {
-      const isArchitecture = landing.classList.contains("is-architecture");
+    let step = 0; // 0 = hero, 1 = problem, 2 = architecture
 
-      if (isArchitecture) {
-        landing.classList.remove("is-architecture");
-        heroView.setAttribute("aria-hidden", "false");
-        architectureView.setAttribute("aria-hidden", "true");
-        architectureBtn.setAttribute("aria-expanded", "false");
-      } else {
-        landing.classList.add("is-architecture");
-        heroView.setAttribute("aria-hidden", "true");
-        architectureView.setAttribute("aria-hidden", "false");
-        architectureBtn.setAttribute("aria-expanded", "true");
+function renderStep() {
+  landing.classList.remove("is-problem", "is-architecture");
+
+  heroView.setAttribute("aria-hidden", "true");
+  problemView.setAttribute("aria-hidden", "true");
+  architectureView.setAttribute("aria-hidden", "true");
+
+  if (step === 0) {
+    heroView.setAttribute("aria-hidden", "false");
+    flowBtn.textContent = "See How This Works";
+    flowBtn.setAttribute("aria-expanded", "false");
+    flowBtn.style.display = "inline-flex";
+  } else if (step === 1) {
+    landing.classList.add("is-problem");
+    problemView.setAttribute("aria-hidden", "false");
+    flowBtn.textContent = "How They're Made";
+    flowBtn.setAttribute("aria-expanded", "true");
+    flowBtn.style.display = "inline-flex";
+  } else {
+    landing.classList.add("is-architecture");
+    architectureView.setAttribute("aria-hidden", "false");
+    flowBtn.style.display = "none";
+  }
+}
+
+    flowBtn.addEventListener("click", function () {
+      if (step < 2) {
+        step += 1;
+        renderStep();
       }
     });
+
+    renderStep();
   })();
 </script>
 

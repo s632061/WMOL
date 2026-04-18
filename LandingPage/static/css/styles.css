@@ -2756,11 +2756,26 @@ body.gallery-open .btn-back{
   text-shadow: 0 12px 34px rgba(0,0,0,0.40);
 }
 
+.wmol-architecture-title{
+  max-width: 34ch;
+  margin: 0 auto 18px auto;
+  text-align: center;
+}
+
 .wmol-architecture-principles{
-  max-width: 2600px;
+  max-width: 56ch;
   margin: 0 auto 16px auto;
-  font-size: clamp(32px, 6vw, 42px);
-  line-height: 1.15;
+  text-align: center;
+  line-height: 1.55;
+  font-weight: 400;
+}
+
+.wmol-architecture-subtitle{
+  max-width: 68ch;
+  margin: 0 auto;
+  text-align: center;
+  line-height: 1.12;
+  font-weight: 600;
 }
 
 .wmol-architecture-mini{
@@ -2852,42 +2867,123 @@ body.gallery-open .btn-back{
   animation: wmol-rise-soft 950ms cubic-bezier(.22,1,.36,1) 320ms both;
 }
 
+.wmol-problem-view,
+.wmol-architecture-view{
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition:
+    opacity 620ms cubic-bezier(.22,1,.36,1),
+    transform 620ms cubic-bezier(.22,1,.36,1),
+    filter 620ms cubic-bezier(.22,1,.36,1);
+}
+
+.wmol-hero-view{
+  transition:
+    opacity 620ms cubic-bezier(.22,1,.36,1),
+    transform 620ms cubic-bezier(.22,1,.36,1),
+    filter 620ms cubic-bezier(.22,1,.36,1);
+}
+
+.wmol-problem-view{
+  position: absolute;
+  inset: 37.5% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: min(100%, 1280px);
+  text-align: center;
+  z-index: 2;
+}
+
+.wmol-problem-title{
+  max-width: 34ch;
+  margin: 0 auto 18px auto;
+  text-align: center;
+}
+
+.wmol-problem-description{
+  max-width: 52ch;
+  margin: 0 auto 22px auto;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.wmol-problem-subtitle{
+  max-width: 48ch;
+  margin: 0 auto;
+  text-align: center;
+}
+
+@media (max-width: 932px) and (orientation: landscape){
+  .wmol-problem-title{
+    max-width: 36ch;
+    font-size: clamp(28px, 4.4vw, 46px);
+    line-height: 1.05;
+    margin: 0 auto 14px auto;
+    letter-spacing: -0.015em;
+  }
+
+  .wmol-problem-description{
+    max-width: 60ch;
+    font-size: clamp(14px, 2vw, 18px);
+    line-height: 1.45;
+    margin: 0 auto 16px auto;
+  }
+
+  .wmol-problem-subtitle{
+    max-width: 52ch;
+    font-size: clamp(18px, 2.8vw, 28px);
+    line-height: 1.12;
+    margin: 0 auto;
+  }
+
+.wmol-landing.is-problem .wmol-landing-actions{
+  margin-top: 132px;
+}
+}
+
+.wmol-landing.is-problem .wmol-hero-view,
 .wmol-landing.is-architecture .wmol-hero-view{
   opacity: 0;
   transform: translateY(-40px);
   filter: blur(1px);
   pointer-events: none;
-  transition: opacity 620ms cubic-bezier(.22,1,.36,1), transform 620ms cubic-bezier(.22,1,.36,1), filter 620ms cubic-bezier(.22,1,.36,1);
+}
+
+.wmol-landing.is-problem .wmol-problem-view{
+  opacity: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+}
+
+.wmol-landing.is-problem .wmol-landing-actions{
+  margin-top: 164px;
+}
+
+.wmol-landing.is-architecture .wmol-problem-view{
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
 .wmol-landing.is-architecture .wmol-architecture-view{
   opacity: 1;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -58%);
   pointer-events: auto;
-  transition: opacity 620ms cubic-bezier(.22,1,36,1), transform 620ms cubic-bezier(.22,1,36,1), filter 620ms cubic-bezier(.22,1,36,1);
-}
-
-.wmol-landing:not(.is-architecture) .wmol-hero-view{
-  transition: opacity 620ms cubic-bezier(.22,1,.36,1), transform 620ms cubic-bezier(.22,1,.36,1), filter 620ms cubic-bezier(.22,1,.36,1);
-}
-
-.wmol-landing:not(.is-architecture) .wmol-architecture-view{
-  transition: opacity 620ms cubic-bezier(.22,1,.36,1), transform 620ms cubic-bezier(.22,1,.36,1), filter 620ms cubic-bezier(.22,1,.36,1);
 }
 
 .wmol-landing.is-architecture .wmol-landing-actions{
   justify-content: center;
   gap: 0;
+  margin-top: 160px;
 }
-
-.wmol-landing.is-architecture .wmol-landing-cta-secondary{
-  display: none;
-}
-
 .wmol-landing.is-architecture .wmol-landing-cta-primary{
   margin-left: auto;
   margin-right: auto;
   flex: 0 0 220px;
+}
+
+.wmol-landing.is-architecture .wmol-landing-cta-secondary{
+  display: none;
 }
 
 @keyframes wmol-bg-drift{
@@ -2962,43 +3058,52 @@ body.gallery-open .btn-back{
   flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: clamp(8px, 2.4vw, 12px);
   margin: 22px auto 0 auto;
   width: 100%;
 }
 
 .wmol-landing-cta{
-  min-width: 156px;
-  height: 48px;
-  padding: 0 16px;
-  font-size: 1rem;
-  flex: 0 0 156px;
+  min-width: 0;
+  height: clamp(42px, 10.5vw, 48px);
+  padding: 0 clamp(12px, 3vw, 16px);
+  font-size: clamp(0.88rem, 3.6vw, 1rem);
+  flex: 1 1 0;
+  max-width: 330px;
   width: auto;
   border-radius: 999px;
 }
 
-  .wmol-landing.is-architecture .wmol-landing-actions{
-    margin-top: 78px;
-  }
+.wmol-landing.is-architecture .wmol-landing-actions{
+  margin-top: 96px;
+}
 
   .wmol-landing.is-architecture .wmol-landing-cta-primary{
     flex: 0 0 160px;
   }
 
-.wmol-architecture-principles{
-  max-width: 21ch;
-  font-size: clamp(26px, 6vw, 32px);
-  line-height: 1.14;
-  margin: 0 auto 26px auto;
+.wmol-architecture-title{
+  max-width: 30ch;
+  font-size: clamp(28px, 7.2vw, 40px);
+  line-height: 1.05;
+  margin: 0 auto 14px auto;
+  letter-spacing: -0.015em;
   text-align: center;
 }
 
-.wmol-architecture-mini{
-  max-width: 31ch;
-  font-size: clamp(15px, 3.5vw, 17px);
-  line-height: 1.5;
-  opacity: 0.9;
-  margin: 0 auto 18px auto;
+.wmol-architecture-principles{
+  max-width: 34ch;
+  font-size: clamp(14px, 3.7vw, 17px);
+  line-height: 1.45;
+  margin: 0 auto 14px auto;
+  text-align: center;
+}
+
+.wmol-architecture-subtitle{
+  max-width: 28ch;
+  font-size: clamp(18px, 4.8vw, 24px);
+  line-height: 1.12;
+  margin: 0 auto;
   text-align: center;
 }
 }
@@ -3032,29 +3137,36 @@ body.gallery-open .btn-back{
     margin-top: 18px;
   }
 
-  .wmol-landing.is-architecture .wmol-architecture-principles{
-    max-width: 34ch;
-    font-size: clamp(20px, 3vw, 30px);
-    line-height: 1.12;
-    margin: 0 auto 14px auto;
-  }
+.wmol-landing.is-architecture .wmol-architecture-title{
+  max-width: 32ch;
+  font-size: clamp(28px, 4.4vw, 46px);
+  line-height: 1.05;
+  margin: 0 auto 14px auto;
+  letter-spacing: -0.015em;
+}
 
-  .wmol-landing.is-architecture .wmol-architecture-mini{
-    max-width: 62ch;
-    font-size: clamp(13px, 1.9vw, 17px);
-    line-height: 1.4;
-    margin: 0 auto 16px auto;
-  }
+.wmol-landing.is-architecture .wmol-architecture-principles{
+  max-width: 58ch;
+  font-size: clamp(14px, 2vw, 18px);
+  line-height: 1.4;
+  margin: 0 auto 14px auto;
+}
 
-  .wmol-landing.is-architecture .wmol-landing-actions{
-    margin-top: 16px;
-    gap: 0;
-  }
+.wmol-landing.is-architecture .wmol-architecture-subtitle{
+  max-width: 52ch;
+  font-size: clamp(18px, 2.8vw, 28px);
+  line-height: 1.08;
+  margin: 0 auto;
+}
 
-  .wmol-landing.is-architecture .wmol-landing-cta-primary{
-    flex: 0 0 auto;
-    min-width: 190px;
-  }
+.wmol-landing.is-architecture .wmol-landing-actions{
+  margin-top: 108px;
+  gap: 0;
+}
+
+.wmol-landing.is-architecture .wmol-landing-cta-primary{
+  flex: 0 0 160px;
+}
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -3063,29 +3175,51 @@ body.gallery-open .btn-back{
   }
 
   .wmol-hero-view,
+  .wmol-problem-view,
   .wmol-architecture-view,
   .wmol-landing-actions,
   .wmol-landing .wmol-hero-view .wmol-landing-title,
   .wmol-landing .wmol-hero-view .wmol-landing-subheader,
-  .wmol-landing .wmol-hero-view .wmol-landing-description{
+  .wmol-landing .wmol-hero-view .wmol-landing-description,
+  .wmol-landing .wmol-problem-view .wmol-landing-subheader,
+  .wmol-landing .wmol-problem-view .wmol-landing-description,
+  .wmol-landing .wmol-architecture-view .wmol-landing-subheader,
+  .wmol-landing .wmol-architecture-view .wmol-landing-description{
     animation: none !important;
     transition: none !important;
     filter: none !important;
   }
 
-  .wmol-landing:not(.is-architecture) .wmol-hero-view{
+  .wmol-landing:not(.is-problem):not(.is-architecture) .wmol-hero-view{
     opacity: 1 !important;
     transform: translateY(0) !important;
   }
 
-  .wmol-landing:not(.is-architecture) .wmol-architecture-view{
+  .wmol-landing:not(.is-problem):not(.is-architecture) .wmol-problem-view,
+  .wmol-landing:not(.is-problem):not(.is-architecture) .wmol-architecture-view{
     opacity: 0 !important;
     transform: translate(-50%, -50%) !important;
   }
 
+  .wmol-landing.is-problem .wmol-hero-view,
   .wmol-landing.is-architecture .wmol-hero-view{
     opacity: 0 !important;
     transform: translateY(-40px) !important;
+  }
+
+  .wmol-landing.is-problem .wmol-problem-view{
+    opacity: 1 !important;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  .wmol-landing.is-problem .wmol-architecture-view{
+    opacity: 0 !important;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  .wmol-landing.is-architecture .wmol-problem-view{
+    opacity: 0 !important;
+    transform: translate(-50%, -50%) !important;
   }
 
   .wmol-landing.is-architecture .wmol-architecture-view{
