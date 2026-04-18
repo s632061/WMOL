@@ -3133,9 +3133,9 @@ body.gallery-open .btn-back{
     margin: 0 auto 18px auto;
   }
 
-  .wmol-landing-actions{
-    margin-top: 18px;
-  }
+.wmol-landing-actions{
+  margin-top: 18px;
+}
 
 .wmol-landing.is-problem .wmol-problem-view{
   opacity: 1;
@@ -3210,6 +3210,8 @@ body.gallery-open .btn-back{
   flex: 0 0 160px;
 }
 }
+
+
 
 @media (prefers-reduced-motion: reduce){
   .wmol-landing-bg{
