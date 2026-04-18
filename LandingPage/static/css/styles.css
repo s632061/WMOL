@@ -2951,7 +2951,7 @@ body.gallery-open .btn-back{
 
 .wmol-landing.is-problem .wmol-problem-view{
   opacity: 1;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -58%);
   pointer-events: auto;
 }
 
@@ -3258,7 +3258,7 @@ body.gallery-open .btn-back{
 
 .wmol-landing.is-problem .wmol-problem-view{
   opacity: 1 !important;
-  transform: translate(-50%, -54%) !important;
+  transform: translate(-50%, -58%) !important;
 }
 
   .wmol-landing.is-problem .wmol-architecture-view{
