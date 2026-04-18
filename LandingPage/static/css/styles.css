@@ -2980,12 +2980,6 @@ body.gallery-open .btn-back{
   text-align: center;
 }
 
-.wmol-landing.is-problem .wmol-landing-actions{
-  justify-content: center;
-  gap: clamp(8px, 2.4vw, 12px);
-  margin-top: 96px;
-}
-
 .wmol-landing.is-problem .wmol-landing-cta{
   min-width: 0;
 }
@@ -3208,7 +3202,7 @@ body.gallery-open .btn-back{
 .wmol-landing.is-problem .wmol-landing-actions{
   justify-content: center;
   gap: clamp(8px, 2.4vw, 12px);
-  margin-top: 96px;
+  margin-top: 64px;
 }
 
 .wmol-landing.is-problem .wmol-landing-cta{
