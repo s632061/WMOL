@@ -17,22 +17,37 @@
       </p>
     </div>
 
-    <div class="wmol-view wmol-problem-view" id="wmolProblemView" aria-hidden="true">
-<h1 class="wmol-landing-title wmol-problem-title">
-  You’re putting in the effort, but it’s not turning into progress
-</h1>
+<div class="wmol-view wmol-problem-view" id="wmolProblemView" aria-hidden="true">
+  <h1 class="wmol-landing-title wmol-problem-title">
+    You’re putting in the effort, but it’s not turning into progress
+  </h1>
 
-      <p class="wmol-landing-description wmol-problem-description">
-        You work harder, but keep plateauing.<br>
-        You learn more, but move in the wrong direction.<br>
-        You want to move forward, but giving up feels easier.
-      </p>
+  <p class="wmol-landing-description wmol-problem-description">
+    You work harder, but keep plateauing.<br>
+    You learn more, but move in the wrong direction.<br>
+    You want to move forward, but giving up feels easier.
+  </p>
 
-      <p class="wmol-landing-subheader wmol-problem-subtitle">
-        The problem isn’t effort.<br>
-        It’s the lack of a system that holds under pressure.
-      </p>
-    </div>
+  <p class="wmol-landing-subheader wmol-problem-subtitle">
+    The problem isn’t effort.<br>
+    It’s the lack of a system that holds under pressure.
+  </p>
+
+  <div class="wmol-problem-actions">
+    <a class="wmol-landing-cta wmol-landing-cta-primary" href="{% url 'landing:domains' %}">
+      Explore Systems
+    </a>
+
+    <button
+      class="wmol-landing-cta wmol-landing-cta-secondary"
+      type="button"
+      id="wmolProblemFlowBtn"
+      aria-expanded="true"
+    >
+      How They're Made
+    </button>
+  </div>
+</div>
 
 <div class="wmol-view wmol-architecture-view" id="wmolArchitectureView" aria-hidden="true">
   <h1 class="wmol-landing-title wmol-architecture-title">
@@ -75,8 +90,11 @@
     const problemView = document.getElementById("wmolProblemView");
     const architectureView = document.getElementById("wmolArchitectureView");
     const flowBtn = document.getElementById("wmolFlowBtn");
+    const problemFlowBtn = document.getElementById("wmolProblemFlowBtn");
+    const sharedActions = landing.querySelector(".wmol-landing-actions");
+    const problemActions = landing.querySelector(".wmol-problem-actions");
 
-    if (!landing || !heroView || !problemView || !architectureView || !flowBtn) return;
+     if (!landing || !heroView || !problemView || !architectureView || !flowBtn || !problemFlowBtn || !sharedActions || !problemActions) return;
 
     let step = 0; // 0 = hero, 1 = problem, 2 = architecture
 
@@ -87,25 +105,38 @@ function renderStep() {
   problemView.setAttribute("aria-hidden", "true");
   architectureView.setAttribute("aria-hidden", "true");
 
+  sharedActions.style.display = "none";
+  problemActions.style.display = "none";
+
   if (step === 0) {
     heroView.setAttribute("aria-hidden", "false");
+    sharedActions.style.display = "flex";
     flowBtn.textContent = "See How This Works";
     flowBtn.setAttribute("aria-expanded", "false");
-    flowBtn.style.display = "inline-flex";
   } else if (step === 1) {
     landing.classList.add("is-problem");
     problemView.setAttribute("aria-hidden", "false");
-    flowBtn.textContent = "How They're Made";
-    flowBtn.setAttribute("aria-expanded", "true");
-    flowBtn.style.display = "inline-flex";
+    problemActions.style.display = "flex";
+    problemActions.style.justifyContent = "center";
+    problemActions.style.alignItems = "center";
+    problemActions.style.gap = "14px";
+    problemActions.style.marginTop = "34px";
+    problemActions.style.width = "100%";
   } else {
     landing.classList.add("is-architecture");
     architectureView.setAttribute("aria-hidden", "false");
-    flowBtn.style.display = "none";
+    sharedActions.style.display = "flex";
   }
 }
 
     flowBtn.addEventListener("click", function () {
+      if (step < 2) {
+        step += 1;
+        renderStep();
+      }
+    });
+
+    problemFlowBtn.addEventListener("click", function () {
       if (step < 2) {
         step += 1;
         renderStep();

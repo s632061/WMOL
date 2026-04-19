@@ -2985,16 +2985,6 @@ body.gallery-open .btn-back{
   text-align: center;
 }
 
-.wmol-landing.is-problem .wmol-landing-cta{
-  min-width: 0;
-}
-
-.wmol-landing.is-problem .wmol-landing-cta-primary,
-.wmol-landing.is-problem .wmol-landing-cta-secondary{
-  padding-left: clamp(12px, 3vw, 16px);
-  padding-right: clamp(12px, 3vw, 16px);
-}
-
 .wmol-landing.is-architecture .wmol-problem-view{
   opacity: 0;
   transform: translate(-50%, -50%);
@@ -3176,7 +3166,7 @@ body.gallery-open .btn-back{
 
 .wmol-landing.is-problem .wmol-problem-view{
   opacity: 1;
-  transform: translate(-50%, -56%);
+  transform: translate(-50%, -45%);
   pointer-events: auto;
 }
 
@@ -3205,31 +3195,33 @@ body.gallery-open .btn-back{
   text-align: center;
 }
 
-.wmol-landing.is-problem .wmol-landing-actions{
+.wmol-problem-actions{
+  display: none;
   justify-content: center;
-  gap: clamp(8px, 2.4vw, 12px);
-  margin-top: 420px;
+  align-items: center;
+  gap: 18px;
+  margin-top: 250px;
+  width: 100%;
 }
 
-.wmol-landing.is-problem .wmol-landing-cta-primary{
+.wmol-problem-actions .wmol-landing-cta-primary{
+  flex: 0 0 220px;
   margin-left: 0;
   margin-right: 0;
-  flex: 0 0 220px;
+}
+
+.wmol-problem-actions .wmol-landing-cta-secondary{
+  display: inline-flex;
 }
 
 @media (min-width: 768px){
   .wmol-landing.is-problem .wmol-problem-view{
-    transform: translate(-50%, -64%);
+    transform: translate(-50%, -62%);
   }
 
-  .wmol-landing.is-problem .wmol-landing-actions{
-    gap: clamp(8px, 2.4vw, 12px);
-    margin-top: 420px;
-  }
-
-  .wmol-landing.is-problem .wmol-landing-cta-primary{
-    margin-left: 0;
-    margin-right: 0;
+  .wmol-problem-actions{
+    margin-top: 380px;
+    gap: 22px;
   }
 }
 
