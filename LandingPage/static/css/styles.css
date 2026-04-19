@@ -3207,18 +3207,14 @@ body.gallery-open .btn-back{
 
 .wmol-landing.is-problem .wmol-landing-actions{
   justify-content: center;
-  gap: clamp(8px, 2.4vw, 12px);
-  margin-top: 64px;
+  gap: 0;
+  margin-top: 180px;
 }
 
-@media (min-width: 768px){
-  .wmol-landing.is-problem .wmol-problem-view{
-    transform: translate(-50%, -56%) !important;
-  }
-
-  .wmol-landing.is-problem .wmol-landing-inner .wmol-landing-actions{
-    margin-top: 360px !important;
-  }
+.wmol-landing.is-problem .wmol-landing-cta-primary{
+  margin-left: auto;
+  margin-right: auto;
+  flex: 0 0 220px;
 }
 
 .wmol-landing.is-problem .wmol-landing-cta{
