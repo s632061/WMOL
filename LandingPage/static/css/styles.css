@@ -3176,7 +3176,7 @@ body.gallery-open .btn-back{
 
 .wmol-landing.is-problem .wmol-problem-view{
   opacity: 1;
-  transform: translate(-50%, -47.5%);
+  transform: translate(-50%, -56%);
   pointer-events: auto;
 }
 
@@ -3207,14 +3207,30 @@ body.gallery-open .btn-back{
 
 .wmol-landing.is-problem .wmol-landing-actions{
   justify-content: center;
-  gap: 0;
-  margin-top: 180px;
+  gap: clamp(8px, 2.4vw, 12px);
+  margin-top: 280px;
 }
 
 .wmol-landing.is-problem .wmol-landing-cta-primary{
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 0;
+  margin-right: 0;
   flex: 0 0 220px;
+}
+
+@media (min-width: 768px){
+  .wmol-landing.is-problem .wmol-problem-view{
+    transform: translate(-50%, -56%);
+  }
+
+  .wmol-landing.is-problem .wmol-landing-actions{
+    gap: clamp(8px, 2.4vw, 12px);
+    margin-top: 280px;
+  }
+
+  .wmol-landing.is-problem .wmol-landing-cta-primary{
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 
 .wmol-landing.is-problem .wmol-landing-cta{
