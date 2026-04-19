@@ -3212,8 +3212,12 @@ body.gallery-open .btn-back{
 }
 
 @media (min-width: 768px){
+  .wmol-landing.is-problem .wmol-problem-view{
+    transform: translate(-50%, -53%);
+  }
+
   .wmol-landing.is-problem .wmol-landing-actions{
-    margin-top: 180px;
+    margin-top: 220px;
   }
 }
 
