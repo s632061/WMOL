@@ -3003,7 +3003,7 @@ body.gallery-open .btn-back{
 
 .wmol-landing.is-architecture .wmol-architecture-view{
   opacity: 1;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -55%);
   pointer-events: auto;
 }
 
@@ -3213,7 +3213,7 @@ body.gallery-open .btn-back{
 
 @media (min-width: 768px){
   .wmol-landing.is-problem .wmol-landing-actions{
-    margin-top: 140px;
+    margin-top: 180px;
   }
 }
 
