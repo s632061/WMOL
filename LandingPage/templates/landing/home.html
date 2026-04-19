@@ -99,6 +99,8 @@
     let step = 0; // 0 = hero, 1 = problem, 2 = architecture
 
 function renderStep() {
+  const isMobile = window.innerWidth < 768;
+
   landing.classList.remove("is-problem", "is-architecture");
 
   heroView.setAttribute("aria-hidden", "true");
@@ -108,24 +110,60 @@ function renderStep() {
   sharedActions.style.display = "none";
   problemActions.style.display = "none";
 
+  /* reset inline overrides first */
+  sharedActions.style.marginTop = "";
+  sharedActions.style.gap = "";
+  sharedActions.style.justifyContent = "";
+  sharedActions.style.width = "";
+
+  heroView.style.transform = "";
+  problemView.style.transform = "";
+  architectureView.style.transform = "";
+
+  problemActions.style.justifyContent = "";
+  problemActions.style.alignItems = "";
+  problemActions.style.gap = "";
+  problemActions.style.marginTop = "";
+  problemActions.style.width = "";
+
   if (step === 0) {
     heroView.setAttribute("aria-hidden", "false");
     sharedActions.style.display = "flex";
     flowBtn.textContent = "See How This Works";
     flowBtn.setAttribute("aria-expanded", "false");
+
+    if (isMobile) {
+      sharedActions.style.justifyContent = "center";
+      sharedActions.style.gap = "14px";
+      sharedActions.style.marginTop = "8px";
+      sharedActions.style.width = "100%";
+      heroView.style.transform = "translateY(-6px)";
+    }
   } else if (step === 1) {
     landing.classList.add("is-problem");
     problemView.setAttribute("aria-hidden", "false");
     problemActions.style.display = "flex";
     problemActions.style.justifyContent = "center";
     problemActions.style.alignItems = "center";
-    problemActions.style.gap = "14px";
-    problemActions.style.marginTop = "34px";
+    problemActions.style.gap = isMobile ? "14px" : "14px";
+    problemActions.style.marginTop = isMobile ? "22px" : "34px";
     problemActions.style.width = "100%";
+
+    if (isMobile) {
+      problemView.style.transform = "translate(-50%, -48%)";
+    }
   } else {
     landing.classList.add("is-architecture");
     architectureView.setAttribute("aria-hidden", "false");
     sharedActions.style.display = "flex";
+
+    if (isMobile) {
+      sharedActions.style.justifyContent = "center";
+      sharedActions.style.gap = "14px";
+      sharedActions.style.marginTop = "68px";
+      sharedActions.style.width = "100%";
+      architectureView.style.transform = "translate(-50%, -48%)";
+    }
   }
 }
 
