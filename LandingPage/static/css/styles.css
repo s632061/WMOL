@@ -3208,7 +3208,7 @@ body.gallery-open .btn-back{
 .wmol-landing.is-problem .wmol-landing-actions{
   justify-content: center;
   gap: clamp(8px, 2.4vw, 12px);
-  margin-top: 280px;
+  margin-top: 420px;
 }
 
 .wmol-landing.is-problem .wmol-landing-cta-primary{
@@ -3219,12 +3219,12 @@ body.gallery-open .btn-back{
 
 @media (min-width: 768px){
   .wmol-landing.is-problem .wmol-problem-view{
-    transform: translate(-50%, -56%);
+    transform: translate(-50%, -64%);
   }
 
   .wmol-landing.is-problem .wmol-landing-actions{
     gap: clamp(8px, 2.4vw, 12px);
-    margin-top: 280px;
+    margin-top: 420px;
   }
 
   .wmol-landing.is-problem .wmol-landing-cta-primary{
