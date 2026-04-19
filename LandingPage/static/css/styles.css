@@ -3213,11 +3213,11 @@ body.gallery-open .btn-back{
 
 @media (min-width: 768px){
   .wmol-landing.is-problem .wmol-problem-view{
-    transform: translate(-50%, -53%);
+    transform: translate(-50%, -56%) !important;
   }
 
-  .wmol-landing.is-problem .wmol-landing-actions{
-    margin-top: 220px;
+  .wmol-landing.is-problem .wmol-landing-inner .wmol-landing-actions{
+    margin-top: 300px !important;
   }
 }
 
