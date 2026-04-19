@@ -963,6 +963,11 @@ html.home-intro .wml-home .rail-medicine{
   opacity: 0.98;
 }
 
+@keyframes lifestyle-cta-fly-up{
+  0%   { opacity: 0; transform: translate(-50%, 100vh); }
+  100% { opacity: 1; transform: translate(-50%, 0); }
+}
+
 .wml-cta-lifestyle{
   position: absolute;
   left: 50%;
@@ -3005,8 +3010,9 @@ body.gallery-open .btn-back{
 .wmol-landing.is-architecture .wmol-landing-actions{
   justify-content: center;
   gap: 0;
-  margin-top: 108px;
+  margin-top: 180px;
 }
+
 .wmol-landing.is-architecture .wmol-landing-cta-primary{
   margin-left: auto;
   margin-right: auto;
@@ -3203,6 +3209,12 @@ body.gallery-open .btn-back{
   justify-content: center;
   gap: clamp(8px, 2.4vw, 12px);
   margin-top: 64px;
+}
+
+@media (min-width: 768px){
+  .wmol-landing.is-problem .wmol-landing-actions{
+    margin-top: 140px;
+  }
 }
 
 .wmol-landing.is-problem .wmol-landing-cta{
