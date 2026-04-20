@@ -4409,14 +4409,23 @@ body.gallery-open .btn-back{
 
 .med-low-risk-title{
   font-family: "Times New Roman", Georgia, serif;
-  font-size: clamp(30px, 2.6vw, 48px); /* slightly smaller */
+  font-size: clamp(30px, 2.6vw, 48px);
   line-height: 1.1;
   font-weight: 600;
   color: var(--ink-title);
   margin: 0 0 12px;
-  white-space: nowrap;   /* force one line */
+
+  white-space: nowrap;   /* ✅ desktop stays one line */
 }
 
+@media (max-width: 900px){
+  .med-low-risk-title{
+    white-space: normal;      /* ✅ allow wrapping on mobile */
+    text-wrap: balance;       /* nicer line breaks */
+    font-size: clamp(24px, 7vw, 34px);
+    line-height: 1.12;
+  }
+}
 .med-low-risk-sub{
   font-family: var(--body-font);
   font-size: var(--body-size);
