@@ -19,36 +19,32 @@
 
 <div class="wmol-view wmol-problem-view" id="wmolProblemView" aria-hidden="true">
   <h1 class="wmol-landing-title wmol-problem-title">
-    You’re putting in the effort, but it’s not turning into progress
+    Humans are capable of far more than most systems reliably support.
   </h1>
 
   <p class="wmol-landing-description wmol-problem-description">
-    You work harder, but keep plateauing.<br>
-    You learn more, but move in the wrong direction.<br>
-    You want to move forward, but giving up feels easier.
+    Too often, potential is lost to confusion, inconsistency, and environments that wear people down rather than a lack of effort, grit, or intelligence.
   </p>
 
   <p class="wmol-landing-subheader wmol-problem-subtitle">
-    The problem isn’t effort.<br>
-    It’s the lack of a system that holds under pressure.
+    WMOL builds structures that help people develop competency under pressure while avoiding unnecessary breakdowns along the way.
   </p>
 
-  <div class="wmol-problem-actions">
-    <a class="wmol-landing-cta wmol-landing-cta-primary" href="{% url 'landing:domains' %}">
-      Explore Systems
-    </a>
-
-    <button
-      class="wmol-landing-cta wmol-landing-cta-secondary"
-      type="button"
-      id="wmolProblemFlowBtn"
-      aria-expanded="true"
-    >
-      How They're Made
-    </button>
-  </div>
 </div>
+<div class="wmol-view wmol-why-view" id="wmolWhyView" aria-hidden="true">
+  <h1 class="wmol-landing-title wmol-why-title">
+    I grew up seeing how difficult it is to move forward when there’s no clear structure, stability, or path ahead.
+  </h1>
 
+  <p class="wmol-landing-description wmol-why-description">
+    Later, even in elite environments, I saw highly capable people struggle because the path to higher performance was unclear, inconsistent, and often had to be figured out alone.
+  </p>
+
+  <p class="wmol-landing-subheader wmol-why-subtitle">
+    WMOL exists to help people grow, adapt, and pursue difficult goals without unnecessary collapse in the process.
+  </p>
+
+</div>
 <div class="wmol-view wmol-architecture-view" id="wmolArchitectureView" aria-hidden="true">
   <h1 class="wmol-landing-title wmol-architecture-title">
   Systems that turn effort into consistent, reliable progress
@@ -77,7 +73,7 @@
         id="wmolFlowBtn"
         aria-expanded="false"
       >
-        See How This Works
+        Read Our Belief
       </button>
     </div>
   </div>
@@ -89,26 +85,32 @@
     const heroView = document.getElementById("wmolHeroView");
     const problemView = document.getElementById("wmolProblemView");
     const architectureView = document.getElementById("wmolArchitectureView");
+    const whyView = document.getElementById("wmolWhyView");
     const flowBtn = document.getElementById("wmolFlowBtn");
-    const problemFlowBtn = document.getElementById("wmolProblemFlowBtn");
     const sharedActions = landing.querySelector(".wmol-landing-actions");
-    const problemActions = landing.querySelector(".wmol-problem-actions");
 
-     if (!landing || !heroView || !problemView || !architectureView || !flowBtn || !problemFlowBtn || !sharedActions || !problemActions) return;
+   if (
+  !landing ||
+  !heroView ||
+  !problemView ||
+  !whyView ||
+  !architectureView ||
+  !flowBtn ||
+  !sharedActions 
+) return;
 
-    let step = 0; // 0 = hero, 1 = problem, 2 = architecture
+   let step = 0; // 0 = hero, 1 = belief, 2 = why, 3 = framework
 
 function renderStep() {
   const isMobile = window.innerWidth < 768;
 
-  landing.classList.remove("is-problem", "is-architecture");
+  landing.classList.remove("is-problem", "is-why", "is-architecture");
 
   heroView.setAttribute("aria-hidden", "true");
   problemView.setAttribute("aria-hidden", "true");
   architectureView.setAttribute("aria-hidden", "true");
-
+  whyView.setAttribute("aria-hidden", "true");
   sharedActions.style.display = "none";
-  problemActions.style.display = "none";
 
   /* reset inline overrides first */
   sharedActions.style.marginTop = "";
@@ -116,20 +118,16 @@ function renderStep() {
   sharedActions.style.justifyContent = "";
   sharedActions.style.width = "";
 
-  heroView.style.transform = "";
-  problemView.style.transform = "";
-  architectureView.style.transform = "";
+heroView.style.removeProperty("transform");
+problemView.style.removeProperty("transform");
+whyView.style.removeProperty("transform");
+architectureView.style.removeProperty("transform");
 
-  problemActions.style.justifyContent = "";
-  problemActions.style.alignItems = "";
-  problemActions.style.gap = "";
-  problemActions.style.marginTop = "";
-  problemActions.style.width = "";
-
-  if (step === 0) {
+if (step === 0) {
     heroView.setAttribute("aria-hidden", "false");
     sharedActions.style.display = "flex";
-    flowBtn.textContent = "See How This Works";
+    flowBtn.style.display = "inline-flex";
+    flowBtn.textContent = "Read Our Belief";
     flowBtn.setAttribute("aria-expanded", "false");
 
     if (isMobile) {
@@ -137,49 +135,55 @@ function renderStep() {
       sharedActions.style.gap = "14px";
       sharedActions.style.marginTop = "8px";
       sharedActions.style.width = "100%";
-      heroView.style.transform = "translateY(-6px)";
+      heroView.style.transform = "translateY(-24px)";
     }
-  } else if (step === 1) {
+} else if (step === 1) {
     landing.classList.add("is-problem");
     problemView.setAttribute("aria-hidden", "false");
-    problemActions.style.display = "flex";
-    problemActions.style.justifyContent = "center";
-    problemActions.style.alignItems = "center";
-    problemActions.style.gap = isMobile ? "14px" : "14px";
-    problemActions.style.marginTop = isMobile ? "22px" : "34px";
-    problemActions.style.width = "100%";
+    sharedActions.style.display = "flex";
+    flowBtn.style.display = "inline-flex";
+    flowBtn.textContent = "Understand Our Why";
 
     if (isMobile) {
       problemView.style.transform = "translate(-50%, -48%)";
     }
-  } else {
-    landing.classList.add("is-architecture");
-    architectureView.setAttribute("aria-hidden", "false");
-    sharedActions.style.display = "flex";
+} else if (step === 2) {
 
-    if (isMobile) {
-      sharedActions.style.justifyContent = "center";
-      sharedActions.style.gap = "14px";
-      sharedActions.style.marginTop = "68px";
-      sharedActions.style.width = "100%";
-      architectureView.style.transform = "translate(-50%, -48%)";
-    }
+  landing.classList.add("is-why");
+  whyView.setAttribute("aria-hidden", "false");
+  sharedActions.style.display = "flex";
+  flowBtn.style.display = "inline-flex";
+  flowBtn.textContent = "View Our Framework";
+
+  if (isMobile) {
+    sharedActions.style.marginTop = "110px";
   }
+
+}
+ else {
+
+architectureView.setAttribute("aria-hidden", "false");
+landing.classList.add("is-architecture");
+flowBtn.style.display = "none";
+sharedActions.style.display = "flex";
+
+  if (isMobile) {
+    sharedActions.style.justifyContent = "center";
+    sharedActions.style.gap = "14px";
+    sharedActions.style.marginTop = "68px";
+    sharedActions.style.width = "100%";
+
+  }
+}
 }
 
     flowBtn.addEventListener("click", function () {
-      if (step < 2) {
+      if (step < 3) {
         step += 1;
         renderStep();
       }
     });
 
-    problemFlowBtn.addEventListener("click", function () {
-      if (step < 2) {
-        step += 1;
-        renderStep();
-      }
-    });
 
     renderStep();
   })();
