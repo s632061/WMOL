@@ -761,189 +761,422 @@ const audienceCaptionData = {
     "Make practice history visible for reflection and support."
   ]
 };
+const HSK_DEVELOPMENT_LOG_HTML = `
+  <h3 class="hsk-subhead">January 2026 - System Build Started</h3>
+  <p class="hsk-text">
+    Initial development began around the core idea: build a structured HSK learning system that reduces scattered studying, repeated relearning, and uncertainty about what to do next.
+  </p>
 
+  <h3 class="hsk-subhead">February 2026 - HSK 1-4 Foundation</h3>
+  <p class="hsk-text">
+    The first major version focused on building the core HSK progression: word blocks, sentence practice, review flow, listening, typing, recall, and structured study guidance through HSK 4.
+  </p>
+
+  <h3 class="hsk-subhead">March 2026 - Early Access Release</h3>
+  <p class="hsk-text">
+    Early access opened so real learners, tutors, and language specialists could begin testing the system in practice. Feedback from this stage helped refine wording, sentence nuance, question flow, and learner friction points.
+  </p>
+
+  <h3 class="hsk-subhead">April 2026 - Review And Application Improvements</h3>
+  <p class="hsk-text">
+    The review system, application-focused learning phases, and question logic were improved so learners could move from recognition toward more usable Chinese.
+  </p>
+
+  <h3 class="hsk-subhead">May 2026 - Human Touch And Guided Learning</h3>
+  <p class="hsk-text">
+    The learner experience was redesigned to feel more guided and supportive. Notes, milestones, review weeks, rest weeks, return messages, and transition guidance were rewritten so learners better understand where they are, what comes next, and why it matters.
+  </p>
+
+  <h3 class="hsk-subhead">June 2026 - HSK 5 Ready</h3>
+  <p class="hsk-text">
+    HSK 5 is now available. The system also includes expanded sentence practice, HSKK speaking support, sentence starter sequences, improved True/False logic, smoother difficulty progression, and more natural learner guidance through major transitions.
+  </p>
+
+  <h3 class="hsk-subhead">Next - HSK 6 And Continued Refinement</h3>
+  <p class="hsk-text">
+    HSK 6 is currently in development. The goal is to keep expanding the system while preserving what makes it useful: clear structure, steady progression, guided review, and practical application.
+  </p>
+`;
+
+const HSK_TERMS_HTML = `
+  <h3 class="hsk-subhead">General Use</h3>
+  <p class="hsk-text">
+    The HSK 1-6 Companion App is provided as an educational tool designed to support language learning. By using the app, you agree to use it for personal, non-commercial purposes and to engage with the content responsibly.
+  </p>
+
+  <h3 class="hsk-subhead">Early Access</h3>
+  <p class="hsk-text">
+    This app is currently in early access. Features, content, and behavior may change as the system continues to be refined. While reasonable efforts are made to ensure stability and accuracy, the app is provided “as is” during this phase.
+  </p>
+
+  <h3 class="hsk-subhead">Educational Disclaimer</h3>
+  <p class="hsk-text">
+    The app is designed to support learning but does not guarantee exam outcomes, fluency, or specific results. Progress depends on individual effort, consistency, and prior experience.
+  </p>
+
+  <h3 class="hsk-subhead">Accounts & Subscriptions</h3>
+  <p class="hsk-text">
+    Subscriptions are managed through the App Store or Google Play. The app does not require a separate user account, and access is governed by the terms of the platform through which the subscription is purchased.
+  </p>
+
+  <h3 class="hsk-subhead">Intellectual Property</h3>
+  <p class="hsk-text">
+    All app content, structure, and system design are the property of the creator and may not be copied, redistributed, or used to create derivative products without permission.
+  </p>
+
+  <h3 class="hsk-subhead">Changes To The Terms</h3>
+  <p class="hsk-text">
+    These terms may be updated as the app evolves. Continued use of the app after updates indicates acceptance of the revised terms.
+  </p>
+`;
+
+const HSK_PRIVACY_HTML = `
+  <h3 class="hsk-subhead">Data Collection</h3>
+  <p class="hsk-text">
+    The HSK 1-6 Companion App is designed to function without collecting personal study data. The app does not track, sell, or analyze individual learning behavior for advertising or third-party purposes.
+  </p>
+
+  <h3 class="hsk-subhead">Local Storage</h3>
+  <p class="hsk-text">
+    Learning progress, app settings, and certain app-functionality data are stored locally on your device. This information is used only to support the app’s functionality and is not transmitted to external servers for profiling or analytics.
+  </p>
+
+  <h3 class="hsk-subhead">Local Notifications</h3>
+  <p class="hsk-text">
+    The app may use local notifications to remind you when your next segment is ready or to help you continue where you left off. These notifications are scheduled on-device and do not require the app to sell or share personal data with third parties.
+  </p>
+
+  <h3 class="hsk-subhead">Accounts & Subscriptions</h3>
+  <p class="hsk-text">
+    The app does not require a separate user account. Subscription management and payment processing are handled through the App Store or Google Play, in accordance with their respective privacy policies.
+  </p>
+
+  <h3 class="hsk-subhead">Internet Usage</h3>
+  <p class="hsk-text">
+    Internet access is used only when necessary for subscription validation, updates, or content delivery. The app is designed to remain usable offline during normal use.
+  </p>
+
+  <p class="hsk-text">
+    This privacy policy may be updated as the app evolves. Continued use of the app indicates acceptance of the updated policy. Contact WangMethodOfLearning@gmail.com with any questions or concerns.
+  </p>
+`;
 const audienceAccordionData = {
   learners: [
     {
-      title: "Why Learners Get Stuck",
+      title: "Why This System Exists",
       html: `
-        <h3 class="hsk-subhead">The Problem</h3>
-        <p class="hsk-text">Many learners do understand Chinese during study. The breakdown happens later, when vocabulary fades, review gets scattered, and it becomes unclear what to do next.</p>
-        <p class="hsk-text">That is when a missed day becomes a missed week, and a missed week becomes relearning.</p>
+        <h3 class="hsk-subhead">You're Not Alone</h3>
+        <p class="hsk-text">I wasn't naturally gifted at languages. In fact, I failed Chinese school twice as a child, and for years learning Chinese felt like constantly starting over. If you've ever wondered why consistency feels so difficult, you're not alone. Many capable learners struggle not because they lack ability, but because they lack a stable way forward.</p>
 
-        <h3 class="hsk-subhead">The Cost</h3>
-        <p class="hsk-text">The issue is not usually ability. It is continuity. When the learning path feels scattered, learners spend too much energy rebuilding momentum instead of building Chinese.</p>
+        <h3 class="hsk-subhead">Why It Matters</h3>
+        <p class="hsk-text">Over time, I realized the problem wasn't effort. It was friction: too many resources, too many decisions, and too much rebuilding. Even motivated learners struggle when the learning process itself creates instability. Weeks become months, and people begin believing they're simply bad at languages.</p>
+
+        <h3 class="hsk-subhead">What We Built Instead</h3>
+        <p class="hsk-text">That question eventually led to the Wang Method of Learning. The principles behind it were refined across environments where learning quickly mattered, including the United States Naval Academy, medical education, and language learning itself. Those same ideas helped me progress through Chinese in a way I had never experienced growing up. The HSK Companion applies those principles to help learners build continuity, confidence, and usable fluency.</p>
+
+        <h3 class="hsk-subhead">Continue From Here</h3>
+        <p class="hsk-text">You don't have to become fluent overnight. You don't need perfect motivation or endless free time. You only need a place to continue from where you left off. We'll help with the rest.</p>
       `
     },
     {
-      title: "How The Guided System Helps",
+      title: "Why It Sticks",
       html: `
-        <h3 class="hsk-subhead">A Clear Path Forward</h3>
-        <p class="hsk-text">The HSK 1-6 Companion App gives learners a guided path through vocabulary, sentences, listening, typing, recall, review, and speaking support.</p>
-        <p class="hsk-text">Instead of feeling scattered or unsure what to study next, learners can follow a steady path and keep building.</p>
+        <h3 class="hsk-subhead">Clear Outcome</h3>
+        <p class="hsk-text">The goal is not endless study. The goal is passing HSK 1-6 efficiently while building usable Chinese. The system turns scattered study into a defined path with visible progress. That makes it easier to know what matters, what to repeat, and what to move past.</p>
 
-        <h3 class="hsk-subhead">Less Restarting</h3>
-        <p class="hsk-text">Review weeks, milestone guidance, and structured progression help earlier material stay connected as new content is introduced.</p>
+        <h3 class="hsk-subhead">Built For Real Life</h3>
+        <p class="hsk-text">The full progression is designed to be realistic under normal life constraints. You can move faster, slower, or jump ahead, but the baseline gives you something stable to return to. Review weeks and guided blocks reduce the feeling of starting from zero. The point is consistency without making Chinese feel like another exhausting obligation.</p>
+
+        <h3 class="hsk-subhead">Refined With Real Use</h3>
+        <p class="hsk-text">The system is being actively refined through early access feedback from learners, tutors, language specialists, and native speakers. Sentence nuance, question flow, review structure, and learner friction points continue to improve. The goal is to preserve the structure while making the experience smoother over time. That way, the system grows without losing what makes it useful.</p>
       `
     },
     {
-      title: "What Learning Feels Like",
+      title: "How This Is Different",
       html: `
-        <h3 class="hsk-subhead">Oriented, Not Lost</h3>
-        <p class="hsk-text">Learners always have a clearer sense of where they are, what comes next, and why it matters.</p>
+        <h3 class="hsk-subhead">HSK Focused, Not Casual Practice</h3>
+        <p class="hsk-text">Most Chinese apps are built around casual exposure, streaks, or disconnected practice. This app is designed for HSK-oriented learners who want a clear path from foundation to exam readiness. Vocabulary follows HSK 3.0 bands and is introduced through structured blocks. Practice is built to move words into recognition, recall, sentences, listening, and application.</p>
 
-        <h3 class="hsk-subhead">Steady, Not Scattered</h3>
-        <p class="hsk-text">Each block builds from learning into practice, review, and application so Chinese feels less like disconnected study and more like a guided journey.</p>
+        <h3 class="hsk-subhead">Structured Blocks, Not Scattered Lists</h3>
+        <p class="hsk-text">Instead of endless decks and loose word banks, each block gives you a finite unit of progress. You know what to train now, what comes next, and what done looks like. That reduces decision fatigue and makes the path feel more manageable. The system handles the small decisions so your attention can stay on learning.</p>
+
+        <h3 class="hsk-subhead">Application First Practice</h3>
+        <p class="hsk-text">Sentences are the backbone of the system because usable Chinese requires more than isolated word recognition. Learners practice meaning, structure, listening, typing, recall, and pronunciation across repeated contexts. Review is built around omitted work, incorrect work, and earlier material that needs reinforcement. The goal is less relearning and more automatic use.</p>
+      `
+    },
+    {
+      title: "What You'll Experience",
+      html: `
+        <h3 class="hsk-subhead">Your First Week</h3>
+        <p class="hsk-text">In your first week, you complete a defined block of vocabulary and begin applying those words in structured sentences. You do not have to design your own workflow or decide what matters next. The system gives you a clear starting point and a reason for each step. You simply begin and keep building.</p>
+
+        <h3 class="hsk-subhead">The Ongoing Experience</h3>
+        <p class="hsk-text">As you continue, the structure stays familiar while the difficulty grows. Blocks are finite, review is predictable, and progress remains visible. The experience is calm rather than frantic, focused rather than scattered. Even on low-energy days, you have a place to return.</p>
+
+        <h3 class="hsk-subhead">Long-Term Outcome</h3>
+        <p class="hsk-text">Over time, this creates a stable path from HSK 1 through HSK 6. Retention strengthens, application becomes more automatic, and exam preparation feels less chaotic. You build Chinese without constantly rebuilding your study system. That is the point of the companion system.</p>
       `
     },
     {
       title: "What's Included",
       html: `
         <h3 class="hsk-subhead">Current Learning System</h3>
-        <p class="hsk-text">HSK 1 and HSK 2 are free to try. The app now includes guided progression through HSK 5, with HSK 6 in development.</p>
-        <p class="hsk-text">It includes structured word blocks, sentence practice, listening, typing, recall, review support, HSKK speaking preparation, milestone guidance, and application-focused learning phases.</p>
+        <p class="hsk-text">HSK 1 and HSK 2 are free to try, and guided progression is currently available through HSK 5. The app includes structured word blocks, sentence practice, listening, typing, recall, review support, HSKK speaking preparation, milestone guidance, and application-focused learning phases. HSK 6 is in development. The system is built to support both exam progress and usable Chinese.</p>
+
+        <h3 class="hsk-subhead">Practical Skill Coverage</h3>
+        <p class="hsk-text">The app trains vocabulary, sentence construction, pronunciation, listening comprehension, recall, review, and application. It also includes specialized word lists, a built-in dictionary, exam breakdowns, and visual comfort modes. Practice is typing-based because the system prioritizes comprehension, recall, and functional use. Handwriting can be paired separately if that matters to your goals.</p>
       `
     },
     {
-      title: "Begin Here",
+      title: "Start Early Access",
       html: `
         <h3 class="hsk-subhead">Start Small</h3>
-        <p class="hsk-text">You do not need to rebuild your whole Chinese study system today.</p>
-        <p class="hsk-text">Start with the first block. HSK 1-2 are free, and the system is designed to guide you forward from there.</p>
+        <p class="hsk-text">You do not need to rebuild your entire Chinese study system today. Start with the first block and let the structure show you what comes next. HSK 1-2 are free, so the first step is low risk. If the system helps you feel more oriented, keep going.</p>
       `
-    }
+    },
+{
+  title: "Development Log",
+  html: HSK_DEVELOPMENT_LOG_HTML
+},
+{
+  title: "Terms Of Use",
+  html: HSK_TERMS_HTML
+},
+{
+  title: "Privacy Policy",
+  html: HSK_PRIVACY_HTML
+}
   ],
 
   tutors: [
     {
-      title: "Why Students Lose Momentum",
+      title: "Why This System Exists",
       html: `
-        <h3 class="hsk-subhead">The Between-Lesson Problem</h3>
-        <p class="hsk-text">Many students understand material during a lesson, but lose consistency once they are studying alone.</p>
-        <p class="hsk-text">By the next session, tutors may need to spend time rebuilding confidence, reviewing forgotten material, or restarting things that seemed clear before.</p>
+        <h3 class="hsk-subhead">You're Not The Only One</h3>
+        <p class="hsk-text">If you've taught long enough, you've probably seen the same pattern. Students perform well during lessons but struggle to maintain momentum between them. A week later, concepts that seemed solid suddenly feel unfamiliar again. You're not imagining it, and you're certainly not the only one noticing it.</p>
+
+        <h3 class="hsk-subhead">Why It Matters</h3>
+        <p class="hsk-text">When continuity breaks down, lessons become repetitive rather than progressive. Students become discouraged because they feel like they're always behind. Tutors spend valuable time rebuilding instead of advancing. The challenge often isn't teaching; it's sustaining learning between sessions.</p>
+
+        <h3 class="hsk-subhead">What We Built Instead</h3>
+        <p class="hsk-text">The Wang Method of Learning emerged from studying how people sustain progress under increasing demands. Its principles were refined through experiences spanning the United States Naval Academy, medical education, and accelerated language learning. Across these settings, the same lesson appeared repeatedly: capable people thrive when continuity is built into the system. The HSK Companion extends that continuity beyond the lesson so tutors can spend more time advancing and less time restarting.</p>
+
+        <h3 class="hsk-subhead">Start With One Student</h3>
+        <p class="hsk-text">You don't need to redesign your teaching process. You don't need to change what already works. Try it alongside one student and observe what changes. Small improvements in consistency often become meaningful outcomes.</p>
+      `
+    },
+    {
+      title: "Why Consistency Matters",
+      html: `
+        <h3 class="hsk-subhead">The Between-Lesson Gap</h3>
+        <p class="hsk-text">Many students understand a concept when someone is guiding them. The problem appears later, when they have to continue alone. Without structure, practice becomes scattered and review becomes inconsistent. That gap can make strong lessons feel less durable than they should.</p>
+
+        <h3 class="hsk-subhead">The Compounding Effect</h3>
+        <p class="hsk-text">Small breaks in continuity add up quickly. Students start forgetting, lose confidence, and return needing reassurance before they can move forward. Tutors then spend time repairing momentum instead of deepening ability. A better between-session system protects the progress already made.</p>
       `
     },
     {
       title: "How This Supports Your Lessons",
       html: `
-        <h3 class="hsk-subhead">Built For Continuity</h3>
-        <p class="hsk-text">The app gives students a structured path for review, sentence practice, listening, typing, recall, and HSK progress between tutoring sessions.</p>
-        <p class="hsk-text">It is designed to support tutors, not replace them.</p>
+        <h3 class="hsk-subhead">Built Around Carryover</h3>
+        <p class="hsk-text">The app gives students a structured path for review, sentence practice, listening, typing, recall, and HSK progression between sessions. It does not try to replace the tutor's judgment, personality, or live instruction. It supports the parts of learning that often break down after the lesson ends. Students return with more continuity and fewer loose ends.</p>
+
+        <h3 class="hsk-subhead">Easier To Integrate</h3>
+        <p class="hsk-text">Tutors can point students toward a block, sentence set, review week, or HSK level without rebuilding the whole plan from scratch. The system gives students something clear to execute between meetings. That makes homework feel less vague and easier to follow. It also gives tutors a cleaner starting point for the next session.</p>
       `
     },
     {
       title: "What Students Experience",
-       html: `
-        <h3 class="hsk-subhead">More Continuity Between Sessions</h3>
-        <p class="hsk-text">Students get clearer guidance about what to practice, what to review, and how each stage connects to the next.</p>
-        <p class="hsk-text">That helps lessons feel more continuous, so tutors can build on previous work instead of constantly rebuilding lost momentum.</p>
+      html: `
+        <h3 class="hsk-subhead">More Direction</h3>
+        <p class="hsk-text">Students get clearer guidance about what to practice, what to review, and why each stage matters. They are less likely to open a random resource and wonder whether it fits. The path feels more organized because each block connects to the next. That helps them stay engaged between lessons.</p>
+
+        <h3 class="hsk-subhead">More Confidence</h3>
+        <p class="hsk-text">When students can return to a predictable structure, mistakes feel easier to correct. Review becomes part of the system rather than a sign of failure. They can see progress through blocks, sentences, and review completion. That makes the next lesson feel like continuation instead of restart.</p>
       `
     },
     {
       title: "What's Included",
       html: `
         <h3 class="hsk-subhead">Tutor-Supportive Tools</h3>
-        <p class="hsk-text">The app includes HSK 1-5 progression, structured sentences, review weeks, HSKK speaking support, application-focused practice, and guided study flow.</p>
-        <p class="hsk-text">Students can use it on their own while tutors continue guiding the higher-level learning process.</p>
+        <p class="hsk-text">The app includes HSK 1-5 progression, structured word blocks, sentence practice, listening, typing, recall, review weeks, HSKK speaking support, application-focused practice, and milestone guidance. Students can use it independently while tutors continue guiding higher-level understanding. HSK 1-2 are free to try, and HSK 6 is in development. The system is designed to make between-session work easier to sustain.</p>
       `
     },
     {
-      title: "Try It With Students",
+      title: "Start Early Access",
       html: `
         <h3 class="hsk-subhead">Low-Risk First Step</h3>
-        <p class="hsk-text">Have a student try the first word block and a few sentence exercises.</p>
-        <p class="hsk-text">The goal is simple: see whether the structure helps them continue learning between sessions.</p>
+        <p class="hsk-text">Have one student try the first word block and a few sentence exercises. Ask whether the structure made it easier to know what to do between sessions. If the student returns more prepared, you have useful evidence. If not, the experiment stays small.</p>
       `
-    }
+    },
+{
+  title: "Development Log",
+  html: HSK_DEVELOPMENT_LOG_HTML
+},
+{
+  title: "Terms Of Use",
+  html: HSK_TERMS_HTML
+},
+{
+  title: "Privacy Policy",
+  html: HSK_PRIVACY_HTML
+}
   ],
 
   industry: [
     {
+      title: "Why This System Exists",
+      html: `
+        <h3 class="hsk-subhead">You're Not The Only One</h3>
+        <p class="hsk-text">Organizations frequently encounter the same challenge. Employees complete training, understand the material, and then struggle to apply it consistently over time. This isn't necessarily a reflection of motivation or capability. More often, it's a systems problem.</p>
+
+        <h3 class="hsk-subhead">Why It Matters</h3>
+        <p class="hsk-text">When learning doesn't translate into sustained behavior, organizations absorb the cost. Retraining increases, performance becomes inconsistent, and valuable knowledge fades. Information alone rarely creates stability. Effective systems do.</p>
+
+        <h3 class="hsk-subhead">What We Built Instead</h3>
+        <p class="hsk-text">The Wang Method of Learning was developed through years of observing adaptation in high-performance environments. The principles were refined across military training at the United States Naval Academy, medical education, and intensive language acquisition, all settings where learning under constraint was essential. Despite their differences, the same patterns consistently emerged. The HSK Companion applies those lessons to create more sustainable learning outcomes over time.</p>
+
+        <h3 class="hsk-subhead">Start Small</h3>
+        <p class="hsk-text">You don't need organization-wide implementation immediately. Begin with a single team or focused initiative. Evaluate whether greater continuity produces stronger outcomes. Meaningful change often starts small.</p>
+      `
+    },
+    {
       title: "Why Training Breaks Down",
       html: `
         <h3 class="hsk-subhead">The Workplace Problem</h3>
-        <p class="hsk-text">Employees may complete language training but still struggle to use the language consistently in real situations.</p>
-        <p class="hsk-text">The problem is often not exposure. It is retention, application, and continuity after training sessions end.</p>
+        <p class="hsk-text">Employees may complete language training but still struggle to use the language consistently in real situations. The breakdown usually happens after formal instruction ends. Without a clear system for review and application, knowledge fades before it becomes behavior. That makes training feel less durable than the investment deserves.</p>
+
+        <h3 class="hsk-subhead">The Cost Of Fragmentation</h3>
+        <p class="hsk-text">Scattered tools create scattered outcomes. Employees may know some words, recognize some phrases, or complete some lessons without developing reliable use. Managers then see uneven performance across people, locations, or roles. A stable system creates a better chance of stable carryover.</p>
       `
     },
     {
       title: "How This Supports Employees",
       html: `
         <h3 class="hsk-subhead">Practical Language Development</h3>
-        <p class="hsk-text">The system gives employees a structured path for vocabulary, sentence use, review, listening, recall, and application.</p>
-        <p class="hsk-text">It is designed to make language learning more consistent and easier to continue over time.</p>
+        <p class="hsk-text">The system gives employees a structured path for vocabulary, sentence use, listening, recall, review, and application. It is designed for continuity rather than one-time exposure. Employees can return to a predictable learning path even when schedules vary. That makes language development easier to sustain over time.</p>
+
+        <h3 class="hsk-subhead">Built For Real Constraints</h3>
+        <p class="hsk-text">Workplace learners rarely have perfect time, energy, or consistency. The system is built to reduce decision fatigue and make the next step clear. Progress is organized into defined blocks rather than vague goals. This helps training feel more manageable and easier to continue.</p>
       `
     },
     {
       title: "What Teams Experience",
       html: `
-        <h3 class="hsk-subhead">More Practical Training Continuity</h3>
-        <p class="hsk-text">Teams get a more predictable learning pathway instead of scattered tools, unclear expectations, and disconnected review.</p>
-        <p class="hsk-text">The goal is usable language development: employees retaining, reviewing, and applying language more consistently over time.</p>
+        <h3 class="hsk-subhead">More Predictable Progress</h3>
+        <p class="hsk-text">Teams get one consistent place to return to language training. The pathway is clearer than scattered resources, loose expectations, or disconnected review. Progress becomes easier to explain and easier to support. That creates a better foundation for practical communication goals.</p>
+
+        <h3 class="hsk-subhead">More Useful Carryover</h3>
+        <p class="hsk-text">The goal is not just completion. The goal is retention, review, and usable language over time. Employees practice language in ways that move beyond recognition into sentence use and application. That makes training more likely to survive contact with real work.</p>
       `
     },
     {
       title: "What's Included",
       html: `
         <h3 class="hsk-subhead">Training Support</h3>
-        <p class="hsk-text">The app includes structured HSK progression, guided review, sentence practice, listening and recall training, HSKK speaking support, and application-focused learning phases.</p>
-        <p class="hsk-text">It can support employees who need a clearer language-learning path for customer-facing or workplace communication.</p>
+        <p class="hsk-text">The app includes structured HSK progression, word blocks, sentence practice, listening, typing, recall, guided review, HSKK speaking support, and application-focused learning phases. It can support employees who need a clearer language-learning path for customer-facing or workplace communication. HSK 1-2 are free to preview, HSK 5 is available, and HSK 6 is in development.</p>
       `
     },
     {
-      title: "Request Information",
+      title: "Start Early Access",
       html: `
         <h3 class="hsk-subhead">Explore Fit</h3>
-        <p class="hsk-text">For hotels, airlines, service teams, and other organizations, the first step is identifying where language consistency matters most.</p>
-        <p class="hsk-text">From there, the system can be positioned around training continuity and practical employee development.</p>
+        <p class="hsk-text">For hotels, airlines, service teams, hospitality groups, and other organizations, the first step is identifying where language consistency matters most. From there, the system can be positioned around training continuity and practical employee development. You do not need to commit to a large rollout first. A focused use case is enough to begin the conversation.</p>
 
-        <h3 class="hsk-subhead">Questions Or Additional Information</h3>
+        <h3 class="hsk-subhead">Contact</h3>
         <p class="hsk-text">If you have questions, want more information, or are exploring whether this could fit your team, contact WangMethodOfLearning@gmail.com.</p>
       `
-    }
+    },
+{
+  title: "Development Log",
+  html: HSK_DEVELOPMENT_LOG_HTML
+},
+{
+  title: "Terms Of Use",
+  html: HSK_TERMS_HTML
+},
+{
+  title: "Privacy Policy",
+  html: HSK_PRIVACY_HTML
+}
   ],
 
   university: [
     {
+      title: "Why This System Exists",
+      html: `
+        <h3 class="hsk-subhead">We've Seen This Pattern Before</h3>
+        <p class="hsk-text">Educators often describe similar experiences. Students with clear potential sometimes struggle to sustain effective learning behaviors over time. They restart repeatedly despite strong intentions and adequate support. These challenges are more common and more consequential than they first appear.</p>
+
+        <h3 class="hsk-subhead">Why It Matters</h3>
+        <p class="hsk-text">When capable learners lose stability, the effects extend beyond the individual. Support demands increase, outcomes become less predictable, and opportunities for earlier intervention diminish. Information delivery matters. Continuity matters too.</p>
+
+        <h3 class="hsk-subhead">What We Built Instead</h3>
+        <p class="hsk-text">The Wang Method of Learning emerged from studying adaptation across increasingly demanding educational environments. Its principles were refined through experiences at the United States Naval Academy, medical education and board preparation, and later through accelerated Chinese language learning. Across these settings, success depended not only on intelligence or effort, but on whether learners possessed systems capable of sustaining effective behaviors under constraint. The HSK Companion represents one application of those principles, which are currently being explored through educational pilots focused on learner continuity and stability.</p>
+
+        <h3 class="hsk-subhead">Explore Together</h3>
+        <p class="hsk-text">Exploring a pilot doesn't require abandoning what already works. It creates an opportunity to evaluate whether additional structure strengthens existing outcomes. Small investigations often lead to meaningful discoveries. If capable students can be supported earlier, it's worth exploring.</p>
+      `
+    },
+    {
       title: "Why Students Fall Behind",
       html: `
         <h3 class="hsk-subhead">The Continuity Problem</h3>
-        <p class="hsk-text">Students may understand language material in class but lose momentum between assignments, review periods, or major transitions.</p>
-        <p class="hsk-text">When that happens, learning becomes less predictable and students spend more time relearning instead of progressing.</p>
+        <p class="hsk-text">Students may understand language material in class but lose momentum between assignments, review periods, or major transitions. When that happens, learning becomes less predictable. Students spend more time relearning instead of progressing. The issue often appears gradually before it becomes visible in performance.</p>
+
+        <h3 class="hsk-subhead">The System-Level Cost</h3>
+        <p class="hsk-text">When enough students lose continuity, faculty and support systems carry more of the load. Remediation demands rise, confidence drops, and outcomes become more variable. The problem is not always lack of instruction. It is often the lack of a stable learning structure outside instruction.</p>
       `
     },
     {
       title: "How This Supports Programs",
-            html: `
+      html: `
         <h3 class="hsk-subhead">More Stable Learning Support</h3>
-        <p class="hsk-text">The app gives students a structured language-learning path with review, practice, speaking support, and milestone guidance.</p>
-        <p class="hsk-text">It can support classrooms, language programs, and future pilots by helping students maintain continuity outside formal instruction.</p>
+        <p class="hsk-text">The app gives students a structured language-learning path with review, practice, speaking support, and milestone guidance. It can support classrooms, language programs, and pilots by helping students maintain continuity outside formal instruction. The goal is not to replace faculty judgment. The goal is to give students a steadier system between touchpoints.</p>
+
+        <h3 class="hsk-subhead">Program Fit</h3>
+        <p class="hsk-text">Programs can use the system to support HSK progression, application practice, review behavior, and learner consistency. Students get clearer expectations about what to practice and why it matters. Faculty get a more coherent support structure around the learning process. That makes the intervention easier to understand and evaluate.</p>
       `
     },
     {
       title: "What Students Experience",
       html: `
         <h3 class="hsk-subhead">Guided Progression</h3>
-        <p class="hsk-text">Students know where they are, what comes next, and why each stage matters.</p>
-        <p class="hsk-text">The system helps reduce unnecessary confusion while supporting long-term HSK progression and usable Chinese development.</p>
+        <p class="hsk-text">Students know where they are, what comes next, and why each stage matters. The system reduces unnecessary confusion while supporting long-term HSK progression and usable Chinese development. Review becomes part of the path rather than a punishment for forgetting. Progress feels more organized and less dependent on perfect motivation.</p>
+
+        <h3 class="hsk-subhead">Greater Stability</h3>
+        <p class="hsk-text">Students have a place to return when life, workload, or difficulty interrupts momentum. The structure helps them continue instead of restarting from scratch. That supports confidence and better carryover across weeks. Over time, the goal is a more stable learning identity.</p>
       `
     },
     {
       title: "What's Included",
       html: `
         <h3 class="hsk-subhead">Program Support</h3>
-        <p class="hsk-text">The system includes HSK 1-5 progression, review support, structured sentences, listening and recall training, HSKK speaking support, and application-focused learning phases.</p>
-        <p class="hsk-text">HSK 6 is currently in development.</p>
+        <p class="hsk-text">The system includes HSK 1-5 progression, word blocks, structured sentences, listening and recall training, guided review, HSKK speaking support, milestone guidance, and application-focused learning phases. HSK 1-2 are free to preview, and HSK 6 is currently in development. The app can support independent study, class supplementation, or pilot exploration. Its strongest value is continuity outside formal instruction.</p>
       `
     },
     {
-      title: "Explore A Pilot",
+      title: "Start Early Access",
       html: `
         <h3 class="hsk-subhead">Start With Fit</h3>
-        <p class="hsk-text">For universities or language programs, the best first step is exploring where students lose continuity and whether a guided support system can reduce that breakdown.</p>
-        <p class="hsk-text">The goal is more stable, predictable language-learning progress.</p>
+        <p class="hsk-text">For universities or language programs, the best first step is identifying where students lose continuity. From there, a small pilot can evaluate whether guided structure improves stability, review behavior, and progression. The goal is more predictable language-learning support. A focused pilot keeps the entry low risk while still generating useful information.</p>
+
+        <h3 class="hsk-subhead">Contact</h3>
+        <p class="hsk-text">If you have questions, want more information, or are exploring a possible program fit, contact WangMethodOfLearning@gmail.com.</p>
       `
-    }
+    },
+{
+  title: "Development Log",
+  html: HSK_DEVELOPMENT_LOG_HTML
+},
+{
+  title: "Terms Of Use",
+  html: HSK_TERMS_HTML
+},
+{
+  title: "Privacy Policy",
+  html: HSK_PRIVACY_HTML
+}
   ]
 };
 
