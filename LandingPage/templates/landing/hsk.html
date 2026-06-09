@@ -9,28 +9,35 @@
     <div class="hsk-toprow">
       <a class="hsk-back" href="/tools/">← Back</a>
     </div>
-
 <header class="hsk-hero">
   <h1 class="hsk-title">HSK 1-6 Companion App</h1>
-<div class="hsk-pill-wrap">
-  <span class="hsk-pill">Early Access</span>
-</div>
 
-<p class="hsk-subtitle">Make Chinese stick between lessons.</p>
+  <div class="hsk-pill-wrap">
+    <span class="hsk-pill">HSK 5 Ready</span>
+  </div>
 
-<p class="hsk-desc">
-  Many learners understand Chinese during a lesson, but struggle to use it the next time.
-  The HSK 1-6 Companion App gives you a structured path between sessions, helping you retain words,
-  apply them in sentences, and keep progress from resetting.
-</p>
+  <div class="hsk-audience-tabs" aria-label="Choose audience">
+    <button class="hsk-audience-tab is-active" type="button" data-audience="learners">Learners</button>
+    <button class="hsk-audience-tab" type="button" data-audience="tutors">Tutors</button>
+    <button class="hsk-audience-tab" type="button" data-audience="industry">Industry</button>
+    <button class="hsk-audience-tab" type="button" data-audience="university">University</button>
+  </div>
 
-<p class="hsk-desc hsk-pricing-line">
-  HSK 1-2 are free. Premium early access is $20/month.
-</p>
+  <p class="hsk-subtitle" id="hskAudienceTitle">
+    Learn Chinese without constantly starting over.
+  </p>
+
+  <p class="hsk-desc" id="hskAudienceDesc">
+    A guided learning system designed to help learners stay consistent, maintain momentum, and progress from HSK 1 through HSK 6.
+  </p>
+
+  <p class="hsk-desc hsk-pricing-line" id="hskAudienceLine">
+    HSK 1-2 are free. Premium early access is $20/month.
+  </p>
 
   <div class="hsk-cta-links hsk-hero-cta">
     <a href="https://apps.apple.com/app/id6759127346" class="hsk-cta-btn">Download on iOS</a>
-<a href="https://play.google.com/store/apps/details?id=com.wangmethodoflearning.hskcompanion&pcampaignid=web_share" class="hsk-cta-btn">Download on Android</a>
+    <a href="https://play.google.com/store/apps/details?id=com.wangmethodoflearning.hskcompanion&pcampaignid=web_share" class="hsk-cta-btn">Download on Android</a>
   </div>
 </header>
 
@@ -42,6 +49,9 @@
       <div class="hsk-slide">
         <img class="hsk-shot" src="/static/img/hsk/shot-01.png" alt="HSK app screenshot 1">
       </div>
+      <div class="hsk-slide hsk-light-slide">
+  <img class="hsk-shot" src="/static/img/hsk/shot-01-1.png" alt="HSK light mode home screen">
+</div>
       <div class="hsk-slide">
         <img class="hsk-shot" src="/static/img/hsk/shot-02.png" alt="HSK app screenshot 2">
       </div>
@@ -73,6 +83,8 @@
   </div>
 
   <button class="hsk-car-btn" data-dir="1" aria-label="Next">›</button>
+
+  <p class="hsk-shot-caption" id="hskShotCaption"></p>
 
   <!-- dots go UNDER the viewport -->
   <div class="hsk-dots" id="hskDots" aria-label="Carousel pagination"></div>
@@ -434,65 +446,86 @@
 </div>
 
 
-    <button class="hsk-acc-btn" type="button" data-acc-btn>
-      Development Log
-      <span class="hsk-acc-icon" aria-hidden="true">+</span>
-    </button>
+<button class="hsk-acc-btn" type="button" data-acc-btn>
+  Development Log
+  <span class="hsk-acc-icon" aria-hidden="true">+</span>
+</button>
 <div class="hsk-acc-panel" data-acc-panel>
 
+  <h3 class="hsk-subhead">January 2026 - System Build Started</h3>
   <p class="hsk-text">
-    Initial public early access release planned for mid-March, with coverage through HSK 4.
+    Initial development began around the core idea: build a structured HSK learning system that reduces scattered studying, repeated relearning, and uncertainty about what to do next.
+  </p>
+
+  <h3 class="hsk-subhead">February 2026 - HSK 1-4 Foundation</h3>
+  <p class="hsk-text">
+    The first major version focused on building the core HSK progression: word blocks, sentence practice, review flow, listening, typing, recall, and structured study guidance through HSK 4.
+  </p>
+
+  <h3 class="hsk-subhead">March 2026 - Early Access Release</h3>
+  <p class="hsk-text">
+    Early access opened so real learners, tutors, and language specialists could begin testing the system in practice. Feedback from this stage helped refine wording, sentence nuance, question flow, and learner friction points.
+  </p>
+
+  <h3 class="hsk-subhead">April 2026 - Review And Application Improvements</h3>
+  <p class="hsk-text">
+    The review system, application-focused learning phases, and question logic were improved so learners could move from recognition toward more usable Chinese.
+  </p>
+
+  <h3 class="hsk-subhead">May 2026 - Human Touch And Guided Learning</h3>
+  <p class="hsk-text">
+    The learner experience was redesigned to feel more guided and supportive. Notes, milestones, review weeks, rest weeks, return messages, and transition guidance were rewritten so learners better understand where they are, what comes next, and why it matters.
+  </p>
+
+  <h3 class="hsk-subhead">June 2026 - HSK 5 Ready</h3>
+  <p class="hsk-text">
+    HSK 5 is now available. The system also includes expanded sentence practice, HSKK speaking support, sentence starter sequences, improved True/False logic, smoother difficulty progression, and more natural learner guidance through major transitions.
+  </p>
+
+  <h3 class="hsk-subhead">Next - HSK 6 And Continued Refinement</h3>
+  <p class="hsk-text">
+    HSK 6 is currently in development. The goal is to keep expanding the system while preserving what makes it useful: clear structure, steady progression, guided review, and practical application.
   </p>
 
 </div>
-
-
-    <button class="hsk-acc-btn" type="button" data-acc-btn>
-     Join Early Access
-      <span class="hsk-acc-icon" aria-hidden="true">+</span>
-    </button>
+<button class="hsk-acc-btn" type="button" data-acc-btn>
+  Start Early Access
+  <span class="hsk-acc-icon" aria-hidden="true">+</span>
+</button>
 <div class="hsk-acc-panel" data-acc-panel>
 
-  <h3 class="hsk-subhead">Early Access</h3>
-<p class="hsk-text">
-  The HSK 1-6 Companion App is currently in early access.
-  This period is focused on refinement, stability, and continued development
-  while the underlying learning system is stress-tested in real-world use.
-</p>
+  <h3 class="hsk-subhead">HSK 5 Ready</h3>
+  <p class="hsk-text">
+    The HSK 1-6 Companion App now includes guided progression through HSK 5,
+    with HSK 6 currently in development.
+  </p>
+
+  <h3 class="hsk-subhead">Free Starting Point</h3>
+  <p class="hsk-text">
+    HSK 1 and HSK 2 are free to try, so learners can start with the first blocks
+    before deciding whether premium access fits their study path.
+  </p>
 
   <h3 class="hsk-subhead">Current Early Access Pricing</h3>
   <p class="hsk-text">
-    HSK 1-2 are free to try. During early access, premium access is available for $20 per month.
-    This pricing reflects early access to the system while development continues
+    Premium early access is currently $20/month while the system continues expanding
     toward full HSK 6 completion.
   </p>
 
-<h3 class="hsk-subhead">Future Pricing</h3>
-<p class="hsk-text">
-  After the system is complete and HSK 6 has been fully validated in practice
-  (anticipated around August), the subscription price will transition to $45 per month.
-</p>
-
-<p class="hsk-text">
-  This change reflects:
-</p>
-
-<ul class="hsk-list">
-  <li>Full HSK 1-6 completion</li>
-  <li>Continued development and maintenance</li>
-  <li>Long-term sustainability of the system</li>
-  <li>Implementation of feedback from the community</li>
-</ul>
-
-<p class="hsk-text">
-  Not simply the addition of vocabulary levels.
-</p>
-
-  <h3 class="hsk-subhead">Early User Thank You</h3>
+  <h3 class="hsk-subhead">Future Pricing</h3>
   <p class="hsk-text">
-    As a thank you to early users, anyone subscribed during the early access period
-    will retain the $20/month rate for an additional six months after the price increase.
-    After that period, early access users will be grandfathered into the standard pricing structure.
+    After HSK 6 is completed and the full system has been refined further,
+    pricing is expected to increase.
+  </p>
+
+  <p class="hsk-text">
+    The goal is to keep improving the system without losing what makes it useful:
+    clear structure, guided progression, review support, and practical application.
+  </p>
+
+  <h3 class="hsk-subhead">Questions Or Additional Information</h3>
+  <p class="hsk-text">
+    If you have questions, want more information, or are exploring whether this fits your learning, tutoring, team, or program needs, contact WangMethodOfLearning@gmail.com.
   </p>
 
 </div>
@@ -600,12 +633,12 @@
   </div>
 
 <div class="hsk-close hsk-cta">
-  <p class="hsk-cta-text">
+  <p class="hsk-cta-text" id="hskBottomCtaText">
     Make Chinese stick between sessions. HSK 1-2 are free to try.
   </p>
   <div class="hsk-cta-links">
-   <a href="https://apps.apple.com/app/id6759127346" class="hsk-cta-btn">Download on iOS</a>
-<a href="https://play.google.com/store/apps/details?id=com.wangmethodoflearning.hskcompanion&pcampaignid=web_share" class="hsk-cta-btn">Download on Android</a>
+    <a id="hskBottomCtaPrimary" href="https://apps.apple.com/app/id6759127346" class="hsk-cta-btn">Download on iOS</a>
+    <a id="hskBottomCtaSecondary" href="https://play.google.com/store/apps/details?id=com.wangmethodoflearning.hskcompanion&pcampaignid=web_share" class="hsk-cta-btn">Download on Android</a>
   </div>
 </div>
 </section>
@@ -617,10 +650,365 @@
     const track = document.getElementById('hskTrack');
     const slides = track ? Array.from(track.querySelectorAll('.hsk-slide')) : [];
     const dotsEl = document.getElementById('hskDots');
+    const shotCaption = document.getElementById('hskShotCaption');
     const btnPrev = document.querySelector('.hsk-car-btn[data-dir="-1"]');
     const btnNext = document.querySelector('.hsk-car-btn[data-dir="1"]');
 
-    let i = 0;
+const audienceData = {
+  learners: {
+    title: "Learn Chinese without constantly starting over.",
+    desc: "For learners who understand during study but lose momentum later, this guided system helps you stay oriented, review consistently, and keep progressing from HSK 1 through HSK 6.",
+    line: "HSK 1-2 are free. Start with the first block today."
+  },
+  tutors: {
+    title: "Help students keep learning between lessons.",
+    desc: "For tutors whose students understand in class but lose consistency later, this system gives learners guided review, sentence practice, speaking support, and HSK structure between sessions.",
+    line: "Use it alongside your lessons, not instead of them."
+  },
+  industry: {
+    title: "Develop employees who use language more consistently.",
+    desc: "For teams that need practical language progress, this guided system supports retention, review, and steadier workplace language development over time.",
+    line: "A clearer path for training, review, and real use."
+  },
+  university: {
+    title: "Create more stable language learning outcomes.",
+    desc: "For programs where students can fall behind between classes, this structured system supports review, momentum, and long-term HSK progression outside formal instruction.",
+    line: "Designed for classrooms, programs, and future pilot opportunities."
+  }
+};
+
+const audienceBottomCtaData = {
+  learners: {
+    text: "Learn Chinese without constantly starting over. HSK 1-2 are free to try.",
+    primaryText: "Download on iOS",
+    primaryHref: "https://apps.apple.com/app/id6759127346",
+    secondaryText: "Download on Android",
+    secondaryHref: "https://play.google.com/store/apps/details?id=com.wangmethodoflearning.hskcompanion&pcampaignid=web_share"
+  },
+  tutors: {
+    text: "Help students keep learning between lessons. Try it alongside your current teaching flow.",
+    primaryText: "Download on iOS",
+    primaryHref: "https://apps.apple.com/app/id6759127346",
+    secondaryText: "Download on Android",
+    secondaryHref: "https://play.google.com/store/apps/details?id=com.wangmethodoflearning.hskcompanion&pcampaignid=web_share"
+  },
+  industry: {
+    text: "Build practical language continuity for teams that need employees to retain, review, and actually use what they learn.",
+    primaryText: "Request Information",
+    primaryHref: "mailto:WangMethodOfLearning@gmail.com?subject=HSK%201-6%20Companion%20App%20-%20Industry%20Information",
+    secondaryText: "Preview on iOS",
+    secondaryHref: "https://apps.apple.com/app/id6759127346"
+  },
+  university: {
+    text: "Support more stable language learning outcomes with a guided system students can use outside formal instruction.",
+    primaryText: "Explore Program Fit",
+    primaryHref: "mailto:WangMethodOfLearning@gmail.com?subject=HSK%201-6%20Companion%20App%20-%20University%20Information",
+    secondaryText: "Preview on iOS",
+    secondaryHref: "https://apps.apple.com/app/id6759127346"
+  }
+};
+const audienceCaptionData = {
+  learners: [
+    "Start where you left off, with guidance already waiting.",
+    "Switch modes without changing the path you’re following.",
+    "See the plan, the next step, and the reason behind it.",
+    "Preview each block before you enter, so progress feels visible.",
+    "Learn the word, hear it, break it down, and understand it in context.",
+    "Turn vocabulary into sentences instead of leaving words isolated.",
+    "Move into application when you’re ready, and see the next level become reachable.",
+    "Return to earlier blocks without rebuilding your study path.",
+    "Keep a dictionary built from words you’ve actually learned.",
+    "Train the skills you’ll need when practice starts to feel like exam prep.",
+    "Look back at your attempts and see how far you’ve come."
+  ],
+  tutors: [
+    "Give students a place to continue when the lesson ends.",
+    "Let them study comfortably without changing the structure.",
+    "Give them a plan they can follow between sessions.",
+    "Make their progress visible before the next block begins.",
+    "Support word learning without replacing your teaching.",
+    "Help lesson vocabulary become usable sentence practice.",
+    "Show students that the next HSK level is within reach.",
+    "Let them revisit old blocks without asking where to restart.",
+    "Give them a reference built from what they’ve actually studied.",
+    "Support application practice outside lesson time.",
+    "Review practice history together and see what needs attention."
+  ],
+  industry: [
+    "Give employees one consistent place to return to training.",
+    "Support study across different schedules and environments.",
+    "Provide a clear path instead of scattered language resources.",
+    "Make training progress visible before each new step.",
+    "Support practical word learning with sound, meaning, and context.",
+    "Move training from recognition into sentence use.",
+    "Help employees see that steady progress is realistic.",
+    "Let teams revisit earlier material without losing structure.",
+    "Build a useful reference from vocabulary already trained.",
+    "Practice application before language is needed on the job.",
+    "Track attempts so development becomes easier to review."
+  ],
+  university: [
+    "Give students guided support outside the classroom.",
+    "Keep the study path stable across different learning environments.",
+    "Make progression clearer between classes, reviews, and transitions.",
+    "Help students see progress before entering the next block.",
+    "Support vocabulary learning with sound, meaning, structure, and context.",
+    "Move students from word recognition into sentence application.",
+    "Make advancement through HSK levels feel achievable.",
+    "Let students revisit earlier material without restarting.",
+    "Give students a growing reference tied to prior learning.",
+    "Support application and exam preparation outside class.",
+    "Make practice history visible for reflection and support."
+  ]
+};
+
+const audienceAccordionData = {
+  learners: [
+    {
+      title: "Why Learners Get Stuck",
+      html: `
+        <h3 class="hsk-subhead">The Problem</h3>
+        <p class="hsk-text">Many learners do understand Chinese during study. The breakdown happens later, when vocabulary fades, review gets scattered, and it becomes unclear what to do next.</p>
+        <p class="hsk-text">That is when a missed day becomes a missed week, and a missed week becomes relearning.</p>
+
+        <h3 class="hsk-subhead">The Cost</h3>
+        <p class="hsk-text">The issue is not usually ability. It is continuity. When the learning path feels scattered, learners spend too much energy rebuilding momentum instead of building Chinese.</p>
+      `
+    },
+    {
+      title: "How The Guided System Helps",
+      html: `
+        <h3 class="hsk-subhead">A Clear Path Forward</h3>
+        <p class="hsk-text">The HSK 1-6 Companion App gives learners a guided path through vocabulary, sentences, listening, typing, recall, review, and speaking support.</p>
+        <p class="hsk-text">Instead of feeling scattered or unsure what to study next, learners can follow a steady path and keep building.</p>
+
+        <h3 class="hsk-subhead">Less Restarting</h3>
+        <p class="hsk-text">Review weeks, milestone guidance, and structured progression help earlier material stay connected as new content is introduced.</p>
+      `
+    },
+    {
+      title: "What Learning Feels Like",
+      html: `
+        <h3 class="hsk-subhead">Oriented, Not Lost</h3>
+        <p class="hsk-text">Learners always have a clearer sense of where they are, what comes next, and why it matters.</p>
+
+        <h3 class="hsk-subhead">Steady, Not Scattered</h3>
+        <p class="hsk-text">Each block builds from learning into practice, review, and application so Chinese feels less like disconnected study and more like a guided journey.</p>
+      `
+    },
+    {
+      title: "What's Included",
+      html: `
+        <h3 class="hsk-subhead">Current Learning System</h3>
+        <p class="hsk-text">HSK 1 and HSK 2 are free to try. The app now includes guided progression through HSK 5, with HSK 6 in development.</p>
+        <p class="hsk-text">It includes structured word blocks, sentence practice, listening, typing, recall, review support, HSKK speaking preparation, milestone guidance, and application-focused learning phases.</p>
+      `
+    },
+    {
+      title: "Begin Here",
+      html: `
+        <h3 class="hsk-subhead">Start Small</h3>
+        <p class="hsk-text">You do not need to rebuild your whole Chinese study system today.</p>
+        <p class="hsk-text">Start with the first block. HSK 1-2 are free, and the system is designed to guide you forward from there.</p>
+      `
+    }
+  ],
+
+  tutors: [
+    {
+      title: "Why Students Lose Momentum",
+      html: `
+        <h3 class="hsk-subhead">The Between-Lesson Problem</h3>
+        <p class="hsk-text">Many students understand material during a lesson, but lose consistency once they are studying alone.</p>
+        <p class="hsk-text">By the next session, tutors may need to spend time rebuilding confidence, reviewing forgotten material, or restarting things that seemed clear before.</p>
+      `
+    },
+    {
+      title: "How This Supports Your Lessons",
+      html: `
+        <h3 class="hsk-subhead">Built For Continuity</h3>
+        <p class="hsk-text">The app gives students a structured path for review, sentence practice, listening, typing, recall, and HSK progress between tutoring sessions.</p>
+        <p class="hsk-text">It is designed to support tutors, not replace them.</p>
+      `
+    },
+    {
+      title: "What Students Experience",
+       html: `
+        <h3 class="hsk-subhead">More Continuity Between Sessions</h3>
+        <p class="hsk-text">Students get clearer guidance about what to practice, what to review, and how each stage connects to the next.</p>
+        <p class="hsk-text">That helps lessons feel more continuous, so tutors can build on previous work instead of constantly rebuilding lost momentum.</p>
+      `
+    },
+    {
+      title: "What's Included",
+      html: `
+        <h3 class="hsk-subhead">Tutor-Supportive Tools</h3>
+        <p class="hsk-text">The app includes HSK 1-5 progression, structured sentences, review weeks, HSKK speaking support, application-focused practice, and guided study flow.</p>
+        <p class="hsk-text">Students can use it on their own while tutors continue guiding the higher-level learning process.</p>
+      `
+    },
+    {
+      title: "Try It With Students",
+      html: `
+        <h3 class="hsk-subhead">Low-Risk First Step</h3>
+        <p class="hsk-text">Have a student try the first word block and a few sentence exercises.</p>
+        <p class="hsk-text">The goal is simple: see whether the structure helps them continue learning between sessions.</p>
+      `
+    }
+  ],
+
+  industry: [
+    {
+      title: "Why Training Breaks Down",
+      html: `
+        <h3 class="hsk-subhead">The Workplace Problem</h3>
+        <p class="hsk-text">Employees may complete language training but still struggle to use the language consistently in real situations.</p>
+        <p class="hsk-text">The problem is often not exposure. It is retention, application, and continuity after training sessions end.</p>
+      `
+    },
+    {
+      title: "How This Supports Employees",
+      html: `
+        <h3 class="hsk-subhead">Practical Language Development</h3>
+        <p class="hsk-text">The system gives employees a structured path for vocabulary, sentence use, review, listening, recall, and application.</p>
+        <p class="hsk-text">It is designed to make language learning more consistent and easier to continue over time.</p>
+      `
+    },
+    {
+      title: "What Teams Experience",
+      html: `
+        <h3 class="hsk-subhead">More Practical Training Continuity</h3>
+        <p class="hsk-text">Teams get a more predictable learning pathway instead of scattered tools, unclear expectations, and disconnected review.</p>
+        <p class="hsk-text">The goal is usable language development: employees retaining, reviewing, and applying language more consistently over time.</p>
+      `
+    },
+    {
+      title: "What's Included",
+      html: `
+        <h3 class="hsk-subhead">Training Support</h3>
+        <p class="hsk-text">The app includes structured HSK progression, guided review, sentence practice, listening and recall training, HSKK speaking support, and application-focused learning phases.</p>
+        <p class="hsk-text">It can support employees who need a clearer language-learning path for customer-facing or workplace communication.</p>
+      `
+    },
+    {
+      title: "Request Information",
+      html: `
+        <h3 class="hsk-subhead">Explore Fit</h3>
+        <p class="hsk-text">For hotels, airlines, service teams, and other organizations, the first step is identifying where language consistency matters most.</p>
+        <p class="hsk-text">From there, the system can be positioned around training continuity and practical employee development.</p>
+
+        <h3 class="hsk-subhead">Questions Or Additional Information</h3>
+        <p class="hsk-text">If you have questions, want more information, or are exploring whether this could fit your team, contact WangMethodOfLearning@gmail.com.</p>
+      `
+    }
+  ],
+
+  university: [
+    {
+      title: "Why Students Fall Behind",
+      html: `
+        <h3 class="hsk-subhead">The Continuity Problem</h3>
+        <p class="hsk-text">Students may understand language material in class but lose momentum between assignments, review periods, or major transitions.</p>
+        <p class="hsk-text">When that happens, learning becomes less predictable and students spend more time relearning instead of progressing.</p>
+      `
+    },
+    {
+      title: "How This Supports Programs",
+            html: `
+        <h3 class="hsk-subhead">More Stable Learning Support</h3>
+        <p class="hsk-text">The app gives students a structured language-learning path with review, practice, speaking support, and milestone guidance.</p>
+        <p class="hsk-text">It can support classrooms, language programs, and future pilots by helping students maintain continuity outside formal instruction.</p>
+      `
+    },
+    {
+      title: "What Students Experience",
+      html: `
+        <h3 class="hsk-subhead">Guided Progression</h3>
+        <p class="hsk-text">Students know where they are, what comes next, and why each stage matters.</p>
+        <p class="hsk-text">The system helps reduce unnecessary confusion while supporting long-term HSK progression and usable Chinese development.</p>
+      `
+    },
+    {
+      title: "What's Included",
+      html: `
+        <h3 class="hsk-subhead">Program Support</h3>
+        <p class="hsk-text">The system includes HSK 1-5 progression, review support, structured sentences, listening and recall training, HSKK speaking support, and application-focused learning phases.</p>
+        <p class="hsk-text">HSK 6 is currently in development.</p>
+      `
+    },
+    {
+      title: "Explore A Pilot",
+      html: `
+        <h3 class="hsk-subhead">Start With Fit</h3>
+        <p class="hsk-text">For universities or language programs, the best first step is exploring where students lose continuity and whether a guided support system can reduce that breakdown.</p>
+        <p class="hsk-text">The goal is more stable, predictable language-learning progress.</p>
+      `
+    }
+  ]
+};
+
+const audienceTabs = Array.from(document.querySelectorAll('.hsk-audience-tab'));
+const audienceTitle = document.getElementById('hskAudienceTitle');
+const audienceDesc = document.getElementById('hskAudienceDesc');
+const audienceLine = document.getElementById('hskAudienceLine');
+const bottomCtaText = document.getElementById('hskBottomCtaText');
+const bottomCtaPrimary = document.getElementById('hskBottomCtaPrimary');
+const bottomCtaSecondary = document.getElementById('hskBottomCtaSecondary');
+
+let i = 0;
+
+function setAudience(audience){
+  const data = audienceData[audience];
+  if (!data) return;
+
+  audienceTabs.forEach(tab => {
+    tab.classList.toggle('is-active', tab.dataset.audience === audience);
+  });
+
+
+  if (audienceTitle) audienceTitle.textContent = data.title;
+  if (audienceDesc) audienceDesc.textContent = data.desc;
+  if (audienceLine) audienceLine.textContent = data.line;
+
+  renderAudienceAccordions(audience);
+  renderAudienceCaption(audience, i || 0);
+  renderBottomCta(audience);
+}
+
+function renderAudienceAccordions(audience){
+  const items = audienceAccordionData[audience];
+  if (!items) return;
+
+  const acc = document.querySelector('[data-acc]');
+  if (!acc) return;
+
+  const btns = Array.from(acc.querySelectorAll('[data-acc-btn]'));
+  const panels = Array.from(acc.querySelectorAll('[data-acc-panel]'));
+
+  items.forEach((item, idx) => {
+    const btn = btns[idx];
+    const panel = panels[idx];
+
+    if (!btn || !panel) return;
+
+    btn.innerHTML = `
+      ${item.title}
+      <span class="hsk-acc-icon" aria-hidden="true">+</span>
+    `;
+
+    panel.innerHTML = item.html;
+    btn.setAttribute('aria-expanded', 'false');
+    panel.style.maxHeight = '0px';
+  });
+}
+
+
+audienceTabs.forEach(tab => {
+  tab.addEventListener('click', () => setAudience(tab.dataset.audience));
+});
+
+setAudience('learners');
+
 
     function renderDots(){
       if (!dotsEl) return;
@@ -635,19 +1023,92 @@
         dotsEl.appendChild(dot);
       });
     }
+function renderAudienceCaption(audience, idx){
+  const captions = audienceCaptionData[audience];
+  if (!captions || !shotCaption) return;
 
-    function goTo(nextIndex){
-      if (!track || slides.length === 0) return;
-      i = (nextIndex + slides.length) % slides.length;
-      track.style.transform = `translateX(${-i * 100}%)`;
-      renderDots();
-    }
+  const nextText = captions[idx] || captions[0] || "";
+
+  if (shotCaption.textContent === nextText) return;
+
+  shotCaption.classList.remove('is-visible');
+
+  window.setTimeout(() => {
+    shotCaption.textContent = nextText;
+    shotCaption.classList.add('is-visible');
+  }, 140);
+}
+
+function renderBottomCta(audience){
+  const data = audienceBottomCtaData[audience];
+  if (!data) return;
+
+  if (bottomCtaText) bottomCtaText.textContent = data.text;
+
+  if (bottomCtaPrimary) {
+    bottomCtaPrimary.textContent = data.primaryText;
+    bottomCtaPrimary.href = data.primaryHref;
+  }
+
+  if (bottomCtaSecondary) {
+    bottomCtaSecondary.textContent = data.secondaryText;
+    bottomCtaSecondary.href = data.secondaryHref;
+  }
+}
+function goTo(nextIndex){
+  if (!track || slides.length === 0) return;
+  i = (nextIndex + slides.length) % slides.length;
+  track.style.transform = `translateX(${-i * 100}%)`;
+  renderDots();
+
+  const activeTab = document.querySelector('.hsk-audience-tab.is-active');
+  const activeAudience = activeTab ? activeTab.dataset.audience : 'learners';
+  renderAudienceCaption(activeAudience, i);
+}
 
     if (btnPrev) btnPrev.addEventListener('click', () => goTo(i - 1));
     if (btnNext) btnNext.addEventListener('click', () => goTo(i + 1));
 
-    // init
-    goTo(0);
+
+    const viewport = document.querySelector('.hsk-car-viewport');
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let isSwiping = false;
+
+if (viewport) {
+  viewport.addEventListener('touchstart', (e) => {
+    if (!e.touches || e.touches.length === 0) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchEndX = touchStartX;
+    isSwiping = true;
+  }, { passive: true });
+
+  viewport.addEventListener('touchmove', (e) => {
+    if (!isSwiping || !e.touches || e.touches.length === 0) return;
+    touchEndX = e.touches[0].clientX;
+  }, { passive: true });
+
+  viewport.addEventListener('touchend', () => {
+    if (!isSwiping) return;
+
+    const dx = touchEndX - touchStartX;
+
+    if (Math.abs(dx) > 42) {
+      if (dx < 0) goTo(i + 1);
+      else goTo(i - 1);
+    }
+
+    touchStartX = 0;
+    touchStartY = 0;
+    touchEndX = 0;
+    isSwiping = false;
+  }, { passive: true });
+}
+// init
+goTo(0);
+shotCaption?.classList.add('is-visible');
 
 
     // ===== Accordion (single-open, click to toggle) =====
