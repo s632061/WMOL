@@ -564,7 +564,11 @@ h3,
   margin-top: 140px !important;
 }
 
-
+.wmol-architecture-thesis{
+  display: inline-block;
+  color: rgba(248,242,235,0.985);
+  font-weight: 700;
+}
 
 /* =========================================================
    4) HOME RAILS (Medicine / Tech / Tools / Lifestyle visuals + animations)
