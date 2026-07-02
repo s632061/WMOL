@@ -1347,102 +1347,96 @@ line-height: 1.46 !important;
 /* Small web secondary slide fixes */
 @media (max-width: 900px) and (hover: hover){
 
+  /* Smaller + raised arch so it stops cutting into text */
   .wmol-landing-arch{
-    top: 52% !important;
-    width: clamp(960px, 145vw, 1220px) !important;
+    top: 44% !important;
+    width: clamp(850px, 128vw, 1080px) !important;
     transform: translate(-50%, -50%) scaleX(0.98) !important;
   }
 
+  /* Center secondary slide text against the viewport, not the inner wrapper */
   .wmol-landing.is-problem .wmol-problem-view,
   .wmol-landing.is-why .wmol-why-view,
   .wmol-landing.is-architecture .wmol-architecture-view{
-    position: absolute !important;
-    left: 50% !important;
-    top: 35.5% !important;
-    width: min(86vw, 560px) !important;
+    position: fixed !important;
+    left: 50vw !important;
+    top: 38vh !important;
+    width: min(84vw, 560px) !important;
     max-width: 560px !important;
     transform: translate(-50%, -50%) !important;
     text-align: center !important;
   }
 
   .wmol-landing.is-problem .wmol-problem-title{
-    max-width: 460px !important;
-    font-size: clamp(1rem, 2.55vw, 1.30rem) !important;
+    max-width: 470px !important;
+    font-size: clamp(1rem, 2.45vw, 1.28rem) !important;
     line-height: 1.18 !important;
-    margin: 0 auto 1.05rem auto !important;
-    text-align: center !important;
+    margin: 0 auto 1rem auto !important;
   }
 
   .wmol-landing.is-problem .wmol-problem-description{
     max-width: 520px !important;
-    font-size: clamp(0.88rem, 2.1vw, 1.02rem) !important;
+    font-size: clamp(0.86rem, 2vw, 1rem) !important;
     line-height: 1.34 !important;
-    margin: 0 auto 1.05rem auto !important;
-    text-align: center !important;
+    margin: 0 auto 1rem auto !important;
   }
 
   .wmol-landing.is-problem .wmol-problem-subtitle{
-    max-width: 470px !important;
-    font-size: clamp(0.92rem, 2.18vw, 1.05rem) !important;
+    max-width: 500px !important;
+    font-size: clamp(0.9rem, 2.05vw, 1.04rem) !important;
     line-height: 1.26 !important;
     margin: 0 auto !important;
-    text-align: center !important;
   }
 
   .wmol-landing.is-why .wmol-why-title{
-    max-width: 500px !important;
-    font-size: clamp(0.92rem, 2.15vw, 1.12rem) !important;
+    max-width: 520px !important;
+    font-size: clamp(0.88rem, 2vw, 1.06rem) !important;
     line-height: 1.18 !important;
-    margin: 0 auto 0.95rem auto !important;
-    text-align: center !important;
+    margin: 0 auto 0.85rem auto !important;
   }
 
   .wmol-landing.is-why .wmol-why-description{
-    max-width: 560px !important;
-    font-size: clamp(0.82rem, 1.92vw, 0.98rem) !important;
-    line-height: 1.33 !important;
-    margin: 0 auto 0.95rem auto !important;
-    text-align: center !important;
+    max-width: 590px !important;
+    font-size: clamp(0.76rem, 1.72vw, 0.9rem) !important;
+    line-height: 1.30 !important;
+    margin: 0 auto 0.85rem auto !important;
   }
 
   .wmol-landing.is-why .wmol-why-subtitle{
-    max-width: 520px !important;
-    font-size: clamp(0.86rem, 2vw, 1rem) !important;
-    line-height: 1.24 !important;
+    max-width: 530px !important;
+    font-size: clamp(0.82rem, 1.85vw, 0.96rem) !important;
+    line-height: 1.22 !important;
     margin: 0 auto !important;
-    text-align: center !important;
   }
 
   .wmol-landing.is-architecture .wmol-architecture-title{
-    max-width: 500px !important;
-    font-size: clamp(1.02rem, 2.35vw, 1.22rem) !important;
+    max-width: 520px !important;
+    font-size: clamp(1.08rem, 2.55vw, 1.32rem) !important;
     line-height: 1.2 !important;
     margin: 0 auto 1rem auto !important;
-    text-align: center !important;
   }
 
   .wmol-landing.is-architecture .wmol-architecture-principles{
-    max-width: 460px !important;
-    font-size: clamp(0.94rem, 2.05vw, 1.05rem) !important;
+    max-width: 480px !important;
+    font-size: clamp(1rem, 2.22vw, 1.12rem) !important;
     line-height: 1.34 !important;
     margin: 0 auto 1rem auto !important;
-    text-align: center !important;
   }
 
   .wmol-landing.is-architecture .wmol-architecture-subtitle{
-    max-width: 500px !important;
-    font-size: clamp(0.96rem, 2.1vw, 1.08rem) !important;
+    max-width: 510px !important;
+    font-size: clamp(1rem, 2.22vw, 1.12rem) !important;
     line-height: 1.28 !important;
     margin: 0 auto !important;
-    text-align: center !important;
   }
 
+  /* Center buttons against viewport too */
   .wmol-landing.is-problem .wmol-landing-actions,
   .wmol-landing.is-why .wmol-landing-actions,
   .wmol-landing.is-architecture .wmol-landing-actions{
-    position: absolute !important;
-    left: 50% !important;
-    bottom: 11vh !important;
+    position: fixed !important;
+    left: 50vw !important;
+    bottom: 10.5vh !important;
     transform: translateX(-50%) !important;
 
     display: flex !important;
