@@ -8673,10 +8673,16 @@ html.leaving-tools-ui .domains-thesis{
 @media (min-width: 701px) and (max-width: 900px) and (hover: hover){
 
   .wmol-landing.is-architecture .wmol-architecture-view{
-    left: 50% !important;
+    position: fixed !important;
+    left: calc(50vw - 12px) !important;
+    top: 38vh !important;
+    transform: translate(-50%, -50%) !important;
   }
 
   .wmol-landing.is-architecture .wmol-landing-actions{
-    left: 50% !important;
+    position: fixed !important;
+    left: calc(50vw - 12px) !important;
+    bottom: 10.5vh !important;
+    transform: translateX(-50%) !important;
   }
 }
