@@ -8669,7 +8669,7 @@ html.leaving-tools-ui .domains-thesis{
 }
 
 /* Small-web Systems page correction */
-@media (min-width: 701px) and (max-width: 900px) and (hover: hover){
+@media (max-width: 900px) and (hover: hover){
 
   .wmol-landing.is-architecture .wmol-architecture-view{
     position: fixed !important;
