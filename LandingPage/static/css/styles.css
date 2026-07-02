@@ -654,7 +654,7 @@ h3,
 @media (max-width: 640px) {
   .wmol-landing-arch {
     width: 178vw;
-    top: 54%;
+    top: 59%;
     transform: translate(-50%, -50%);
     opacity: .9;
   }
@@ -662,7 +662,7 @@ h3,
 @media (max-width: 420px) {
   .wmol-landing-arch {
     width: 198vw;
-    top: 55%;
+    top: 60%;
   }
 }
 
@@ -1349,20 +1349,28 @@ line-height: 1.46 !important;
 
 .wmol-landing.is-problem .wmol-problem-view,
 .wmol-landing.is-why .wmol-why-view{
-  top: 37.5% !important;
-  width: min(86vw, 420px) !important;
+  top: 42% !important;
+  left: 50% !important;
+  width: min(88vw, 420px) !important;
   max-width: 420px !important;
+  transform: translate(-50%, -50%) !important;
+  text-align: center !important;
 }
 
 .wmol-landing.is-architecture .wmol-architecture-view{
-  top: 38.5% !important;
-  width: min(92vw, 540px) !important;
-  max-width: 540px !important;
+  top: 42% !important;
+  left: 50% !important;
+  width: min(88vw, 440px) !important;
+  max-width: 440px !important;
+  transform: translate(-50%, -50%) !important;
+  text-align: center !important;
 }
 
 .wmol-landing.is-problem .wmol-problem-title,
 .wmol-landing.is-architecture .wmol-architecture-title{
-  max-width: 310px !important;
+  max-width: 300px !important;
+  font-size: clamp(0.98rem, 3.7vw, 1.18rem) !important;
+  line-height: 1.28 !important;
 }
 
 .wmol-landing.is-why .wmol-why-title{
@@ -1374,7 +1382,9 @@ line-height: 1.46 !important;
 
 .wmol-landing.is-problem .wmol-problem-description,
 .wmol-landing.is-architecture .wmol-architecture-principles{
-  max-width: 305px !important;
+  max-width: 310px !important;
+  font-size: clamp(0.86rem, 3.35vw, 0.98rem) !important;
+  line-height: 1.38 !important;
 }
 
 .wmol-landing.is-why .wmol-why-description{
@@ -1385,7 +1395,9 @@ line-height: 1.46 !important;
 }
 
 .wmol-landing.is-problem .wmol-problem-subtitle{
-  max-width: 305px !important;
+  max-width: 315px !important;
+  font-size: clamp(0.88rem, 3.45vw, 1rem) !important;
+  line-height: 1.34 !important;
 }
 
 .wmol-landing.is-architecture .wmol-architecture-subtitle{
@@ -1420,7 +1432,7 @@ line-height: 1.46 !important;
   justify-content: center !important;
   gap: 12px !important;
   left: 50% !important;
-  bottom: 12.5vh !important;
+  bottom: 7.5vh !important;
   width: min(100%, 360px) !important;
   transform: translateX(-50%) !important;
 }
@@ -8542,7 +8554,7 @@ html.leaving-tools-ui .domains-thesis{
 .wmol-landing.is-architecture .wmol-landing-actions{
   position: absolute !important;
   left: 50% !important;
-  bottom: 30vh !important;
+  bottom: 25vh !important;
   transform: translateX(-50%) !important;
   display: flex !important;
   justify-content: center !important;
@@ -8575,7 +8587,7 @@ html.leaving-tools-ui .domains-thesis{
   }
 
   .wmol-landing.is-architecture .wmol-landing-actions{
-    bottom: 25vh !important;
+    bottom: 21vh !important;
   }
 }
 
@@ -8610,6 +8622,6 @@ html.leaving-tools-ui .domains-thesis{
   }
 
   .wmol-landing.is-architecture .wmol-landing-actions{
-    bottom: 25vh !important;
+    bottom: 21vh !important;
   }
 }
