@@ -643,11 +643,11 @@ h3,
   }
 }
 
-/* Step 6: tablet */
 @media (max-width: 900px) {
   .wmol-landing-arch {
-    width: clamp(900px, 126vw, 1120px);
-    transform: translate(-50%, -48%);
+    width: clamp(900px, 132vw, 1160px);
+    top: 50%;
+    transform: translate(-50%, -50%) scaleX(0.98);
   }
 }
 
@@ -1344,107 +1344,61 @@ line-height: 1.46 !important;
     0 8px 18px rgba(0,0,0,0.32) !important;
 }
 
-/* Mobile secondary slide fixes */
-@media (max-width: 700px){
+/* Small-screen secondary slide fixes */
+@media (max-width: 900px){
 
-.wmol-landing.is-problem .wmol-problem-view,
-.wmol-landing.is-why .wmol-why-view{
-  top: 39.5% !important;
-  left: 50% !important;
-  width: min(88vw, 420px) !important;
-  max-width: 420px !important;
-  transform: translate(-50%, -50%) !important;
-  text-align: center !important;
-}
+  .wmol-landing.is-problem .wmol-problem-view,
+  .wmol-landing.is-why .wmol-why-view,
+  .wmol-landing.is-architecture .wmol-architecture-view{
+    top: 39.5% !important;
+    left: 50% !important;
+    width: min(88vw, 620px) !important;
+    max-width: 620px !important;
+    transform: translate(-50%, -50%) !important;
+    text-align: center !important;
+  }
 
-.wmol-landing.is-architecture .wmol-architecture-view{
-  top: 39.5% !important;
-  left: 50% !important;
-  width: min(88vw, 440px) !important;
-  max-width: 440px !important;
-  transform: translate(-50%, -50%) !important;
-  text-align: center !important;
-}
+  .wmol-landing.is-problem .wmol-problem-title,
+  .wmol-landing.is-why .wmol-why-title,
+  .wmol-landing.is-architecture .wmol-architecture-title{
+    width: 100% !important;
+    max-width: 620px !important;
+    margin: 0 auto 1.1rem auto !important;
+    text-align: center !important;
+  }
 
-.wmol-landing.is-problem .wmol-problem-title,
-.wmol-landing.is-architecture .wmol-architecture-title{
-  max-width: 300px !important;
-  font-size: clamp(0.98rem, 3.7vw, 1.18rem) !important;
-  line-height: 1.28 !important;
-}
+  .wmol-landing.is-problem .wmol-problem-description,
+  .wmol-landing.is-why .wmol-why-description,
+  .wmol-landing.is-architecture .wmol-architecture-principles,
+  .wmol-landing.is-problem .wmol-problem-subtitle,
+  .wmol-landing.is-why .wmol-why-subtitle,
+  .wmol-landing.is-architecture .wmol-architecture-subtitle{
+    width: 100% !important;
+    max-width: 620px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
 
-.wmol-landing.is-why .wmol-why-title{
-  max-width: 450px !important;
-  font-size: clamp(0.98rem, 4vw, 1.24rem) !important;
-  line-height: 1.28 !important;
-  margin-bottom: 0.9rem !important;
-}
-
-.wmol-landing.is-problem .wmol-problem-description,
-.wmol-landing.is-architecture .wmol-architecture-principles{
-  max-width: 310px !important;
-  font-size: clamp(0.86rem, 3.35vw, 0.98rem) !important;
-  line-height: 1.38 !important;
-}
-
-.wmol-landing.is-why .wmol-why-description{
-  max-width: 550px !important;
-  font-size: clamp(0.82rem, 3.35vw, 0.94rem) !important;
-  line-height: 1.38 !important;
-  margin-bottom: 0.9rem !important;
-}
-
-.wmol-landing.is-problem .wmol-problem-subtitle{
-  max-width: 315px !important;
-  font-size: clamp(0.88rem, 3.45vw, 1rem) !important;
-  line-height: 1.34 !important;
-}
-
-.wmol-landing.is-architecture .wmol-architecture-subtitle{
-  max-width: min(540px, 92vw) !important;
-  line-height: 1.34 !important;
-}
-
-.wmol-landing.is-architecture .wmol-architecture-thesis{
-  display: block !important;
-  max-width: min(520px, 92vw) !important;
-  margin: 0 auto 0.35rem auto !important;
-}
-
-.wmol-landing.is-architecture .wmol-architecture-progress{
-  display: block !important;
-  max-width: min(650px, 92vw) !important;
-  margin: 0 auto !important;
-}
-
-.wmol-landing.is-why .wmol-why-subtitle{
-  max-width: 560px !important;
-  font-size: clamp(0.82rem, 3.35vw, 0.94rem) !important;
-  line-height: 1.32 !important;
-  letter-spacing: -0.01em !important;
-}
-
-.wmol-landing.is-problem .wmol-landing-actions,
-.wmol-landing.is-why .wmol-landing-actions,
-.wmol-landing.is-architecture .wmol-landing-actions{
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 12px !important;
-  left: 50% !important;
-  bottom: 10vh !important;
-  width: min(100%, 360px) !important;
-  transform: translateX(-50%) !important;
-}
+  .wmol-landing.is-problem .wmol-landing-actions,
+  .wmol-landing.is-why .wmol-landing-actions,
+  .wmol-landing.is-architecture .wmol-landing-actions{
+    left: 50% !important;
+    bottom: 15vh !important;
+    transform: translateX(-50%) !important;
+    width: min(88vw, 430px) !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 14px !important;
+  }
 
   .wmol-landing.is-problem .wmol-landing-cta,
   .wmol-landing.is-why .wmol-landing-cta,
   .wmol-landing.is-architecture .wmol-landing-cta{
-    width: min(270px, 76vw) !important;
+    width: 100% !important;
     min-width: 0 !important;
-    height: 46px !important;
-    font-size: 0.62rem !important;
-    letter-spacing: 0.18em !important;
   }
 }
 /* =========================================================
