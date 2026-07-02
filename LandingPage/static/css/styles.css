@@ -1349,23 +1349,23 @@ line-height: 1.46 !important;
 
   /* Smaller + raised arch so it stops cutting into text */
   .wmol-landing-arch{
-    top: 44% !important;
+    top: 40% !important;
     width: clamp(850px, 128vw, 1080px) !important;
     transform: translate(-50%, -50%) scaleX(0.98) !important;
   }
 
-  /* Center secondary slide text against the viewport, not the inner wrapper */
-  .wmol-landing.is-problem .wmol-problem-view,
-  .wmol-landing.is-why .wmol-why-view,
-  .wmol-landing.is-architecture .wmol-architecture-view{
+/* Center secondary slide text */
+.wmol-landing.is-problem .wmol-problem-view,
+.wmol-landing.is-why .wmol-why-view,
+.wmol-landing.is-architecture .wmol-architecture-view{
     position: fixed !important;
-    left: 50vw !important;
+    left: calc(50vw - 24px) !important;
     top: 38vh !important;
     width: min(84vw, 560px) !important;
     max-width: 560px !important;
     transform: translate(-50%, -50%) !important;
     text-align: center !important;
-  }
+}
 
   .wmol-landing.is-problem .wmol-problem-title{
     max-width: 470px !important;
@@ -1430,12 +1430,12 @@ line-height: 1.46 !important;
     margin: 0 auto !important;
   }
 
-  /* Center buttons against viewport too */
-  .wmol-landing.is-problem .wmol-landing-actions,
-  .wmol-landing.is-why .wmol-landing-actions,
-  .wmol-landing.is-architecture .wmol-landing-actions{
+/* Center buttons against viewport too */
+.wmol-landing.is-problem .wmol-landing-actions,
+.wmol-landing.is-why .wmol-landing-actions,
+.wmol-landing.is-architecture .wmol-landing-actions{
     position: fixed !important;
-    left: 50vw !important;
+    left: calc(50vw - 24px) !important;
     bottom: 10.5vh !important;
     transform: translateX(-50%) !important;
 
@@ -1443,12 +1443,13 @@ line-height: 1.46 !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
+
     gap: 12px !important;
 
     width: min(420px, 76vw) !important;
     margin: 0 !important;
     z-index: 5 !important;
-  }
+}
 
   .wmol-landing.is-problem .wmol-landing-cta,
   .wmol-landing.is-why .wmol-landing-cta,
