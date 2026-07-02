@@ -8673,15 +8673,19 @@ html.leaving-tools-ui .domains-thesis{
 
   .wmol-landing.is-architecture .wmol-architecture-view{
     position: fixed !important;
-    left: calc(50vw - 34px) !important;
+    left: calc(50vw - 44px) !important;
     top: 38vh !important;
+    width: min(84vw, 560px) !important;
+    max-width: 560px !important;
     transform: translate(-50%, -50%) !important;
+    text-align: center !important;
   }
 
   .wmol-landing.is-architecture .wmol-landing-actions{
     position: fixed !important;
-    left: calc(50vw - 34px) !important;
+    left: calc(50vw - 44px) !important;
     bottom: 10.5vh !important;
+    width: 235px !important;
     transform: translateX(-50%) !important;
   }
 }
