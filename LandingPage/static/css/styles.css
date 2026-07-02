@@ -8673,14 +8673,14 @@ html.leaving-tools-ui .domains-thesis{
 
   .wmol-landing.is-architecture .wmol-architecture-view{
     position: fixed !important;
-    left: calc(50vw - 12px) !important;
+    left: calc(50vw - 34px) !important;
     top: 38vh !important;
     transform: translate(-50%, -50%) !important;
   }
 
   .wmol-landing.is-architecture .wmol-landing-actions{
     position: fixed !important;
-    left: calc(50vw - 12px) !important;
+    left: calc(50vw - 34px) !important;
     bottom: 10.5vh !important;
     transform: translateX(-50%) !important;
   }
