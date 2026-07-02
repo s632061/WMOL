@@ -1353,12 +1353,11 @@ line-height: 1.46 !important;
   transform: translate(-50%, -50%) scaleX(0.98) !important;
 }
 
-/* Center middle two slide text */
 .wmol-landing.is-problem .wmol-problem-view,
 .wmol-landing.is-why .wmol-why-view{
     position: fixed !important;
     left: calc(50vw - 12px) !important;
-    top: 38vh !important;
+    top: 40vh !important;
     width: min(84vw, 560px) !important;
     max-width: 560px !important;
     transform: translate(-50%, -50%) !important;
@@ -1402,8 +1401,8 @@ line-height: 1.46 !important;
     margin: 0 auto 0.85rem auto !important;
   }
 
-  .wmol-landing.is-why .wmol-why-description{
-    max-width: 590px !important;
+.wmol-landing.is-why .wmol-why-description{
+    max-width: 660px !important;
     font-size: clamp(0.76rem, 1.72vw, 0.9rem) !important;
     line-height: 1.30 !important;
     margin: 0 auto 0.85rem auto !important;
@@ -8674,10 +8673,10 @@ html.leaving-tools-ui .domains-thesis{
 @media (min-width: 701px) and (max-width: 900px) and (hover: hover){
 
   .wmol-landing.is-architecture .wmol-architecture-view{
-    left: calc(50% - 20px) !important;
+    left: 50% !important;
   }
 
   .wmol-landing.is-architecture .wmol-landing-actions{
-    left: calc(50% - 20px) !important;
+    left: 50% !important;
   }
 }
