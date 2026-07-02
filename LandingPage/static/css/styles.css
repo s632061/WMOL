@@ -1458,8 +1458,7 @@ line-height: 1.46 !important;
     justify-content: center !important;
 
     gap: 12px !important;
-
-    width: min(420px, 76vw) !important;
+width: 235px !important;
     margin: 0 !important;
     z-index: 5 !important;
 }
@@ -1474,15 +1473,15 @@ line-height: 1.46 !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 12px !important;
-    width: min(420px, 76vw) !important;
+    width: 235px !important;
     margin: 0 !important;
     z-index: 5 !important;
 }
   .wmol-landing.is-problem .wmol-landing-cta,
   .wmol-landing.is-why .wmol-landing-cta,
   .wmol-landing.is-architecture .wmol-landing-cta{
-    width: 100% !important;
-    min-width: 0 !important;
+    width: 235px !important;
+    min-width: 235px !important;
     height: 58px !important;
     padding: 0 1.5rem !important;
     font-size: 0.68rem !important;
