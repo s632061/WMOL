@@ -1103,7 +1103,7 @@ margin-top: 1.5rem !important;
 
 .wmol-landing:not(.is-problem):not(.is-why):not(.is-architecture) .wmol-landing-cta{
   flex: 0 0 auto !important;
-  width: 235px !important;
+ width: min(270px, 76vw) !important;
   min-width: 235px !important;
   height: 58px !important;
   padding: 0 1.5rem !important;
@@ -1309,7 +1309,7 @@ line-height: 1.46 !important;
 .wmol-landing.is-why .wmol-landing-cta,
 .wmol-landing.is-architecture .wmol-landing-cta{
   flex: 0 0 auto !important;
-  width: 235px !important;
+  width: min(270px, 76vw) !important;
   min-width: 235px !important;
   height: 58px !important;
   padding: 0 1.5rem !important;
@@ -1458,7 +1458,7 @@ line-height: 1.46 !important;
     justify-content: center !important;
 
     gap: 12px !important;
-width: 235px !important;
+width: min(270px, 76vw) !important;
     margin: 0 !important;
     z-index: 5 !important;
 }
@@ -1473,20 +1473,20 @@ width: 235px !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 12px !important;
-    width: 235px !important;
+    width: min(270px, 76vw) !important;
     margin: 0 !important;
     z-index: 5 !important;
 }
-  .wmol-landing.is-problem .wmol-landing-cta,
-  .wmol-landing.is-why .wmol-landing-cta,
-  .wmol-landing.is-architecture .wmol-landing-cta{
-    width: 235px !important;
-    min-width: 235px !important;
-    height: 58px !important;
-    padding: 0 1.5rem !important;
-    font-size: 0.68rem !important;
-    letter-spacing: 0.20em !important;
-  }
+.wmol-landing.is-problem .wmol-landing-cta,
+.wmol-landing.is-why .wmol-landing-cta,
+.wmol-landing.is-architecture .wmol-landing-cta{
+    width: min(270px, 76vw) !important;
+    min-width: 0 !important;
+    height: 46px !important;
+    padding: 0 1.2rem !important;
+    font-size: 0.62rem !important;
+    letter-spacing: 0.18em !important;
+}
 }
 /* =========================================================
    4) HOME RAILS (Medicine / Tech / Tools / Lifestyle visuals + animations)
@@ -8673,7 +8673,7 @@ html.leaving-tools-ui .domains-thesis{
 
   .wmol-landing.is-architecture .wmol-architecture-view{
     position: fixed !important;
-    left: calc(50vw - 44px) !important;
+   left: calc(50vw - 12px) !important;
     top: 38vh !important;
     width: min(84vw, 560px) !important;
     max-width: 560px !important;
@@ -8683,9 +8683,9 @@ html.leaving-tools-ui .domains-thesis{
 
   .wmol-landing.is-architecture .wmol-landing-actions{
     position: fixed !important;
-    left: calc(50vw - 44px) !important;
+   left: calc(50vw - 12px) !important;
     bottom: 10.5vh !important;
-    width: 235px !important;
+    width: min(270px, 76vw) !important;
     transform: translateX(-50%) !important;
   }
 }
