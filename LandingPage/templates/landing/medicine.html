@@ -15,7 +15,7 @@
       </div>
 
       <nav class="wml-cta">
-        <span class="wml-link">Explore Medicine</span>
+        <span class="wml-link">WMOL For Medicine</span>
       </nav>
     </div>
   </aside>
@@ -1714,19 +1714,17 @@ enableModalSwipe();
         }
       });
     }
+btn.addEventListener('click', (e) => {
+  e.preventDefault();
 
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      sessionStorage.setItem('closingToHome', '1');
+  const go = () => { window.location.href = "/tools/"; };
 
-      const go = () => { window.location.href = "{% url 'landing:domains' %}"; };
-
-      if (document.startViewTransition) {
-        document.startViewTransition(go);
-      } else {
-        go();
-      }
-    });
+  if (document.startViewTransition) {
+    document.startViewTransition(go);
+  } else {
+    go();
+  }
+});
   });
 </script>
 

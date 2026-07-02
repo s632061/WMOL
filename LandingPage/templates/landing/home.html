@@ -4,64 +4,84 @@
 
 <section class="wmol-landing" id="wmol-landing">
   <div class="wmol-landing-bg" aria-hidden="true"></div>
+
+  <img
+    class="wmol-landing-arch"
+    src="/static/img/wmol-arch-keystone.svg"
+    alt=""
+    aria-hidden="true"
+  >
   <div class="wmol-landing-inner">
     <div class="wmol-view wmol-hero-view" id="wmolHeroView" aria-hidden="false">
-      <h1 class="wmol-landing-title">Wang Method of Learning</h1>
+      <h1 class="wmol-landing-title">
+  Wang Method<br>of Learning
+</h1>
 
-      <h2 class="wmol-landing-subheader">
-        Systems that build competency without unnecessary struggle
-      </h2>
+<h2 class="wmol-landing-subheader">
+  Systems that build competency<br>without unnecessary misery
+</h2>
+
+      <div class="wmol-landing-divider" aria-hidden="true">
+        <span></span>
+      </div>
 
       <p class="wmol-landing-description">
-        Designed to help people rebuild mastery faster and more reliably across changing environments, demands, or careers
+        Designed to help people build capability faster and more reliably across changing environments, demands, or careers
       </p>
     </div>
 
 <div class="wmol-view wmol-problem-view" id="wmolProblemView" aria-hidden="true">
   <h1 class="wmol-landing-title wmol-problem-title">
-    Humans are capable of far more than most systems reliably support.
+    People are capable of far<br>more than most systems<br>reliably support.
   </h1>
 
   <p class="wmol-landing-description wmol-problem-description">
-    Too often, potential is lost to confusion, inconsistency, and environments that wear people down rather than a lack of effort, grit, or intelligence.
+   Most people's potential isn't limited by<br>intelligence, effort, or discipline,<br> but by systems that create unnecessary <br>confusion, inconsistency, frustration, and friction.
   </p>
 
   <p class="wmol-landing-subheader wmol-problem-subtitle">
-    WMOL builds structures that help people develop competency under pressure while avoiding unnecessary breakdowns along the way.
+    WMOL exists to make progress feel directed, clear, steady, and easy to continue.
   </p>
 
 </div>
 <div class="wmol-view wmol-why-view" id="wmolWhyView" aria-hidden="true">
   <h1 class="wmol-landing-title wmol-why-title">
-    I grew up seeing how difficult it is to move forward when there’s no clear structure, stability, or path ahead.
+   Throughout my life, I kept seeing capable people lose direction before they reached their potential.
   </h1>
 
   <p class="wmol-landing-description wmol-why-description">
-    Later, even in elite environments, I saw highly capable people struggle because the path to higher performance was unclear, inconsistent, and often had to be figured out alone.
+    I first saw it early in life, then later in demanding environments.<br>
+The environment changed, but the pattern didn't.<br>
+Without a dependable path, effort became harder to sustain,<br> progress became less predictable, and potential became harder to reach.
   </p>
 
   <p class="wmol-landing-subheader wmol-why-subtitle">
-    WMOL exists to help people grow, adapt, and pursue difficult goals without unnecessary collapse in the process.
+    So I built WMOL to give people systems<br> 
+    that help them reach their full potential.
   </p>
 
 </div>
 <div class="wmol-view wmol-architecture-view" id="wmolArchitectureView" aria-hidden="true">
   <h1 class="wmol-landing-title wmol-architecture-title">
-  Systems that turn effort into consistent, reliable progress
+ Systems that turn effort into<br>
+consistent and reliable progress
   </h1>
 
 <p class="wmol-landing-description wmol-architecture-principles">
   Structure builds momentum.<br>
-  Momentum creates performance.<br>
-  Performance allows stability in unstable environments.<br>
-  Stability maintains competency without unnecessary misery.
+  Momentum creates consistency.<br>
+  Consistency allows stability.<br>
+  Stability maintains performance in unstable environments.
 </p>
 
 <p class="wmol-landing-subheader wmol-architecture-subtitle">
   <span class="wmol-architecture-thesis">
-    WMOL builds human systems rather than systems for humans.
-  </span><br>
-  So progress continues even when time and energy aren’t perfect.
+    WMOL builds human systems<br>
+    rather than systems for humans.
+  </span>
+  <span class="wmol-architecture-progress">
+    So growth continues even when time, energy, and mental bandwidth aren’t perfect.
+  </span>
 </p>
 </div>
 
@@ -133,13 +153,12 @@ if (step === 0) {
     flowBtn.textContent = "Read Our Belief";
     flowBtn.setAttribute("aria-expanded", "false");
 
-    if (isMobile) {
-      sharedActions.style.justifyContent = "center";
-      sharedActions.style.gap = "14px";
-      sharedActions.style.marginTop = "-18px";
-      sharedActions.style.width = "100%";
-      heroView.style.transform = "translateY(-24px)";
-    }
+if (isMobile) {
+  sharedActions.style.justifyContent = "";
+  sharedActions.style.gap = "";
+  sharedActions.style.marginTop = "";
+  sharedActions.style.width = "";
+}
 } else if (step === 1) {
     landing.classList.add("is-problem");
     problemView.setAttribute("aria-hidden", "false");

@@ -13,11 +13,11 @@
     <h1 class="wml-title">Wang Method of<br>Learning</h1>
 
     <div class="rail-image-wrap">
-      <img src="/static/img/gadgets.png" alt="Tools icon">
+     <img src="/static/img/coat-circle.png" alt="Agnostic learning icon">
     </div>
 
     <nav class="wml-cta">
-      <span class="wml-link rail-bottom-label">Ways We Connect</span>
+    <span class="wml-link rail-bottom-label">Explore Seamless Learning</span>
       <span class="rail-select-underline" aria-hidden="true"></span>
     </nav>
   </div>
@@ -29,29 +29,46 @@
   <a class="btn-back" href="/domains/">← Back</a>
 </div>
 
-    <header class="tools-hub-hero">
-      <h1 class="tools-hub-title">Select Your System</h1>
+<header class="tools-hub-hero">
+  <h1 class="tools-hub-title">Select Your System</h1>
 
-      <p class="tools-hub-subtitle">Curated tools designed for steady, compounding progress.</p>
+<p class="tools-hub-subtitle">
+  Competency without loss of identity.
+</p>
 
-    </header>
+<p class="tools-hub-description">
+  WMOL organizes existing knowledge into structured learning systems that help learners achieve competency more efficiently without sacrificing their identity.
+</p>
 
-    <div class="tools-grid">
-      <a class="tool-icon-card" href="/tools/hsk/" data-hub-theme="hsk">
-
-        <div class="tool-icon-imgwrap">
-          <img src="/static/img/hsk-app-icon.png" alt="HSK App icon">
-        </div>
-        <div class="tool-icon-name">HSK 1-6 App</div>
-        <div class="tool-icon-desc">Streamline study, Strengthen retention, Cultivate confidence</div>
-      </a>
-
-      <div class="tool-icon-card tool-icon-disabled">
-        <div class="tool-icon-imgwrap"></div>
-        <div class="tool-icon-name">Coming soon</div>
-        <div class="tool-icon-desc">More WMOL tools in the pipeline.</div>
-      </div>
+<p class="tools-hub-description">
+  Each system reduces unnecessary friction so learners can spend less time managing the learning process and more time actually learning.
+</p>
+</header>
+<div class="tools-grid">
+  <a class="tool-icon-card" href="/tools/hsk/" data-hub-theme="hsk">
+    <div class="tool-icon-imgwrap">
+      <img src="/static/img/hsk-app-icon.png" alt="HSK App icon">
     </div>
+    <div class="tool-icon-name">HSK 1-6 Companion App</div>
+    <div class="tool-icon-kicker">Learn Chinese consistently.</div>
+    <div class="tool-icon-desc">
+      Stop rebuilding your study routine.<br>
+      One structured path from HSK 1 to HSK 6.
+    </div>
+  </a>
+
+  <a class="tool-icon-card" href="/medicine/" data-hub-theme="medicine">
+    <div class="tool-icon-imgwrap">
+      <img src="/static/img/medicine-onboarding-icon.png" alt="Medicine onboarding icon">
+    </div>
+    <div class="tool-icon-name">WMOL Medical School Onboarding</div>
+    <div class="tool-icon-kicker">Start medical school strong.</div>
+    <div class="tool-icon-desc">
+      Build study habits before classes begin.<br>
+      Stay capable under volume and pressure.
+    </div>
+  </a>
+</div>
   </main>
 
 </section>
@@ -66,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const applyTheme = (theme) => {
     hub.setAttribute("data-hub-theme", theme);
-    layout.setAttribute("data-hub-theme", theme); // <- makes the whole stage change
+    layout.setAttribute("data-hub-theme", theme);
   };
 
   const clearTheme = () => {
@@ -80,10 +97,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     card.addEventListener("mouseenter", () => applyTheme(theme));
     card.addEventListener("mouseleave", clearTheme);
-
-    // keyboard accessibility
     card.addEventListener("focus", () => applyTheme(theme));
     card.addEventListener("blur", clearTheme);
+
+    card.addEventListener("click", (e) => {
+      e.preventDefault();
+      applyTheme(theme);
+
+      const go = () => { window.location.href = card.href; };
+
+      window.setTimeout(() => {
+        if (document.startViewTransition) {
+          document.startViewTransition(go);
+        } else {
+          go();
+        }
+      }, 180);
+    });
   });
 });
 </script>
@@ -95,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   back.addEventListener('click', (e) => {
     e.preventDefault();
-    sessionStorage.setItem('closingToHomeTools', '1');
+    sessionStorage.setItem('closingToHome', '1');
 
     const go = () => { window.location.href = back.href; };
 

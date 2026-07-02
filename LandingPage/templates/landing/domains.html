@@ -17,10 +17,16 @@
 </script>
 
 
-<div class="home-viewport">
-  <p class="domains-prompt domains-thesis">
-    Systems that fix where learning and performance break down
-  </p>
+<div class="home-viewport domains-page">
+  <header class="domains-header" aria-label="Systems overview">
+    <p class="domains-prompt domains-thesis">
+      Choose the system that fits what you're trying to build
+    </p>
+
+    <div class="domains-divider" aria-hidden="true">
+      <span></span>
+    </div>
+  </header>
 
 
     <!-- Mobile-only carousel UI -->
@@ -34,11 +40,11 @@
 
  
   <!-- Q1 — Medicine -->
-  <aside class="wml-rail rail-medicine rail-clickable" data-href="/medicine/">
+  <aside class="wml-rail rail-medicine rail-clickable" data-href="/tools/">
     <div class="rail-inner">
       <h1 class="wml-title">
   Wang Method of<br>Learning
-  <span class="wml-subtitle">Curriculum &amp; Learning Systems Alignment</span>
+  <span class="wml-subtitle">Agnostic Learning System</span>
 </h1>
 
 
@@ -47,7 +53,7 @@
       </div>
 
       <nav class="wml-cta">
-        <a id="go-medicine" class="wml-link" href="/medicine/">Explore Seamless Learning</a>
+    <a id="go-medicine" class="wml-link" href="/tools/">Explore Seamless Learning</a>
       </nav>
     </div>
   </aside>
@@ -70,16 +76,16 @@
 
 
 <!-- Q3 — Gadgets / Tools -->
-<aside class="wml-rail rail-gadgets rail-clickable" data-href="/tools/">
+<aside class="wml-rail rail-gadgets rail-disabled">
   <div class="rail-inner">
 <h1 class="wml-title">
   Wang Method of<br>Learning
-  <span class="wml-subtitle">Accelerated Learning Across Domains</span>
+ <span class="wml-subtitle">Emotional Stability System</span>
 </h1>
 
 
     <nav class="wml-cta-gadgets">
-      <a id="go-tools" class="wml-link-gadgets" href="/tools/">Explore Ways We Connect</a>
+    <a id="go-tools" class="wml-link-gadgets" href="#">Coming Soon</a>
     </nav>
   </div>
 </aside>
@@ -90,7 +96,7 @@
     <div class="rail-inner">
 <h1 class="wml-title">
   Wang Method of<br>Learning
-  <span class="wml-subtitle">Long-Term Human Performance</span>
+<span class="wml-subtitle">Durable Performance System</span>
 </h1>
 
 
@@ -187,6 +193,7 @@ function wireToolsNav() {
   const trigger = document.getElementById("go-tools");
   const rail = document.querySelector(".wml-home .rail-gadgets");
   if (!home || !trigger || !rail) return;
+  if (rail.classList.contains("rail-disabled")) return;
 
   function startToolsTransition() {
   document.body.style.pointerEvents = "none";
@@ -322,7 +329,7 @@ document.body.style.pointerEvents = '';
 
 home.classList.add('from-tools', 'enter-from-tools');
 
-const MORPH_MS = 700;
+const MORPH_MS = 1100;
 
 window.setTimeout(() => {
   home.classList.remove('enter-from-tools');

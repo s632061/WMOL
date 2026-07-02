@@ -1,0 +1,54 @@
+<svg viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="WMOL bronze arch and keystone">
+  <defs>
+    <linearGradient id="bronzeStroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#b4915f"/>
+      <stop offset="48%" stop-color="#7a5d3e"/>
+      <stop offset="100%" stop-color="#3b2d22"/>
+    </linearGradient>
+
+    <linearGradient id="pillarFadeStrong" x1="0" y1="620" x2="0" y2="900" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#b4915f" stop-opacity="0.48"/>
+      <stop offset="35%" stop-color="#7a5d3e" stop-opacity="0.34"/>
+      <stop offset="70%" stop-color="#4b3929" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#241b15" stop-opacity="0.03"/>
+    </linearGradient>
+
+    <linearGradient id="pillarFadeSoft" x1="0" y1="620" x2="0" y2="900" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#b4915f" stop-opacity="0.40"/>
+      <stop offset="35%" stop-color="#7a5d3e" stop-opacity="0.28"/>
+      <stop offset="70%" stop-color="#4b3929" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#241b15" stop-opacity="0.02"/>
+    </linearGradient>
+
+    <filter id="keystoneShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.34"/>
+    </filter>
+  </defs>
+
+  <path d="M80 620 A520 520 0 0 1 470 175" fill="none" stroke="url(#bronzeStroke)" stroke-width="5" stroke-linecap="butt" opacity="0.68"/>
+  <path d="M180 620 A420 420 0 0 1 495 255" fill="none" stroke="url(#bronzeStroke)" stroke-width="4" stroke-linecap="butt" opacity="0.54"/>
+  <path d="M730 175 A520 520 0 0 1 1120 620" fill="none" stroke="url(#bronzeStroke)" stroke-width="5" stroke-linecap="butt" opacity="0.68"/>
+  <path d="M705 255 A420 420 0 0 1 1020 620" fill="none" stroke="url(#bronzeStroke)" stroke-width="4" stroke-linecap="butt" opacity="0.54"/>
+
+  <path d="M80 620 L80 900" fill="none" stroke="url(#pillarFadeStrong)" stroke-width="5"/>
+  <path d="M180 620 L180 900" fill="none" stroke="url(#pillarFadeSoft)" stroke-width="4"/>
+  <path d="M1020 620 L1020 900" fill="none" stroke="url(#pillarFadeSoft)" stroke-width="4"/>
+  <path d="M1120 620 L1120 900" fill="none" stroke="url(#pillarFadeStrong)" stroke-width="5"/>
+
+  <rect x="70" y="584" width="120" height="72" fill="#241b15" stroke="url(#bronzeStroke)" stroke-width="4" opacity="0.82"/>
+  <rect x="1010" y="584" width="120" height="72" fill="#241b15" stroke="url(#bronzeStroke)" stroke-width="4" opacity="0.82"/>
+
+  <g filter="url(#keystoneShadow)">
+    <path d="M455 100 H745 L685 315 H515 Z"
+      fill="rgba(58, 45, 34, 0.10)"
+      stroke="#b4915f"
+      stroke-width="3"
+      stroke-linejoin="round"
+      opacity="0.82"/>
+    <path d="M470 118 H730 L674 298 H526 Z"
+      fill="none"
+      stroke="#b4915f"
+      stroke-width="1.1"
+      opacity="0.28"/>
+  </g>
+</svg>
