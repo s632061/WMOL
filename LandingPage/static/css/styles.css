@@ -1348,7 +1348,7 @@ line-height: 1.46 !important;
 @media (max-width: 900px) and (hover: hover){
 
 .wmol-landing-arch{
-  top: 39% !important;
+  top: 36.5% !important;
   width: clamp(780px, 118vw, 1000px) !important;
   transform: translate(-50%, -50%) scaleX(0.98) !important;
 }
@@ -1357,7 +1357,7 @@ line-height: 1.46 !important;
 .wmol-landing.is-problem .wmol-problem-view,
 .wmol-landing.is-why .wmol-why-view{
     position: fixed !important;
-    left: 50vw !important;
+    left: calc(50vw - 12px) !important;
     top: 38vh !important;
     width: min(84vw, 560px) !important;
     max-width: 560px !important;
@@ -1449,7 +1449,7 @@ line-height: 1.46 !important;
 .wmol-landing.is-problem .wmol-landing-actions,
 .wmol-landing.is-why .wmol-landing-actions{
     position: fixed !important;
-    left: 50vw !important;
+    left: calc(50vw - 12px) !important;
     bottom: 10.5vh !important;
     transform: translateX(-50%) !important;
 
@@ -8633,12 +8633,12 @@ html.leaving-tools-ui .domains-thesis{
     bottom: 21vh !important;
   }
 }
-
 /* Architecture desktop layout: four clean stacked parts */
 @media (min-width: 701px){
 
   .wmol-landing.is-architecture .wmol-architecture-view{
     top: 43% !important;
+    left: 50% !important;
     width: min(760px, 84vw) !important;
   }
 
@@ -8665,6 +8665,19 @@ html.leaving-tools-ui .domains-thesis{
   }
 
   .wmol-landing.is-architecture .wmol-landing-actions{
+    left: 50% !important;
     bottom: 21vh !important;
+  }
+}
+
+/* Small-web Systems page correction */
+@media (min-width: 701px) and (max-width: 900px) and (hover: hover){
+
+  .wmol-landing.is-architecture .wmol-architecture-view{
+    left: calc(50% - 20px) !important;
+  }
+
+  .wmol-landing.is-architecture .wmol-landing-actions{
+    left: calc(50% - 20px) !important;
   }
 }
