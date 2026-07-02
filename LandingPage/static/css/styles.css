@@ -57,14 +57,14 @@ body{
   --shadow: 0 10px 28px rgba(0,0,0,0.14);
   --shadow-hover: 0 14px 32px rgba(0,0,0,0.18);
   --package-width: 520px;
-  --med-rail-w: 320px;
+ --med-rail-w: 280px;
   --med-frame: clamp(10px, 1.6vmin, 18px);
   --med-gap:   clamp(10px, 1.6vmin, 18px);
-  --med-content-offset: 36px;
+  --med-content-offset: 24px;
   --sbw: 14px; 
-  --content-max: 1140px;
+  --content-max: 1260px;
   --content-pad: clamp(16px, 2.2vmin, 24px);
-  --med-read: 650px;
+  --med-read: 760px;
   --ink: #4b3627;             
   --ink-muted: rgba(75,54,39,0.76);
   --ink-title: #3a2a20; 
@@ -118,10 +118,9 @@ h3,
   color: var(--text);
 }
 
-/* --- Vertical rhythm: make heading->first paragraph spacing consistent --- */
 .med-explainer p,
 .med-below-right p{
-  margin: 0 0 0.8rem 0;   /* match .med-copy p */
+  margin: 0 0 1rem 0;
 }
 
 /* =========================================================
@@ -652,20 +651,18 @@ h3,
   }
 }
 
-/* Step 7: mobile */
 @media (max-width: 640px) {
   .wmol-landing-arch {
     width: 178vw;
-    top: 49%;
+    top: 54%;
     transform: translate(-50%, -50%);
     opacity: .9;
   }
 }
-
 @media (max-width: 420px) {
   .wmol-landing-arch {
     width: 198vw;
-    top: 49%;
+    top: 55%;
   }
 }
 
@@ -1300,7 +1297,7 @@ line-height: 1.46 !important;
 
   position: absolute !important;
   left: 50% !important;
-  bottom: 30vh !important;
+  bottom: 21vh !important;
   transform: translateX(-50%) !important;
 
   width: auto !important;
@@ -1352,13 +1349,13 @@ line-height: 1.46 !important;
 
 .wmol-landing.is-problem .wmol-problem-view,
 .wmol-landing.is-why .wmol-why-view{
-  top: 42% !important;
+  top: 37.5% !important;
   width: min(86vw, 420px) !important;
   max-width: 420px !important;
 }
 
 .wmol-landing.is-architecture .wmol-architecture-view{
-  top: 42% !important;
+  top: 38.5% !important;
   width: min(92vw, 540px) !important;
   max-width: 540px !important;
 }
@@ -1415,14 +1412,18 @@ line-height: 1.46 !important;
   letter-spacing: -0.01em !important;
 }
 
-  .wmol-landing.is-problem .wmol-landing-actions,
-  .wmol-landing.is-why .wmol-landing-actions,
-  .wmol-landing.is-architecture .wmol-landing-actions{
-    flex-direction: column !important;
-    gap: 12px !important;
-    bottom: 22.5vh !important;
-    width: 100% !important;
-  }
+.wmol-landing.is-problem .wmol-landing-actions,
+.wmol-landing.is-why .wmol-landing-actions,
+.wmol-landing.is-architecture .wmol-landing-actions{
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  left: 50% !important;
+  bottom: 12.5vh !important;
+  width: min(100%, 360px) !important;
+  transform: translateX(-50%) !important;
+}
 
   .wmol-landing.is-problem .wmol-landing-cta,
   .wmol-landing.is-why .wmol-landing-cta,
@@ -2649,12 +2650,12 @@ animation: fly-up 1700ms cubic-bezier(.22,1,.36,1) .78s both;
 
 .med-hero{
   display: grid;
-  grid-template-columns: minmax(460px, 520px) minmax(480px, 640px);
+  grid-template-columns: minmax(440px, 500px) minmax(520px, 720px);
   gap: clamp(28px, 3vmin, 56px);
   align-items: start;
   justify-content: center;
   justify-items: stretch;
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto 24px auto;
 }
 
@@ -2711,7 +2712,7 @@ animation: fly-up 1700ms cubic-bezier(.22,1,.36,1) .78s both;
   max-width: 100%;
 }
 
-.med-copy p{ margin: 0 0 0.7rem; }
+.med-copy p{ margin: 0 0 0.95rem; }
 .med-copy .lead{ margin: 0 0 14px 0; }
 
 .med-copy .list-title{
@@ -2866,8 +2867,8 @@ animation: fly-up 1700ms cubic-bezier(.22,1,.36,1) .78s both;
 }
 
 .med-below-grid{
-  max-width: 1200px;
-  margin: 22px auto 20px auto;
+  max-width: 1280px;
+  margin: 34px auto 34px auto;
   padding: 0;
   display: grid;
   grid-template-columns: minmax(420px, 1.1fr) minmax(520px, 1.2fr);
@@ -2964,7 +2965,7 @@ animation: fly-up 1700ms cubic-bezier(.22,1,.36,1) .78s both;
   border-radius: 0;
 }
 
-.callout p{ margin: 0 0 12px 0; }
+.callout p{ margin: 0 0 18px 0; }
 .callout p:last-child{ margin-bottom: 0; }
 
 .med-below-grid .fit-contact{
