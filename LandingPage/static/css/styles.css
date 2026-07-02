@@ -1205,7 +1205,7 @@ margin-top: 1.5rem !important;
 .wmol-landing.is-architecture .wmol-architecture-view{
   position: absolute !important;
   left: 50% !important;
-  top: 42% !important;
+  top: 40% !important;
   width: min(760px, 84vw) !important;
   max-width: 760px !important;
   transform: translate(-50%, -50%) !important;
@@ -1297,7 +1297,7 @@ line-height: 1.46 !important;
 
   position: absolute !important;
   left: 50% !important;
-  bottom: 21vh !important;
+  bottom: 23vh !important;
   transform: translateX(-50%) !important;
 
   width: auto !important;
@@ -1349,7 +1349,7 @@ line-height: 1.46 !important;
 
 .wmol-landing.is-problem .wmol-problem-view,
 .wmol-landing.is-why .wmol-why-view{
-  top: 42% !important;
+  top: 39.5% !important;
   left: 50% !important;
   width: min(88vw, 420px) !important;
   max-width: 420px !important;
@@ -1358,7 +1358,7 @@ line-height: 1.46 !important;
 }
 
 .wmol-landing.is-architecture .wmol-architecture-view{
-  top: 42% !important;
+  top: 39.5% !important;
   left: 50% !important;
   width: min(88vw, 440px) !important;
   max-width: 440px !important;
@@ -1432,7 +1432,7 @@ line-height: 1.46 !important;
   justify-content: center !important;
   gap: 12px !important;
   left: 50% !important;
-  bottom: 7.5vh !important;
+  bottom: 10vh !important;
   width: min(100%, 360px) !important;
   transform: translateX(-50%) !important;
 }
