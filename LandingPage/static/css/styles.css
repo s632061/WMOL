@@ -1468,14 +1468,14 @@ transform: translate(-50%, -50%) scale(1.08) !important;
     max-width: 520px !important;
     font-size: clamp(1.08rem, 2.55vw, 1.32rem) !important;
     line-height: 1.2 !important;
-    margin: 1.35rem auto 1rem auto !important;
+    margin: 2.05rem auto 1.15rem auto !important;
 }
 
 .wmol-landing.is-architecture .wmol-architecture-principles{
     max-width: 480px !important;
     font-size: clamp(1rem, 2.22vw, 1.12rem) !important;
     line-height: 1.34 !important;
-    margin: 0 auto 0.65rem auto !important;
+    margin: 0 auto 0.15rem auto !important;
 }
 
   .wmol-landing.is-architecture .wmol-architecture-subtitle{
