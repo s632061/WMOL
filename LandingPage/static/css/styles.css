@@ -1263,7 +1263,7 @@ line-height: 1.32 !important;
 }
 
 .wmol-landing.is-why .wmol-why-view{
-  top: 44% !important;
+  top: 46% !important;
 }
 
 .wmol-landing.is-why .wmol-why-title{
@@ -8774,7 +8774,7 @@ html.leaving-tools-ui .domains-thesis{
 
   .wmol-landing.is-architecture .wmol-landing-actions{
     left: 50% !important;
-    bottom: 21vh !important;
+    bottom: 27vh !important;
   }
 }
 
@@ -8783,18 +8783,22 @@ html.leaving-tools-ui .domains-thesis{
 
   .wmol-landing.is-architecture .wmol-architecture-view{
     position: fixed !important;
-   left: 50% !important;
-    top: 46vh !important;
-    width: min(84vw, 560px) !important;
-    max-width: 560px !important;
-    transform: translate(-50%, -50%) !important;
+    left: 50% !important;
+    top: 55vh !important;
+    width: min(84vw, 620px) !important;
+    max-width: 620px !important;
+    transform: translate(-50%, -50%) scale(1.08) !important;
     text-align: center !important;
+  }
+
+  .wmol-landing.is-architecture .wmol-architecture-subtitle{
+    max-width: 620px !important;
   }
 
   .wmol-landing.is-architecture .wmol-landing-actions{
     position: fixed !important;
-   left: 50% !important;
-   bottom: 21vh !important;
+    left: 50% !important;
+    bottom: 6vh !important;
     width: min(270px, 76vw) !important;
     transform: translateX(-50%) !important;
   }
