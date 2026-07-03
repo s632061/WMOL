@@ -57,7 +57,7 @@ body{
   --shadow: 0 10px 28px rgba(0,0,0,0.14);
   --shadow-hover: 0 14px 32px rgba(0,0,0,0.18);
   --package-width: 520px;
- --med-rail-w: 260px;
+ --med-rail-w: 280px;
   --med-frame: clamp(10px, 1.6vmin, 18px);
   --med-gap:   clamp(10px, 1.6vmin, 18px);
   --med-content-offset: 24px;
@@ -1259,11 +1259,12 @@ line-height: 1.32 !important;
 
 .wmol-landing.is-problem .wmol-problem-title{
   max-width: 650px !important;
+  font-size: clamp(1.24rem, 1.48vw, 1.62rem) !important;
 }
 
 .wmol-landing.is-why .wmol-why-title{
   max-width: 620px !important;
-  font-size: clamp(0.9rem, 1.02vw, 1.12rem) !important;
+  font-size: clamp(1.08rem, 1.25vw, 1.38rem) !important;
   line-height: 1.24 !important;
 }
 
@@ -1282,7 +1283,7 @@ line-height: 1.32 !important;
   margin: 0 auto 1.05rem auto !important;
 
   font-family: Georgia, "Times New Roman", serif !important;
-font-size: clamp(0.88rem, 0.92vw, 0.98rem) !important;
+font-size: clamp(1rem, 1.08vw, 1.16rem) !important;
 line-height: 1.50 !important;
   font-weight: 500 !important;
 
@@ -1297,7 +1298,7 @@ line-height: 1.50 !important;
   margin: 0 auto !important;
 
   font-family: Georgia, "Times New Roman", serif !important;
-  font-size: clamp(0.95rem, 0.99vw, 1.04rem) !important;
+  font-size: clamp(1.08rem, 1.16vw, 1.24rem) !important;
   line-height: 1.46 !important;
   font-weight: 600 !important;
 
@@ -1321,7 +1322,7 @@ line-height: 1.50 !important;
 
   position: absolute !important;
   left: 50% !important;
-  bottom: 22vh !important;
+ bottom: 26vh !important;
   transform: translateX(-50%) !important;
 
   width: auto !important;
@@ -1378,7 +1379,7 @@ padding: 0 1.2rem !important;
 }
 
 .wmol-landing:not(.is-problem):not(.is-why):not(.is-architecture) .wmol-landing-inner{
-    transform: translateY(0px) scale(0.94) !important;
+    transform: translateX(-6px) translateY(0px) scale(0.94) !important;
     transform-origin: center center !important;
 }
 
@@ -1407,7 +1408,7 @@ padding: 0 1.2rem !important;
 .wmol-landing.is-architecture .wmol-architecture-view{
     position: fixed !important;
     left: 50% !important;
-    top: 48vh !important;
+    top: 52vh !important;
     width: min(84vw, 560px) !important;
     max-width: 560px !important;
 transform: translate(-50%, -50%) scale(1.08) !important;
@@ -1505,7 +1506,7 @@ width: min(270px, 76vw) !important;
 .wmol-landing.is-architecture .wmol-landing-actions{
     position: fixed !important;
     left: 50% !important;
-    bottom: 13vh !important;
+    bottom: 9vh !important;
     transform: translateX(-50%) !important;
     display: flex !important;
     flex-direction: column !important;
