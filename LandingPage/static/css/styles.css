@@ -1149,11 +1149,11 @@ height: 46px !important;
 .wmol-landing:not(.is-problem):not(.is-why):not(.is-architecture) .wmol-landing-inner{
     width: min(94vw, 460px) !important;
     padding: 18px !important;
-    transform: translateY(26px) scale(1.06) !important;
+    transform: translateY(34px) scale(1.10) !important;
 }
 
 .wmol-landing:not(.is-problem):not(.is-why):not(.is-architecture) .wmol-landing-title{
-  font-size: clamp(2.3rem, 8.8vw, 3.08rem) !important;
+  font-size: clamp(2.45rem, 9.4vw, 3.28rem) !important;
   line-height: 1.12 !important;
   margin-bottom: 0.5rem !important;
   transform: scaleY(1.05) !important;
@@ -1180,7 +1180,7 @@ height: 46px !important;
 .wmol-landing:not(.is-problem):not(.is-why):not(.is-architecture) .wmol-landing-actions{
   flex-direction: column !important;
   gap: 12px !important;
-  margin-top: 1.15rem !important;
+  margin-top: 1.35rem !important;
   width: 100% !important;
 }
 
@@ -8647,7 +8647,7 @@ html.leaving-tools-ui .domains-thesis{
   .wmol-landing.is-why .wmol-landing-actions{
     position: fixed !important;
     left: 50% !important;
-    bottom: 14vh !important;
+    bottom: 16vh !important;
     transform: translateX(-50%) !important;
     display: flex !important;
     flex-direction: column !important;
@@ -8664,9 +8664,28 @@ html.leaving-tools-ui .domains-thesis{
     height: 46px !important;
   }
 
-  .wmol-landing.is-why .wmol-why-view{
-    top: 52% !important;
-  }
+.wmol-landing.is-problem .wmol-problem-view{
+    top: 42% !important;
+}
+
+.wmol-landing.is-why .wmol-why-view{
+    top: 48.5% !important;
+}
+
+.wmol-landing.is-problem .wmol-problem-title,
+.wmol-landing.is-why .wmol-why-title{
+    font-size: clamp(1.18rem, 5.2vw, 1.48rem) !important;
+}
+
+.wmol-landing.is-problem .wmol-problem-description,
+.wmol-landing.is-why .wmol-why-description{
+    font-size: clamp(0.98rem, 4.3vw, 1.16rem) !important;
+}
+
+.wmol-landing.is-problem .wmol-problem-subtitle,
+.wmol-landing.is-why .wmol-why-subtitle{
+    font-size: clamp(1.02rem, 4.55vw, 1.22rem) !important;
+}
 
   .wmol-landing.is-architecture .wmol-architecture-view{
     left: 50% !important;
