@@ -1103,8 +1103,8 @@ margin-top: 1.5rem !important;
 
 .wmol-landing:not(.is-problem):not(.is-why):not(.is-architecture) .wmol-landing-cta{
   flex: 0 0 auto !important;
- width: min(270px, 76vw) !important;
-  min-width: 235px !important;
+width: 230px !important;
+min-width: 230px !important;
 height: 46px !important;
   padding: 0 1.2rem !important;
 
