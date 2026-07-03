@@ -8797,6 +8797,18 @@ html.leaving-tools-ui .domains-thesis{
   line-height: 1.34 !important;
 }
 
+.wmol-landing.is-architecture .wmol-architecture-thesis{
+  display: block !important;
+  max-width: 500px !important;
+  margin: 0 auto 0.45rem auto !important;
+}
+
+.wmol-landing.is-architecture .wmol-architecture-progress{
+  display: block !important;
+  max-width: 500px !important;
+  margin: 0 auto !important;
+}
+
   .wmol-landing.is-architecture .wmol-landing-actions{
     position: fixed !important;
     left: 50% !important;
