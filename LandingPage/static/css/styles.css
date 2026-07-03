@@ -8774,7 +8774,7 @@ html.leaving-tools-ui .domains-thesis{
 
   .wmol-landing.is-architecture .wmol-landing-actions{
     left: 50% !important;
-    bottom: 27vh !important;
+    bottom: 25vh !important;
   }
 }
 
@@ -8784,7 +8784,7 @@ html.leaving-tools-ui .domains-thesis{
   .wmol-landing.is-architecture .wmol-architecture-view{
     position: fixed !important;
     left: 50% !important;
-    top: 55vh !important;
+    top: 52vh !important;
     width: min(84vw, 620px) !important;
     max-width: 620px !important;
     transform: translate(-50%, -50%) scale(1.08) !important;
@@ -8798,7 +8798,7 @@ html.leaving-tools-ui .domains-thesis{
   .wmol-landing.is-architecture .wmol-landing-actions{
     position: fixed !important;
     left: 50% !important;
-    bottom: 6vh !important;
+    bottom: 8vh !important;
     width: min(270px, 76vw) !important;
     transform: translateX(-50%) !important;
   }
