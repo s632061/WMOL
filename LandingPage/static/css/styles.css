@@ -8784,16 +8784,17 @@ html.leaving-tools-ui .domains-thesis{
   .wmol-landing.is-architecture .wmol-architecture-view{
     position: fixed !important;
     left: 50% !important;
-    top: 52vh !important;
+    top: 50vh !important;
     width: min(84vw, 620px) !important;
     max-width: 620px !important;
     transform: translate(-50%, -50%) scale(1.08) !important;
     text-align: center !important;
   }
 
-  .wmol-landing.is-architecture .wmol-architecture-subtitle{
-    max-width: 620px !important;
-  }
+.wmol-landing.is-architecture .wmol-architecture-subtitle{
+  max-width: 500px !important;
+  line-height: 1.34 !important;
+}
 
   .wmol-landing.is-architecture .wmol-landing-actions{
     position: fixed !important;
