@@ -57,7 +57,7 @@ body{
   --shadow: 0 10px 28px rgba(0,0,0,0.14);
   --shadow-hover: 0 14px 32px rgba(0,0,0,0.18);
   --package-width: 520px;
- --med-rail-w: 280px;
+ --med-rail-w: 242px;
   --med-frame: clamp(10px, 1.6vmin, 18px);
   --med-gap:   clamp(10px, 1.6vmin, 18px);
   --med-content-offset: 24px;
