@@ -8665,26 +8665,39 @@ html.leaving-tools-ui .domains-thesis{
   }
 
 .wmol-landing.is-problem .wmol-problem-view{
-    top: 45% !important;
+    top: 47% !important;
 }
 
 .wmol-landing.is-why .wmol-why-view{
-    top: 48.5% !important;
+    top: 51% !important;
 }
 
-.wmol-landing.is-problem .wmol-problem-title,
-.wmol-landing.is-why .wmol-why-title{
+.wmol-landing.is-why .wmol-landing-actions{
+    bottom: 13vh !important;
+}
+
+.wmol-landing.is-problem .wmol-problem-title{
    font-size: clamp(1.08rem, 4.8vw, 1.36rem) !important;
 }
 
-.wmol-landing.is-problem .wmol-problem-description,
-.wmol-landing.is-why .wmol-why-description{
+.wmol-landing.is-why .wmol-why-title{
+   font-size: clamp(0.98rem, 4.35vw, 1.24rem) !important;
+}
+
+.wmol-landing.is-problem .wmol-problem-description{
   font-size: clamp(0.90rem, 4vw, 1.08rem) !important;
 }
 
-.wmol-landing.is-problem .wmol-problem-subtitle,
-.wmol-landing.is-why .wmol-why-subtitle{
+.wmol-landing.is-why .wmol-why-description{
+  font-size: clamp(0.82rem, 3.65vw, 0.98rem) !important;
+}
+
+.wmol-landing.is-problem .wmol-problem-subtitle{
    font-size: clamp(0.94rem, 4.2vw, 1.12rem) !important;
+}
+
+.wmol-landing.is-why .wmol-why-subtitle{
+   font-size: clamp(0.86rem, 3.85vw, 1.02rem) !important;
 }
 
   .wmol-landing.is-architecture .wmol-architecture-view{
