@@ -8793,6 +8793,7 @@ html.leaving-tools-ui .domains-thesis{
 
 .wmol-landing.is-architecture .wmol-architecture-subtitle{
   max-width: 500px !important;
+  margin: 1.15rem auto 0 auto !important;
   line-height: 1.34 !important;
 }
 
