@@ -1197,7 +1197,7 @@ height: 46px !important;
 .wmol-landing.is-why .wmol-landing-actions{
   position: fixed !important;
   left: 50% !important;
-  bottom: 17vh !important;
+  bottom: 20vh !important;
   transform: translateX(-50%) !important;
   display: flex !important;
   flex-direction: column !important;
@@ -1393,7 +1393,7 @@ padding: 0 1.2rem !important;
 .wmol-landing.is-why .wmol-why-view{
     position: fixed !important;
     left: 50% !important;
-    top: 42vh !important;
+    top: 39vh !important;
     width: min(84vw, 560px) !important;
     max-width: 560px !important;
     transform: translate(-50%, -50%) !important;
@@ -1401,13 +1401,13 @@ padding: 0 1.2rem !important;
 }
 
 .wmol-landing.is-why .wmol-why-view{
-    top:46% !important;
+     top:43vh !important;
 }
 
 .wmol-landing.is-architecture .wmol-architecture-view{
     position: fixed !important;
     left: 50% !important;
-    top: 45vh !important;
+    top: 48vh !important;
     width: min(84vw, 560px) !important;
     max-width: 560px !important;
 transform: translate(-50%, -50%) scale(1.08) !important;
@@ -1470,7 +1470,7 @@ transform: translate(-50%, -50%) scale(1.08) !important;
   }
 
   .wmol-landing.is-architecture .wmol-architecture-subtitle{
-    max-width: 510px !important;
+    max-width: 620px !important;
     font-size: clamp(1rem, 2.22vw, 1.12rem) !important;
     line-height: 1.28 !important;
     margin: 0 auto !important;
@@ -1488,7 +1488,7 @@ transform: translate(-50%, -50%) scale(1.08) !important;
 .wmol-landing.is-why .wmol-landing-actions{
     position: fixed !important;
     left: 50% !important;
-    bottom: 17vh !important;
+    bottom: 20vh !important;
     transform: translateX(-50%) !important;
 
     display: flex !important;
@@ -1505,7 +1505,7 @@ width: min(270px, 76vw) !important;
 .wmol-landing.is-architecture .wmol-landing-actions{
     position: fixed !important;
     left: 50% !important;
-    bottom: 16vh !important;
+    bottom: 13vh !important;
     transform: translateX(-50%) !important;
     display: flex !important;
     flex-direction: column !important;
