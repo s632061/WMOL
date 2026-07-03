@@ -57,7 +57,7 @@ body{
   --shadow: 0 10px 28px rgba(0,0,0,0.14);
   --shadow-hover: 0 14px 32px rgba(0,0,0,0.18);
   --package-width: 520px;
- --med-rail-w: 250px;
+ --med-rail-w: 260px;
   --med-frame: clamp(10px, 1.6vmin, 18px);
   --med-gap:   clamp(10px, 1.6vmin, 18px);
   --med-content-offset: 24px;
@@ -1377,10 +1377,22 @@ padding: 0 1.2rem !important;
   transform: translate(-50%, -50%) scaleX(0.98) !important;
 }
 
+.wmol-landing:not(.is-problem):not(.is-why):not(.is-architecture) .wmol-landing-inner{
+    transform: translateY(0px) scale(0.94) !important;
+    transform-origin: center center !important;
+}
+
+.wmol-landing:not(.is-problem):not(.is-why):not(.is-architecture) .wmol-hero-view{
+    width: min(84vw, 560px) !important;
+    max-width: 560px !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+}
+
 .wmol-landing.is-problem .wmol-problem-view,
 .wmol-landing.is-why .wmol-why-view{
     position: fixed !important;
-    left: calc(50vw - 12px) !important;
+    left: 50% !important;
     top: 42vh !important;
     width: min(84vw, 560px) !important;
     max-width: 560px !important;
@@ -1394,7 +1406,7 @@ padding: 0 1.2rem !important;
 
 .wmol-landing.is-architecture .wmol-architecture-view{
     position: fixed !important;
-    left: calc(50vw - 36px) !important;
+    left: 50% !important;
     top: 45vh !important;
     width: min(84vw, 560px) !important;
     max-width: 560px !important;
@@ -1465,7 +1477,7 @@ transform: translate(-50%, -50%) scale(1.08) !important;
   }
 
   .wmol-landing.is-architecture .wmol-architecture-view{
-  left: calc(50vw - 36px) !important;
+  left: 50% !important;
 }
 
 .wmol-landing.is-architecture .wmol-landing-actions{
@@ -1492,8 +1504,8 @@ width: min(270px, 76vw) !important;
 
 .wmol-landing.is-architecture .wmol-landing-actions{
     position: fixed !important;
-    left: calc(50vw - 36px) !important;
-    bottom: 18vh !important;
+    left: 50% !important;
+    bottom: 16vh !important;
     transform: translateX(-50%) !important;
     display: flex !important;
     flex-direction: column !important;
@@ -8762,7 +8774,7 @@ html.leaving-tools-ui .domains-thesis{
 
   .wmol-landing.is-architecture .wmol-architecture-view{
     position: fixed !important;
-   left: calc(50vw - 12px) !important;
+   left: 50% !important;
     top: 46vh !important;
     width: min(84vw, 560px) !important;
     max-width: 560px !important;
@@ -8772,7 +8784,7 @@ html.leaving-tools-ui .domains-thesis{
 
   .wmol-landing.is-architecture .wmol-landing-actions{
     position: fixed !important;
-   left: calc(50vw - 12px) !important;
+   left: 50% !important;
    bottom: 21vh !important;
     width: min(270px, 76vw) !important;
     transform: translateX(-50%) !important;
