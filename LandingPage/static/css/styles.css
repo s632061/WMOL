@@ -1464,19 +1464,19 @@ transform: translate(-50%, -50%) scale(1.08) !important;
     margin: 0 auto !important;
   }
 
-  .wmol-landing.is-architecture .wmol-architecture-title{
+.wmol-landing.is-architecture .wmol-architecture-title{
     max-width: 520px !important;
     font-size: clamp(1.08rem, 2.55vw, 1.32rem) !important;
     line-height: 1.2 !important;
-    margin: 0 auto 1rem auto !important;
-  }
+    margin: 1.35rem auto 1rem auto !important;
+}
 
-  .wmol-landing.is-architecture .wmol-architecture-principles{
+.wmol-landing.is-architecture .wmol-architecture-principles{
     max-width: 480px !important;
     font-size: clamp(1rem, 2.22vw, 1.12rem) !important;
     line-height: 1.34 !important;
-    margin: 0 auto 1rem auto !important;
-  }
+    margin: 0 auto 0.65rem auto !important;
+}
 
   .wmol-landing.is-architecture .wmol-architecture-subtitle{
     max-width: 620px !important;
@@ -8824,7 +8824,7 @@ html.leaving-tools-ui .domains-thesis{
   .wmol-landing.is-architecture .wmol-landing-actions{
     position: fixed !important;
     left: 50% !important;
-    bottom: 15vh !important;
+    bottom: 14vh !important;
     width: min(270px, 76vw) !important;
     transform: translateX(-50%) !important;
   }
