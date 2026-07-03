@@ -8642,24 +8642,50 @@ html.leaving-tools-ui .domains-thesis{
 }
 
 @media (max-width: 700px){
+
+  .wmol-landing.is-problem .wmol-landing-actions,
+  .wmol-landing.is-why .wmol-landing-actions{
+    position: fixed !important;
+    left: 50% !important;
+    bottom: 14vh !important;
+    transform: translateX(-50%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    width: min(270px, 76vw) !important;
+  }
+
+  .wmol-landing.is-problem .wmol-landing-cta,
+  .wmol-landing.is-why .wmol-landing-cta{
+    width: min(270px, 76vw) !important;
+    min-width: 0 !important;
+    height: 46px !important;
+  }
+
+  .wmol-landing.is-why .wmol-why-view{
+    top: 52% !important;
+  }
+
   .wmol-landing.is-architecture .wmol-architecture-view{
     left: 50% !important;
-    top: 48% !important;
-    width: min(360px, 86vw) !important;
-    max-width: 360px !important;
-    transform: translate(-50%, -50%) scale(1.08) !important;
+    top: 50% !important;
+    width: min(370px, 88vw) !important;
+    max-width: 370px !important;
+    transform: translate(-50%, -50%) scale(1.12) !important;
   }
 
   .wmol-landing.is-architecture .wmol-architecture-title,
   .wmol-landing.is-architecture .wmol-architecture-principles,
   .wmol-landing.is-architecture .wmol-architecture-subtitle{
-    max-width: 270px !important;
-    font-size: clamp(0.9rem, 3.7vw, 1.04rem) !important;
+    max-width: 285px !important;
+    font-size: clamp(0.96rem, 4vw, 1.1rem) !important;
     line-height: 1.34 !important;
   }
 
   .wmol-landing.is-architecture .wmol-landing-actions{
-    bottom: 18vh !important;
+    bottom: 16vh !important;
   }
 }
 /* Architecture desktop layout: four clean stacked parts */
