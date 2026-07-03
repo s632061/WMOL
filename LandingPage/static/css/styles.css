@@ -1262,6 +1262,10 @@ line-height: 1.32 !important;
   font-size: clamp(1.24rem, 1.48vw, 1.62rem) !important;
 }
 
+.wmol-landing.is-why .wmol-why-view{
+  top: 44% !important;
+}
+
 .wmol-landing.is-why .wmol-why-title{
   max-width: 620px !important;
   font-size: clamp(1.08rem, 1.25vw, 1.38rem) !important;
@@ -1322,12 +1326,16 @@ line-height: 1.50 !important;
 
   position: absolute !important;
   left: 50% !important;
- bottom: 26vh !important;
+ bottom: 28vh !important;
   transform: translateX(-50%) !important;
 
   width: auto !important;
   margin: 0 !important;
   z-index: 5 !important;
+}
+
+.wmol-landing.is-why .wmol-landing-actions{
+  bottom: 29vh !important;
 }
 
 .wmol-landing.is-problem .wmol-landing-cta,
@@ -1408,7 +1416,7 @@ padding: 0 1.2rem !important;
 .wmol-landing.is-architecture .wmol-architecture-view{
     position: fixed !important;
     left: 50% !important;
-    top: 52vh !important;
+   top: 55vh !important;
     width: min(84vw, 560px) !important;
     max-width: 560px !important;
 transform: translate(-50%, -50%) scale(1.08) !important;
@@ -1506,7 +1514,7 @@ width: min(270px, 76vw) !important;
 .wmol-landing.is-architecture .wmol-landing-actions{
     position: fixed !important;
     left: 50% !important;
-    bottom: 9vh !important;
+    bottom: 6vh !important;
     transform: translateX(-50%) !important;
     display: flex !important;
     flex-direction: column !important;
@@ -8766,7 +8774,7 @@ html.leaving-tools-ui .domains-thesis{
 
   .wmol-landing.is-architecture .wmol-landing-actions{
     left: 50% !important;
-    bottom: 19vh !important;
+    bottom: 21vh !important;
   }
 }
 
