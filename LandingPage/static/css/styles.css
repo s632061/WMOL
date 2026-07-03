@@ -1146,11 +1146,11 @@ height: 46px !important;
 
 /* Mobile hero fix */
 @media (max-width: 700px){
-  .wmol-landing:not(.is-problem):not(.is-why):not(.is-architecture) .wmol-landing-inner{
-    width: min(92vw, 430px) !important;
+.wmol-landing:not(.is-problem):not(.is-why):not(.is-architecture) .wmol-landing-inner{
+    width: min(94vw, 460px) !important;
     padding: 18px !important;
-    transform: translateY(18px) !important;
-  }
+    transform: translateY(26px) scale(1.06) !important;
+}
 
 .wmol-landing:not(.is-problem):not(.is-why):not(.is-architecture) .wmol-landing-title{
   font-size: clamp(2.3rem, 8.8vw, 3.08rem) !important;
@@ -1365,16 +1365,16 @@ padding: 0 1.2rem !important;
 }
 
 .wmol-landing.is-why .wmol-why-view{
-    top:42% !important;
+    top:46% !important;
 }
 
 .wmol-landing.is-architecture .wmol-architecture-view{
     position: fixed !important;
     left: calc(50vw - 36px) !important;
-    top: 42vh !important;
+    top: 45vh !important;
     width: min(84vw, 560px) !important;
     max-width: 560px !important;
-    transform: translate(-50%, -50%) !important;
+transform: translate(-50%, -50%) scale(1.08) !important;
     text-align: center !important;
 }
   .wmol-landing.is-problem .wmol-problem-title{
@@ -1448,12 +1448,11 @@ padding: 0 1.2rem !important;
   left: calc(50vw - 36px) !important;
 }
 
-/* Center middle two buttons */
 .wmol-landing.is-problem .wmol-landing-actions,
 .wmol-landing.is-why .wmol-landing-actions{
     position: fixed !important;
-    left: calc(50vw - 12px) !important;
-    bottom: 18vh !important;
+    left: 50% !important;
+    bottom: 17vh !important;
     transform: translateX(-50%) !important;
 
     display: flex !important;
@@ -1492,6 +1491,8 @@ width: min(270px, 76vw) !important;
     letter-spacing: 0.18em !important;
 }
 }
+
+
 /* =========================================================
    4) HOME RAILS (Medicine / Tech / Tools / Lifestyle visuals + animations)
    ========================================================= */
