@@ -1105,8 +1105,8 @@ margin-top: 1.5rem !important;
   flex: 0 0 auto !important;
  width: min(270px, 76vw) !important;
   min-width: 235px !important;
-  height: 58px !important;
-  padding: 0 1.5rem !important;
+height: 46px !important;
+  padding: 0 1.2rem !important;
 
   border-radius: 4px !important;
 
@@ -1238,9 +1238,9 @@ line-height: 1.32 !important;
 }
 
 .wmol-landing.is-why .wmol-why-title{
-  max-width: 520px !important;
-  font-size: clamp(1rem, 1.16vw, 1.28rem) !important;
-  line-height: 1.30 !important;
+  max-width: 620px !important;
+  font-size: clamp(0.9rem, 1.02vw, 1.12rem) !important;
+  line-height: 1.24 !important;
 }
 
 .wmol-landing.is-architecture .wmol-architecture-title{
@@ -1258,7 +1258,7 @@ line-height: 1.32 !important;
   margin: 0 auto 1.05rem auto !important;
 
   font-family: Georgia, "Times New Roman", serif !important;
-font-size: clamp(0.94rem, 0.98vw, 1.03rem) !important;
+font-size: clamp(0.88rem, 0.92vw, 0.98rem) !important;
 line-height: 1.50 !important;
   font-weight: 500 !important;
 
@@ -1269,12 +1269,12 @@ line-height: 1.50 !important;
 .wmol-landing.is-why .wmol-why-subtitle,
 .wmol-landing.is-architecture .wmol-architecture-subtitle{
   width: 100% !important;
-  max-width: 650px !important;
+  max-width: 520px !important;
   margin: 0 auto !important;
 
   font-family: Georgia, "Times New Roman", serif !important;
-font-size: clamp(0.95rem, 0.99vw, 1.04rem) !important;
-line-height: 1.46 !important;
+  font-size: clamp(0.95rem, 0.99vw, 1.04rem) !important;
+  line-height: 1.46 !important;
   font-weight: 600 !important;
 
   color: rgba(240,232,221,0.88) !important;
@@ -1311,8 +1311,8 @@ line-height: 1.46 !important;
   flex: 0 0 auto !important;
 width: 230px !important;
 min-width: 230px !important;
-height: 58px !important;
-padding: 0 1.85rem !important;
+height: 46px !important;
+padding: 0 1.2rem !important;
   border-radius: 4px !important;
 
   display: inline-flex !important;
@@ -8641,7 +8641,7 @@ html.leaving-tools-ui .domains-thesis{
 @media (min-width: 701px){
 
   .wmol-landing.is-architecture .wmol-architecture-view{
-    top: 43% !important;
+    top: 45% !important;
     left: 50% !important;
     width: min(760px, 84vw) !important;
   }
@@ -8670,7 +8670,7 @@ html.leaving-tools-ui .domains-thesis{
 
   .wmol-landing.is-architecture .wmol-landing-actions{
     left: 50% !important;
-    bottom: 21vh !important;
+    bottom: 19vh !important;
   }
 }
 
