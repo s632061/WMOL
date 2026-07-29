@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}For Medicine{% endblock %}
+{% block title %}WMOL PASS | Pre-Matriculation Academic Success System{% endblock %}
 
 {% block content %}
 <section class="medicine-layout">
 
-  <!-- Left rail (static) -->
   <aside class="wml-rail rail-medicine rail-static">
     <div class="rail-inner">
       <h1 class="wml-title">Wang Method of<br>Learning</h1>
@@ -15,410 +14,564 @@
       </div>
 
       <nav class="wml-cta">
-        <span class="wml-link">WMOL For Medicine</span>
+        <span class="wml-link">WMOL PASS</span>
       </nav>
     </div>
   </aside>
 
-  <!-- Main content -->
-  <!-- Back button: fixed to the content edge next to the rail -->
   <div class="back-row">
-    <button id="backHome" class="btn-back" aria-label="Back to Home">← Back</button>
+    <button id="backHome" class="btn-back" aria-label="Back to tools">← Back</button>
   </div>
 
-  <!-- Main content -->
   <main class="med-content" role="main">
-    <div class="content-inner">
+    <div class="content-inner pass-page">
+<header class="pass-hero" aria-labelledby="pass-title">
+  <h1 class="pass-title" id="pass-title">WMOL PASS</h1>
 
-<div class="med-hero-titleblock">
-  <h2 class="med-headline med-headline--irb">
-    Preventing Early Academic Collapse in Medical Students
-  </h2>
-
-  <p class="med-subheadline">
-  A structured system that helps students stay stable under volume, pressure, and time constraints before coursework begins.
+  <p class="pass-name">
+    Prepare medical learners for the environment, not just the material.
   </p>
+
+  <div class="pass-hero-copy">
+    <p>
+      WMOL Pre-Matriculation Academic Success System (PASS) is a four-week
+      pre-matriculation readiness program that bridges the gap for incoming medical
+      learners and understanding the medical school environment, the habits needed, effective use of expert support, and tolerating its demands.
+    </p>
+
+<p>
+  For institutions, PASS creates an early opportunity to
+  <strong class="pass-institution-benefits">
+    support accepted learners through matriculation, recognize support needs
+    sooner, improve learning efficiency, and reduce preventable remediation
+    burden.
+  </strong>
+</p>
+  </div>
+</header>
+<section class="pass-section pass-transition" aria-labelledby="pass-transition-title">
+<div class="pass-section-head">
+  <p class="pass-section-kicker">The Transition Problem</p>
+  <h2 id="pass-transition-title">Where Academic Instability Begins</h2>
 </div>
+  <div class="pass-transition-grid">
 
-      <!-- Hero: Gallery + copy -->
-      <section class="med-hero">
+    <div class="pass-transition-media" id="passTransitionCarousel">
 
-        <figure class="med-book med-left-rail">
-          <section class="wmol-gallery">
-            <div class="wmol-gallery-main">
-              <button class="wmol-gallery-arrow prev" aria-label="Previous image">‹</button>
+      <div class="pass-transition-frame">
+        <button
+          class="pass-transition-image-button"
+          id="passTransitionOpen"
+          type="button"
+          aria-label="Open full transition image"
+        >
+          <img
+            id="passTransitionImage"
+            src="{% static 'img/wmol-framework.png' %}"
+            alt="Structured learner workflow"
+          >
+        </button>
+      </div>
 
-              <img
-                id="wmol-gallery-image"
-                src="{% static 'img/wmol-framework.png' %}"
-                alt="WMOL Learning Framework overview"
-              >
-              
-              <button class="wmol-gallery-arrow next" aria-label="Next image">›</button>
+      <div class="pass-transition-controls">
+        <button
+          class="pass-carousel-btn"
+          id="passTransitionPrev"
+          type="button"
+          aria-label="Previous transition image"
+        >‹</button>
+
+        <div
+          class="pass-transition-gallery"
+          id="passTransitionGallery"
+          aria-label="Transition image gallery"
+        ></div>
+
+        <button
+          class="pass-carousel-btn"
+          id="passTransitionNext"
+          type="button"
+          aria-label="Next transition image"
+        >›</button>
+      </div>
+
+      <p class="pass-transition-caption" id="passTransitionCaption">
+        PASS gives learners a clear daily structure and how it relates to their 
+        future medical education rather than leaving them to prepare alone.
+      </p>
+    </div>
+
+    <div class="pass-transition-copy" id="passTransitionCopy">
+
+      <button
+        class="pass-transition-tab is-active"
+        type="button"
+        data-transition-index="0"
+      >
+        <span>
+          <strong>When Prior Success Stops Scaling</strong>
+          <span>
+            Incoming medical learners are capable, motivated, and accustomed
+            to succeeding. However, Medical School introduces a different level of
+            volume, pace, uncertainty, and independence. Habits that worked before may stop working
+  within weeks, forcing learners to rebuild them while already being evaluated.
+          </span>
+        </span>
+      </button>
+
+      <button
+        class="pass-transition-tab"
+        type="button"
+        data-transition-index="1"
+      >
+        <span>
+          <strong>Why More Effort and Resources Are Not Enough</strong>
+          <span>
+            Difficulty is often attributed to insufficient effort, content knowledge,
+  resources, or study time. Those supports matter, but access alone does not
+  teach learners how to organize and use them under sustained volume. A learner
+  can work continuously and still lack a stable process for understanding,
+  remembering, applying, and recovering.
+          </span>
+        </span>
+      </button>
+
+      <button
+        class="pass-transition-tab"
+        type="button"
+        data-transition-index="2"
+      >
+        <span>
+          <strong>What Is Actually Missing</strong>
+          <span>
+            Many learners have never been prepared for what sustained
+            medical-school execution feels like. They must manage uncertainty,
+            imperfect scores, comparison, fatigue, disruption, and competing
+            responsibilities while processing large volumes of information.
+            Rather than adding more resources, they need a system that helps 
+            structure time, recover after falling behind, recognize when to seek help, and survive as
+            volume increases.
+          </span>
+        </span>
+      </button>
+
+      <button
+        class="pass-transition-tab"
+        type="button"
+        data-transition-index="3"
+      >
+        <span>
+<span>
+  <strong>How PASS Is Different</strong>
+  <span>
+    Traditional preparation often gives learners a head start by introducing
+    material they may encounter. PASS instead uses a simulated academic
+    environment to help them build a learning system they can carry into
+    medical school rather than just simply beginning closer to the starting line. Over four
+    weeks, learners strengthen how they learn, understand what to expect,
+    build habits for sustained performance, and practice using institutional
+    and third-party resources effectively.
+  </span>
+</span>
+      </button>
+
+      <div
+        class="pass-problem-controls"
+        aria-label="Transition problem navigation"
+      >
+        <button
+          class="pass-mobile-carousel-btn"
+          id="passProblemPrev"
+          type="button"
+          aria-label="Previous transition problem"
+        >‹</button>
+
+        <div
+          class="pass-mobile-dots"
+          id="passProblemDots"
+          aria-label="Transition problem slides"
+        ></div>
+
+        <button
+          class="pass-mobile-carousel-btn"
+          id="passProblemNext"
+          type="button"
+          aria-label="Next transition problem"
+        >›</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div
+    class="pass-image-modal"
+    id="passTransitionModal"
+    aria-hidden="true"
+  >
+    <div
+      class="pass-image-modal-inner"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Full transition image"
+    >
+      <button
+        class="pass-image-modal-close"
+        id="passTransitionModalClose"
+        type="button"
+        aria-label="Close full image"
+      >×</button>
+
+      <img
+        id="passTransitionModalImage"
+        src=""
+        alt=""
+      >
+
+      <p
+        class="pass-image-modal-caption"
+        id="passTransitionModalCaption"
+      ></p>
+    </div>
+  </div>
+</section>
+
+
+      <section class="pass-section" aria-labelledby="pass-benefits-title">
+        <div class="pass-section-head">
+          <p class="pass-section-kicker">Institutional Value</p>
+          <h2 id="pass-benefits-title">What PASS Creates for the Institution</h2>
+        </div>
+
+        <div class="pass-benefit-grid">
+          <article class="pass-text-card">
+            <h3>Support Accepted Learners Through Matriculation</h3>
+<p>
+  PASS keeps accepted learners connected through structured academic activity,
+  regular guidance, and a clear transition process. Rather than preparing
+  alone, learners experience institutional level support before classes begin. This
+  may reduce uncertainty, strengthen readiness, and support follow-through
+  with matriculation at their chosen institution.
+</p>
+          </article>
+
+          <article class="pass-text-card">
+            <h3>Create Earlier Opportunities for Support</h3>
+            <p>
+              PASS creates a lower-stakes period in which confusion, discouragement,
+  avoidance, inconsistent engagement, or difficulty recovering can become
+  visible. These patterns are not labels or predictions of failure. They give
+  faculty and student-support teams an earlier opportunity to understand what
+  a learner may need before small challenges become academic crises.
+            </p>
+          </article>
+
+          <article class="pass-text-card">
+            <h3>Improve Learning Efficiency</h3>
+            <p>
+               Learners often spend much of their available time collecting, rewriting,
+  organizing, and reviewing information. PASS shifts more effort toward
+  understanding, building usable memory, applying knowledge, correcting
+  mistakes, and stabilizing performance. This allows for conversion of more study
+  time into functional learning without simply asking learners to work longer.
+            </p>
+          </article>
+
+          <article class="pass-text-card">
+            <h3>Reduce Preventable Remediation Burden</h3>
+            <p>
+               Academic support is often activated after inefficient habits,
+  discouragement, and performance instability have compounded. PASS introduces
+  a usable learning system and gives learners a structured way to create sustainable habits, adjust to disruptions in daily life, and identify how to use expert support sooner. It augments
+  faculty and student-support capacity by allowing a greater allocation of resources, time, energy, and mental bandwidth per student .
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="pass-section" aria-labelledby="pass-system-title">
+        <div class="pass-section-head">
+          <p class="pass-section-kicker">The Learning System</p>
+         <h2 id="pass-system-title">A Four-Part Repeatable Learning Process</h2>
+<p>
+  PASS gives learners a repeatable system they can carry into medical school
+  to sustain competency as demands rise and time and mental bandwidth shrinks, 
+  without losing their identity.
+</p>
+        </div>
+
+       <div
+  class="pass-card-rail pass-card-rail--four"
+  data-mobile-carousel="system"
+  aria-label="Four-part learning system"
+>
+          <article class="pass-media-card">
+            <div class="pass-media-card-image">
+              <img src="{% static 'img/wmol-arch-1.png' %}" alt="Understanding complex material">
             </div>
+            <div class="pass-media-card-copy">
+             
+              <h3>Understand</h3>
+              <p>Learners identify what matters, determine which questions a topic must answer in real scenarios, and use available resources to build clear conceptual understanding.</p>
+            </div>
+          </article>
 
-            <div class="wmol-gallery-thumbs">
+          <article class="pass-media-card">
+            <div class="pass-media-card-image">
+              <img src="{% static 'img/wmol-arch-2.png' %}" alt="Building usable memory">
+            </div>
+            <div class="pass-media-card-copy">
+              
+              <h3>Remember</h3>
+             <p>Learners convert that understanding into compact, retrievable working memories that preserve the relationships and reasoning needed to rebuild the concept.</p>
+            </div>
+          </article>
 
-  <img data-index="0"
-       src="{% static 'img/wmol-framework.png' %}"
-       alt="WMOL Learning Architecture"
-       class="active">
+          <article class="pass-media-card">
+            <div class="pass-media-card-image">
+              <img src="{% static 'img/wmol-arch-3.png' %}" alt="Applying knowledge through questions">
+            </div>
+            <div class="pass-media-card-copy">
+              
+              <h3>Apply</h3>
+             <p>Learners use practice questions to test and refine their working memories. Mistakes show what must be clarified, added, or removed rather than serving only as scores.</p>
+            </div>
+          </article>
 
-  <img data-index="1"
-       src="{% static 'img/irb-endpoints.png' %}"
-       alt="WMOL pilot study design endpoints">
+          <article class="pass-media-card">
+            <div class="pass-media-card-image">
+              <img src="{% static 'img/wmol-arch-4.png' %}" alt="Stabilizing the learning process over time">
+            </div>
+            <div class="pass-media-card-copy">
+              
+              <h3>Stay Consistent</h3>
+              <p>Learners repeat the process under increasing volume, variation, and workload and learn which iteration of the learning system they want to use before medical school begins.</p>
+            </div>
+          </article>
+        </div>
+      </section>
 
-  <img data-index="2"
-       src="{% static 'img/schedules.png' %}"
-       alt="Structured study schedule">
+      <section class="pass-section" aria-labelledby="pass-program-title">
+        <div class="pass-section-head">
+          <p class="pass-section-kicker">The Four-Week Program</p>
+          <h2 id="pass-program-title">Controlled Exposure Before the Consequences Rise</h2>
+          <p>
+           Each week changes the composition of the learner’s work, moving from guided
+  understanding toward application, correction, and stable execution before
+  full academic pressure begins.
+          </p>
+        </div>
 
-  <img data-index="3"
-       src="{% static 'img/step1-pass.png' %}"
-       alt="USMLE Step 1 Pass report">
+        <div
+  class="pass-card-rail pass-card-rail--four"
+  data-mobile-carousel="program"
+  aria-label="Four-week PASS progression"
+>
+          <article
+  class="pass-media-card pass-week-card"
+  role="button"
+  tabindex="0"
+  aria-label="Open full Week 1 program image"
+  data-week-image="{% static 'img/pass-week-1.png' %}"
+  data-week-alt="Week 1 learning foundation"
+>
+            <div class="pass-media-card-image">
+             <img src="{% static 'img/pass-week-1.png' %}" alt="Week 1 learning foundation">
+            </div>
+            <div class="pass-media-card-copy">
+              <span class="pass-card-label">Week 1</span>
+              <h3>Understand and Build the Foundation</h3>
+              <p>Learners learn the workflow, select resources, identify essential information, build conceptual understanding, and establish a manageable daily rhythm.</p>
+            </div>
+          </article>
 
-  <img data-index="4"
-       src="{% static 'img/wmol-book.png' %}"
-       alt="WMOL Step 1 book cover">
-  <img data-index="5"
-     src="{% static 'img/wmol-memory-example.png' %}"
-     alt="WMOL memory system example">
+<article
+  class="pass-media-card pass-week-card"
+  role="button"
+  tabindex="0"
+  aria-label="Open full Week 2 program image"
+  data-week-image="{% static 'img/pass-week-2.png' %}"
+  data-week-alt="Week 2 question-based application"
+>
+            <div class="pass-media-card-image">
+             <img src="{% static 'img/pass-week-2.png' %}" alt="Week 2 question-based application">
+            </div>
+            <div class="pass-media-card-copy">
+              <span class="pass-card-label">Week 2</span>
+              <h3>Apply and Reveal Gaps</h3>
+<p>Learners begin consistent question-based application to determine whether understanding can be retrieved and used rather than merely recognized.</p>
+            </div>
+          </article>
 
-</div>
-          </section>
+<article
+  class="pass-media-card pass-week-card"
+  role="button"
+  tabindex="0"
+  aria-label="Open full Week 3 program image"
+  data-week-image="{% static 'img/pass-week-3.png' %}"
+  data-week-alt="Week 3 correction and consolidation"
+>
+            <div class="pass-media-card-image">
+             <img src="{% static 'img/pass-week-3.png' %}" alt="Week 3 correction and consolidation">
+            </div>
+            <div class="pass-media-card-copy">
+              <span class="pass-card-label">Week 3</span>
+              <h3>Correct and Consolidate</h3>
+             <p>Learners revisit missed questions, identify where their reasoning broke down, and refine incomplete working memories until weak areas become more reliable.</p>
+            </div>
+          </article>
 
-         
-        </figure>
-<div class="med-copy med-problem">
-  <h3 class="med-problem-title">
-    Students Can Do Everything Right And Still Fall Behind Within Weeks
-  </h3>
+<article
+  class="pass-media-card pass-week-card"
+  role="button"
+  tabindex="0"
+  aria-label="Open full Week 4 program image"
+  data-week-image="{% static 'img/pass-week-4.png' %}"
+  data-week-alt="Week 4 stabilization under variation"
+>
+            <div class="pass-media-card-image">
+             <img src="{% static 'img/pass-week-4.png' %}" alt="Week 4 stabilization under variation">
+            </div>
+            <div class="pass-media-card-copy">
+              <span class="pass-card-label">Week 4</span>
+              <h3>Stabilize Under Simulated Conditions</h3>
+              <p>Learners complete randomized sets combining prior and new material in order to build confidence and competence in simulated exam environments.</p>
+            </div>
+          </article>
+        </div>
 
-  <p>
-    Each year, academically strong students enter medical school prepared to work hard and succeed.
-    Within the first academic block, a portion of those same students begin to fall behind - not gradually, but quickly.
-  </p>
+        <div
+          class="pass-image-modal"
+          id="passWeekModal"
+          aria-hidden="true"
+        >
+          <div
+            class="pass-image-modal-inner"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Full weekly program image"
+          >
+            <button
+              class="pass-image-modal-close"
+              id="passWeekModalClose"
+              type="button"
+              aria-label="Close full weekly image"
+            >×</button>
 
-  <p>
-    They attend lectures, take detailed notes, and spend long hours studying, yet their performance becomes inconsistent.
-    Concepts may feel understood while studying, but break down when students have to retrieve, apply, and sustain them under pressure.
-  </p>
+            <img
+              id="passWeekModalImage"
+              src=""
+              alt=""
+            >
+          </div>
+        </div>
+      </section>
 
-  <p>
-    As effort increases, many students experience a growing gap between the time they invest and the results they see.
-  </p>
+      <section class="pass-section" aria-labelledby="pass-fit-title">
+        <div class="pass-section-head">
+          <p class="pass-section-kicker">Implementation</p>
+          <h2 id="pass-fit-title">Designed to Fit the Institution</h2>
+        </div>
 
-  <p class="problem-label">What this leads to:</p>
+        <div class="pass-fit-grid">
+          <article class="pass-text-card">
+            <h3>Adapts to Existing Structures</h3>
+            <p>
+              PASS works around the institution’s curriculum, platforms, schedules, personnel, question banks, and learner-support resources. It does not require curricular redesign or platform replacement. The system can be configured to work with tools such as Lecturio when selected by the institution.
+            </p>
+          </article>
 
-  <ul class="problem-bullets">
-    <li>Early variability in exam performance across otherwise strong students</li>
-    <li>Inefficient study patterns under time pressure</li>
-    <li>Escalating cognitive fatigue during sustained study cycles</li>
-    <li>Emotional strain and loss of confidence early in training</li>
-    <li>Increased demand for academic support and remediation resources</li>
-  </ul>
+          <article class="pass-text-card">
+            <h3>Includes Its Own Implementation System</h3>
+            <p>
+               PASS works around the institution’s curriculum, platforms, schedules,
+  personnel, question banks, and learner-support resources. It serves as a
+  preparatory and support layer rather than requiring curricular redesign or
+  platform replacement. Institution-specific adaptations are made without
+  changing the core learning process.
+            </p>
+          </article>
 
-  <p>
-    By the time these patterns are obvious, they are often already difficult to reverse.
-  </p>
+          <article class="pass-text-card">
+            <h3>Developed Through High-Constraint Use</h3>
+            <p>
+              WMOL was developed and refined across demanding medical, academic, military,
+  language-learning, endurance, and institutional environments. Although the
+  content changed, each setting required execution under volume, fatigue,
+  uncertainty, and constraint. That experience shaped the system’s emphasis
+  on repeatability, recovery, and stable performance.
+            </p>
+          </article>
 
-  <p class="problem-label">What this is often attributed to:</p>
-
-  <ul class="problem-bullets">
-    <li>Students needing more time to study</li>
-    <li>Access to better or more comprehensive resources</li>
-    <li>Greater discipline, effort, or motivation</li>
-  </ul>
-
-  <p class="problem-closer">
-  That’s not the problem.
-  </p>
-</div>
-      </section> <!-- end .med-hero -->
-<section class="med-below-grid">
-
-  <!-- LEFT -->
-  <section class="med-explainer med-left-rail">
-    <h2 class="med-explainer-title">Why Pre-Matriculation Timing Matters</h2>
-
-    <p>The timing of an intervention may be as important as the intervention itself.</p>
-
-    <p>
-      During the first months of medical training, students rapidly develop study behaviors in response to the sudden increase in academic workload.
-      Once these patterns form, they can be difficult to modify during an active academic term.
-    </p>
-
-    <p>
-      The pre-matriculation period offers a unique window in which structured learning systems can be introduced before these patterns develop.
-    </p>
-
-    <p>
-      By establishing organizational frameworks, cognitive pacing strategies, and workload management approaches before the first academic block begins,
-      students may be better positioned to maintain stable learning behaviors once formal coursework starts.
-    </p>
-
-    <p>
-      For this reason, the pre-matriculation phase represents a potentially valuable opportunity to introduce cognitive readiness interventions aimed at
-      supporting early academic stability.
-    </p>
-  </section>
-
-  <!-- RIGHT -->
-  <div class="med-below-right med-right-rail">
-<section class="access-block">
-  <h2 class="access-title">What Is Actually Missing</h2>
-
-  <div class="callout">
-    <p>
-      The problem is not that incoming medical students are unwilling to work, unintelligent, or under-motivated.
-      The problem is that most students enter a high-volume academic environment without a structured system for learning under this level of volume and pressure.
-    </p>
-
-    <p>
-      Study methods that work in lower-volume environments often do not scale once students must continuously understand, retain, retrieve, and apply large amounts of information under time constraint.
-    </p>
-
-    <p class="med-bullets-label">What is missing is a system that can:</p>
-
-    <ul class="med-bullets">
-      <li>Turn information into something usable instead of merely familiar</li>
-      <li>Align how students study with how they are actually tested</li>
-      <li>Hold up as volume, complexity, and pressure increase</li>
-      <li>Create stable performance rather than reactive studying</li>
-    </ul>
-
-    <p>
-      WMOL is a structured learning system built for exactly that problem.
-    </p>
-
-    <p class="med-closer">
-      It is designed for high-volume environments, focuses on execution rather than content delivery, and works alongside the existing curriculum rather than replacing it.
-    </p>
-  </div>
-</section>
-  </div>
-
-</section>
-
-
-<!-- WMOL Learning Architecture -->
-<section class="wmol-arch" aria-label="WMOL Learning Architecture">
-  <div class="arch-head">
-    <h2 class="arch-title">A System That Holds When Everything Else Breaks</h2>
-    <p class="arch-subtitle">
-      Most study methods start to break once volume increases. This system is built for that moment. WMOL is built as a structured learning loop designed to hold as workload increases. 
-      Each step reinforces the next, allowing students to maintain performance even as volume, speed, and pressure increase.
-    </p>
-  </div>
-
-  <div class="arch-steps" role="list">
-    <div class="arch-step" role="listitem">
-      <div class="arch-circle">
-        <!-- TODO: replace src with your real asset path -->
-        <img src="/static/img/wmol-arch-1.png" alt="Conceptual memorization illustration" />
-      </div>
-      <h3 class="arch-step-title">Build Durable Memory</h3>
-      <p class="arch-step-text">
-        Learners first form durable conceptual memories using an associative memorization method. Rather than relying on
-        rote repetition, new concepts are linked to vivid, personally meaningful associations, making information easier
-        to retrieve and apply.
-      </p>
-    </div>
-
-    <div class="arch-step" role="listitem">
-      <div class="arch-circle">
-        <!-- TODO: replace src with your real asset path -->
-        <img src="/static/img/wmol-arch-2.png" alt="High-quality study resources illustration" />
-      </div>
-      <h3 class="arch-step-title">Understand Efficiently</h3>
-      <p class="arch-step-text">
-        Once the memorization framework is established, learners use carefully selected study resources to build an
-        accurate conceptual understanding of the material. Effective resources explain concepts clearly, present
-        information efficiently, and align with the learner’s academic or professional objectives.
-      </p>
-    </div>
-
-    <div class="arch-step" role="listitem">
-      <div class="arch-circle">
-        <!-- TODO: replace src with your real asset path -->
-        <img src="/static/img/wmol-arch-3.png" alt="Assessment-aligned practice illustration" />
-      </div>
-      <h3 class="arch-step-title">Apply Under Pressure</h3>
-      <p class="arch-step-text">
-        Learners then apply their understanding through practice questions that reflect the reasoning patterns and
-        application demands of the target assessment or real-world task. This stage strengthens memory associations,
-        reveals gaps in understanding, and trains learners to apply knowledge flexibly in realistic problem-solving
-        situations.
-      </p>
-    </div>
-
-    <div class="arch-step" role="listitem">
-      <div class="arch-circle">
-        <!-- TODO: replace src with your real asset path -->
-        <img src="/static/img/wmol-arch-4.png" alt="Structured study planning illustration" />
-      </div>
-      <h3 class="arch-step-title">Stabilize Performance</h3>
-      <p class="arch-step-text">
-        A structured study plan coordinates the repeated application of the previous steps over time. Through deliberate
-        spacing, periodic review, and increasing cognitive demand, the plan reinforces conceptual understanding while
-        gradually building cognitive endurance. This structure helps maintain learning stability without excessive
-        repetition or burnout.
-      </p>
-    </div>
-  </div>
-
-  <p class="arch-close">
-    Together, this loop allows students to move from understanding to stable execution, rather than constantly rebuilding their knowledge under pressure.
-  </p>
-</section>
-
-<section class="wmol-translation" aria-label="What Students Actually Do">
-
-  <div class="translation-head">
-    <h2 class="translation-title">What Students Actually Do</h2>
-    <p class="translation-sub">
-      Students follow a structured progression that builds understanding, reinforces memory, and stabilizes performance as workload increases.
-    </p>
-  </div>
-
-  <div class="translation-grid">
-
-    <div class="translation-block">
-      <h3 class="translation-block-title">Phase 1 - Build Understanding and Memory</h3>
-      <p>
-        Students begin by learning how to understand material clearly, convert it into durable working memory, and build a repeatable study rhythm before full academic load begins.
-      </p>
-    </div>
-
-    <div class="translation-block">
-      <h3 class="translation-block-title">Phase 2 - Identify and Refine Weaknesses</h3>
-      <p>
-        Students then move into structured question-based application, using mistakes to identify where understanding breaks and systematically refine reasoning until concepts hold under use.
-      </p>
-    </div>
-
-    <div class="translation-block">
-      <h3 class="translation-block-title">Phase 3 - Stabilize Under Load</h3>
-      <p>
-        Finally, students increase difficulty through repeated structured sets, reinforcing consistency, cognitive endurance, and stable performance as volume and pressure rise.
-      </p>
-    </div>
-
-  </div>
-
-</section>
-
-    <!-- STUDY DESIGN -->
-<section class="study-design" aria-label="Study Design">
-  <div class="study-head">
-    <h2 class="study-title">How This Is Being Tested</h2>
-  </div>
-
-  <div class="study-grid">
-    <!-- LEFT -->
-    <section class="study-col">
-      <h3 class="study-col-title">Pilot Study Design</h3>
-
+          <article class="pass-text-card">
+            <h3>Designed to Scale Without Proportionally Increasing Faculty Burden</h3>
 <p>
-The pilot is designed as a prospective cohort comparison during the pre-matriculation period, allowing institutions to evaluate the effect of a structured learning system without altering existing curriculum or instruction.
+  Standardized guidance, communications, learner workflows, and monitoring
+  processes allow larger cohorts to be supported without recreating every
+  interaction individually. Human support remains available where professional
+  judgment matters most. PASS augments institutional capacity rather than
+  replacing it.
 </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="pass-section" aria-labelledby="pass-evidence-title">
+        <div class="pass-section-head">
+          <p class="pass-section-kicker">Evidence and Risk Reduction</p>
+          <h2 id="pass-evidence-title">Current Use, Structured Evaluation, and Emerging Evidence</h2>
+        </div>
+
+     <div
+  class="pass-card-rail pass-card-rail--three pass-evidence-rail"
+  data-mobile-carousel="evidence"
+  aria-label="PASS evidence"
+>
+
+  <article class="pass-text-card pass-evidence-card">
+<span class="pass-card-label">Institutional Use</span>
+<h3>IRB-Approved Pre-Matriculation Pilot</h3>
 <p>
-Participants voluntarily complete the six-week WMOL program prior to matriculation, while outcomes are compared against non-participating classmates using de-identified institutional performance data.
+  WMOL PASS is being implemented through an IRB-approved pre-matriculation
+  pilot in collaboration with Touro University California, with participating
+  learners from Touro’s California and Montana medical-school cohorts.
 </p>
+  </article>
 
-<p class="study-close">
-This structure allows institutions to evaluate impact under real conditions without introducing additional instructional burden.
-</p>
-
-
-      <div class="study-table-wrap" aria-label="Study Structure">
-        <div class="study-table-title study-structure-title">Study Structure</div>
-        <table class="study-table">
-          <thead>
-            <tr>
-              <th>Category</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Setting</td><td>Pre-matriculation program</td></tr>
-            <tr><td>Participants</td><td>Incoming medical students</td></tr>
-            <tr><td>Duration</td><td>Approximately 6 weeks prior to matriculation</td></tr>
-            <tr><td>Intervention</td><td>WMOL structured learning framework</td></tr>
-            <tr><td>Comparison</td><td>WMOL participants vs. standard preparation</td></tr>
-            <tr><td>Evaluation Period</td><td>First academic examination block</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-<p class="study-close">
-  The pilot is designed to test whether early exposure to a structured learning system improves performance stability during the first academic block.
-</p>
-    </section>
-
-    <!-- RIGHT -->
-    <section class="study-col">
-     <h3 class="study-col-title">How Academic Stability Is Measured</h3>
-
+  <article class="pass-text-card pass-evidence-card">
+    <span class="pass-card-label">Research</span>
+    <h3>Structured Evaluation</h3>
 <p>
-The pilot evaluates whether students maintain stable performance under academic load, not just whether they achieve high scores.
+  Evaluation focuses on feasibility, participation, learner experience,
+  adoption of the learning process, recovery, early academic stability,
+  and continued system use after matriculation.
 </p>
+  </article>
 
-<div class="study-block">
-  <div class="outcomes-chip-row">
-    <div class="study-mini outcomes-chip">Primary Measure</div>
-  </div>
-
-  <h4 class="study-item-title">Early Academic Stability</h4>
-  <p>
-    Academic stability is evaluated by measuring the variance in exam performance across the first academic block,
-    along with the frequency of substantial score decreases between assessments.
-  </p>
-</div>
-
-<div class="study-block outcomes-secondary">
-  <div class="outcomes-chip-row">
-    <div class="study-mini outcomes-chip">Secondary Signals</div>
-  </div>
-
-  <h4 class="study-item-title">Study Efficiency</h4>
-  <p>
-    Weekly measures assess whether students are able to convert study time into usable understanding rather than passive review.
-  </p>
-
-  <h4 class="study-item-title">Cognitive Fatigue</h4>
-  <p>
-    Self-reported fatigue is tracked to evaluate whether students can sustain performance across extended study periods.
-  </p>
-
-  <h4 class="study-item-title">Performance Confidence</h4>
-  <p>
-    Students report how confidently they can apply knowledge to practice questions, reflecting functional understanding rather than recognition.
-  </p>
-
-  <h4 class="study-item-title">Program Clarity and Friction</h4>
-  <p>
-    End-of-program measures evaluate how clearly students understood what to do and whether the system reduced uncertainty during learning.
-  </p>
-</div>
-
-<p class="study-close">
-  Together, these measures provide an early signal of whether structured learning systems improve performance stability during the transition into medical training.
+  <article class="pass-text-card pass-evidence-card">
+    <span class="pass-card-label">Emerging Evidence</span>
+    <h3>Findings Added as Analyses Are Completed</h3>
+<p>
+  Analyses are in progress. Approved implementation findings,
+  learner-reported outcomes, academic-stability measures, presentations,
+  and publications will be added as they become available. Those findings
+  will also guide future refinements while preserving the core learning process.
 </p>
+  </article>
 
-    </section>
-  </div>
-</section>
+</div>
+      </section>
 
-
-<section class="testimonials" aria-label="Student Experiences">
+<section class="testimonials" aria-label="Learner Experiences">
   <div class="testimonials-head">
-    <h2 class="testimonials-title">Student Experiences</h2>
-    <p class="testimonials-bridge">
-These are the kinds of changes students report once the system clicks
+    <h2 class="testimonials-title">Learner Experiences</h2>
+<p class="testimonials-bridge">
+  These are the kinds of changes learners report once the system becomes usable.
 </p>
-    <p class="testimonials-subtitle">
-      Outcomes reported by students who tested WMOL during early pilot implementation (n≈20). The examples below reflect a subset who chose to share their results. Quotes are anonymized and shared with permission.
-    </p>
+<p class="testimonials-subtitle">
+  These experiences come from learners who tested WMOL during early
+  implementation. The examples reflect a subset who chose to share their
+  results; quotes are anonymized and shared with permission.
+</p>
   </div>
 
   <div class="testimonial-shell">
@@ -1169,592 +1322,617 @@ document.addEventListener("keydown", (e) => {
   render();
 })();
 </script>
-<!-- IMPLEMENTATION + FUTURE RESEARCH -->
-<section class="impl-future" aria-label="Implementation and Future Research">
-  <div class="impl-head">
-    <h2 class="impl-title">How This Is Implemented Before Medical School Begins</h2>
-  </div>
 
-  <div class="impl-grid">
-    <!-- LEFT -->
-    <section class="impl-col">
-      <h3 class="impl-col-title">A Structured 6-Week Pre-Matriculation System</h3>
-      <p class="implementation-intro">
-        This system is delivered as a six-week pre-matriculation program designed to build stable learning behaviors before students encounter the full academic workload of medical school.
-      </p>
-      <p>
-        The WMOL intervention is delivered as a structured six-week pre-matriculation program that occurs before the start of formal medical school coursework.
-      </p>
 
-      <p>
-        The goal of this period is to introduce a structured learning framework while students are not yet managing the full academic workload of medical training.
-      </p>
+      <section class="pass-contact" id="contact" aria-labelledby="pass-contact-title">
+        <div class="pass-contact-copy">
+          <p class="pass-section-kicker">Institutional Collaboration</p>
+          <h2 id="pass-contact-title">Discuss Institutional Fit</h2>
+          <p>Share your institutional email, and we will reach out shortly to learn more about your incoming cohort and pre-matriculation needs.</p>
+        </div>
 
-      <div class="impl-block">
-        <h4 class="impl-mini-title">Program Structure</h4>
+        <form class="pass-contact-form" method="post" action="{% url 'landing:pass_interest' %}">
+          {% csrf_token %}
+          <label for="passContactEmail">Institutional email address</label>
+          <div class="pass-contact-row">
+            <input
+              id="passContactEmail"
+              name="email"
+              type="email"
+              autocomplete="email"
+              maxlength="254"
+              required
+              placeholder="name@institution.edu"
+            >
+            <button type="submit">Request a Conversation</button>
+          </div>
 
-        <p>
-          The program combines an initial orientation session, weekly guided check-ins, and independent application of the WMOL learning framework.
+          <div class="pass-honeypot" aria-hidden="true">
+            <label for="passWebsite">Website</label>
+            <input id="passWebsite" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          
+          <p class="pass-contact-status" id="passContactStatus" role="status" aria-live="polite"></p>
+        </form>
+
+        <p class="pass-direct-contact">
+          Prefer to contact us directly?
+          <a href="mailto:WangMethodofLearning@gmail.com">WangMethodofLearning@gmail.com</a>
         </p>
+      </section>
 
-        <p>Participants are introduced to the core components of the WMOL system, including:</p>
+      <footer class="pass-footer">
+        <p>Competency without loss of identity.</p>
+      </footer>
 
-        <ul class="impl-bullets">
-          <li>structured conceptual memorization strategies</li>
-          <li>effective use of learning resources</li>
-          <li>integration of assessment-aligned practice questions</li>
-          <li>structured study planning for high-volume material</li>
-        </ul>
-
-        <p>
-          Students then begin applying these elements to real learning material during the training period.
-        </p>
-      </div>
-
-      <div class="impl-block">
-        <h4 class="impl-mini-title">Weekly Program Flow</h4>
-
-        <p>The six-week program follows a progressive structure:</p>
-
-<div class="impl-timeline">
-  <div class="impl-week">
-    <div class="impl-week-label">Week 1</div>
-    <div class="impl-week-body">
-      <h4 class="impl-item-title">Understand Study Resources and Build Study Rhythm</h4>
-      <p>
-        Students begin learning the assigned material using selected resources, build an initial study rhythm, and focus on understanding the main ideas clearly before trying to memorize details.
-      </p>
     </div>
-  </div>
-
-  <div class="impl-week">
-    <div class="impl-week-label">Week 2</div>
-    <div class="impl-week-body">
-      <h4 class="impl-item-title">Build Working Memory and Begin Question-Based Refinement</h4>
-      <p>
-        Students convert understood concepts into simple working memories and begin refining them with aligned practice questions so recall remains logical and usable.
-      </p>
-    </div>
-  </div>
-
-  <div class="impl-week">
-    <div class="impl-week-label">Week 3</div>
-    <div class="impl-week-body">
-      <h4 class="impl-item-title">First Pass Through Practice Questions</h4>
-      <p>
-        Students complete a first pass through the available practice questions to expose weak points, test whether their current memories hold under application, and identify where understanding breaks.
-      </p>
-    </div>
-  </div>
-
-  <div class="impl-week">
-    <div class="impl-week-label">Week 4</div>
-    <div class="impl-week-body">
-      <h4 class="impl-item-title">Refine Incorrect Questions to Consistent Correct Reasoning</h4>
-      <p>
-        Students revisit missed questions, refine what was incorrect or incomplete, and continue until reasoning becomes consistently correct across leftover weak areas.
-      </p>
-    </div>
-  </div>
-
-  <div class="impl-week">
-    <div class="impl-week-label">Week 5</div>
-    <div class="impl-week-body">
-      <h4 class="impl-item-title">Stabilize and Perform Under Load</h4>
-      <p>
-        Students begin structured randomization sets to build cognitive endurance, reinforce recall, and stabilize performance under a controlled question load.
-      </p>
-    </div>
-  </div>
-
-  <div class="impl-week">
-    <div class="impl-week-label">Week 6</div>
-    <div class="impl-week-body">
-      <h4 class="impl-item-title">Increase Load While Stable Under Pressure</h4>
-      <p>
-        Students increase randomization-set load only after performance is stable, allowing endurance and consistency to build without sacrificing reasoning accuracy.
-      </p>
-    </div>
-  </div>
-</div>
-      </div>
-
-<div class="impl-block impl-block--data">
-  <div class="impl-mini impl-mini--center">Data Collection</div>
-
-  <p>During the six-week program, participants complete brief weekly surveys measuring:</p>
-
-  <ul class="impl-bullets">
-    <li>study efficiency</li>
-    <li>cognitive fatigue</li>
-    <li>performance confidence during learning and question application</li>
-  </ul>
-
-  <p>
-    At the end of Week 6, participants also complete a brief program clarity and usability survey to identify what felt clear, confusing, manageable, or unnecessary during early implementation.
-  </p>
-
-  <p>
-    Together, these measures allow early observation of how structured learning systems may influence study behavior, confidence, and stability during demanding learning cycles.
-  </p>
-</div>
-
-      <p class="impl-close">
-        The intervention is intentionally designed to be lightweight and compatible with existing pre-matriculation programs, allowing institutions to evaluate the framework without modifying their academic curriculum.
-      </p>
-    </section>
-
-    <!-- RIGHT -->
-    <section class="impl-col">
-      <h3 class="impl-col-title">Research Development Pathway</h3>
-
-      <p>
-        The current pilot initiative represents an early effort to examine how structured cognitive readiness interventions may influence academic stability during the transition into medical training.
-      </p>
-
-      <p>
-        Initial evaluation is expected to involve collaboration across multiple institutions participating in pre-matriculation programming.
-      </p>
-
-      <div class="impl-phase-list">
-        <div class="impl-phase">
-          <div class="impl-phase-label">Phase 1</div>
-          <div class="impl-phase-body">
-            <h4 class="impl-item-title">Multi-Site Pilot Evaluation</h4>
-            <p>
-              Participating institutions implement the pre-matriculation intervention while observing early indicators of academic stability during the first examination block.
-            </p>
-            <p>
-              The objective of this phase is to determine whether consistent patterns appear across different institutional environments.
-            </p>
-          </div>
-        </div>
-
-        <div class="impl-phase">
-          <div class="impl-phase-label">Phase 2</div>
-          <div class="impl-phase-body">
-            <h4 class="impl-item-title">Expanded Institutional Participation</h4>
-            <p>
-              Additional institutions may participate in subsequent cohorts, allowing evaluation across broader curricular structures and student populations.
-            </p>
-            <p>
-              This phase enables deeper comparison of how structured learning architectures interact with different educational environments.
-            </p>
-          </div>
-        </div>
-
-        <div class="impl-phase">
-          <div class="impl-phase-label">Phase 3</div>
-          <div class="impl-phase-body">
-            <h4 class="impl-item-title">Cross-Institution Learning Stability Research</h4>
-            <p>
-              Longer-term work may explore broader indicators of cohort stability, learning sustainability, and cognitive endurance within demanding academic environments.
-            </p>
-            <p>
-              These efforts may contribute to a deeper understanding of how structured learning systems influence performance in high-workload educational settings.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-</section>
-<section class="med-low-risk" aria-label="Low Risk Pilot Structure">
-  <div class="med-low-risk-head">
-    <h2 class="med-low-risk-title">Designed As A Low-Risk, Contained Pilot</h2>
-    <p class="med-low-risk-sub">
-      This pilot is structured to let institutions evaluate impact without disrupting curriculum, increasing faculty workload, or redesigning existing systems.
-    </p>
-  </div>
-
-  <div class="med-low-risk-grid">
-    <div class="med-low-risk-card">
-      <h3>No Curriculum Changes</h3>
-      <p>
-        The intervention runs during the pre-matriculation period and works alongside the existing curriculum rather than replacing any part of it.
-      </p>
-    </div>
-
-    <div class="med-low-risk-card">
-      <h3>Minimal Faculty Involvement</h3>
-      <p>
-        Delivery can be centralized and externally supported, with institutions primarily coordinating student identification, research oversight, and data access.
-      </p>
-    </div>
-
-    <div class="med-low-risk-card">
-      <h3>Compatible With Existing Systems</h3>
-      <p>
-        WMOL is designed to work with current onboarding, lectures, question banks, and assessment structures without requiring instructional redesign.
-      </p>
-    </div>
-
-    <div class="med-low-risk-card">
-      <h3>Contained Evaluation</h3>
-      <p>
-        Outcomes are compared against non-participating classmates using de-identified academic data, allowing institutions to test feasibility before considering broader adoption.
-      </p>
-    </div>
-  </div>
-</section>
-<!-- INSTITUTIONAL + ABOUT (FOOTER CLOSE) -->
-<section class="med-footer" aria-label="Institutional Collaboration and About WMOL">
-
-<section class="med-footer-block" aria-label="Institutional Collaboration">
-  <h2 class="med-footer-title">Institutional Collaboration</h2>
-
-  <p>
-    The next step is simple: identify an incoming student cohort and coordinate with institutional research staff to evaluate a six-week pre-matriculation pilot.
-  </p>
-
-  <p>
-    The pilot is designed to fit alongside existing onboarding and curriculum, using a volunteer cohort, de-identified academic data, and a contained evaluation structure.
-  </p>
-
-  <p>
-    For institutions interested in exploring this process, early collaboration can focus on feasibility, IRB coordination, and pilot setup.
-  </p>
-
-  <p class="med-footer-line">
-    For collaboration inquiries:
-    <a class="med-footer-email" href="mailto:WangMethodofLearning@gmail.com">WangMethodofLearning@gmail.com</a>
-  </p>
-</section>
-
-<section class="med-footer-block" aria-label="About the Wang Method of Learning">
-  <h2 class="med-footer-title">About the Wang Method of Learning</h2>
-
-  <p>
-    The Wang Method of Learning (WMOL) is a structured system for helping students understand, retain, apply, and stabilize performance under sustained academic load.
-  </p>
-
-  <p>
-    It was developed through extended practical refinement around a specific problem: how to improve learning efficiency and execution without increasing unnecessary misery, confusion, or wasted effort.
-  </p>
-
-  <p>
-    In this setting, WMOL functions as a preparatory layer that helps students engage more effectively with the curriculum they are already expected to master.
-  </p>
-</section>
-
-</section>
-
-
-    </div> <!-- /content-inner -->
   </main>
 </section>
 
-<!--Lightbox-->
-<div id="image-modal" class="image-modal" aria-hidden="true">
-  <div class="image-modal-inner">
-    <div class="image-modal-frame">
-      <img
-        id="image-modal-img"
-        src="{% static 'img/wmol-framework.png' %}"
-        alt="Enlarged WMOL gallery image"
-      >
-    </div>
-  </div>
-</div>
-
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-   const imageSources = [
-  "{% static 'img/wmol-framework.png' %}",
-  "{% static 'img/irb-endpoints.png' %}",
-  "{% static 'img/schedules.png' %}",
-  "{% static 'img/step1-pass.png' %}",
-  "{% static 'img/wmol-book.png' %}",
-  "{% static 'img/wmol-memory-example.png' %}",
-];
-    let currentIndex = 0;
+document.addEventListener("DOMContentLoaded", () => {
+   const slides = [
+    {
+      src: "{% static 'img/wmol-framework.png' %}",
+      alt: "Structured learner workflow",
+      caption: "PASS gives learners a clear daily structure for progressing through the program rather than leaving them to prepare independently."
+    },
+    {
+      src: "{% static 'img/irb-endpoints.png' %}",
+      alt: "Early orientation to the medical school environment",
+     caption: "PASS introduces the demands, expectations, and working habits of medical school before formal coursework raises the stakes."
+    },
+    {
+      src: "{% static 'img/wmol-book.png' %}",
+      alt: "Defined learning system",
+      caption: "Learners are taught how to understand, remember, apply, and stabilize learning rather than relying on passive review or repeated note-taking."
+    },
+    {
+      src: "{% static 'img/schedules.png' %}",
+      alt: "Four-week pre-matriculation progression",
+      caption: "The four-week sequence moves from guided understanding to application, correction, and stable carryover into medical school."
+    }
+  ];
 
-    const mainImg = document.getElementById('wmol-gallery-image');
-    const thumbs  = document.querySelectorAll('.wmol-gallery-thumbs img');
-    const prevBtn = document.querySelector('.wmol-gallery-arrow.prev');
-    const nextBtn = document.querySelector('.wmol-gallery-arrow.next');
+  const image = document.getElementById("passTransitionImage");
+  const caption = document.getElementById("passTransitionCaption");
+  const gallery = document.getElementById("passTransitionGallery");
+  const tabs = Array.from(
+    document.querySelectorAll("[data-transition-index]")
+  );
+  const prev = document.getElementById("passTransitionPrev");
+  const next = document.getElementById("passTransitionNext");
+  const carousel = document.getElementById("passTransitionCarousel");
 
-const modal       = document.getElementById('image-modal');
-const modalImg    = document.getElementById('image-modal-img');
-const modalThumbs = document.getElementById('imageModalThumbs');
+  const problemPrev = document.getElementById("passProblemPrev");
+  const problemNext = document.getElementById("passProblemNext");
+  const problemDots = document.getElementById("passProblemDots");
+  const problemCarousel = document.getElementById("passTransitionCopy");
 
+  const openButton = document.getElementById("passTransitionOpen");
+  const modal = document.getElementById("passTransitionModal");
+  const modalImage = document.getElementById("passTransitionModalImage");
+  const modalCaption = document.getElementById(
+    "passTransitionModalCaption"
+  );
+  const modalClose = document.getElementById(
+    "passTransitionModalClose"
+  );
 
-function updateThumbs(){
-  // Page thumbs
-  thumbs.forEach((t, i) => t.classList.toggle('active', i === currentIndex));
+  let index = 0;
+  let problemIndex = 0;
 
-  // Popup thumbs
-  if (modalThumbs) {
-    const popupThumbs = modalThumbs.querySelectorAll('.image-modal-thumb');
-    popupThumbs.forEach((t, i) => t.classList.toggle('active', i === currentIndex));
-  }
-}
+  if (image && caption && gallery && tabs.length) {
 
-function renderModalThumbs(){
-  if (!modalThumbs) return;
+    slides.forEach((slide, slideIndex) => {
+      const thumbnailButton = document.createElement("button");
+      thumbnailButton.type = "button";
+      thumbnailButton.className = "pass-transition-thumbnail";
+      thumbnailButton.setAttribute(
+        "aria-label",
+        `Show transition image ${slideIndex + 1}`
+      );
 
-  modalThumbs.innerHTML = '';
+      const thumbnailImage = document.createElement("img");
+      thumbnailImage.src = slide.src;
+      thumbnailImage.alt = "";
 
-  imageSources.forEach((src, i) => {
-    const thumb = document.createElement('img');
-    thumb.src = src;
-    thumb.alt = `Popup slide ${i + 1}`;
-    thumb.className = 'image-modal-thumb' + (i === currentIndex ? ' active' : '');
+      thumbnailButton.appendChild(thumbnailImage);
+      thumbnailButton.addEventListener("click", () => {
+        showSlide(slideIndex);
+      });
 
-    thumb.addEventListener('click', (e) => {
-      e.stopPropagation();
-      showImage(i);
+      gallery.appendChild(thumbnailButton);
     });
 
-    modalThumbs.appendChild(thumb);
-  });
-}
+    function showSlide(nextIndex) {
+      index = (nextIndex + slides.length) % slides.length;
+      const slide = slides[index];
 
-function showImage(index) {
-  const total = imageSources.length;
-  currentIndex = (index + total) % total;
+      image.src = slide.src;
+      image.alt = slide.alt;
+      caption.textContent = slide.caption;
+      gallery
+        .querySelectorAll(".pass-transition-thumbnail")
+        .forEach((thumbnail, thumbnailIndex) => {
+          const active = thumbnailIndex === index;
+          thumbnail.classList.toggle("is-active", active);
+          thumbnail.setAttribute(
+            "aria-current",
+            active ? "true" : "false"
+          );
+        });
+    }
+    function showProblem(nextIndex) {
+      problemIndex = (nextIndex + tabs.length) % tabs.length;
 
-  const src = imageSources[currentIndex];
+      tabs.forEach((tab, tabIndex) => {
+        const active = tabIndex === problemIndex;
 
-  if (mainImg)  mainImg.src = src;
-  if (modalImg) modalImg.src = src;
+        tab.classList.toggle("is-active", active);
+        tab.setAttribute(
+          "aria-current",
+          active ? "true" : "false"
+        );
+      });
 
-  // ✅ Schedule-only: tell CSS to use a larger lightbox size
-  if (modal) {
-    modal.classList.toggle('is-schedule', src.includes('schedules.png'));
-modal.classList.toggle('is-step1', src.includes('step1-pass.png'));
+      problemDots
+        ?.querySelectorAll(".pass-mobile-dot")
+        .forEach((dot, dotIndex) => {
+          dot.classList.toggle(
+            "is-active",
+            dotIndex === problemIndex
+          );
+        });
+    }
 
-  }
+    function buildProblemDots() {
+      if (!problemDots) return;
 
-  updateThumbs();
-}
+      tabs.forEach((tab, tabIndex) => {
+        const dot = document.createElement("button");
 
+        dot.type = "button";
+        dot.className = "pass-mobile-dot";
+        dot.setAttribute(
+          "aria-label",
+          `Show transition problem ${tabIndex + 1}`
+        );
 
-function openModal() {
-  if (!modal) return;
-  const src = imageSources[currentIndex];
-  if (modalImg) modalImg.src = src;
+        dot.addEventListener("click", () => {
+          showProblem(tabIndex);
+        });
 
-  modal.classList.toggle('is-schedule', src.includes('schedules.png'));
-  modal.classList.toggle('is-step1', src.includes('step1-pass.png'));
+        problemDots.appendChild(dot);
+      });
+    }
+    function openModal() {
+      const slide = slides[index];
 
-  renderModalThumbs();
-  updateThumbs();
+      if (!modal || !modalImage || !modalCaption) return;
 
-  modal.classList.add('is-open');
-  modal.setAttribute('aria-hidden', 'false');
-  document.body.classList.add('image-modal-open');
-}
-
+      modalImage.src = slide.src;
+      modalImage.alt = slide.alt;
+      modalCaption.textContent = slide.caption;
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("pass-modal-open");
+    }
 
     function closeModal() {
       if (!modal) return;
-      modal.classList.remove('is-open');
-      modal.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('image-modal-open');
+
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("pass-modal-open");
     }
 
-    if (prevBtn && nextBtn && mainImg && thumbs.length) {
-      prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
-      nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
-      thumbs.forEach((thumb, i) => thumb.addEventListener('click', () => showImage(i)));
-    }
-
-    if (mainImg) {
-      mainImg.style.cursor = 'zoom-in';
-      mainImg.addEventListener('click', openModal);
-    }
-
-    if (modal) {
-      modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal && modal.classList.contains('is-open')) closeModal();
+    tabs.forEach((tab, tabIndex) => {
+      tab.addEventListener("click", () => {
+        showProblem(tabIndex);
+      });
     });
 
+    problemPrev?.addEventListener("click", () => {
+      showProblem(problemIndex - 1);
+    });
 
-    function enableModalSwipe(){
-  if (!modal) return;
+    problemNext?.addEventListener("click", () => {
+      showProblem(problemIndex + 1);
+    });
 
-  let startX = 0;
-  let startY = 0;
-  let dragging = false;
+    let problemStartX = 0;
+    let problemStartY = 0;
 
-  const THRESH_X = 45;
-  const THRESH_Y = 40;
+    problemCarousel?.addEventListener(
+      "touchstart",
+      (event) => {
+        const touch = event.touches[0];
 
-  modal.addEventListener("touchstart", (e) => {
-    if (!modal.classList.contains("is-open")) return;
-    const t = e.touches[0];
-    startX = t.clientX;
-    startY = t.clientY;
-    dragging = true;
-  }, { passive: true });
+        problemStartX = touch.clientX;
+        problemStartY = touch.clientY;
+      },
+      { passive: true }
+    );
 
-  modal.addEventListener("touchmove", (e) => {
-    if (!dragging || !modal.classList.contains("is-open")) return;
+    problemCarousel?.addEventListener(
+      "touchend",
+      (event) => {
+        const touch = event.changedTouches[0];
+        const dx = touch.clientX - problemStartX;
+        const dy = touch.clientY - problemStartY;
 
-    const t = e.touches[0];
-    const dx = t.clientX - startX;
-    const dy = t.clientY - startY;
+        if (
+          Math.abs(dx) < 45 ||
+          Math.abs(dx) <= Math.abs(dy)
+        ) {
+          return;
+        }
 
-    // If mostly horizontal, prevent page scrolling
-    if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
-      e.preventDefault();
-    }
-  }, { passive: false });
+        showProblem(
+          dx < 0
+            ? problemIndex + 1
+            : problemIndex - 1
+        );
+      },
+      { passive: true }
+    );
 
-  modal.addEventListener("touchend", (e) => {
-    if (!dragging || !modal.classList.contains("is-open")) return;
-    dragging = false;
+    prev?.addEventListener("click", () => {
+      showSlide(index - 1);
+    });
 
-    const t = e.changedTouches[0];
-    const dx = t.clientX - startX;
-    const dy = t.clientY - startY;
+    next?.addEventListener("click", () => {
+      showSlide(index + 1);
+    });
 
-    if (Math.abs(dy) > THRESH_Y && Math.abs(dy) > Math.abs(dx)) return;
+    openButton?.addEventListener("click", openModal);
+    modalClose?.addEventListener("click", closeModal);
 
-    if (dx <= -THRESH_X) {
-      // swipe left -> next
-      showImage(currentIndex + 1);
-    } else if (dx >= THRESH_X) {
-      // swipe right -> prev
-      showImage(currentIndex - 1);
-    }
-  }, { passive: true });
-}
-enableModalSwipe();
-    showImage(0);
-  });
+    modal?.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
 
-  // ---- Swipe support (mobile) for testimonials ----
-(function enableTestimonialSwipe(){
-  const shell = document.querySelector(".testimonial-shell");
-  if (!shell) return;
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    });
 
-  let startX = 0;
-  let startY = 0;
-  let dragging = false;
+    let startX = 0;
+    let startY = 0;
 
-  const THRESH_X = 45;   // swipe distance
-  const THRESH_Y = 40;   // ignore if mostly vertical
+    carousel?.addEventListener(
+      "touchstart",
+      (event) => {
+        const touch = event.touches[0];
+        startX = touch.clientX;
+        startY = touch.clientY;
+      },
+      { passive: true }
+    );
 
-  shell.addEventListener("touchstart", (e) => {
-    const t = e.touches[0];
-    startX = t.clientX;
-    startY = t.clientY;
-    dragging = true;
-  }, { passive: true });
+    carousel?.addEventListener(
+      "touchend",
+      (event) => {
+        const touch = event.changedTouches[0];
+        const dx = touch.clientX - startX;
+        const dy = touch.clientY - startY;
 
-  shell.addEventListener("touchmove", (e) => {
-    if (!dragging) return;
+        if (
+          Math.abs(dx) < 45 ||
+          Math.abs(dx) <= Math.abs(dy)
+        ) {
+          return;
+        }
 
-    const t = e.touches[0];
-    const dx = t.clientX - startX;
-    const dy = t.clientY - startY;
+        showSlide(dx < 0 ? index + 1 : index - 1);
+      },
+      { passive: true }
+    );
 
-    // If it's a horizontal swipe, stop the page from scrolling sideways
-    if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
-      e.preventDefault();
-    }
-  }, { passive: false });
+    buildProblemDots();
+    showSlide(0);
+    showProblem(0);
+  }
 
-  shell.addEventListener("touchend", (e) => {
-    if (!dragging) return;
-    dragging = false;
+  const mobileCarouselRails = Array.from(
+    document.querySelectorAll("[data-mobile-carousel]")
+  );
 
-    const t = e.changedTouches[0];
-    const dx = t.clientX - startX;
-    const dy = t.clientY - startY;
+  mobileCarouselRails.forEach((rail) => {
+    const cards = Array.from(rail.children).filter((child) =>
+      child.matches("article")
+    );
 
-    // ignore mostly-vertical gestures
-    if (Math.abs(dy) > THRESH_Y && Math.abs(dy) > Math.abs(dx)) return;
+    if (cards.length < 2) return;
 
-    if (dx <= -THRESH_X) {
-      // swipe left -> next
-      document.querySelector(".t-nav.next")?.click();
-    } else if (dx >= THRESH_X) {
-      // swipe right -> prev
-      document.querySelector(".t-nav.prev")?.click();
-    }
-  }, { passive: true });
-})();
+    const controls = document.createElement("div");
+    controls.className = "pass-mobile-carousel-controls";
 
-</script>
+    const previousButton = document.createElement("button");
+    previousButton.type = "button";
+    previousButton.className = "pass-mobile-carousel-btn";
+    previousButton.setAttribute("aria-label", "Previous card");
+    previousButton.textContent = "‹";
 
+    const dots = document.createElement("div");
+    dots.className = "pass-mobile-dots";
+    dots.setAttribute("aria-label", "Carousel slides");
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('backHome');
-    if (!btn) return;
+    const nextButton = document.createElement("button");
+    nextButton.type = "button";
+    nextButton.className = "pass-mobile-carousel-btn";
+    nextButton.setAttribute("aria-label", "Next card");
+    nextButton.textContent = "›";
 
-    // ✅ MOBILE: tap the blue rail to hide it
-    const mq = window.matchMedia('(max-width: 900px)');
-    const rail = document.querySelector('.medicine-layout .rail-medicine');
+    controls.append(
+      previousButton,
+      dots,
+      nextButton
+    );
 
-    if (mq.matches && rail) {
-      rail.style.cursor = 'pointer';
-      rail.setAttribute('role', 'button');
-      rail.setAttribute('tabindex', '0');
-      rail.setAttribute('aria-label', 'Hide banner');
+    rail.insertAdjacentElement("afterend", controls);
 
-      const hideRail = () => document.body.classList.add('med-rail-hidden');
+    let currentIndex = 0;
+    let scrollFrame = null;
 
-      rail.addEventListener('click', (e) => {
-        // If you ever add links inside the rail later, don't hijack those
-        if (e.target.closest('a, button')) return;
-        hideRail();
+    cards.forEach((card, cardIndex) => {
+      const dot = document.createElement("button");
+
+      dot.type = "button";
+      dot.className = "pass-mobile-dot";
+      dot.setAttribute(
+        "aria-label",
+        `Show card ${cardIndex + 1}`
+      );
+
+      dot.addEventListener("click", () => {
+        goToCard(cardIndex);
       });
 
-      rail.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          hideRail();
+      dots.appendChild(dot);
+    });
+
+    function updateControls() {
+      dots
+        .querySelectorAll(".pass-mobile-dot")
+        .forEach((dot, dotIndex) => {
+          dot.classList.toggle(
+            "is-active",
+            dotIndex === currentIndex
+          );
+        });
+
+      previousButton.disabled = currentIndex === 0;
+      nextButton.disabled =
+        currentIndex === cards.length - 1;
+    }
+
+    function goToCard(nextIndex) {
+      currentIndex = Math.max(
+        0,
+        Math.min(cards.length - 1, nextIndex)
+      );
+const card = cards[currentIndex];
+
+if (rail.dataset.mobileCarousel === "system") {
+  card.scrollIntoView({
+    behavior: "smooth",
+    block: "nearest",
+    inline: "center"
+  });
+} else {
+  const railRect = rail.getBoundingClientRect();
+  const cardRect = card.getBoundingClientRect();
+
+  const left =
+    rail.scrollLeft +
+    cardRect.left -
+    railRect.left;
+
+  rail.scrollTo({
+    left,
+    behavior: "smooth"
+  });
+}
+
+      updateControls();
+    }
+
+    function updateFromScroll() {
+      const railCenter =
+        rail.getBoundingClientRect().left +
+        rail.clientWidth / 2;
+
+      let nearestIndex = 0;
+      let nearestDistance = Infinity;
+
+      cards.forEach((card, cardIndex) => {
+        const rect = card.getBoundingClientRect();
+        const cardCenter =
+          rect.left + rect.width / 2;
+
+        const distance = Math.abs(
+          cardCenter - railCenter
+        );
+
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestIndex = cardIndex;
         }
       });
+
+      currentIndex = nearestIndex;
+      updateControls();
     }
-btn.addEventListener('click', (e) => {
-  e.preventDefault();
 
-  const go = () => { window.location.href = "/tools/"; };
+    previousButton.addEventListener("click", () => {
+      goToCard(currentIndex - 1);
+    });
 
-  if (document.startViewTransition) {
-    document.startViewTransition(go);
-  } else {
-    go();
-  }
-});
+    nextButton.addEventListener("click", () => {
+      goToCard(currentIndex + 1);
+    });
+
+    rail.addEventListener(
+      "scroll",
+      () => {
+        if (scrollFrame) {
+          cancelAnimationFrame(scrollFrame);
+        }
+
+        scrollFrame =
+          requestAnimationFrame(updateFromScroll);
+      },
+      { passive: true }
+    );
+
+    updateControls();
   });
-</script>
+    const weekCards = Array.from(
+    document.querySelectorAll("[data-week-image]")
+  );
 
-<script>
-  (function () {
-    async function goToCheckout(pkg) {
-      const form = new FormData();
-      form.append("package", pkg);
+  const weekModal = document.getElementById("passWeekModal");
+  const weekModalImage = document.getElementById(
+    "passWeekModalImage"
+  );
+  const weekModalClose = document.getElementById(
+    "passWeekModalClose"
+  );
 
-      const res = await fetch("{% url 'landing:create_checkout_session' %}", {
+  function openWeekModal(card) {
+    if (!weekModal || !weekModalImage || !card) return;
+
+    weekModalImage.src = card.dataset.weekImage || "";
+    weekModalImage.alt = card.dataset.weekAlt || "Weekly program image";
+
+    weekModal.classList.add("is-open");
+    weekModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("pass-modal-open");
+
+    weekModalClose?.focus();
+  }
+
+  function closeWeekModal() {
+    if (!weekModal || !weekModalImage) return;
+
+    weekModal.classList.remove("is-open");
+    weekModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("pass-modal-open");
+
+    weekModalImage.src = "";
+    weekModalImage.alt = "";
+  }
+
+  weekCards.forEach((card) => {
+    card.addEventListener("click", () => {
+      openWeekModal(card);
+    });
+
+    card.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+
+      event.preventDefault();
+      openWeekModal(card);
+    });
+  });
+
+  weekModalClose?.addEventListener("click", closeWeekModal);
+
+  weekModal?.addEventListener("click", (event) => {
+    if (event.target === weekModal) {
+      closeWeekModal();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (
+      event.key === "Escape" &&
+      weekModal?.classList.contains("is-open")
+    ) {
+      closeWeekModal();
+    }
+  });
+  const status = document.getElementById("passContactStatus");
+  const contactForm = document.querySelector(".pass-contact-form");
+
+  contactForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const submitButton = contactForm.querySelector('button[type="submit"]');
+    const defaultButtonText = submitButton?.textContent || "Request a Conversation";
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Sending…";
+    }
+
+    if (status) {
+      status.textContent = "Sending your request…";
+      status.classList.remove("is-error", "is-success");
+    }
+
+    try {
+      const response = await fetch(contactForm.action, {
         method: "POST",
-        body: form
+        body: new FormData(contactForm),
+        credentials: "same-origin",
+        headers: {
+          "X-Requested-With": "XMLHttpRequest"
+        }
       });
 
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert(data.error || "Checkout failed. Please try again.");
+      let payload = {};
+      try {
+        payload = await response.json();
+      } catch (error) {
+        payload = {};
+      }
+
+      if (!response.ok || !payload.ok) {
+        throw new Error(
+          payload.error ||
+          "Your request could not be sent. Please contact us directly by email."
+        );
+      }
+
+      if (status) {
+        status.textContent = payload.message || "Thank you. We’ll reach out shortly.";
+        status.classList.add("is-success");
+      }
+      contactForm.reset();
+    } catch (error) {
+      if (status) {
+        status.textContent = error.message;
+        status.classList.add("is-error");
+      }
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = defaultButtonText;
       }
     }
+  });
 
-    document.querySelectorAll(".package-cta[data-package]").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        const pkg = btn.dataset.package;
-        goToCheckout(pkg);
-      });
-    });
-  })();
+  const backButton = document.getElementById("backHome");
+  backButton?.addEventListener("click", (event) => {
+    event.preventDefault();
+    const go = () => { window.location.href = "/tools/"; };
+
+    if (document.startViewTransition) {
+      document.startViewTransition(go);
+    } else {
+      go();
+    }
+  });
+});
 </script>
 
 {% endblock %}

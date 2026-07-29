@@ -6,8 +6,13 @@ app_name = "landing"
 urlpatterns = [
     path("", views.home, name="home"),
     path("domains/", views.domains, name="domains"),
-    path("medicine/", views.medicine, name="medicine"),
-    path("widgets/", views.widgets, name="widgets"),
+path("medicine/", views.medicine, name="medicine"),
+path(
+    "medicine/pass-interest/",
+    views.pass_interest,
+    name="pass_interest",
+),
+path("widgets/", views.widgets, name="widgets"),
     path("lifestyle/", views.lifestyle, name="lifestyle"),
 
     # tools

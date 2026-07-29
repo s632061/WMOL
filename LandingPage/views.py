@@ -1,12 +1,21 @@
+import hashlib
+import logging
 import os
+
 import stripe
 
 from django.conf import settings
-from django.core.mail import send_mail
+from django.core.cache import cache
+from django.core.exceptions import ValidationError
+from django.core.mail import EmailMessage, send_mail
+from django.core.validators import validate_email
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+
+
+logger = logging.getLogger(__name__)
 
 stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
 
@@ -52,10 +61,147 @@ def home(request):
     return render(request, 'landing/home.html')     # see template path note below
 
 def medicine(request):
-    return render(request, 'landing/medicine.html')
+    return render(request, "landing/medicine.html")
+
+
+def _get_client_ip(request):
+    """
+    Prefer Cloudflare's connecting-IP header when available.
+    Fall back to Django's remote address.
+    """
+    return (
+        request.META.get("HTTP_CF_CONNECTING_IP")
+        or request.META.get("REMOTE_ADDR")
+        or "unknown"
+    )
+
+
+@require_POST
+def pass_interest(request):
+    """
+    Receive an institutional email address and notify WMOL.
+
+    Security controls:
+    - Django CSRF protection
+    - Server-side email validation
+    - Hidden honeypot field
+    - Email-length limit
+    - Basic IP rate limiting
+    - No attachments or user-controlled email subject
+    """
+
+    email = (request.POST.get("email") or "").strip().lower()
+    honeypot = (request.POST.get("website") or "").strip()
+
+    # Bots often fill hidden fields. Return success without sending anything.
+    if honeypot:
+        return JsonResponse(
+            {
+                "ok": True,
+                "message": "Thank you. We’ll reach out shortly.",
+            }
+        )
+
+    if not email or len(email) > 254:
+        return JsonResponse(
+            {
+                "ok": False,
+                "error": "Enter a valid institutional email address.",
+            },
+            status=400,
+        )
+
+    try:
+        validate_email(email)
+    except ValidationError:
+        return JsonResponse(
+            {
+                "ok": False,
+                "error": "Enter a valid institutional email address.",
+            },
+            status=400,
+        )
+
+    # Allow up to five submissions from one IP address per hour.
+    client_ip = _get_client_ip(request)
+    hashed_ip = hashlib.sha256(client_ip.encode("utf-8")).hexdigest()
+    rate_limit_key = f"pass-interest:{hashed_ip}"
+
+    attempts = cache.get(rate_limit_key, 0)
+
+    if attempts >= 5:
+        response = JsonResponse(
+            {
+                "ok": False,
+                "error": (
+                    "Too many requests were submitted. "
+                    "Please try again later or contact us directly."
+                ),
+            },
+            status=429,
+        )
+        response["Retry-After"] = "3600"
+        return response
+
+    cache.set(rate_limit_key, attempts + 1, timeout=3600)
+
+    notify_to = getattr(settings, "NOTIFY_EMAIL_TO", "")
+    from_email = getattr(settings, "DEFAULT_FROM_EMAIL", "")
+
+    if not notify_to or not from_email:
+        logger.error(
+            "PASS inquiry email settings are incomplete. "
+            "NOTIFY_EMAIL_TO or DEFAULT_FROM_EMAIL is missing."
+        )
+        return JsonResponse(
+            {
+                "ok": False,
+                "error": (
+                    "The contact form is temporarily unavailable. "
+                    "Please contact us directly by email."
+                ),
+            },
+            status=503,
+        )
+
+    notification = EmailMessage(
+        subject="New WMOL PASS institutional inquiry",
+        body=(
+            "A visitor requested an institutional discussion about WMOL PASS.\n\n"
+            f"Institutional email: {email}\n"
+            f"Submission IP: {client_ip}\n\n"
+            "You can reply directly to this notification."
+        ),
+        from_email=from_email,
+        to=[notify_to],
+        reply_to=[email],
+    )
+
+    try:
+        notification.send(fail_silently=False)
+    except Exception:
+        logger.exception("Failed to send the WMOL PASS inquiry notification.")
+        return JsonResponse(
+            {
+                "ok": False,
+                "error": (
+                    "Your request could not be sent. "
+                    "Please contact us directly by email."
+                ),
+            },
+            status=500,
+        )
+
+    return JsonResponse(
+        {
+            "ok": True,
+            "message": "Thank you. We’ll reach out shortly.",
+        }
+    )
+
 
 def widgets(request):
-    return render(request, 'landing/widgets.html')
+    return render(request, "landing/widgets.html")
 
 def domains(request):
     return render(request, 'landing/domains.html')
