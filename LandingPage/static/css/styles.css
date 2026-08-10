@@ -804,15 +804,16 @@ h3,
 }
 
 .wmol-landing-bg{
-    position:absolute;
-    inset:0;
-    z-index:0;
-    pointer-events:none;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
 
-    background:url("/static/img/wmol-bronze-texture.png")
+    background: url("/static/img/wmol-bronze-texture.png")
         center center / cover no-repeat;
 
-    opacity:1;
+    opacity: 1;
+    mix-blend-mode: normal;
 }
 
 .wmol-landing::before{
@@ -3972,7 +3973,7 @@ body.pass-modal-open .med-content{
   height: 100%;
   object-fit: contain;
   object-position: center;
-  transform: translateY(-44px) scale(0.80);
+  transform: scale(0.80);
   transform-origin: center;
 }
 
@@ -6635,7 +6636,7 @@ html.leaving-tools-ui .domains-thesis{
   }
 
 .wmol-landing.is-problem .wmol-problem-view{
-    top: 47% !important;
+    top: 51% !important;
 }
 
 .wmol-landing.is-why .wmol-why-view{
