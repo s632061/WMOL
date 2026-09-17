@@ -1,0 +1,1153 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}AWS SAA Companion App | Wang Method of Learning{% endblock %}
+
+{% block content %}
+<section class="aws5-page" id="awsSaaPageV5">
+  <div class="aws5-safe-bar">
+    <a class="aws5-back" href="/tools/">← Back</a>
+  </div>
+
+  <section class="aws5-hero" aria-labelledby="aws5-title">
+    <div class="aws5-hero-copy">
+      <h1 class="aws5-title" id="aws5-title">AWS SAA<br>Companion App</h1>
+      <p class="aws5-cert-name">(for AWS Certified Solutions Architect - Associate)</p>
+
+      <div class="aws5-outcomes" aria-label="What the AWS SAA Companion App helps you do">
+        <p>Reach the certification in less time.</p>
+        <p>Fit preparation around your lifestyle.</p>
+        <p>See progress every time you study.</p>
+        <p>Walk into test day ready.</p>
+      </div>
+
+      <p class="aws5-thesis">Reach the AWS SAA certification without spending time and effort on the things that don’t matter.</p>
+
+      <div class="aws5-platform-grid" aria-label="Platform downloads">
+        <a href="#" class="aws5-platform-link is-coming-soon" aria-disabled="true"><span>iPhone</span><small>Coming Soon</small></a>
+        <a href="#" class="aws5-platform-link is-coming-soon" aria-disabled="true"><span>Android</span><small>Coming Soon</small></a>
+        <a href="#" class="aws5-platform-link is-coming-soon" aria-disabled="true"><span>Windows</span><small>Coming Soon</small></a>
+        <a href="#" class="aws5-platform-link is-coming-soon" aria-disabled="true"><span>macOS</span><small>Coming Soon</small></a>
+      </div>
+    </div>
+
+    <div class="aws5-active-preview" id="aws5ActivePreview">
+      <button class="aws5-active-image-button" id="aws5ActiveImageButton" type="button" aria-label="Open selected preview">
+        <img id="aws5ActiveImage" src="{% static 'img/aws-saa/shot-01-mobile-plan.png' %}" alt="AWS SAA Companion App study plan preview">
+      </button>
+      <p class="aws5-preview-caption" id="aws5PreviewCaption">See the study path, what comes next, and where you are in the system.</p>
+      <div class="aws5-preview-arrows" aria-label="Preview navigation">
+        <button type="button" id="aws5PrevPreview" aria-label="Previous preview">←</button>
+        <span id="aws5PreviewCount">1 / 9</span>
+        <button type="button" id="aws5NextPreview" aria-label="Next preview">→</button>
+      </div>
+    </div>
+
+    <div class="aws5-thumbnail-grid" id="aws5ThumbnailGrid" aria-label="Choose a product preview"></div>
+  </section>
+
+  <section class="aws5-info-zone" aria-label="AWS SAA Companion App details">
+    <div class="aws5-info-left">
+      <nav class="aws5-info-grid" id="aws5InfoGrid" aria-label="Choose information">
+        <button type="button" data-panel="product"><span>The Product</span></button>
+        <button type="button" data-panel="meaning"><span>What Does It Do?</span></button>
+        <button type="button" data-panel="works"><span>How It Works</span></button>
+        <button type="button" data-panel="used"><span>Where It’s Been Used</span></button>
+        <button type="button" class="is-active" data-panel="tested" aria-selected="true"><span>How It’s Been Tested</span></button>
+        <button type="button" data-panel="fit"><span>Why It Works for You</span></button>
+        <button type="button" data-panel="start"><span>Get Started</span></button>
+        <button type="button" data-panel="contact"><span>Contact</span></button>
+        <button type="button" data-panel="legal"><span>Terms &amp; Privacy</span></button>
+      </nav>
+
+      <footer class="aws5-footer">Designed for what matters.</footer>
+    </div>
+
+    <section class="aws5-info-shell" aria-live="polite">
+      <div class="aws5-info-panel" id="aws5InfoPanel" data-panel="tested"></div>
+    </section>
+  </section>
+
+  <div class="aws5-preview-modal" id="aws5PreviewModal" aria-hidden="true">
+    <button type="button" class="aws5-preview-modal-close" id="aws5PreviewModalClose" aria-label="Close preview">×</button>
+    <img id="aws5PreviewModalImage" src="" alt="">
+    <p id="aws5PreviewModalCaption"></p>
+  </div>
+</section>
+
+<style id="aws5-structural-redesign">
+:root{
+  --aws5-bg:#03152f;
+  --aws5-panel:#071c3b;
+  --aws5-panel-2:#092142;
+  --aws5-text:#f4f8fc;
+  --aws5-muted:rgba(228,239,249,.76);
+  --aws5-line:rgba(66,200,255,.22);
+  --aws5-line-strong:rgba(66,200,255,.56);
+  --aws5-teal:#42c8ff;
+  --aws5-teal-soft:#79d8ff;
+  --aws5-ink:#021326;
+}
+
+.aws5-page,
+.aws5-page *{box-sizing:border-box;}
+.aws5-page,
+.aws5-page *:not(input):not(textarea):not([contenteditable="true"]){
+  -webkit-user-select:none;
+  user-select:none;
+  caret-color:transparent!important;
+}
+.aws5-page{
+  width:100dvw;
+  height:100dvh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  background:var(--aws5-bg);
+  color:var(--aws5-teal-soft);
+  font-family:Arial,Helvetica,sans-serif;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(66,200,255,.32) transparent;
+  scrollbar-gutter:stable;
+  overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;
+}
+.aws5-page::-webkit-scrollbar{width:8px;}
+.aws5-page::-webkit-scrollbar-track{background:transparent;}
+.aws5-page::-webkit-scrollbar-thumb{background:rgba(66,200,255,.28);border-radius:8px;}
+
+/* Dedicated safe line for Back. Nothing else is allowed into this strip. */
+.aws5-safe-bar{
+  position:relative;
+  width:100%;
+  height:58px;
+  min-height:58px;
+  display:flex;
+  align-items:center;
+  padding:0 clamp(16px,2.2vw,34px);
+  border-bottom:1px solid rgba(66,200,255,.11);
+  background:var(--aws5-bg);
+  z-index:30;
+}
+.aws5-back{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:34px;
+  padding:7px 12px;
+  border:1px solid rgba(121,216,255,.34);
+  border-radius:3px;
+  background:rgba(7,28,59,.76);
+  color:var(--aws5-text);
+  text-decoration:none;
+  font-weight:700;
+  font-size:13px;
+}
+.aws5-back:hover{border-color:var(--aws5-teal);}
+.aws5-back:focus-visible,
+.aws5-platform-link:focus-visible,
+.aws5-preview-arrows button:focus-visible,
+.aws5-thumbnail:focus-visible,
+.aws5-info-grid button:focus-visible{
+  outline:2px solid var(--aws5-teal);
+  outline-offset:2px;
+}
+
+/* HERO: allowed to use the room it actually needs. No clipping to a fixed third. */
+.aws5-hero{
+  width:min(96vw,1720px);
+  min-height:0;
+  margin:0 auto;
+  padding:clamp(24px,3.2vh,38px) clamp(18px,2.4vw,42px) clamp(30px,3.8vh,46px);
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(18px,2.2vw,38px);
+  align-items:start;
+}
+.aws5-hero-copy,
+.aws5-active-preview,
+.aws5-thumbnail-grid{min-width:0;width:100%;}
+
+.aws5-hero-copy{align-self:start;padding-top:clamp(4px,.7vh,10px);}
+.aws5-title{
+  margin:0 0 12px;
+  color:var(--aws5-teal);
+  font-family:"Times New Roman",Georgia,serif;
+  font-size:clamp(2.25rem,3.9vw,4.6rem);
+  line-height:.91;
+  letter-spacing:-.045em;
+  font-weight:700;
+  text-shadow:0 12px 28px rgba(0,0,0,.30);
+}
+.aws5-cert-name{
+  margin:0.7rem 0 15px;
+  color:rgba(244,248,252,.84);
+  font-family:"Times New Roman",Georgia,serif;
+  font-size:clamp(.98rem,1.25vw,1.25rem);
+  line-height:1.25;
+  font-weight:600;
+}
+.aws5-outcomes{display:grid;gap:4px;margin:0 0 16px;}
+.aws5-outcomes p{
+  margin:0;
+  color:var(--aws5-text);
+  font-size:clamp(.92rem,1.15vw,1.15rem);
+  line-height:1.2;
+  font-weight:700;
+}
+.aws5-thesis{
+  max-width:39ch;
+  margin:0 0 19px;
+  color:var(--aws5-text);
+  font-family:"Times New Roman",Georgia,serif;
+  font-size:clamp(1.03rem,1.4vw,1.42rem);
+  line-height:1.34;
+  font-weight:700;
+}
+.aws5-platform-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%;max-width:500px;}
+.aws5-platform-link{
+  min-width:0;
+  min-height:48px;
+  padding:8px 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  border:1px solid rgba(66,200,255,.56);
+  border-radius:3px;
+  background:linear-gradient(180deg,rgba(28,72,110,.92),rgba(12,42,76,.94));
+  color:#fff;
+  text-decoration:none;
+  font-weight:800;
+  font-size:clamp(.82rem,1vw,1rem);
+}
+.aws5-platform-link small{font-size:.66em;color:rgba(235,244,252,.68);font-weight:700;}
+
+.aws5-active-preview{
+  display:grid;
+  grid-template-rows:minmax(0,1fr) auto auto;
+  align-items:center;
+  justify-items:center;
+  gap:8px;
+}
+.aws5-active-image-button{
+  width:100%;
+  height:clamp(340px,28vw,520px);
+  min-height:0;
+  padding:0;
+  overflow:hidden;
+  border:1px solid var(--aws5-line);
+  border-radius:4px;
+  background:rgba(4,25,57,.74);
+  cursor:zoom-in;
+}
+.aws5-active-image-button img{width:100%;height:100%;display:block;object-fit:contain;object-position:center;}
+.aws5-preview-caption{
+  min-height:2.7em;
+  max-width:55ch;
+  margin:0;
+  color:rgba(232,243,252,.84);
+  font-size:clamp(.78rem,.95vw,.96rem);
+  line-height:1.32;
+  text-align:center;
+}
+.aws5-preview-arrows{display:flex;align-items:center;justify-content:center;gap:12px;color:rgba(235,245,255,.82);font-size:.82rem;}
+.aws5-preview-arrows button{
+  width:34px;height:30px;padding:0;border:1px solid rgba(66,200,255,.28);border-radius:3px;background:rgba(7,28,59,.86);color:var(--aws5-text);cursor:pointer;
+}
+.aws5-preview-arrows button:hover{border-color:var(--aws5-teal);}
+
+.aws5-thumbnail-grid{
+  height:clamp(340px,28vw,520px);
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-rows:repeat(3,minmax(0,1fr));
+  gap:8px;
+}
+.aws5-thumbnail{
+  min-width:0;min-height:0;padding:3px;overflow:hidden;border:1px solid rgba(66,200,255,.18);border-radius:3px;background:rgba(4,25,57,.72);cursor:pointer;opacity:.67;
+  transition:opacity .15s ease,border-color .15s ease,background .15s ease;
+}
+.aws5-thumbnail:hover{opacity:.92;border-color:rgba(66,200,255,.48);}
+.aws5-thumbnail.is-active{opacity:1;border-color:var(--aws5-teal);background:rgba(15,65,99,.42);box-shadow:0 0 0 1px rgba(66,200,255,.18);}
+.aws5-thumbnail img{width:100%;height:100%;display:block;object-fit:contain;}
+
+/* DETAILS: 3×3 question board on the left, answer on the right. */
+.aws5-info-zone{
+  width:min(calc(100% - 36px),1740px);
+  min-height:0;
+  margin:0 auto 30px;
+  padding:clamp(22px,2.6vw,40px);
+  display:grid;
+  grid-template-columns:minmax(390px,.88fr) minmax(0,1.12fr);
+  gap:clamp(22px,3vw,52px);
+  align-items:start;
+  border-top:1px solid rgba(66,200,255,.14);
+  background:rgba(4,22,49,.28);
+}
+.aws5-info-left{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-self:start;
+}
+.aws5-info-grid{
+  min-width:0;
+  min-height:0;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-rows:repeat(3,clamp(136px,10vw,172px));
+  gap:10px;
+  align-content:start;
+}
+.aws5-info-grid button{
+  min-width:0;
+  min-height:0;
+  padding:14px 10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(66,200,255,.24);
+  border-radius:3px;
+  background:rgba(7,28,59,.76);
+  color:var(--aws5-teal-soft);
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:clamp(1.1rem,1.3vw,1.48rem);
+  line-height:1.16;
+  font-weight:800;
+  text-align:center;
+  cursor:pointer;
+  transition:background .15s ease,border-color .15s ease,color .15s ease;
+}
+.aws5-info-grid button:hover{border-color:rgba(66,200,255,.58);}
+.aws5-info-grid button.is-active{background:var(--aws5-teal);border-color:var(--aws5-teal);color:var(--aws5-ink);}
+
+.aws5-info-shell{min-width:0;min-height:0;height:100%;}
+.aws5-info-panel{
+  width:100%;
+  height:100%;
+  min-height:520px;
+  max-height:clamp(520px,62dvh,700px);
+  padding:clamp(22px,2.3vw,38px);
+  overflow-y:auto;
+  overflow-x:hidden;
+  border:1px solid rgba(66,200,255,.16);
+  border-radius:3px;
+  background:rgba(7,28,59,.62);
+  scrollbar-width:thin;
+  scrollbar-color:rgba(66,200,255,.36) transparent;
+  overscroll-behavior:contain;
+  transition:opacity .16s ease,transform .16s ease;
+}
+.aws5-info-panel.is-switching{opacity:.22;transform:translateY(4px);}
+.aws5-info-panel::-webkit-scrollbar{width:6px;}
+.aws5-info-panel::-webkit-scrollbar-track{background:transparent;}
+.aws5-info-panel::-webkit-scrollbar-thumb{background:rgba(66,200,255,.30);border-radius:6px;}
+.aws5-panel{
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding:0;
+  text-align:left;
+}
+.aws5-panel-kicker{
+  margin:0 0 8px;
+  color:var(--aws5-teal);
+  font-size:clamp(.72rem,.85vw,.9rem);
+  line-height:1.2;
+  font-weight:900;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+.aws5-info-panel h2{
+  margin:0 0 14px;
+  color:var(--aws5-text);
+  font-family:"Times New Roman",Georgia,serif;
+  font-size:clamp(1.7rem,2.15vw,2.45rem);
+  line-height:1.08;
+  font-weight:700;
+  letter-spacing:-.018em;
+}
+.aws5-info-panel h3{
+  margin:18px 0 6px;
+  color:var(--aws5-text);
+  font-family:"Times New Roman",Georgia,serif;
+  font-size:clamp(1.04rem,1.35vw,1.35rem);
+  line-height:1.15;
+}
+.aws5-info-panel p{
+  margin:0 0 12px;
+  color:var(--aws5-muted);
+  font-size:clamp(.98rem,1.08vw,1.13rem);
+  line-height:1.58;
+}
+.aws5-info-panel strong{color:var(--aws5-text);}
+.aws5-panel-close{margin-top:18px!important;color:var(--aws5-text)!important;}
+.aws5-clean-list{display:grid;grid-template-columns:1fr;gap:4px;margin:6px 0 16px;}
+.aws5-clean-list span{position:relative;padding:4px 0 4px 18px;color:var(--aws5-muted);font-size:clamp(.94rem,1.02vw,1.07rem);line-height:1.38;}
+.aws5-clean-list span::before{content:"";position:absolute;left:1px;top:.78em;width:5px;height:5px;background:var(--aws5-teal);}
+.aws5-inline-row{display:flex;flex-wrap:wrap;gap:0;margin:7px 0 15px;}
+.aws5-inline-row span{padding:4px 10px;border-right:1px solid rgba(66,200,255,.30);color:rgba(236,246,255,.86);font-size:.92rem;line-height:1.25;}
+.aws5-inline-row span:first-child{padding-left:0;}.aws5-inline-row span:last-child{border-right:0;}
+.aws5-tested-list{margin-top:8px;margin-bottom:18px;}
+.aws5-tested-question{margin-top:24px!important;}
+.aws5-tested-answer{margin-top:20px!important;}
+.aws5-evidence-grid figcaption{color:var(--aws5-teal)!important;font-weight:800;font-size:.88rem;}
+.aws5-legal-doc + .aws5-legal-doc{margin-top:42px;padding-top:30px;border-top:1px solid rgba(66,200,255,.24);}
+.aws5-legal-doc-title{margin:0 0 6px!important;color:var(--aws5-teal)!important;font-size:clamp(1.35rem,1.6vw,1.8rem)!important;}
+.aws5-legal-updated{font-size:.88rem!important;color:rgba(228,239,249,.62)!important;margin-bottom:18px!important;}
+.aws5-legal-section-title{margin:24px 0 8px;color:var(--aws5-text);font-family:Arial,Helvetica,sans-serif;font-size:1.02rem;line-height:1.3;font-weight:800;}
+.aws5-legal-list{margin:8px 0 18px;padding-left:22px;color:var(--aws5-muted);}
+.aws5-legal-list li{margin:0 0 7px;line-height:1.5;}
+.aws5-system-block{padding:0 0 0 14px;margin:0.35rem 0 15px;border-left:2px solid rgba(66,200,255,.58);}
+.aws5-system-block h3{margin-top:0;}
+.aws5-evidence-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0 6px;}
+.aws5-evidence-grid figure{margin:0;min-width:0;}
+.aws5-evidence-grid img{width:100%;height:220px;display:block;object-fit:contain;border:1px solid rgba(66,200,255,.14);background:rgba(234,244,255,.03);cursor:zoom-in;}
+.aws5-evidence-grid figcaption{margin-top:4px;color:rgba(228,239,249,.70);font-size:.76rem;text-align:center;}
+.aws5-disclaimer{font-size:.78rem!important;text-align:center;color:rgba(228,239,249,.60)!important;}
+.aws5-price{font-size:1.45rem!important;color:var(--aws5-text)!important;}
+.aws5-panel-platforms{margin:16px 0 0;max-width:520px;}
+.aws5-contact-email{margin-top:20px!important;}
+.aws5-contact-email a{color:var(--aws5-teal);font-size:1.16em;font-weight:800;}
+.aws5-legal-split{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:6px;}
+.aws5-legal-split section{min-width:0;}
+.aws5-legal-note{margin-top:18px!important;font-size:.82rem!important;color:rgba(228,239,249,.58)!important;}
+
+.aws5-footer{
+  width:100%;
+  min-height:44px;
+  margin-top:28px;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--aws5-teal);
+  font-size:clamp(1.45rem,2vw,2.1rem);
+  line-height:1.02;
+  font-weight:900;
+  letter-spacing:.01em;
+  text-align:center;
+}
+
+.aws5-preview-modal{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:24px;background:rgba(0,8,22,.92);}
+.aws5-preview-modal.is-open{display:flex;}
+.aws5-preview-modal img{max-width:92vw;max-height:82vh;object-fit:contain;}
+.aws5-preview-modal p{margin:0;max-width:760px;color:var(--aws5-text);text-align:center;}
+.aws5-preview-modal-close{position:absolute;top:18px;right:18px;width:38px;height:38px;border:1px solid rgba(255,255,255,.34);border-radius:3px;background:rgba(7,28,59,.94);color:#fff;font-size:24px;cursor:pointer;}
+
+
+
+/* Batch 6 calibration: keep the three-column hero readable across laptop and large-monitor widths. */
+@media (min-width:701px) and (max-width:1180px) and (orientation:landscape){
+  .aws5-safe-bar{height:54px;min-height:54px;padding-inline:18px;}
+  .aws5-hero{
+    width:min(88vw,1260px);
+    padding:16px 18px 24px;
+    gap:18px;
+    grid-template-columns:minmax(230px,.8fr) minmax(330px,1fr) minmax(230px,.8fr);
+  }
+  .aws5-title{font-size:clamp(2.4rem,3.55vw,3.15rem);}
+  .aws5-cert-name{font-size:.95rem;margin-top:.7rem;margin-bottom:16px;}
+  .aws5-outcomes{gap:3px;margin-bottom:12px;}
+  .aws5-outcomes p{font-size:clamp(.82rem,1.16vw,.96rem);}
+  .aws5-thesis{font-size:clamp(.96rem,1.22vw,1.08rem);margin-bottom:14px;}
+  .aws5-platform-link{min-height:40px;padding:7px 9px;font-size:.8rem;}
+  .aws5-active-image-button,.aws5-thumbnail-grid{height:clamp(270px,24vw,350px);}
+  .aws5-preview-caption{font-size:.78rem;min-height:2.5em;}
+  .aws5-info-zone{
+    width:min(88vw,1260px);
+    padding:18px;
+    gap:20px;
+    grid-template-columns:minmax(330px,.8fr) minmax(0,1.15fr);
+    grid-template-areas:
+      "grid panel"
+      "footer panel";
+  }
+  .aws5-info-grid{grid-template-rows:repeat(3,110px);gap:8px;}
+  .aws5-info-grid button{padding:10px 7px;font-size:clamp(.98rem,1.02vw,1.16rem);}
+  .aws5-info-shell,.aws5-info-panel{min-height:0;}
+  .aws5-info-panel{min-height:400px;max-height:560px;padding:22px;}
+  .aws5-footer{min-height:38px;margin-top:28px;font-size:clamp(1.22rem,1.42vw,1.55rem);}
+  .aws5-info-panel h2{font-size:clamp(1.45rem,2.3vw,1.95rem);margin-bottom:11px;}
+  .aws5-info-panel h3{font-size:clamp(1rem,1.5vw,1.18rem);}
+  .aws5-info-panel p{font-size:clamp(.88rem,1.15vw,1rem);line-height:1.48;}
+  .aws5-clean-list span{font-size:clamp(.86rem,1.1vw,.96rem);}
+  .aws5-evidence-grid img{height:165px;}
+}
+
+/* Extra-short laptop windows: keep the full three-part hero readable before the details begin. */
+@media (min-width:701px) and (max-height:720px) and (orientation:landscape){
+  .aws5-safe-bar{height:48px;min-height:48px;}
+  .aws5-hero{padding-top:14px;padding-bottom:22px;gap:14px;}
+  .aws5-title{font-size:clamp(2.1rem,3.35vw,2.85rem);}
+  .aws5-cert-name{margin-top:.65rem;margin-bottom:13px;font-size:.88rem;}
+  .aws5-outcomes{gap:2px;margin-bottom:9px;}
+  .aws5-outcomes p{font-size:clamp(.76rem,1.02vw,.88rem);}
+  .aws5-thesis{font-size:clamp(.88rem,1.14vw,1rem);margin-bottom:11px;}
+  .aws5-platform-grid{gap:6px;}
+  .aws5-platform-link{min-height:38px;padding:6px 8px;font-size:.78rem;}
+  .aws5-active-image-button,.aws5-thumbnail-grid{height:clamp(245px,22.5vw,315px);}
+  .aws5-preview-caption{min-height:2.2em;font-size:.74rem;}
+  .aws5-info-zone{padding-top:16px;padding-bottom:16px;}
+  .aws5-info-grid{grid-template-rows:repeat(3,100px);}
+  .aws5-info-panel{min-height:360px;max-height:520px;}
+  .aws5-footer{margin-top:28px;font-size:clamp(1.1rem,1.35vw,1.42rem);}
+}
+
+@media (min-width:1500px) and (orientation:landscape){
+  .aws5-hero{width:min(96vw,1880px);padding-top:38px;padding-bottom:48px;}
+  .aws5-title{font-size:clamp(4.4rem,4.7vw,5.8rem);}
+  .aws5-outcomes p{font-size:clamp(1.04rem,1.05vw,1.25rem);}
+  .aws5-thesis{font-size:clamp(1.25rem,1.32vw,1.55rem);}
+  .aws5-active-image-button,.aws5-thumbnail-grid{height:clamp(500px,30vw,590px);}
+  .aws5-info-zone{width:min(96vw,1840px);min-height:0;grid-template-columns:minmax(460px,.82fr) minmax(0,1.18fr);}
+  .aws5-info-grid{grid-template-rows:repeat(3,146px);gap:10px;}
+  .aws5-info-shell,.aws5-info-panel{min-height:0;}
+  .aws5-info-panel{min-height:560px;max-height:720px;padding:36px 40px;}
+  .aws5-info-panel h2{font-size:clamp(2rem,1.8vw,2.65rem);}
+  .aws5-info-panel p{font-size:clamp(1.04rem,.95vw,1.18rem);}
+  .aws5-clean-list span{font-size:clamp(1rem,.92vw,1.12rem);}
+  .aws5-info-grid button{font-size:clamp(1.1rem,1vw,1.26rem);}
+  .aws5-evidence-grid img{height:240px;}
+}
+
+/* Tall / portrait desktop: hero becomes top-down; details become grid-over-panel. */
+@media (min-width:701px) and (orientation:portrait){
+  .aws5-info-left{display:contents;}
+  .aws5-info-grid{grid-area:grid;}
+  .aws5-info-shell{grid-area:panel;}
+  .aws5-footer{grid-area:footer;margin-top:0;}
+  .aws5-hero{
+    width:min(92vw,930px);
+    min-height:0;
+    padding:24px 18px 36px;
+    grid-template-columns:1fr;
+    gap:22px;
+    justify-items:stretch;
+    align-items:start;
+  }
+  .aws5-hero-copy{max-width:none;margin:0;width:100%;}
+  .aws5-title{font-size:clamp(3.15rem,7vw,4.8rem);}
+  .aws5-cert-name{font-size:1rem;margin-top:.75rem;margin-bottom:16px;}
+  .aws5-outcomes p{font-size:clamp(1rem,2vw,1.24rem);}
+  .aws5-thesis{font-size:clamp(1.15rem,2.15vw,1.45rem);}
+  .aws5-active-preview,.aws5-thumbnail-grid{max-width:none;margin:0;width:100%;justify-self:stretch;}
+  .aws5-platform-link{min-height:56px;font-size:1rem;}
+  .aws5-active-image-button,.aws5-thumbnail-grid{height:min(52vh,620px);}
+  .aws5-info-zone{
+    width:min(92vw,930px);
+    grid-template-columns:1fr;
+    grid-template-areas:
+      "grid"
+      "panel"
+      "footer";
+    gap:20px;
+    padding:26px 18px 34px;
+  }
+  .aws5-info-grid{grid-template-rows:repeat(3,120px);}
+  .aws5-info-grid button{font-size:clamp(1.1rem,1.95vw,1.32rem);}
+  .aws5-info-shell{min-height:460px;}
+  .aws5-info-panel{min-height:460px;max-height:62vh;padding:30px;}
+  .aws5-panel{max-width:none;}
+  .aws5-info-panel h2{font-size:clamp(1.8rem,3.3vw,2.5rem);}
+  .aws5-info-panel p{font-size:clamp(1rem,1.9vw,1.22rem);}
+}
+
+/* Mobile: hero top-down; 3×3 question board; answer appears below and page scrolls normally. */
+@media (prefers-reduced-motion:reduce){
+  .aws5-page *,
+  .aws5-page *::before,
+  .aws5-page *::after{
+    scroll-behavior:auto!important;
+    transition:none!important;
+    animation:none!important;
+  }
+}
+
+@media (max-width:700px){
+  .aws5-info-left{display:contents;}
+  .aws5-info-grid{grid-area:grid;}
+  .aws5-info-shell{grid-area:panel;}
+  .aws5-footer{grid-area:footer;margin-top:0;}
+  .aws5-safe-bar{height:54px;min-height:54px;padding:0 14px;}
+  .aws5-hero{width:100%;min-height:0;padding:20px 14px 30px;grid-template-columns:1fr;gap:18px;}
+  .aws5-title{font-size:clamp(2.8rem,13vw,4rem);}
+  .aws5-cert-name{font-size:.9rem;margin-top:.7rem;margin-bottom:14px;}
+  .aws5-outcomes p{font-size:.98rem;}
+  .aws5-thesis{font-size:1.08rem;max-width:none;}
+  .aws5-active-image-button{height:min(64vh,560px);min-height:320px;}
+  .aws5-thumbnail-grid{height:auto;grid-auto-rows:minmax(92px,1fr);}
+  .aws5-thumbnail{aspect-ratio:4/3;}
+  .aws5-info-zone{width:100%;min-height:0;margin:0;padding:22px 14px 26px;grid-template-columns:1fr;grid-template-areas:"grid" "panel" "footer";gap:18px;}
+  .aws5-info-grid{min-height:0;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:none;grid-auto-rows:minmax(76px,auto);gap:7px;}
+  .aws5-info-grid button{padding:10px 6px;font-size:clamp(.84rem,3.3vw,1rem);}
+  .aws5-info-shell{min-height:0;height:auto;}
+  .aws5-info-panel{height:auto;min-height:0;max-height:none;padding:20px 16px;overflow:visible;}
+  .aws5-panel{max-width:none;}
+  .aws5-info-panel h2{font-size:1.72rem;}
+  .aws5-info-panel p{font-size:1rem;line-height:1.52;}
+  .aws5-clean-list span{font-size:.94rem;}
+  .aws5-evidence-grid{grid-template-columns:1fr;}
+  .aws5-evidence-grid img{height:auto;max-height:280px;}
+  .aws5-legal-split{grid-template-columns:1fr;gap:14px;}
+  .aws5-footer{min-height:52px;font-size:1.55rem;padding-top:8px;}
+}
+
+
+/* =========================================================
+   FINAL HORIZONTAL SCALE RESTORATION
+   Restore the approved ~67%-zoom visual density at normal zoom
+   on BOTH laptop and large horizontal desktop/monitor layouts.
+   Portrait/mobile rules above are intentionally untouched.
+   ========================================================= */
+@media (min-width:701px) and (orientation:landscape){
+  .aws5-hero{
+    width:min(67vw,1500px)!important;
+    padding:18px 0 26px!important;
+    gap:clamp(18px,1.6vw,28px)!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  }
+
+  .aws5-hero-copy{padding-top:0!important;}
+
+  .aws5-title{
+    font-size:clamp(2.35rem,3vw,3.75rem)!important;
+    line-height:.92!important;
+  }
+
+  .aws5-cert-name{
+    margin-top:1.4rem!important;
+    margin-bottom:14px!important;
+    font-size:clamp(1rem,1.15vw,1.18rem)!important;
+  }
+
+  .aws5-outcomes{
+    gap:3px!important;
+    margin-bottom:13px!important;
+  }
+
+  .aws5-outcomes p{
+    font-size:clamp(.78rem,.86vw,.94rem)!important;
+  }
+
+  .aws5-thesis{
+    max-width:36ch!important;
+    margin-bottom:14px!important;
+    font-size:clamp(.9rem,.98vw,1.04rem)!important;
+  }
+
+  .aws5-platform-grid{
+    max-width:360px!important;
+    gap:6px!important;
+  }
+
+  .aws5-platform-link{
+    min-height:36px!important;
+    padding:6px 8px!important;
+    font-size:clamp(.72rem,.76vw,.82rem)!important;
+  }
+
+  .aws5-active-image-button,
+  .aws5-thumbnail-grid{
+    height:clamp(300px,22vw,420px)!important;
+  }
+
+  .aws5-preview-caption{
+    min-height:2.2em!important;
+    font-size:.74rem!important;
+  }
+
+  /* Keep the lower section at the same compact visual density.
+     The left 3x3 stays rectangular and never stretches with the answer panel. */
+  .aws5-info-zone{
+    width:min(67vw,1500px)!important;
+    padding:18px 0 14px!important;
+    gap:clamp(20px,2vw,30px)!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    align-items:start!important;
+  }
+
+  .aws5-info-left{
+    align-self:start!important;
+  }
+
+  .aws5-info-grid{
+    min-height:0!important;
+    height:auto!important;
+    grid-template-rows:repeat(3,clamp(100px,6.5vw,120px))!important;
+    gap:8px!important;
+    align-self:start!important;
+  }
+
+  .aws5-info-grid button{
+    padding:10px 8px!important;
+    font-size:clamp(.94rem,.9vw,1.08rem)!important;
+  }
+
+  .aws5-info-shell{
+    min-height:0!important;
+    height:auto!important;
+    align-self:start!important;
+  }
+
+  .aws5-info-panel{
+    height:auto!important;
+    min-height:470px!important;
+    max-height:clamp(520px,58vh,660px)!important;
+    padding:22px!important;
+  }
+
+  .aws5-info-panel h2{
+    font-size:clamp(1.45rem,1.55vw,1.8rem)!important;
+  }
+
+  .aws5-evidence-grid img{
+    height:158px!important;
+  }
+
+  /* Keep the brand line a fixed distance below the 3x3 selector.
+     It is attached to .aws5-info-left, so right-panel content cannot move it. */
+  .aws5-footer{
+    width:100%!important;
+    min-height:0!important;
+    height:auto!important;
+    margin-top:28px!important;
+    padding:0!important;
+    align-items:center!important;
+    justify-content:center!important;
+    font-size:clamp(1.18rem,1.15vw,1.45rem)!important;
+  }
+}
+
+/* Keep extra-short laptop windows compact without changing portrait/mobile. */
+@media (min-width:701px) and (max-height:720px) and (orientation:landscape){
+  .aws5-hero,
+  .aws5-info-zone{
+    width:min(67vw,1180px)!important;
+  }
+
+  .aws5-active-image-button,
+  .aws5-thumbnail-grid{
+    height:clamp(250px,20vw,325px)!important;
+  }
+
+  .aws5-info-grid{
+    grid-template-rows:repeat(3,92px)!important;
+  }
+
+  .aws5-info-panel{
+    min-height:410px!important;
+    max-height:470px!important;
+  }
+}
+
+/* Final landscape readability pass: enlarge only descriptive copy, not headings. */
+@media (min-width:701px) and (orientation:landscape){
+  .aws5-info-panel p:not(.aws5-panel-kicker):not(.aws5-disclaimer):not(.aws5-legal-note):not(.aws5-contact-email):not(.aws5-price):not(.aws5-legal-updated){
+    font-size:clamp(1.30rem,1.35vw,1.78rem);
+    line-height:1.5;
+  }
+  .aws5-clean-list span{
+    font-size:clamp(1.26rem,1.25vw,1.58rem);
+    line-height:1.44;
+  }
+  .aws5-inline-row span{
+    font-size:clamp(1.12rem,1.08vw,1.38rem);
+  }
+  .aws5-contact-email{
+    max-width:100%;
+  }
+  .aws5-contact-email a{
+    display:inline-block;
+    max-width:100%;
+    font-size:clamp(1.04rem,1.34vw,1.45rem);
+    line-height:1.18;
+    white-space:nowrap;
+    overflow-wrap:normal;
+    word-break:normal;
+  }
+  .aws5-legal-list{
+    font-size:clamp(1.18rem,1.15vw,1.48rem);
+  }
+}
+
+</style>
+
+<script>
+(() => {
+  const STATIC_BASE = "/static/img/aws-saa/";
+  const previews = [
+    { src: STATIC_BASE + "shot-01-mobile-plan.png", alt: "Mobile study plan preview", caption: "See the study path, what comes next, and where you are in the system." },
+    { src: STATIC_BASE + "shot-02-mobile-resource.png", alt: "Mobile study resource preview", caption: "Read focused explanations built around what you need to understand and carry forward." },
+    { src: STATIC_BASE + "shot-03-mobile-practice.png", alt: "Mobile practice question preview", caption: "Apply what you learned with questions designed around the decisions the exam expects." },
+    { src: STATIC_BASE + "shot-04-mobile-progress.png", alt: "Mobile progress preview", caption: "See completed work, current progress, and the next part of the path." },
+    { src: STATIC_BASE + "shot-05-desktop-plan.png", alt: "Desktop study plan preview", caption: "Use the same system on a larger screen without changing the path you are following." },
+    { src: STATIC_BASE + "shot-06-desktop-resource.png", alt: "Desktop study resource preview", caption: "Give concepts more room when you want a larger reading and working view." },
+    { src: STATIC_BASE + "shot-07-desktop-practice.png", alt: "Desktop practice preview", caption: "Work through exam-style decisions with explanations and correction in the same environment." },
+    { src: STATIC_BASE + "shot-08-desktop-progress.png", alt: "Desktop progress preview", caption: "Track the larger preparation picture without losing the next concrete step." },
+    { src: STATIC_BASE + "shot-09-certification.png", alt: "Certification result preview", caption: "The final preview is the goal: a completed AWS SAA certification path." },
+  ];
+
+  const panelHtml = {
+    product: `
+      <div class="aws5-panel">
+        <p class="aws5-panel-kicker">The Product</p>
+        <h2>A structured path to the AWS SAA certification.</h2>
+        <p>The <strong>AWS SAA Companion App</strong> helps you reach the AWS Solutions Architect - Associate certification without spending time and effort on the things that don’t matter.</p>
+        <p>It puts the material, practice, progression, and next steps in one place so you can focus on reaching the goal instead of figuring out the entire preparation process yourself.</p>
+        <p class="aws5-panel-close"><strong>You still reach the goal. We help remove the unnecessary work around getting there.</strong></p>
+      </div>`,
+    meaning: `
+      <div class="aws5-panel">
+        <p class="aws5-panel-kicker">What Does It Do?</p>
+        <h2>Preparing for AWS is already hard enough.</h2>
+        <p><strong>You shouldn’t also have to:</strong></p>
+        <div class="aws5-clean-list">
+          <span>Figure out which resources to use.</span>
+          <span>Separate what you need to know from what is merely nice to know.</span>
+          <span>Translate explanations that are harder than they need to be.</span>
+          <span>Figure out how AWS concepts connect.</span>
+          <span>Learn how the exam turns those concepts into questions.</span>
+          <span>Decide what to study next.</span>
+          <span>Decide what to practice next.</span>
+          <span>Keep reviewing material you already understand.</span>
+          <span>Guess whether you’re actually ready for the exam.</span>
+        </div>
+        <p>The <strong>AWS SAA Companion App</strong> organizes or removes as much of that surrounding work as possible so more of your time and effort can go toward actually becoming capable of passing the exam.</p>
+        <p class="aws5-panel-close"><strong>The certification is hard enough. Figuring out the path doesn’t have to be.</strong></p>
+      </div>`,
+    works: `
+      <div class="aws5-panel">
+        <p class="aws5-panel-kicker">How It Works</p>
+        <h2>We work out the path first. Then we turn it into a system you can follow.</h2>
+        <p>We take the goal, go through the material and exam ourselves, identify what actually moves someone toward the goal, and turn what works into a step-by-step path.</p>
+        <p class="aws5-panel-close"><strong>The system handles the sequence, progression, and next step so your job can stay focused on learning.</strong></p>
+      </div>`,
+    used: `
+      <div class="aws5-panel">
+        <p class="aws5-panel-kicker">Where It’s Been Used</p>
+        <h2>AWS SAA certification is a new goal. The systems underneath it aren’t.</h2>
+        <p>The underlying WMOL systems were built and tested through <strong>rigorous academic environments, ultra-endurance training, and periods of intense personal and professional pressure.</strong></p>
+        <div class="aws5-system-block"><h3>Learning System</h3><p>Developed through medical education, a service academy, and other rigorous institutions to help people learn, retain, and apply large amounts of information with less wasted effort.</p></div>
+        <div class="aws5-system-block"><h3>Performance System</h3><p>Developed through ultra-endurance preparation, including 100-mile races and long-distance open-water swimming, to keep progress moving without burning out or giving up.</p></div>
+        <div class="aws5-system-block"><h3>Emotional Stability System</h3><p>Designed to help people keep learning, applying what they know, and trusting their preparation when life outside the goal is not going perfectly.</p></div>
+        <p class="aws5-panel-close"><strong>Three systems. One goal: keep progress moving when the conditions aren’t perfect.</strong></p>
+      </div>`,
+    tested: `
+      <div class="aws5-panel">
+        <p class="aws5-panel-kicker">How It’s Been Tested</p>
+        <h2>Tested when studying wasn’t the only priority.</h2>
+        <p>The underlying WMOL systems were developed and tested through demanding academic and professional institutions, ultra-endurance training, and periods of intense pressure where large amounts of information, physically demanding work, and emotionally taxing events had to be handled at the same time.</p>
+        <p>The <strong>AWS SAA Companion App was stress-tested</strong>, and the system was used to prepare for and pass the certification in seven days, with no more than four hours of work per day, while also training for a 13.1-mile open-water swim and maintaining life outside AWS preparation.</p>
+        <div class="aws5-clean-list aws5-tested-list" aria-label="What the stress test still left room for">
+          <span>Quality sleep</span>
+          <span>Focus at work</span>
+          <span>Physical training</span>
+          <span>A social life</span>
+          <span>Normal responsibilities</span>
+        </div>
+        <p>The purpose of the test wasn’t to show that everyone should or must pass the AWS SAA in seven days, but to answer a different question:</p>
+        <h3 class="aws5-tested-question">Can you use the systems and still move toward your goals even when studying isn’t the only priority in your life?</h3>
+        <p class="aws5-tested-answer"><strong>The answer is yes, you can.</strong></p>
+        <div class="aws5-evidence-grid">
+          <figure><img src="${STATIC_BASE}pass-result.png" alt="AWS exam pass result"><figcaption>AWS Exam Pass Result</figcaption></figure>
+          <figure><img src="${STATIC_BASE}credential.png" alt="AWS Credly badge"><figcaption>AWS Credly Badge</figcaption></figure>
+        </div>
+        <p class="aws5-disclaimer">Individual starting points, schedules, and preparation times will vary.</p>
+      </div>`,
+    fit: `
+      <div class="aws5-panel">
+        <p class="aws5-panel-kicker">Why It Works for You</p>
+        <h2>Everyone starts from different points. But that shouldn’t stop anyone from reaching their goals.</h2>
+        <p>We all start in different places, but we still use the same basic tools to move toward difficult goals:</p>
+        <div class="aws5-clean-list aws5-fit-list" aria-label="Basic tools for moving toward difficult goals">
+          <span>Learning</span>
+          <span>Practicing</span>
+          <span>Adapting</span>
+          <span>Recovering</span>
+          <span>Continuing forward</span>
+        </div>
+        <p>WMOL organizes those pieces around the:</p>
+        <div class="aws5-clean-list aws5-fit-list" aria-label="How WMOL organizes the process">
+          <span>Right Place</span>
+          <span>Right Time</span>
+          <span>Right Amount</span>
+          <span>Right Order</span>
+          <span>Right Direction</span>
+        </div>
+        <p>The <strong>AWS SAA Companion App</strong> then fits that process around your current schedule instead of requiring you to fit your life around the system.</p>
+        <p class="aws5-panel-close"><strong>Different starting point. Same goal. A path that fits your life.</strong></p>
+      </div>`,
+    start: `
+      <div class="aws5-panel">
+        <p class="aws5-panel-kicker">Get Started</p>
+        <h2>Move at your own speed. Reach the same goal.</h2>
+        <p>Try the first <strong>two weeks free</strong>.</p>
+        <p class="aws5-price"><strong>$25/month</strong></p>
+        <p>Follow the performance system if you want the app to guide your pace, or move through the material faster if your schedule allows it.</p>
+        <p class="aws5-panel-close"><strong>Month to month, at your pace.</strong></p>
+        <div class="aws5-platform-grid aws5-panel-platforms">
+          <a href="#" class="aws5-platform-link is-coming-soon" aria-disabled="true"><span>iPhone</span><small>Coming Soon</small></a>
+          <a href="#" class="aws5-platform-link is-coming-soon" aria-disabled="true"><span>Android</span><small>Coming Soon</small></a>
+          <a href="#" class="aws5-platform-link is-coming-soon" aria-disabled="true"><span>Windows</span><small>Coming Soon</small></a>
+          <a href="#" class="aws5-platform-link is-coming-soon" aria-disabled="true"><span>macOS</span><small>Coming Soon</small></a>
+        </div>
+      </div>`,
+    contact: `
+      <div class="aws5-panel">
+        <p class="aws5-panel-kicker">Contact</p>
+        <h2>Have a question, need support, or want to discuss business or institutional access?</h2>
+        <p class="aws5-contact-email"><a href="mailto:WangMethodofLearning@gmail.com">WangMethodofLearning@gmail.com</a></p>
+      </div>`,
+    legal: `
+      <div class="aws5-panel">
+        <p class="aws5-panel-kicker">Terms & Privacy</p>
+        <h2>Terms of Use and Privacy Policy</h2>
+        <div class="aws5-legal-doc">
+<h3 class="aws5-legal-doc-title">Terms of Use</h3>
+<p class="aws5-legal-updated">Last updated: August 14, 2026</p>
+<p>These Terms of Use govern access to and use of the AWS Solutions Architect Associate Companion App (the “App”), provided by Wang Method LLC (“Wang Method,” “we,” “us,” or “our”). By using the App, you agree to these Terms. If you do not agree, do not use the App.</p>
+<h4 class="aws5-legal-section-title">1) Independent educational companion</h4>
+<p>The App is an independent educational companion. It is not an official Amazon Web Services product and is not presented as affiliated with, endorsed by, sponsored by, approved by, or operated by Amazon Web Services, Inc. or its affiliates. The App is not a source of official AWS examination content.</p>
+<p>AWS and related certification, service, product, logo, and brand references are third-party marks or names. References are descriptive only and do not grant us or you ownership of those marks or imply affiliation, sponsorship, certification, or endorsement.</p>
+<h4 class="aws5-legal-section-title">2) Educational purpose and no guarantee of results</h4>
+<p>The App provides general educational material intended to support cloud-architecture knowledge, AWS service selection, design tradeoffs, and exam-oriented reasoning. It does not provide professional cloud consulting, legal, financial, compliance, security-assurance, or other regulated professional advice.</p>
+<p>The App does not guarantee exam eligibility, exam passage, certification, recertification credit, employment, promotion, compensation, academic credit, legal compliance, or any other result. Practice Questions are independently created learning materials and should not be treated as official, recalled, leaked, or predictive exam questions.</p>
+<h4 class="aws5-legal-section-title">3) Intended audience and children</h4>
+<p>The App is intended for professional and educational audiences and is not directed to children under 13. Do not use the App to submit sensitive personal information, confidential employer information, protected health information, trade secrets, or official examination content.</p>
+<h4 class="aws5-legal-section-title">4) Limited license and intellectual property</h4>
+<p>Subject to these Terms, Wang Method LLC grants you a limited, personal, revocable, non-exclusive, non-transferable license to use the App and its original content for your own lawful educational use. No ownership is transferred.</p>
+<p>Original software, design, organization, wording, learning structures, Study Resources, Practice Questions, and other original materials are owned by Wang Method LLC or its licensors, except for third-party rights and generally available facts, concepts, standards, and service information.</p>
+<h4 class="aws5-legal-section-title">5) Acceptable use and security</h4>
+<p>You may not unlawfully copy, scrape, redistribute, resell, publish, sublicense, circumvent access controls, interfere with security, misuse downloaded content, or use the App to create an unauthorized competing content library or dataset. You may not attempt to obtain Premium content or decryption material without authorization.</p>
+<p>Nothing in this section restricts rights that cannot legally be waived, including lawful security research or reverse engineering expressly permitted by applicable law.</p>
+<h4 class="aws5-legal-section-title">6) Local data and device responsibility</h4>
+<p>The App stores settings, progress, attempts, downloaded-content records, and related functionality data primarily on your device. Resetting progress, clearing storage, deleting the App, changing devices, or losing a device may remove local information. Unless a future cloud-sync feature expressly states otherwise, detailed learning progress is not maintained as a recoverable Wang Method LLC cloud account record.</p>
+<h4 class="aws5-legal-section-title">7) Premium access, billing, cancellation, and refunds</h4>
+<p>Weeks 1-2 may be available without a subscription. Premium access may unlock Weeks 3-25, the Exam Phase, and other Premium features described in the App.</p>
+<p>The price and billing period are displayed before purchase. Unless the purchase screen states otherwise, Premium is an auto-renewing monthly subscription that continues until canceled through the Apple App Store or Google Play account used for purchase. Completing the learning plan, deleting the App, or stopping use does not cancel a subscription.</p>
+<p>Apple or Google processes the marketplace transaction. Wang Method LLC does not receive your full payment-card number. Cancellation and refund eligibility are governed by the policies of the marketplace used for purchase and applicable law. Wang Method LLC does not promise a separate refund right beyond rights required by law or provided by the applicable marketplace. If a refund, revocation, expiration, chargeback, or other entitlement loss is reported to the App, Premium access may end and protected Premium content cached by the App may be removed.</p>
+<p>The App may use RevenueCat to process purchase state, restore purchases, and verify whether the aws_associate_premium entitlement is active.</p>
+<h4 class="aws5-legal-section-title">8) Third-party services and external links</h4>
+<p>The App may use or link to third-party services for app distribution, billing, entitlement verification, encrypted content delivery, documentation, email, community access, and other supporting functions. These may include Apple, Google, RevenueCat, Cloudflare, Discord, and Amazon Web Services documentation. Third-party services operate under their own terms and privacy policies, and we do not control their availability or practices.</p>
+<h4 class="aws5-legal-section-title">9) Updates, corrections, and availability</h4>
+<p>Features, content, learning plans, pricing, access rules, and App behavior may change. We may correct errors, revise content, add or remove features, suspend access, or discontinue part or all of the App for educational, technical, legal, security, or business reasons.</p>
+<p>The App may contain errors, interruptions, incomplete content, unavailable downloads, or compatibility problems. You are responsible for using reasonable judgment and confirming important information independently.</p>
+<h4 class="aws5-legal-section-title">10) Feedback and support</h4>
+<p>If you voluntarily send feedback, suggestions, bug reports, or feature ideas, you authorize Wang Method LLC to use them to operate, improve, and develop the App and related products without compensation unless we agree otherwise in writing. Do not send confidential or sensitive information.</p>
+<h4 class="aws5-legal-section-title">11) Suspension or termination</h4>
+<p>We may restrict or terminate access when reasonably necessary to address misuse, fraud, security threats, legal requirements, nonpayment, or material violations of these Terms. Store-managed subscription rights and mandatory consumer protections remain subject to applicable law and marketplace rules.</p>
+<h4 class="aws5-legal-section-title">12) Disclaimer of warranties</h4>
+<p>The App is provided “as is” and “as available.” To the fullest extent permitted by law, Wang Method LLC disclaims implied warranties, including merchantability, fitness for a particular purpose, accuracy, availability, and error-free operation. Some jurisdictions do not allow certain exclusions, so these exclusions may not fully apply to you.</p>
+<h4 class="aws5-legal-section-title">13) Limitation of liability</h4>
+<p>To the fullest extent permitted by law, Wang Method LLC and its members, managers, employees, contractors, contributors, licensors, and service providers will not be liable for indirect, incidental, consequential, special, exemplary, or punitive damages, or for lost data, lost progress, lost profits, certification outcomes, employment decisions, business losses, or reliance on educational content.</p>
+<p>Nothing in these Terms excludes liability or consumer rights that cannot legally be excluded or limited.</p>
+<h4 class="aws5-legal-section-title">14) Informal dispute resolution</h4>
+<p>Before filing an arbitration or court claim, you and Wang Method LLC agree to make a good-faith effort to resolve the dispute informally for at least 30 days. Send a written notice describing the dispute and requested resolution to WangMethodOfLearning@gmail.com with the subject “Dispute Notice.” This requirement does not prevent either party from seeking urgent relief where delay would cause irreparable harm.</p>
+<h4 class="aws5-legal-section-title">15) Individual arbitration and opt-out</h4>
+<p>Except for claims eligible for small-claims court, claims seeking only temporary or preliminary injunctive relief, and disputes that applicable law does not permit to be arbitrated, disputes arising out of or relating to the App or these Terms will be resolved by binding individual arbitration administered by the American Arbitration Association under its applicable Consumer Arbitration Rules. The Federal Arbitration Act governs the interpretation and enforcement of this arbitration provision.</p>
+<p>You may opt out of this arbitration provision by emailing WangMethodOfLearning@gmail.com within 30 days after you first accept these Terms. Use the subject “Arbitration Opt-Out” and include the App name plus enough information for us to identify and record your request. Opting out of arbitration does not affect the rest of these Terms.</p>
+<h4 class="aws5-legal-section-title">16) Class and representative action waiver</h4>
+<p>To the fullest extent permitted by law, disputes must be brought only in an individual capacity and not as a plaintiff or class member in a class, collective, consolidated, private-attorney-general, or representative proceeding. An arbitrator may award relief only to the individual party seeking relief and only as necessary to resolve that individual claim. If applicable law makes part of this waiver unenforceable for a particular claim or remedy, that portion will be severed and handled as required by law.</p>
+<h4 class="aws5-legal-section-title">17) Governing law</h4>
+<p>Except for the Federal Arbitration Act and mandatory laws that apply regardless of contractual choice, these Terms are governed by the laws of the State of Texas, without regard to conflict-of-law principles. Any non-arbitrable dispute may be brought in a court of competent jurisdiction in Texas unless applicable consumer law provides you a different mandatory venue right.</p>
+<h4 class="aws5-legal-section-title">18) Changes to these Terms</h4>
+<p>We may update these Terms as the App evolves. The revised version will identify its update date and may be displayed in the App or on an associated website. Continued use after an update constitutes acceptance to the extent permitted by law.</p>
+<h4 class="aws5-legal-section-title">19) Contact</h4>
+<p>Publisher: Wang Method LLC Terms, support, arbitration opt-out, and dispute notices: WangMethodOfLearning@gmail.com</p>
+        </div>
+        <div class="aws5-legal-doc">
+<h3 class="aws5-legal-doc-title">Privacy Policy</h3>
+<p class="aws5-legal-updated">Last updated: August 14, 2026</p>
+<p>This Privacy Policy explains how Wang Method LLC (“Wang Method,” “we,” “us,” or “our”) handles information in connection with the AWS Solutions Architect Associate Companion App (the “App”). The current App is designed to operate primarily through local, on-device storage and does not require a separate Wang Method LLC account.</p>
+<h4 class="aws5-legal-section-title">1) Key points</h4>
+<ul class="aws5-legal-list"><li>We do not sell personal information.</li><li>We do not use learning progress for third-party advertising or cross-app tracking.</li><li>The current App does not include a third-party advertising SDK.</li><li>Most detailed learning and practice data remains on your device.</li><li>Premium verification and encrypted content delivery require limited network requests to service providers.</li><li>Local reminders are optional and controlled through device permissions.</li></ul>
+<h4 class="aws5-legal-section-title">2) Information stored on your device</h4>
+<p>Depending on the features you use, the App may store:</p>
+<ul class="aws5-legal-list"><li>A name or nickname used for in-App personalization</li><li>Theme, reminder, onboarding, walkthrough, and other settings</li><li>Study-plan progress and completion records</li><li>Practice attempts, answers, outcomes, omitted items, review groups, paused sessions, queues, history, and resume data</li><li>Downloaded-content records, file paths, versions, verification hashes, and encrypted content packs</li><li>Notification permission state and scheduled local-notification identifiers</li><li>Premium entitlement state and a RevenueCat-generated pseudonymous App User ID / Support ID</li><li>Popup, greeting, and milestone-completion state</li></ul>
+<p>This information is used to operate the App, preserve your place, display progress, resume sessions, and manage downloaded content. It generally remains on your device unless a feature described below requires a network request or you choose to send information to us.</p>
+<h4 class="aws5-legal-section-title">3) Learning and practice data</h4>
+<p>The current App does not intentionally upload your detailed study progress, answers, practice history, or chosen display name to Wang Method LLC servers for advertising or behavioral profiling. Because this information is primarily local, Wang Method LLC generally cannot retrieve, restore, remotely export, or remotely delete it for you.</p>
+<p>You can use the App’s reset controls for supported progress data. You can also clear App storage or delete the App through your device. Deleting the App does not cancel a marketplace subscription.</p>
+<h4 class="aws5-legal-section-title">4) RevenueCat and subscription identifiers</h4>
+<p>The App uses RevenueCat to support purchases, restore access, and determine whether Premium is active. Because the current App does not use a Wang Method LLC login account, RevenueCat may generate and cache a random anonymous App User ID on the device. The App may display that identifier as a Support ID.</p>
+<p>RevenueCat may process the App User ID, product and offering information, purchase events, subscription status, expiration information, entitlement status, store environment, and related technical information. The App may send the pseudonymous App User ID to the Wang Method LLC key-delivery service when Premium content needs authorization so the service can verify the aws_associate_premium entitlement before releasing a content key.</p>
+<h4 class="aws5-legal-section-title">5) Apple and Google purchases</h4>
+<p>If you purchase Premium, Apple or Google processes the marketplace transaction. Wang Method LLC does not receive your full payment-card number. Apple, Google, and RevenueCat may process transaction, tax, fraud-prevention, account, device, and subscription information under their own privacy practices and legal obligations.</p>
+<h4 class="aws5-legal-section-title">6) Encrypted content delivery and Cloudflare</h4>
+<p>The App connects to Wang Method LLC infrastructure hosted through Cloudflare to retrieve a content manifest, weekly plans, encrypted content packs, and authorized decryption keys.</p>
+<p>These requests may involve:</p>
+<ul class="aws5-legal-list"><li>Requested pack ID and key ID</li><li>A pseudonymous RevenueCat App User ID when Premium verification is required</li><li>IP address, request time, network information, user-agent or device-request metadata, security signals, and standard server-log information processed by hosting and security providers</li></ul>
+<p>This information is used to deliver content, verify authorization, maintain service security, prevent abuse, diagnose failures, and protect infrastructure. Downloaded proprietary packs are stored locally in encrypted form and are decrypted for authorized use. No security method can guarantee absolute security.</p>
+<h4 class="aws5-legal-section-title">7) Local notifications</h4>
+<p>If you enable reminders, the App requests notification permission and schedules notifications locally on your device. Reminder text may use the name or nickname stored locally. Core learning content does not require notification permission, and you can disable notifications through device settings.</p>
+<h4 class="aws5-legal-section-title">8) Feedback, support, email, and clipboard</h4>
+<p>If you contact us or send feedback by email, Wang Method LLC receives the information you choose to provide, which may include your email address, message, screenshots, device platform, App details, and Support ID. We use that information to respond, troubleshoot, prevent abuse, improve the App, and maintain reasonable support records.</p>
+<p>The App can copy your Support ID to the clipboard when you ask it to. The App is not designed to read unrelated clipboard content. Do not send confidential employer information, official exam content, trade secrets, or sensitive personal information in feedback or support messages.</p>
+<h4 class="aws5-legal-section-title">9) External links</h4>
+<p>The App may open external services such as AWS documentation, Apple or Google subscription-management pages, Discord, or your email application. When you use an external service, that provider may collect information under its own policy. Wang Method LLC does not control those services.</p>
+<h4 class="aws5-legal-section-title">10) How information may be disclosed</h4>
+<p>Information reasonably controlled by Wang Method LLC may be disclosed:</p>
+<ul class="aws5-legal-list"><li>To service providers that operate functions described in this Policy</li><li>To investigate fraud, abuse, security incidents, or violations of our Terms</li><li>When required by law, legal process, or a valid government request</li><li>To protect users, the public, our rights, or App and infrastructure security</li><li>In connection with a merger, financing, acquisition, reorganization, bankruptcy, or transfer of all or part of the business, subject to applicable law</li></ul>
+<p>We do not sell personal information. We do not use detailed learning progress for third-party targeted advertising or cross-context behavioral advertising.</p>
+<h4 class="aws5-legal-section-title">11) Retention</h4>
+<p>Local App information remains on your device until you use applicable reset controls, clear App storage, or delete the App, subject to operating-system behavior.</p>
+<p>Support emails and records controlled by Wang Method LLC may be retained as reasonably necessary to respond, document the issue, maintain security, enforce agreements, resolve disputes, or comply with legal obligations, and may later be deleted or de-identified when appropriate.</p>
+<p>RevenueCat, Apple, Google, Cloudflare, email providers, and other service providers retain information according to their own policies and legal obligations.</p>
+<h4 class="aws5-legal-section-title">12) Deletion, access, correction, and export requests</h4>
+<p>You may request access to, correction of, deletion of, or a copy of support or other personal information reasonably controlled by Wang Method LLC by emailing WangMethodOfLearning@gmail.com. We may need reasonable information to verify the request.</p>
+<p>We cannot remotely retrieve, export, or delete information that exists only on your device. We also do not control marketplace, payment, tax, fraud-prevention, or independent service-provider records. Requests concerning those records may need to be directed to the relevant provider.</p>
+<h4 class="aws5-legal-section-title">13) Security</h4>
+<p>We use technical and organizational measures appropriate to the App’s current architecture, including encrypted content packs, integrity verification, entitlement checks for protected keys, device-protected key storage where supported, and limited network authorization requests. No method of storage or transmission is perfectly secure.</p>
+<h4 class="aws5-legal-section-title">14) Children’s privacy</h4>
+<p>The App is not directed to children under 13, and Wang Method LLC does not knowingly seek personal information from children under 13 through the App. If you believe a child under 13 has sent personal information to us, contact WangMethodOfLearning@gmail.com so we can review and delete information reasonably controlled by us as appropriate.</p>
+<h4 class="aws5-legal-section-title">15) U.S. state and international privacy rights</h4>
+<p>Depending on where you live and whether a privacy law applies to Wang Method LLC or particular processing, you may have additional rights regarding personal information, such as access, correction, deletion, portability, restriction, objection, or appeal. We will respond to verified requests as required by applicable law. Nothing in this Policy limits non-waivable privacy rights.</p>
+<h4 class="aws5-legal-section-title">16) Changes to this Policy</h4>
+<p>We will revise this Policy if accounts, cloud sync, institutional dashboards, analytics, AI features, advertising, audio recording, or other functionality materially changes how information is handled. The update date will be revised when this Policy changes.</p>
+<h4 class="aws5-legal-section-title">17) Contact</h4>
+<p>Privacy controller / publisher: Wang Method LLC Privacy, deletion, access, and support requests: WangMethodOfLearning@gmail.com</p>
+        </div>
+      </div>`,
+  };
+
+  const image = document.getElementById("aws5ActiveImage");
+  const imageButton = document.getElementById("aws5ActiveImageButton");
+  const caption = document.getElementById("aws5PreviewCaption");
+  const count = document.getElementById("aws5PreviewCount");
+  const grid = document.getElementById("aws5ThumbnailGrid");
+  const prev = document.getElementById("aws5PrevPreview");
+  const next = document.getElementById("aws5NextPreview");
+  const infoPanel = document.getElementById("aws5InfoPanel");
+  const infoTabs = Array.from(document.querySelectorAll(".aws5-info-grid button[data-panel]"));
+  const modal = document.getElementById("aws5PreviewModal");
+  const modalImage = document.getElementById("aws5PreviewModalImage");
+  const modalCaption = document.getElementById("aws5PreviewModalCaption");
+  const modalClose = document.getElementById("aws5PreviewModalClose");
+  let previewIndex = 0;
+
+  function wireDisabledPlatformLinks(root=document){
+    root.querySelectorAll?.('.aws5-platform-link.is-coming-soon').forEach((link)=>{
+      if(link.dataset.wired==='true') return;
+      link.dataset.wired='true';
+      link.addEventListener('click',(event)=>event.preventDefault());
+    });
+  }
+
+  function renderPreview(index){
+    previewIndex=(index+previews.length)%previews.length;
+    const preview=previews[previewIndex];
+    image.src=preview.src;
+    image.alt=preview.alt;
+    caption.textContent=preview.caption;
+    count.textContent=`${previewIndex+1} / ${previews.length}`;
+    grid.querySelectorAll('button').forEach((button,buttonIndex)=>{
+      const active=buttonIndex===previewIndex;
+      button.classList.toggle('is-active',active);
+      button.setAttribute('aria-current',active?'true':'false');
+    });
+  }
+
+  previews.forEach((preview,index)=>{
+    const button=document.createElement('button');
+    button.type='button';
+    button.className='aws5-thumbnail';
+    button.setAttribute('aria-label',`Show preview ${index+1}`);
+    const thumb=document.createElement('img');
+    thumb.src=preview.src;
+    thumb.alt='';
+    button.appendChild(thumb);
+    button.addEventListener('click',()=>renderPreview(index));
+    grid.appendChild(button);
+  });
+
+  function renderPanel(id){
+    infoPanel.dataset.panel=id;
+    infoTabs.forEach((button)=>{
+      const active=button.dataset.panel===id;
+      button.classList.toggle('is-active',active);
+      button.setAttribute('aria-selected',active?'true':'false');
+      button.tabIndex=active?0:-1;
+    });
+    infoPanel.classList.add('is-switching');
+    window.setTimeout(()=>{
+      infoPanel.innerHTML=panelHtml[id]||panelHtml.tested;
+      infoPanel.scrollTop=0;
+      wireDisabledPlatformLinks(infoPanel);
+      wireEvidenceImages();
+      requestAnimationFrame(()=>infoPanel.classList.remove('is-switching'));
+    }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 90);
+  }
+
+  function openPreviewModal(src, alt, text){
+    modalImage.src=src;
+    modalImage.alt=alt||'';
+    modalCaption.textContent=text||'';
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    modalClose.focus();
+  }
+
+  function wireEvidenceImages(){
+    infoPanel.querySelectorAll('.aws5-evidence-grid figure').forEach((figure)=>{
+      const img=figure.querySelector('img');
+      const cap=figure.querySelector('figcaption');
+      if(!img) return;
+      img.tabIndex=0;
+      img.setAttribute('role','button');
+      img.setAttribute('aria-label',`Open ${cap?.textContent||'evidence image'}`);
+      const open=()=>openPreviewModal(img.src,img.alt,cap?.textContent||'');
+      img.addEventListener('click',open);
+      img.addEventListener('keydown',(event)=>{
+        if(event.key==='Enter'||event.key===' '){event.preventDefault();open();}
+      });
+    });
+  }
+
+  document.getElementById('aws5InfoGrid')?.addEventListener('keydown',(event)=>{
+    const current=infoTabs.indexOf(document.activeElement);
+    if(current<0) return;
+    const columns=3;
+    let next=current;
+    if(event.key==='ArrowRight') next=Math.min(infoTabs.length-1,current+1);
+    else if(event.key==='ArrowLeft') next=Math.max(0,current-1);
+    else if(event.key==='ArrowDown') next=Math.min(infoTabs.length-1,current+columns);
+    else if(event.key==='ArrowUp') next=Math.max(0,current-columns);
+    else return;
+    event.preventDefault();
+    infoTabs[next].focus();
+  });
+
+  infoTabs.forEach((button)=>button.addEventListener('click',()=>{
+    renderPanel(button.dataset.panel);
+    if(window.matchMedia('(max-width:700px)').matches){
+      requestAnimationFrame(()=>{
+        document.querySelector('.aws5-info-shell')?.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+    }
+  }));
+  prev.addEventListener('click',()=>renderPreview(previewIndex-1));
+  next.addEventListener('click',()=>renderPreview(previewIndex+1));
+
+  let startX=0;
+  imageButton.addEventListener('touchstart',(event)=>{startX=event.touches[0]?.clientX||0;},{passive:true});
+  imageButton.addEventListener('touchend',(event)=>{
+    const endX=event.changedTouches[0]?.clientX||0;
+    const dx=endX-startX;
+    if(Math.abs(dx)>45) renderPreview(dx<0?previewIndex+1:previewIndex-1);
+  },{passive:true});
+
+  imageButton.addEventListener('click',()=>{
+    const preview=previews[previewIndex];
+    openPreviewModal(preview.src,preview.alt,preview.caption);
+  });
+  function closeModal(){modal.classList.remove('is-open');modal.setAttribute('aria-hidden','true');}
+  modalClose.addEventListener('click',closeModal);
+  modal.addEventListener('click',(event)=>{if(event.target===modal) closeModal();});
+  document.addEventListener('keydown',(event)=>{if(event.key==='Escape') closeModal();});
+
+  renderPreview(0);
+  renderPanel('tested');
+  wireDisabledPlatformLinks(document);
+})();
+</script>
+{% endblock %}

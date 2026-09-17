@@ -2,6 +2,14 @@
 {% block title %}Explore Tools{% endblock %}
 
 {% block content %}
+
+<style id="aws-tools-card-final">
+.tool-icon-card--aws .tool-icon-name--aws{color:#118fb3!important;-webkit-text-fill-color:#118fb3!important;background:none!important;}
+.tool-icon-card--aws .tool-aws-expanded-name{color:rgba(39,64,95,.82)!important;font-style:normal!important;}
+.tool-icon-card--aws .tool-aws-benefits{display:grid;gap:0;margin-top:8px;font-family:var(--body-font);font-size:clamp(.90rem,.90vw,1rem);line-height:1.40;color:rgba(43,43,43,.82);}
+.tool-icon-card--aws .tool-aws-benefits span{display:block;}
+</style>
+
 <section class="tools-layout">
 
 
@@ -29,19 +37,16 @@
   <a class="btn-back" href="/domains/">← Back</a>
 </div>
 
+<div class="tools-hub-density-surface">
 <header class="tools-hub-hero">
   <h1 class="tools-hub-title">Select Your System</h1>
 
 <p class="tools-hub-subtitle">
-  Competency without loss of identity.
+  A way to always know what to learn next.
 </p>
 
-<p class="tools-hub-description">
-  WMOL organizes existing knowledge into structured learning systems that help learners achieve competency more efficiently without sacrificing their identity.
-</p>
-
-<p class="tools-hub-description">
-  Each system reduces unnecessary friction so learners can spend less time managing the learning process and more time actually learning.
+<p class="tools-hub-description tools-hub-description--combined">
+  <strong>You already have the pieces. We help put them together. Each system takes the resources, information, and goals you already have and turns them into a step-by-step path, so you spend less time figuring out what to do and more time actually learning.</strong>
 </p>
 </header>
 <div class="tools-grid">
@@ -50,14 +55,13 @@
       <img src="/static/img/hsk-app-icon.png" alt="HSK App icon">
     </div>
     <div class="tool-icon-name">HSK 1-6 Companion App</div>
-    <div class="tool-icon-kicker">Learn Chinese through guided consistency.</div>
+    <div class="tool-icon-kicker">Learn Chinese without constantly starting over.</div>
     <div class="tool-icon-desc">
-      Build language skills that you can use in real life through a guided learning system designed to give you one structured path from HSK 1 to HSK 6.<br>
-      
+      A guided path from HSK 1 to HSK 6 that helps you always know what to learn next and spend less time figuring out what to study.
     </div>
   </a>
 
-<a class="tool-icon-card" href="/medicine/" data-hub-theme="medicine">
+<a class="tool-icon-card tool-icon-card--pass" href="/medicine/" data-hub-theme="medicine">
   <div class="tool-icon-imgwrap">
     <img
       src="/static/img/medicine-onboarding-icon.png"
@@ -65,17 +69,32 @@
     >
   </div>
 
-  <div class="tool-icon-name">WMOL PASS</div>
-
-  <div class="tool-icon-kicker">
-    Pre-Matriculation Academic Success System
+  <div class="tool-pass-heading-row">
+    <div class="tool-icon-name tool-icon-name--pass">The PASS System</div>
+    <div class="tool-pass-audience">(Institutions)</div>
   </div>
-
-  <div class="tool-icon-desc">
-    Support accepted medical school learners through matriculation by preparing them for
-    the environment, demands, mentality, and habits medical school requires and reduce preventable remediation burden.
+  <div class="tool-pass-expanded-name">(Pre-Matriculation Academic Success System)</div>
+  <div class="tool-pass-description">
+    A way to make incoming medical student success more predictable and help struggling students before it's too late.
   </div>
 </a>
+
+<a class="tool-icon-card tool-icon-card--aws" href="/tools/aws-saa/" data-hub-theme="aws">
+  <div class="tool-icon-imgwrap tool-icon-imgwrap--aws">
+    <img src="/static/img/aws-saa-companion-icon.png" alt="AWS SAA Companion App icon">
+  </div>
+
+  <div class="tool-icon-name tool-icon-name--aws">AWS SAA Companion App</div>
+  <div class="tool-aws-expanded-name">(for AWS Certified Solutions Architect - Associate)</div>
+  <div class="tool-aws-benefits" aria-label="AWS SAA Companion App benefits">
+    <span>Reach the certification in less time.</span>
+    <span>Fit preparation around your lifestyle.</span>
+    <span>See progress every time you study.</span>
+    <span>Walk into test day ready.</span>
+  </div>
+</a>
+
+</div>
 </div>
   </main>
 
@@ -163,7 +182,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function apply() {
       const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      const portrait = vh > vw;
 
+      const physicalScreenW = Math.max(
+        vw * dpr,
+        (window.screen?.width || 0) * dpr,
+        (window.screen?.availWidth || 0) * dpr
+      );
+
+      let density = "standard";
+      if (!portrait && vw > 900) {
+        density = physicalScreenW >= 1980 ? "large" : "laptop";
+      }
+      layout.dataset.toolsDensity = density;
+
+      /* The right-side hub changes visual density, but the left banner must stay
+         at its original pre-density size and position. Calculate the rail from
+         the real viewport exactly as the original Tools page did. */
       if (vw <= REF_VIEWPORT_W) {
         layout.style.removeProperty("--tools-rail-w");
         return;
