@@ -15430,3 +15430,438 @@ html.leaving-tools-ui .domains-thesis{
     bottom: 84px !important;
   }
 }
+/* =========================================================
+   PASS WEBSITE ACCESS + READING LAYOUT — 2026-09-21
+   Scoped to the PASS marketing page. Preserve other website pages.
+   ========================================================= */
+.medicine-layout .pass-page{
+  container: pass-page / inline-size;
+  --pass-action-gold: #D8A83F;
+  --pass-action-pressed: #C9962F;
+}
+
+/* Read left to right within a centered measure beneath centered headings. */
+.medicine-layout .pass-page .pass-hero-outcomes{
+  display: grid !important;
+  width: fit-content !important;
+  max-width: min(calc(100% - 24px), 62ch) !important;
+  margin-inline: auto !important;
+  padding-inline: 0 !important;
+  text-align: left !important;
+}
+.medicine-layout .pass-page .pass-hero-outcomes span{
+  width: auto !important;
+  max-width: 100% !important;
+  margin-inline: 0 !important;
+  white-space: normal !important;
+  text-align: left !important;
+  text-wrap: pretty !important;
+}
+.medicine-layout .pass-page .pass-what-points p,
+.medicine-layout .pass-page .pass-use-summary,
+.medicine-layout .pass-page .pass-section-head > p:last-child:not(.pass-section-kicker),
+.medicine-layout .pass-page .pass-media-card-copy p,
+.medicine-layout .pass-page .pass-demanding-copy > p,
+.medicine-layout .pass-page .pass-fit-intro,
+.medicine-layout .pass-page .pass-text-card p,
+.medicine-layout .pass-page .pass-publications-intro,
+.medicine-layout .pass-page .pass-publications-points,
+.medicine-layout .pass-page .pass-proof-lead{
+  text-align: left !important;
+  white-space: normal !important;
+  text-wrap: pretty;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+}
+.medicine-layout .pass-page .pass-use-intro,
+.medicine-layout .pass-page .pass-fit-intro,
+.medicine-layout .pass-page .pass-section-head > p:last-child:not(.pass-section-kicker){
+  width: min(100%, 70ch) !important;
+  max-width: 70ch !important;
+  margin-inline: auto !important;
+}
+.medicine-layout .pass-page .pass-use-summary{
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-inline: auto !important;
+}
+
+/* Keep this short closing statement centered on every screen. */
+.medicine-layout .pass-page .pass-fit-close{
+  width: min(100%, 70ch) !important;
+  max-width: 100% !important;
+  margin-inline: auto !important;
+  text-align: center !important;
+  white-space: normal !important;
+  text-wrap: balance !important;
+}
+
+/* Source order is also reading order: carousel, then the whole product group. */
+.medicine-layout .pass-page .pass-what .pass-transition-grid{
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  width: 100% !important;
+  max-width: 1180px !important;
+  margin-inline: auto !important;
+  gap: clamp(24px, 3vw, 44px) !important;
+  align-items: center !important;
+}
+.medicine-layout .pass-page .pass-what .pass-transition-media{
+  order: 0 !important;
+  width: 100% !important;
+  max-width: 720px !important;
+  height: auto !important;
+  min-width: 0 !important;
+  margin: 0 auto !important;
+  align-self: center !important;
+  transform: none !important;
+}
+.medicine-layout .pass-page .pass-what .pass-what-copy{
+  order: 1 !important;
+  width: 100% !important;
+  max-width: 760px !important;
+  min-width: 0 !important;
+  height: auto !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  align-self: center !important;
+  transform: none !important;
+}
+.medicine-layout .pass-page .pass-what-copy .pass-section-kicker,
+.medicine-layout .pass-page .pass-what-copy h2{
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-inline: auto !important;
+  text-align: center !important;
+}
+.medicine-layout .pass-page .pass-what-details{
+  width: min(calc(100% - 24px), 64ch);
+  max-width: 100%;
+  margin-inline: auto;
+}
+.medicine-layout .pass-page .pass-what-points{
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-inline: 0 !important;
+  padding-inline: 0 !important;
+}
+.medicine-layout .pass-page .pass-what-points p{
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-inline: 0 !important;
+}
+
+/* Four equal platform choices; the button edges match the paragraph edges. */
+.medicine-layout .pass-page .pass-platforms{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(8px, 1vw, 12px);
+  width: 100%;
+  margin: 22px 0 0;
+}
+.medicine-layout .pass-page .pass-platform-button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  min-width: 0;
+  min-height: 64px;
+  padding: 12px 6px;
+  border: 1px solid var(--pass-action-pressed);
+  border-radius: 12px;
+  background: var(--pass-action-gold);
+  color: #4B3627;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(.88rem, 1.1vw, 1rem);
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  box-sizing: border-box;
+}
+.medicine-layout .pass-page .pass-platform-button small{
+  font-size: .72rem;
+  font-weight: 400;
+  line-height: 1.25;
+}
+.medicine-layout .pass-page .pass-platform-button:disabled{
+  opacity: 1;
+  cursor: default;
+  -webkit-text-fill-color: #4B3627;
+}
+.medicine-layout .pass-page a.pass-platform-button:hover{
+  background: var(--pass-action-pressed);
+}
+.medicine-layout .pass-page a.pass-platform-button:focus-visible{
+  outline: 3px solid #4B3627;
+  outline-offset: 3px;
+}
+
+/* Use available content width, including the decorative rail, to avoid squeezing
+   a two-column layout into a tablet or small laptop. */
+@media (orientation: landscape){
+  @container pass-page (min-width: 800px){
+    .medicine-layout .pass-page .pass-what .pass-transition-grid{
+      grid-template-columns: minmax(0, .94fr) minmax(0, 1.06fr) !important;
+    }
+  }
+}
+@media (max-width: 700px), (pointer: coarse) and (max-width: 1000px) and (max-height: 500px){
+  .medicine-layout .pass-page .pass-platforms{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .medicine-layout .pass-page .pass-what-details{
+    width: min(calc(100% - 24px), 560px);
+  }
+}
+
+/* Size copy to the card, never to the viewport outside it. */
+.medicine-layout .pass-page .pass-contact{
+  container: pass-contact / inline-size;
+  width: min(760px, calc(100% - 24px)) !important;
+  max-width: 760px !important;
+  height: auto !important;
+  padding: clamp(16px, 3vw, 24px) !important;
+  margin-inline: auto !important;
+}
+.medicine-layout .pass-page .pass-contact .pass-contact-copy,
+.medicine-layout .pass-page .pass-contact .pass-contact-form{
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin-inline: 0 !important;
+}
+.medicine-layout .pass-page .pass-contact h2{
+  width: 100% !important;
+  max-width: 100% !important;
+  font-size: clamp(1.35rem, 4.7cqi, 1.85rem) !important;
+  line-height: 1.18 !important;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+  text-wrap: balance;
+}
+.medicine-layout .pass-page .pass-contact-copy > p:last-child{
+  width: 100% !important;
+  max-width: 100% !important;
+  font-size: clamp(.96rem, 2.8cqi, 1.06rem) !important;
+  line-height: 1.5 !important;
+  text-align: left !important;
+  overflow-wrap: break-word !important;
+}
+.medicine-layout .pass-page .pass-direct-contact{
+  max-width: 100% !important;
+  font-size: .95rem !important;
+  overflow-wrap: anywhere !important;
+}
+.medicine-layout .pass-page .pass-contact-row{
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+.medicine-layout .pass-page .pass-contact-row button{
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: 12px !important;
+  white-space: normal !important;
+}
+@container pass-contact (min-width: 520px){
+  .medicine-layout .pass-page .pass-contact-row{
+    grid-template-columns: minmax(0, 1fr) auto !important;
+  }
+  .medicine-layout .pass-page .pass-contact-row button{
+    width: auto !important;
+  }
+}
+
+
+/* =========================================================
+   MOBILE POLISH v7 — 2026-09-21
+   Authoritative phone-only geometry.
+   - Landing copy is centered by equal LEFT/RIGHT viewport edges, not SVG math.
+   - Landing copy begins below the keystone and CTA follows the actual copy bottom.
+   - Systems artwork is centered in the measured free vertical space.
+   - The first systems tagline is one centered line with normal word spacing.
+   Desktop/laptop/portrait-monitor layouts are untouched.
+   ========================================================= */
+@media (max-width: 700px){
+  html,
+  body,
+  .wmol-landing.wmol-flow{
+    overflow-x: hidden !important;
+  }
+
+  .wmol-landing.wmol-flow{
+    width: 100dvw !important;
+    max-width: 100dvw !important;
+    min-width: 0 !important;
+  }
+
+  /* The arch itself and the viewport use the same literal midpoint. */
+  .wmol-landing.wmol-flow .wmol-landing-arch{
+    left: 50dvw !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-landing-inner{
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100dvw !important;
+    max-width: 100dvw !important;
+    min-height: 100dvh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    display: block !important;
+    overflow-x: hidden !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Equal left/right edges are the centering rule. No horizontal translate. */
+  .wmol-landing.wmol-flow .wmol-flow-view,
+  .wmol-landing.wmol-flow .wmol-flow-view[aria-hidden="false"]{
+    position: absolute !important;
+    top: var(--wmol-flow-stage-top) !important;
+    bottom: auto !important;
+    left: max(16px, env(safe-area-inset-left)) !important;
+    right: max(16px, env(safe-area-inset-right)) !important;
+    width: auto !important;
+    max-width: none !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-flow-view > *,
+  .wmol-landing.wmol-flow .wmol-flow-copy,
+  .wmol-landing.wmol-flow .wmol-flow-lead,
+  .wmol-landing.wmol-flow .wmol-flow-payoff,
+  .wmol-landing.wmol-flow .wmol-flow-proof-list,
+  .wmol-landing.wmol-flow .wmol-flow-proof-list p,
+  .wmol-landing.wmol-flow .wmol-flow-mechanism-intro,
+  .wmol-landing.wmol-flow .wmol-flow-copy-split span,
+  .wmol-landing.wmol-flow .wmol-flow-payoff-split span,
+  .wmol-landing.wmol-flow .wmol-flow-fit-context,
+  .wmol-landing.wmol-flow .wmol-flow-fit-skills{
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Keep the desktop/laptop treatment for the five Right ... lines. */
+  .wmol-landing.wmol-flow .wmol-flow-mechanism{
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: max-content !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: left !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-flow-mechanism strong{
+    width: auto !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    text-align: left !important;
+    white-space: nowrap !important;
+  }
+
+  /* Same equal-edge rule for the buttons. JS only decides vertical position. */
+  .wmol-landing.wmol-flow .wmol-landing-actions{
+    position: absolute !important;
+    top: var(--wmol-flow-actions-top) !important;
+    bottom: auto !important;
+    left: max(16px, env(safe-area-inset-left)) !important;
+    right: max(16px, env(safe-area-inset-right)) !important;
+    width: min(292px, calc(100dvw - 32px)) !important;
+    max-width: 292px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    transform: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: calc(9px * var(--wmol-flow-mobile-scale)) !important;
+    box-sizing: border-box !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-landing-cta{
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+
+  .wmol-landing.wmol-flow.wmol-flow-tight .wmol-flow-view[aria-hidden="false"]{
+    max-height: var(--wmol-flow-stage-max-h) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+  }
+
+  .wmol-landing.wmol-flow.wmol-flow-tight .wmol-flow-view[aria-hidden="false"]::-webkit-scrollbar{
+    display: none !important;
+  }
+}
+
+@media (max-width: 650px){
+  /* On the Domains carousel the medicine artwork used to live inside the full-rail
+     ::before background, which made its vertical center impossible to position
+     independently. On phones only, keep the same navy background but render the
+     existing image element at the measured midpoint between title and CTA. */
+  .home-viewport.domains-page .rail-medicine::before{
+    background-color: #020826 !important;
+    background-image: none !important;
+  }
+
+  .home-viewport.domains-page .rail-medicine .rail-image-wrap{
+    display: flex !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: var(--domains-mobile-art-center-y, 50%) !important;
+    width: 100% !important;
+    transform: translate(-50%, -50%) !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 2 !important;
+  }
+
+  .home-viewport.domains-page .rail-medicine .rail-image-wrap img{
+    width: 86% !important;
+    max-width: 460px !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+
+  /* One real line, centered directly under the button. */
+  .home-viewport.domains-page .rail-medicine .wml-cta{
+    align-items: center !important;
+  }
+
+  .home-viewport.domains-page .rail-medicine .wml-personal-line{
+    position: static !important;
+    display: block !important;
+    min-height: 0 !important;
+    width: max-content !important;
+    max-width: calc(100dvw - 28px) !important;
+    margin: 8px auto 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    text-wrap: nowrap !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    font-size: clamp(11.2px, 3.15vw, 13px) !important;
+    line-height: 1.18 !important;
+  }
+}

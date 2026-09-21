@@ -201,7 +201,7 @@
           : (portraitDesktop ? portraitCenteredKeystoneTop : 31 * desktopScale);
 
         const contentGap = mobile
-          ? clamp(visualHeight * 0.014, 10, 14)
+          ? clamp(visualHeight * 0.050, 34, 44)
           : 16.5 * desktopScale;
 
         const keystoneBottom = keystoneTop + archWidth * (215 / 1200);
@@ -407,8 +407,22 @@
           landing.style.setProperty("--wmol-flow-stage-max-h", `${Math.max(120, visualHeight - stageTop)}px`);
           void activeView.offsetHeight;
 
-          const available = Math.max(120, visualHeight - stageTop - bottomSafety);
-          if (measureNeededHeight() > available + 1) {
+          /* Mobile v7: the copy is positioned from equal left/right screen edges.
+             Place the CTA immediately after the ACTUAL rendered copy, then keep
+             both inside the visible phone height. This removes the flex-flow drift
+             that could move the whole composition sideways or toward the top. */
+          const liveGap = 4 * mobileScale;
+          const finalViewHeight = activeView.getBoundingClientRect().height;
+          const finalActionsHeight = actions.getBoundingClientRect().height;
+          const requestedActionsTop = stageTop + finalViewHeight + liveGap;
+          const maxActionsTop = visualHeight - finalActionsHeight - bottomSafety;
+          const actionsTop = Math.min(requestedActionsTop, maxActionsTop);
+
+          landing.style.setProperty("--wmol-flow-actions-top", `${Math.max(stageTop, actionsTop)}px`);
+
+          if (requestedActionsTop > maxActionsTop + 1) {
+            const maxViewHeight = Math.max(96, maxActionsTop - stageTop - liveGap);
+            landing.style.setProperty("--wmol-flow-stage-max-h", `${maxViewHeight}px`);
             landing.classList.add("wmol-flow-tight");
           }
         } else {

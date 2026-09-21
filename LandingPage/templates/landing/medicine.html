@@ -68,11 +68,58 @@
     <div class="pass-transition-copy pass-what-copy" id="passTransitionCopy">
       <p class="pass-section-kicker">The Product</p>
       <h2 id="pass-transition-title">What Do We Do?</h2>
+      <div class="pass-what-details">
       <div class="pass-what-points">
         <p>PASS gives medical education institutions the ability to teach their incoming medical students how to use the study resources, practice questions, support, and curriculum they already provide, so students always know what to learn next and spend less time and effort on things that don't matter.</p>
         <p>It is the first of its kind and the only <strong>medical education learning system</strong> that has successfully helped medical students reach high standards while making it easier to get there at the same time.</p>
         <p><strong class="pass-use-label">For medical students,</strong> PASS has helped them get better academic results while spending significantly less time studying.</p>
         <p><strong class="pass-use-label">For medical schools,</strong> the same system has helped increase incoming student retention, give faculty a chance to detect struggling students earlier, and help decrease remediation burden before things are already too late.</p>
+      </div>
+        {% comment %}
+        Add verified public URLs below only when the web app and installers are hosted.
+        The mobile URL can point to a page with both published store links.
+        Empty URLs render disabled buttons, never broken or placeholder downloads.
+        {% endcomment %}
+        {% with pass_web_url="" pass_windows_url="" pass_mac_url="" pass_mobile_url="" %}
+        <nav class="pass-platforms" aria-label="Use WMOL PASS on your device">
+          {% if pass_web_url %}
+          <a class="pass-platform-button" href="{{ pass_web_url }}">
+            <span>Web</span><small>Open app</small>
+          </a>
+          {% else %}
+          <button class="pass-platform-button" type="button" disabled aria-label="Web, coming soon">
+            <span>Web</span><small>Coming soon</small>
+          </button>
+          {% endif %}
+          {% if pass_windows_url %}
+          <a class="pass-platform-button" href="{{ pass_windows_url }}">
+            <span>Windows</span><small>Download</small>
+          </a>
+          {% else %}
+          <button class="pass-platform-button" type="button" disabled aria-label="Windows, coming soon">
+            <span>Windows</span><small>Coming soon</small>
+          </button>
+          {% endif %}
+          {% if pass_mac_url %}
+          <a class="pass-platform-button" href="{{ pass_mac_url }}">
+            <span>Mac</span><small>Download</small>
+          </a>
+          {% else %}
+          <button class="pass-platform-button" type="button" disabled aria-label="Mac, coming soon">
+            <span>Mac</span><small>Coming soon</small>
+          </button>
+          {% endif %}
+          {% if pass_mobile_url %}
+          <a class="pass-platform-button" href="{{ pass_mobile_url }}">
+            <span>Mobile</span><small>iPhone / Android</small>
+          </a>
+          {% else %}
+          <button class="pass-platform-button" type="button" disabled aria-label="Mobile for iPhone and Android, coming soon">
+            <span>Mobile</span><small>Coming soon</small>
+          </button>
+          {% endif %}
+        </nav>
+        {% endwith %}
       </div>
     </div>
   </div>
@@ -317,7 +364,7 @@
     <p class="pass-contact-status" id="passContactStatus" role="status" aria-live="polite"></p>
   </form>
 
-  <p class="pass-direct-contact">Prefer to contact us directly? <a href="mailto:WangMethodofLearning@gmail.com">WangMethodofLearning@gmail.com</a></p>
+  <p class="pass-direct-contact">Prefer to contact us directly? <a href="mailto:WangMethodofLearning@gmail.com">WangMethodofLearning<wbr>@gmail.com</a></p>
 </section>
 
 <footer class="pass-footer">

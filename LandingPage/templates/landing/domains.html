@@ -58,7 +58,7 @@
   </a>
 
   <span class="wml-personal-line">
-    Your way to always know<br>what to learn next.
+    Your way to always know what to learn next.
   </span>
 </nav>
     </div>
@@ -543,6 +543,41 @@ function fitHomeInnerScale() {
 
   
 
+  // ===== MOBILE DOMAINS: center the artwork in the REAL free space =====
+  // The top title/subtitle and bottom CTA stack have different heights on each
+  // phone. Measure those two edges and put the artwork exactly halfway between
+  // them instead of assuming 50% of the rail is the visual center.
+  function recenterMobileDomainArtwork() {
+    const mq = window.matchMedia('(max-width: 650px)');
+    const rails = Array.from(document.querySelectorAll('.home-viewport.domains-page .wml-home .wml-rail'));
+
+    rails.forEach((rail) => {
+      if (!mq.matches) {
+        rail.style.removeProperty('--domains-mobile-art-center-y');
+        return;
+      }
+
+      const title = rail.querySelector('.wml-title, .wml-title-tech');
+      const cta = rail.querySelector('.wml-cta, .wml-cta-tech, .wml-cta-gadgets, .wml-cta-lifestyle');
+      const art = rail.querySelector('.rail-image-wrap:not(.rail-image-wrap-performance)');
+      if (!title || !cta || !art) return;
+
+      // offsetTop/offsetHeight ignore the fly-in transform and describe the final layout.
+      const titleBottom = title.offsetTop + title.offsetHeight;
+      const ctaTop = cta.offsetTop;
+      if (!(ctaTop > titleBottom)) return;
+
+      const centerY = (titleBottom + ctaTop) / 2;
+      rail.style.setProperty('--domains-mobile-art-center-y', `${centerY}px`);
+    });
+  }
+
+  function settleMobileDomainArtwork() {
+    recenterMobileDomainArtwork();
+    requestAnimationFrame(recenterMobileDomainArtwork);
+    window.setTimeout(recenterMobileDomainArtwork, 120);
+  }
+
   // Wire everything
   document.addEventListener('DOMContentLoaded', () => {
     resetHomeState();
@@ -552,6 +587,7 @@ function fitHomeInnerScale() {
     playReturnFromToolsIfNeeded();
     fitHomeInnerScale();
     initMobileDomainsCarousel();
+    settleMobileDomainArtwork();
   });
 
   window.addEventListener('pageshow', () => {
@@ -561,6 +597,14 @@ function fitHomeInnerScale() {
   });
 
   window.addEventListener('resize', fitHomeInnerScale);
+  window.addEventListener('resize', settleMobileDomainArtwork, { passive: true });
+  window.addEventListener('orientationchange', settleMobileDomainArtwork, { passive: true });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', settleMobileDomainArtwork, { passive: true });
+  }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(settleMobileDomainArtwork);
+  }
 
     // ===== Extra robustness: detect monitor/DPI moves and re-baseline =====
   // Some monitor moves (especially different DPI scaling) don't reliably trigger
