@@ -61,9 +61,9 @@
       </h1>
 
       <div class="wmol-flow-proof-list">
-        <p>Systems that helped earn a perfect ACT score while working two jobs and juggling<br>three extracurriculars.</p>
+        <p>Systems that helped earn a perfect ACT score while working two jobs and juggling three extracurriculars.</p>
         <p>Systems that let you still have time for you while reaching school records for MCAT scores.</p>
-        <p>Systems that made it possible to train for a 100-miler while accelerating through medical<br>school and spending less time studying.</p>
+        <p>Systems that made it possible to train for a 100-miler while accelerating through medical school and spending less time studying.</p>
         <p>Systems that helped keep progress moving even when other parts of life didn't go the way we expected.</p>
       </div>
 
@@ -155,7 +155,7 @@
           ? Math.min(vh, window.visualViewport.height)
           : vh;
         let mobileScale = mobile
-          ? clamp(Math.min(vw / 390, visualHeight / 760), 0.82, 1)
+          ? clamp(vw / 390, 0.90, 1.04)
           : 1;
 
         /* Desktop is now a true reference-canvas layout. The 1741 × 913
@@ -355,58 +355,70 @@
 
         const activeView = views[step];
 
-        /* MOBILE FIT PASS
-           Keep the copy + CTA cluster together instead of pinning the buttons to
-           the bottom when a slide is long. Start at the normal phone scale, then
-           shrink the whole mobile type/CTA system only as much as that specific
-           slide needs. The arch itself remains unchanged. */
+        /* MOBILE FIT PASS — FINAL PHONE GEOMETRY
+           Measure the actual visible children, not the absolute view box. This keeps
+           the CTA directly under the last line instead of leaving a false empty gap.
+           The starting scale is width-driven so different phones keep the same visual
+           hierarchy; only genuinely short screens trim the whole text/CTA system. */
         if (mobile) {
-          const bottomSafety = 18;
-          const minMobileScale = 0.74;
-          const maxFitPasses = 3;
+          const bottomSafety = 14;
+          const minMobileScale = 0.76;
+          const maxFitPasses = 4;
 
           landing.classList.remove("wmol-flow-tight");
 
+          const visibleContentBottom = () => {
+            const viewRect = activeView.getBoundingClientRect();
+            let bottom = viewRect.top;
+
+            Array.from(activeView.children).forEach((child) => {
+              const style = window.getComputedStyle(child);
+              if (style.display === "none" || style.visibility === "hidden") return;
+              const rect = child.getBoundingClientRect();
+              if (rect.width <= 0 && rect.height <= 0) return;
+              bottom = Math.max(bottom, rect.bottom);
+            });
+
+            return bottom;
+          };
+
           for (let pass = 0; pass < maxFitPasses; pass += 1) {
             landing.style.setProperty("--wmol-flow-mobile-scale", String(mobileScale));
-            /* Force layout after changing the shared scale variable. */
             void activeView.offsetHeight;
 
-            const mobileButtonHeight = 44 * mobileScale;
+            const mobileButtonHeight = 46 * mobileScale;
             const mobileButtonGap = 9 * mobileScale;
             const buttonStackHeight = step < 3
               ? (mobileButtonHeight * 2) + mobileButtonGap
               : mobileButtonHeight;
-            const mobileContentGap = 14 * mobileScale;
+            const mobileContentGap = (step <= 1 ? 12 : 8) * mobileScale;
             const available = Math.max(120, visualHeight - stageTop - bottomSafety);
-            const contentHeight = activeView.getBoundingClientRect().height;
+            const viewTop = activeView.getBoundingClientRect().top;
+            const contentHeight = Math.max(0, visibleContentBottom() - viewTop);
             const needed = contentHeight + mobileContentGap + buttonStackHeight;
 
             if (needed <= available + 1 || mobileScale <= minMobileScale + 0.001) break;
 
-            const fitRatio = clamp((available / needed) * 0.985, 0.80, 0.98);
+            const fitRatio = clamp((available / needed) * 0.992, 0.84, 0.985);
             mobileScale = Math.max(minMobileScale, mobileScale * fitRatio);
           }
 
           landing.style.setProperty("--wmol-flow-mobile-scale", String(mobileScale));
           void activeView.offsetHeight;
 
-          const mobileButtonHeight = 44 * mobileScale;
+          const mobileButtonHeight = 46 * mobileScale;
           const mobileButtonGap = 9 * mobileScale;
           const buttonStackHeight = step < 3
             ? (mobileButtonHeight * 2) + mobileButtonGap
             : mobileButtonHeight;
-          const mobileContentGap = 14 * mobileScale;
+          const mobileContentGap = (step <= 1 ? 12 : 8) * mobileScale;
           const maxActionsTop = visualHeight - buttonStackHeight - bottomSafety;
-          const naturalBottom = activeView.getBoundingClientRect().bottom;
-          const requestedActionsTop = naturalBottom + mobileContentGap;
+          const requestedActionsTop = visibleContentBottom() + mobileContentGap;
 
           if (requestedActionsTop <= maxActionsTop + 1) {
             landing.style.setProperty("--wmol-flow-actions-top", `${requestedActionsTop}px`);
             landing.style.setProperty("--wmol-flow-stage-max-h", `${Math.max(120, visualHeight - stageTop)}px`);
           } else {
-            /* Very small phones still get a safe escape hatch: the copy scrolls
-               inside the available zone, while the CTA remains visible. */
             const actionsTop = maxActionsTop;
             const availableHeight = Math.max(96, actionsTop - mobileContentGap - stageTop);
             landing.style.setProperty("--wmol-flow-actions-top", `${actionsTop}px`);
