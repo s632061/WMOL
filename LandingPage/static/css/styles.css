@@ -16208,3 +16208,126 @@ html.leaving-tools-ui .domains-thesis{
     gap: calc(9px * var(--wmol-flow-mobile-scale)) !important;
   }
 }
+
+/* =========================================================
+   MOBILE POLISH v9 — 2026-09-21
+   - Landing: modest proportional type increase on all four phone slides.
+   - Restore a desktop-like text-to-CTA breathing gap while JS keeps short phones safe.
+   - PASS: retain left-aligned reading text but center each reading measure beneath
+     the centered section heading on both desktop and mobile.
+   Desktop landing geometry and all non-PASS desktop layouts remain unchanged.
+   ========================================================= */
+@media (max-width: 700px){
+  /* About +8% from the approved v8 phone hierarchy. The shared mobile scale still
+     shrinks the entire type system on genuinely short phones, so this remains responsive. */
+  #wmol-landing.wmol-landing.wmol-flow .wmol-flow-hero .wmol-flow-brand{
+    font-size: calc(43.0px * var(--wmol-flow-mobile-scale)) !important;
+  }
+  #wmol-landing.wmol-landing.wmol-flow .wmol-flow-hero .wmol-flow-title{
+    font-size: calc(18.4px * var(--wmol-flow-mobile-scale)) !important;
+  }
+  #wmol-landing.wmol-landing.wmol-flow .wmol-flow-hero .wmol-flow-copy{
+    font-size: calc(17.3px * var(--wmol-flow-mobile-scale)) !important;
+  }
+
+  #wmol-landing.wmol-landing.wmol-flow .wmol-flow-belief .wmol-flow-title-large{
+    font-size: calc(31.5px * var(--wmol-flow-mobile-scale)) !important;
+  }
+  #wmol-landing.wmol-landing.wmol-flow .wmol-flow-belief .wmol-flow-lead,
+  #wmol-landing.wmol-landing.wmol-flow .wmol-flow-belief .wmol-flow-copy,
+  #wmol-landing.wmol-landing.wmol-flow .wmol-flow-belief .wmol-flow-payoff{
+    font-size: calc(16.7px * var(--wmol-flow-mobile-scale)) !important;
+  }
+
+  #wmol-landing.wmol-landing.wmol-flow .wmol-flow-proof .wmol-flow-title-large{
+    font-size: calc(25.1px * var(--wmol-flow-mobile-scale)) !important;
+  }
+  #wmol-landing.wmol-landing.wmol-flow .wmol-flow-fit .wmol-flow-title-large{
+    font-size: calc(26.7px * var(--wmol-flow-mobile-scale)) !important;
+  }
+  #wmol-landing.wmol-landing.wmol-flow .wmol-flow-proof .wmol-flow-proof-list p,
+  #wmol-landing.wmol-landing.wmol-flow .wmol-flow-proof .wmol-flow-payoff,
+  #wmol-landing.wmol-landing.wmol-flow .wmol-flow-fit .wmol-flow-copy,
+  #wmol-landing.wmol-landing.wmol-flow .wmol-flow-fit .wmol-flow-payoff,
+  #wmol-landing.wmol-landing.wmol-flow .wmol-flow-fit .wmol-flow-mechanism-intro,
+  #wmol-landing.wmol-landing.wmol-flow .wmol-flow-fit .wmol-flow-mechanism strong{
+    font-size: calc(15.2px * var(--wmol-flow-mobile-scale)) !important;
+  }
+
+  /* JS supplies the same responsive value when it measures the final text line.
+     Keep a CSS fallback so first paint never collapses the gap to the old 1–2 px. */
+  #wmol-landing.wmol-landing.wmol-flow .wmol-landing-actions{
+    margin-top: var(--wmol-flow-mobile-gap, 16px) !important;
+  }
+}
+
+/* PASS reading alignment: left-aligned copy remains easy to read, but each block's
+   measure is centered beneath the section heading rather than hugging the left edge. */
+.medicine-layout .pass-page .pass-what-points,
+.medicine-layout .pass-page .pass-use-intro,
+.medicine-layout .pass-page .pass-demanding-copy,
+.medicine-layout .pass-page .pass-fit-intro,
+.medicine-layout .pass-page .pass-section-head > p:last-child:not(.pass-section-kicker){
+  width: min(90%, 64ch) !important;
+  max-width: 64ch !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.medicine-layout .pass-page .pass-use-summary{
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.medicine-layout .pass-page .pass-proof-head{
+  width: min(90%, 62ch) !important;
+  max-width: 62ch !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.medicine-layout .pass-page .pass-proof-head h3,
+.medicine-layout .pass-page .pass-publications-head h3{
+  text-align: center !important;
+}
+
+.medicine-layout .pass-page .pass-proof-lead,
+.medicine-layout .pass-page .pass-publications-intro,
+.medicine-layout .pass-page .pass-publications-points{
+  width: min(100%, 58ch) !important;
+  max-width: 58ch !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: left !important;
+}
+
+.medicine-layout .pass-page .pass-contact-copy > p:last-child{
+  width: min(90%, 64ch) !important;
+  max-width: 64ch !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: left !important;
+}
+
+@media (max-width: 700px){
+  .medicine-layout .pass-page .pass-what-points,
+  .medicine-layout .pass-page .pass-use-intro,
+  .medicine-layout .pass-page .pass-demanding-copy,
+  .medicine-layout .pass-page .pass-fit-intro,
+  .medicine-layout .pass-page .pass-section-head > p:last-child:not(.pass-section-kicker),
+  .medicine-layout .pass-page .pass-proof-head,
+  .medicine-layout .pass-page .pass-contact-copy > p:last-child{
+    width: min(88%, 560px) !important;
+    max-width: 560px !important;
+  }
+
+  .medicine-layout .pass-page .pass-use-summary,
+  .medicine-layout .pass-page .pass-proof-lead,
+  .medicine-layout .pass-page .pass-publications-intro,
+  .medicine-layout .pass-page .pass-publications-points{
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}

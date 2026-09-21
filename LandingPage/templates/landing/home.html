@@ -218,11 +218,10 @@
         const stageGapMultiplier = (!mobile && (step === 0 || step === 1)) ? 2 : 1;
         const stageTop = keystoneBottom + contentGap * stageGapMultiplier;
 
-        /* Desktop keeps the approved compact gap. Phones use a small but visible
-           content-to-button gap so the controls stay attached to the copy instead
-           of drifting toward the bottom of the viewport. */
+        /* Desktop keeps the approved compact gap. Phones use the same visual breathing-room ratio as the approved desktop flow: enough
+           separation to read as two groups without letting the controls drift toward the bottom. */
         const buttonGap = mobile
-          ? 2 * mobileScale
+          ? clamp(16 * mobileScale, 14, 20)
           : contentGap * (4 / 9);
 
         landing.style.setProperty("--wmol-flow-scale", String(desktopScale));
@@ -392,13 +391,13 @@
           const measureNeededHeight = () => {
             const contentHeight = measureContentHeight();
             const actionsHeight = actions.offsetHeight;
-            const liveGap = 2 * mobileScale;
+            const liveGap = clamp(16 * mobileScale, 14, 20);
             return contentHeight + liveGap + actionsHeight;
           };
 
           for (let pass = 0; pass < maxFitPasses; pass += 1) {
             landing.style.setProperty("--wmol-flow-mobile-scale", String(mobileScale));
-            landing.style.setProperty("--wmol-flow-mobile-gap", `${2 * mobileScale}px`);
+            landing.style.setProperty("--wmol-flow-mobile-gap", `${clamp(16 * mobileScale, 14, 20)}px`);
             void activeView.offsetHeight;
 
             const available = Math.max(120, visualHeight - stageTop - bottomSafety);
@@ -411,7 +410,7 @@
           }
 
           landing.style.setProperty("--wmol-flow-mobile-scale", String(mobileScale));
-          landing.style.setProperty("--wmol-flow-mobile-gap", `${2 * mobileScale}px`);
+          landing.style.setProperty("--wmol-flow-mobile-gap", `${clamp(16 * mobileScale, 14, 20)}px`);
           landing.style.setProperty("--wmol-flow-stage-max-h", `${Math.max(120, visualHeight - stageTop)}px`);
           void activeView.offsetHeight;
 
@@ -419,7 +418,7 @@
              Place the CTA immediately after the ACTUAL rendered copy, then keep
              both inside the visible phone height. This removes the flex-flow drift
              that could move the whole composition sideways or toward the top. */
-          const liveGap = 2 * mobileScale;
+          const liveGap = clamp(16 * mobileScale, 14, 20);
           const finalContentHeight = measureContentHeight();
           const finalActionsHeight = actions.offsetHeight;
           const requestedActionsTop = stageTop + finalContentHeight + liveGap;
