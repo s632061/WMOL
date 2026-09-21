@@ -58,7 +58,7 @@
   </a>
 
   <span class="wml-personal-line">
-    Your way to always know what to learn next.
+    Your way to always know<br class="domains-desktop-break"> what to learn next.
   </span>
 </nav>
     </div>
@@ -141,6 +141,15 @@
 
 <script>
 (() => {
+function isPhoneMobile() {
+  if (document.documentElement.classList.contains('wmol-phone-device')) return true;
+  const sw = Math.min(
+    (window.screen && window.screen.width) || window.innerWidth || 9999,
+    (window.screen && window.screen.height) || window.innerHeight || 9999
+  );
+  return ((navigator.maxTouchPoints || 0) > 0 && sw <= 600) || window.innerWidth <= 650;
+}
+
 function resetHomeState() {
   // If we're returning from medicine/tools, don't clear state first (prevents flashes)
   if (sessionStorage.getItem('closingToHome') === '1' || sessionStorage.getItem('closingToHomeTools') === '1') return;
@@ -225,7 +234,7 @@ function wireToolsNav() {
 
   // ✅ MOBILE (carousel): skip the desktop "leaving-tools" morph
   // This prevents the background/rail animation weirdness on small screens.
-  if (window.matchMedia("(max-width: 650px)").matches) {
+  if (isPhoneMobile()) {
     if (document.startViewTransition) document.startViewTransition(go);
     else go();
     return;
@@ -313,7 +322,7 @@ function playReturnFromToolsIfNeeded() {
 
   if (sessionStorage.getItem('closingToHomeTools') === '1') {
     // ✅ MOBILE: do NOT run the desktop return morph (prevents visible rail movement)
-if (window.matchMedia('(max-width: 650px)').matches) {
+if (isPhoneMobile()) {
   sessionStorage.removeItem('closingToHomeTools');
 
   // Clean state (bfcache safety)
@@ -387,21 +396,26 @@ function fitHomeInnerScale() {
   const vh = window.innerHeight;
 
     // ===== MOBILE: let the carousel layout run (no scaling / no scroll-mode canvas) =====
-  if (window.matchMedia('(max-width: 650px)').matches) {
+  if (isPhoneMobile()) {
     const viewport = document.querySelector('.home-viewport');
     const home = document.querySelector('.wml-home');
     if (!viewport || !home) return;
 
-    // kill scroll-mode + canvas sizing
+    const screenW = (window.screen && window.screen.width) || vw;
+    const screenH = (window.screen && window.screen.height) || vh;
+    const designW = Math.min(screenW, screenH, 430);
+
+    // kill desktop scroll-mode + canvas sizing. Phone landscape stays in the
+    // same one-panel carousel layout instead of becoming the desktop grid.
     viewport.classList.remove('home-scroll');
     home.classList.remove('home-scroll');
     home.style.width = '100%';
     home.style.height = '100%';
 
-    // stop any scaling from affecting mobile
     document.documentElement.style.setProperty('--home-u', '1');
     document.documentElement.style.setProperty('--home-canvas-w', vw + 'px');
     document.documentElement.style.setProperty('--home-canvas-h', vh + 'px');
+    document.documentElement.style.setProperty('--wmol-phone-design-w', designW + 'px');
     return;
   }
 
@@ -474,6 +488,7 @@ function fitHomeInnerScale() {
 
    function initMobileDomainsCarousel() {
   const mq = window.matchMedia('(max-width: 650px)');
+  const isMobileMode = () => isPhoneMobile();
   const scroller = document.querySelector('.home-viewport .wml-home');
   const rails = Array.from(document.querySelectorAll('.home-viewport .wml-home .wml-rail'));
   const ui = document.querySelector('.domains-carousel-ui');
@@ -504,7 +519,7 @@ function fitHomeInnerScale() {
   }
 
   function onScroll() {
-    if (!mq.matches) return;
+    if (!isMobileMode()) return;
     if (ticking) return;
     ticking = true;
 
@@ -534,8 +549,8 @@ function fitHomeInnerScale() {
   }
 
   // init + breakpoint changes
-  if (mq.matches) enable();
-  mq.addEventListener?.('change', (e) => e.matches ? enable() : disable());
+  if (isMobileMode()) enable();
+  mq.addEventListener?.('change', () => isMobileMode() ? enable() : disable());
 }
 
 
@@ -548,12 +563,11 @@ function fitHomeInnerScale() {
   // 2) Then center the artwork in the ACTUAL free space between the subtitle
   //    and CTA. The artwork also shrinks only when a shorter phone requires it.
   function recenterMobileDomainArtwork() {
-    const mq = window.matchMedia('(max-width: 650px)');
     const rails = Array.from(document.querySelectorAll('.home-viewport.domains-page .wml-home .wml-rail'));
     const ui = document.querySelector('.domains-carousel-ui');
 
     rails.forEach((rail) => {
-      if (!mq.matches) {
+      if (!isPhoneMobile()) {
         rail.style.removeProperty('--domains-mobile-art-center-y');
         rail.style.removeProperty('--domains-mobile-art-size');
         rail.style.removeProperty('--domains-mobile-cta-bottom');
@@ -592,7 +606,7 @@ function fitHomeInnerScale() {
 
       const centerY = titleBottom + freeHeight / 2;
       const artSize = Math.max(
-        160,
+        88,
         Math.min(460, rail.clientWidth * 0.86, freeHeight * 0.82)
       );
 

@@ -61,10 +61,10 @@
       </h1>
 
       <div class="wmol-flow-proof-list">
-        <p>Systems that helped earn a perfect ACT score while working two jobs and juggling three extracurriculars.</p>
         <p>Systems that let you still have time for you while reaching school records for MCAT scores.</p>
-        <p>Systems that made it possible to train for a 100-miler while accelerating through medical school and spending less time studying.</p>
         <p>Systems that helped keep progress moving even when other parts of life didn't go the way we expected.</p>
+        <p>Systems that helped earn a perfect ACT score while working two jobs and juggling three extracurriculars.</p>
+        <p>Systems that made it possible to train for a 100-miler while accelerating through medical school and spending less time studying.</p>
       </div>
 
       <p class="wmol-flow-payoff wmol-flow-proof-close">
@@ -80,7 +80,7 @@
       </h1>
 
       <p class="wmol-flow-copy wmol-flow-fit-copy">
-        <span class="wmol-flow-fit-context">We may all start in different places, but we all use the same skills to get where we want:</span>
+        <span class="wmol-flow-fit-context">We may all start in different places, but we all use the same skills to get where we<br class="wmol-fit-want-break">want:</span>
         <span class="wmol-flow-fit-skills">learning, adapting, practicing, recovering, and moving forward.</span>
       </p>
 
@@ -150,16 +150,42 @@
       layoutFrame = requestAnimationFrame(() => {
         const vw = window.innerWidth;
         const vh = window.innerHeight;
-        const mobile = vw <= 700;
+        const screenW = (window.screen && window.screen.width) || vw;
+        const screenH = (window.screen && window.screen.height) || vh;
+        const phoneShortSide = Math.min(screenW, screenH);
+        const phoneLongSide = Math.max(screenW, screenH);
+        const phoneDevice = document.documentElement.classList.contains("wmol-phone-device") ||
+          (((navigator.maxTouchPoints || 0) > 0) && phoneShortSide <= 600);
+        const mobile = vw <= 700 || phoneDevice;
         const visualHeight = mobile && window.visualViewport
           ? Math.min(vh, window.visualViewport.height)
           : vh;
         const visualWidth = mobile
           ? Math.min(vw, document.documentElement.clientWidth || vw)
           : vw;
+
+        /* A real phone keeps ONE portrait-style composition even when the device
+           rotates. We size from the physical short side and keep the portrait
+           long-side height as the layout canvas. In landscape the page may scroll
+           vertically, but it never falls into the desktop/horizontal design. */
+        const mobileDesignWidth = phoneDevice
+          ? Math.min(phoneShortSide, 430)
+          : visualWidth;
+        const phoneLandscape = phoneDevice && vw > vh;
+        const mobileLayoutHeight = phoneLandscape
+          ? Math.max(visualHeight, phoneLongSide)
+          : visualHeight;
+
         let mobileScale = mobile
-          ? clamp(visualWidth / 390, 0.90, 1.06)
+          ? clamp(mobileDesignWidth / 390, 0.90, 1.06)
           : 1;
+
+        landing.classList.toggle("wmol-phone-mode", phoneDevice);
+        if (phoneDevice) {
+          landing.style.setProperty("--wmol-phone-layout-h", `${mobileLayoutHeight}px`);
+        } else {
+          landing.style.removeProperty("--wmol-phone-layout-h");
+        }
 
         /* Desktop is now a true reference-canvas layout. The 1741 × 913
            screenshots are the reference composition: larger/taller screens
@@ -183,7 +209,7 @@
            when a longer slide needs extra room, but the keystone/arch should not
            visibly grow and shrink from slide to slide. */
         const archWidth = mobile
-          ? Math.min(visualWidth * 2.60, 1080)
+          ? Math.min(mobileDesignWidth * 2.60, 1080)
           : 1380 * desktopScale;
 
         /* SVG geometry (viewBox 1200 × 900): visible keystone y = 100..315.
@@ -197,11 +223,11 @@
         const visibleArchHeight = archWidth * (800 / 1200);
         const portraitCenteredKeystoneTop = Math.max(18, (vh - visibleArchHeight) / 2);
         const keystoneTop = mobile
-          ? clamp(visualHeight * 0.024, 14, 22)
+          ? clamp(mobileLayoutHeight * 0.024, 14, 22)
           : (portraitDesktop ? portraitCenteredKeystoneTop : 31 * desktopScale);
 
         const contentGap = mobile
-          ? clamp(visualHeight * 0.008, 5, 8)
+          ? clamp(mobileLayoutHeight * 0.008, 5, 8)
           : 16.5 * desktopScale;
 
         const keystoneBottom = keystoneTop + archWidth * (215 / 1200);
@@ -210,12 +236,16 @@
            There is intentionally no old 1000px desktop cap: on a large screen
            the text grows with the same composition instead of becoming tiny. */
         const safeWidth = mobile
-          ? Math.min(Math.max(0, visualWidth - 32), 470)
+          ? Math.min(Math.max(0, mobileDesignWidth - 32), 470)
           : Math.min(archWidth * 0.67, vw * 0.94);
 
-        /* Pages 1 and 2 get the requested extra breathing room below the
-           keystone. Pages 3 and 4 keep the spacing that already looked right. */
-        const stageGapMultiplier = (!mobile && (step === 0 || step === 1)) ? 2 : 1;
+        /* Keep every slide cleanly below the keystone. On phones the main
+           WMOL identity gets the requested 3x keystone-to-title breathing room.
+           Desktop keeps its approved composition but gives pages 3/4 a little
+           more clearance so no text can touch the keystone on shorter screens. */
+        const stageGapMultiplier = mobile
+          ? (step === 0 ? 3 : 1)
+          : ((step === 0 || step === 1) ? 2.2 : 1.45);
         const stageTop = keystoneBottom + contentGap * stageGapMultiplier;
 
         /* Desktop keeps the approved compact gap. Phones use the same visual breathing-room ratio as the approved desktop flow: enough
@@ -400,7 +430,7 @@
             landing.style.setProperty("--wmol-flow-mobile-gap", `${clamp(16 * mobileScale, 14, 20)}px`);
             void activeView.offsetHeight;
 
-            const available = Math.max(120, visualHeight - stageTop - bottomSafety);
+            const available = Math.max(120, mobileLayoutHeight - stageTop - bottomSafety);
             const needed = measureNeededHeight();
 
             if (needed <= available + 1 || mobileScale <= minMobileScale + 0.001) break;
@@ -411,7 +441,7 @@
 
           landing.style.setProperty("--wmol-flow-mobile-scale", String(mobileScale));
           landing.style.setProperty("--wmol-flow-mobile-gap", `${clamp(16 * mobileScale, 14, 20)}px`);
-          landing.style.setProperty("--wmol-flow-stage-max-h", `${Math.max(120, visualHeight - stageTop)}px`);
+          landing.style.setProperty("--wmol-flow-stage-max-h", `${Math.max(120, mobileLayoutHeight - stageTop)}px`);
           void activeView.offsetHeight;
 
           /* Mobile v7: the copy is positioned from equal left/right screen edges.
@@ -422,7 +452,7 @@
           const finalContentHeight = measureContentHeight();
           const finalActionsHeight = actions.offsetHeight;
           const requestedActionsTop = stageTop + finalContentHeight + liveGap;
-          const maxActionsTop = visualHeight - finalActionsHeight - bottomSafety;
+          const maxActionsTop = mobileLayoutHeight - finalActionsHeight - bottomSafety;
           const actionsTop = Math.min(requestedActionsTop, maxActionsTop);
 
           landing.style.setProperty("--wmol-flow-actions-top", `${Math.max(stageTop, actionsTop)}px`);

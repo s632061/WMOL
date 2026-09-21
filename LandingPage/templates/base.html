@@ -3,9 +3,31 @@
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <script>
+      (function () {
+        function syncPhoneMode() {
+          var screenW = (window.screen && window.screen.width) || window.innerWidth || 9999;
+          var screenH = (window.screen && window.screen.height) || window.innerHeight || 9999;
+          var shortSide = Math.min(screenW, screenH);
+          var longSide = Math.max(screenW, screenH);
+          var isPhone = (navigator.maxTouchPoints || 0) > 0 && shortSide <= 600;
+
+          document.documentElement.classList.toggle("wmol-phone-device", isPhone);
+          if (!isPhone) return;
+
+          document.documentElement.style.setProperty("--wmol-phone-design-w", Math.min(shortSide, 430) + "px");
+          document.documentElement.style.setProperty("--wmol-phone-design-h", longSide + "px");
+          document.documentElement.classList.toggle("wmol-phone-landscape", window.innerWidth > window.innerHeight);
+        }
+
+        syncPhoneMode();
+        window.addEventListener("resize", syncPhoneMode, { passive: true });
+        window.addEventListener("orientationchange", syncPhoneMode, { passive: true });
+      })();
+    </script>
     <title>{% block title %}Wang Method of Learning{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-mobile-v11-20260921">
   </head>
   <body>
     <main>

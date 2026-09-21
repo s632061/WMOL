@@ -16331,3 +16331,641 @@ html.leaving-tools-ui .domains-thesis{
     max-width: 100% !important;
   }
 }
+
+/* =========================================================
+   MOBILE FINAL v10 — 2026-09-21
+   Root causes fixed, not another one-phone offset:
+   1) phone mode survives orientation changes (no desktop/landscape branch),
+   2) landing type/CTA geometry stays tied to the phone short side,
+   3) domains carousel remains a one-panel mobile carousel in landscape,
+   4) PASS reading measures are centered while their copy stays left-aligned.
+   ========================================================= */
+
+/* ---------- WMOL landing: authoritative PHONE layout in BOTH orientations ---------- */
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow{
+  width: 100dvw !important;
+  min-width: 0 !important;
+  height: 100dvh !important;
+  min-height: 100dvh !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-landing-inner{
+  position: relative !important;
+  inset: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: var(--wmol-phone-layout-h, 100dvh) !important;
+  min-height: var(--wmol-phone-layout-h, 100dvh) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+}
+
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-landing-arch{
+  left: 50% !important;
+  width: var(--wmol-flow-arch-w) !important;
+  top: var(--wmol-flow-keystone-top) !important;
+  transform: translate(-50%, -11.111%) scaleX(0.98) !important;
+}
+
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-view,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-view[aria-hidden="false"],
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-hero-view,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-problem-view,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-why-view,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-architecture-view{
+  position: absolute !important;
+  top: var(--wmol-flow-stage-top) !important;
+  bottom: auto !important;
+  left: 50% !important;
+  right: auto !important;
+  width: var(--wmol-flow-safe-w, min(calc(100dvw - 32px), 420px)) !important;
+  max-width: var(--wmol-flow-safe-w, min(calc(100dvw - 32px), 420px)) !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: translateX(-50%) !important;
+  transform-origin: center top !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+}
+
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-view > *,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-copy,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-lead,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-payoff,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-proof-list,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-proof-list p,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-mechanism-intro,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-copy-split span,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-payoff-split span,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-fit-context,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-fit-skills{
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+}
+
+/* Preserve the desktop/laptop treatment for the five mechanism lines: left text,
+   but the group itself is centered under the centered sentence. */
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-mechanism{
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  text-align: left !important;
+  gap: 0 !important;
+}
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-mechanism strong{
+  width: auto !important;
+  margin: 0 !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+}
+
+/* v9 requested proportional phone type increase. These values now actually load
+   because base.html cache-busts the stylesheet URL. */
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-hero .wmol-flow-brand{
+  font-size: calc(43px * var(--wmol-flow-mobile-scale)) !important;
+  line-height: 1.02 !important;
+}
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-hero .wmol-flow-title{
+  font-size: calc(18.4px * var(--wmol-flow-mobile-scale)) !important;
+}
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-hero .wmol-flow-copy{
+  font-size: calc(17.3px * var(--wmol-flow-mobile-scale)) !important;
+}
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-belief .wmol-flow-title-large{
+  font-size: calc(31.5px * var(--wmol-flow-mobile-scale)) !important;
+}
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-belief .wmol-flow-lead,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-belief .wmol-flow-copy,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-belief .wmol-flow-payoff{
+  font-size: calc(16.7px * var(--wmol-flow-mobile-scale)) !important;
+}
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-proof .wmol-flow-title-large{
+  font-size: calc(25.1px * var(--wmol-flow-mobile-scale)) !important;
+}
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-fit .wmol-flow-title-large{
+  font-size: calc(26.7px * var(--wmol-flow-mobile-scale)) !important;
+}
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-proof .wmol-flow-proof-list p,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-proof .wmol-flow-payoff,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-fit .wmol-flow-copy,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-fit .wmol-flow-payoff,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-fit .wmol-flow-mechanism-intro,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-fit .wmol-flow-mechanism strong{
+  font-size: calc(15.2px * var(--wmol-flow-mobile-scale)) !important;
+}
+
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-landing-actions{
+  position: absolute !important;
+  top: var(--wmol-flow-actions-top) !important;
+  bottom: auto !important;
+  left: 50% !important;
+  right: auto !important;
+  width: min(292px, calc(100dvw - 32px)) !important;
+  max-width: 292px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: translateX(-50%) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: calc(9px * var(--wmol-flow-mobile-scale)) !important;
+}
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-landing-cta{
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: calc(46px * var(--wmol-flow-mobile-scale)) !important;
+  min-height: calc(46px * var(--wmol-flow-mobile-scale)) !important;
+  padding-inline: calc(13px * var(--wmol-flow-mobile-scale)) !important;
+  font-size: calc(9.4px * var(--wmol-flow-mobile-scale)) !important;
+  letter-spacing: .15em !important;
+}
+
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow.wmol-flow-tight .wmol-flow-view[aria-hidden="false"]{
+  max-height: var(--wmol-flow-stage-max-h) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: none !important;
+}
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow.wmol-flow-tight .wmol-flow-view[aria-hidden="false"]::-webkit-scrollbar{
+  display: none !important;
+}
+
+/* ---------- Systems carousel: phone remains phone in landscape ---------- */
+html.wmol-phone-device .home-viewport.domains-page{
+  width: 100dvw !important;
+  height: 100dvh !important;
+  overflow: hidden !important;
+}
+html.wmol-phone-device .home-viewport.domains-page .wml-home{
+  display: flex !important;
+  flex-direction: row !important;
+  width: 100% !important;
+  height: calc(100dvh - 44px) !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scroll-snap-type: x mandatory !important;
+  scroll-behavior: smooth !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+html.wmol-phone-device .home-viewport.domains-page .wml-home .wml-rail{
+  flex: 0 0 100dvw !important;
+  width: 100dvw !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  scroll-snap-align: start !important;
+  overflow: hidden !important;
+}
+html.wmol-phone-device .domains-carousel-ui{
+  display: flex !important;
+  bottom: max(12px, env(safe-area-inset-bottom)) !important;
+}
+
+/* Every system panel is immediately present; never replay the desktop fly-up on a phone. */
+html.wmol-phone-device .home-viewport.domains-page .rail-medicine,
+html.wmol-phone-device .home-viewport.domains-page .rail-technology,
+html.wmol-phone-device .home-viewport.domains-page .rail-gadgets,
+html.wmol-phone-device .home-viewport.domains-page .rail-lifestyle{
+  clip-path: none !important;
+  animation: none !important;
+}
+html.wmol-phone-device .home-viewport.domains-page .rail-medicine{
+  background: #020826 !important;
+}
+html.wmol-phone-device .home-viewport.domains-page .rail-medicine::before{
+  content: none !important;
+  display: none !important;
+}
+html.wmol-phone-device .home-viewport.domains-page .rail-technology::before,
+html.wmol-phone-device .home-viewport.domains-page .rail-gadgets::before,
+html.wmol-phone-device .home-viewport.domains-page .rail-lifestyle::before{
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+html.wmol-phone-device .home-viewport.domains-page .wml-home .wml-title,
+html.wmol-phone-device .home-viewport.domains-page .wml-home .wml-title-tech,
+html.wmol-phone-device .home-viewport.domains-page .wml-cta,
+html.wmol-phone-device .home-viewport.domains-page .wml-cta-tech,
+html.wmol-phone-device .home-viewport.domains-page .wml-cta-gadgets,
+html.wmol-phone-device .home-viewport.domains-page .wml-cta-lifestyle,
+html.wmol-phone-device .home-viewport.domains-page .rail-medicine .rail-image-wrap img{
+  animation: none !important;
+  opacity: 1 !important;
+}
+
+/* Restore the requested +22% identity size across all four system columns.
+   Size is based on the phone SHORT side, so rotation cannot make it explode. */
+html.wmol-phone-device .home-viewport.domains-page .wml-home .wml-title,
+html.wmol-phone-device .home-viewport.domains-page .wml-home .wml-title-tech{
+  top: clamp(38px, 5.2dvh, 50px) !important;
+  left: 50% !important;
+  width: min(calc(100% - 36px), 360px) !important;
+  max-width: 360px !important;
+  transform: translateX(-50%) !important;
+  font-size: clamp(31px, calc(var(--wmol-phone-design-w, 390px) * .095), 42.7px) !important;
+  line-height: 1.20 !important;
+  text-align: center !important;
+}
+html.wmol-phone-device .home-viewport.domains-page .wml-home .wml-subtitle{
+  margin-top: .36em !important;
+  font-size: clamp(15.5px, calc(var(--wmol-phone-design-w, 390px) * .043), 20.7px) !important;
+  line-height: 1.24 !important;
+}
+
+html.wmol-phone-device .home-viewport.domains-page .wml-cta,
+html.wmol-phone-device .home-viewport.domains-page .wml-cta-tech,
+html.wmol-phone-device .home-viewport.domains-page .wml-cta-gadgets,
+html.wmol-phone-device .home-viewport.domains-page .wml-cta-lifestyle{
+  bottom: var(--domains-mobile-cta-bottom, 96px) !important;
+  left: 50% !important;
+  width: min(318px, calc(100dvw - 40px)) !important;
+  transform: translateX(-50%) !important;
+  align-items: center !important;
+}
+html.wmol-phone-device .home-viewport.domains-page .wml-link,
+html.wmol-phone-device .home-viewport.domains-page .wml-link-tech,
+html.wmol-phone-device .home-viewport.domains-page .wml-link-gadgets,
+html.wmol-phone-device .home-viewport.domains-page .wml-link-lifestyle{
+  width: min(300px, calc(100dvw - 48px)) !important;
+}
+html.wmol-phone-device .home-viewport.domains-page .wml-personal-line{
+  position: static !important;
+  display: block !important;
+  min-height: 0 !important;
+  width: max-content !important;
+  max-width: calc(100dvw - 24px) !important;
+  margin: 8px auto 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  text-wrap: nowrap !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  font-size: clamp(11px, calc(var(--wmol-phone-design-w, 390px) * .032), 13px) !important;
+  line-height: 1.18 !important;
+}
+html.wmol-phone-device .home-viewport.domains-page .wml-personal-line br{
+  display: none !important;
+}
+html.wmol-phone-device .home-viewport.domains-page .rail-medicine .rail-image-wrap{
+  display: flex !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: var(--domains-mobile-art-center-y, 50%) !important;
+  width: 100% !important;
+  transform: translate(-50%, -50%) !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: 2 !important;
+}
+html.wmol-phone-device .home-viewport.domains-page .rail-medicine .rail-image-wrap img{
+  width: var(--domains-mobile-art-size, min(86vw, 460px)) !important;
+  max-width: 460px !important;
+  max-height: none !important;
+  height: auto !important;
+  object-fit: contain !important;
+  transform: none !important;
+}
+
+/* ---------- PASS: globally center the LEFT-ALIGNED reading measure ---------- */
+.medicine-layout .pass-page .pass-what-details,
+.medicine-layout .pass-page .pass-use-intro,
+.medicine-layout .pass-page .pass-demanding-copy,
+.medicine-layout .pass-page .pass-fit-intro,
+.medicine-layout .pass-page .pass-contact-copy > p:last-child,
+.medicine-layout .pass-page .pass-section-head > p:last-child:not(.pass-section-kicker){
+  width: min(calc(100% - 64px), 62ch) !important;
+  max-width: 62ch !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: left !important;
+}
+.medicine-layout .pass-page .pass-use-summary,
+.medicine-layout .pass-page .pass-demanding-copy > p,
+.medicine-layout .pass-page .pass-fit-intro,
+.medicine-layout .pass-page .pass-contact-copy > p:last-child,
+.medicine-layout .pass-page .pass-section-head > p:last-child:not(.pass-section-kicker){
+  text-align: left !important;
+}
+.medicine-layout .pass-page .pass-proof-head,
+.medicine-layout .pass-page .pass-publications-head{
+  width: min(calc(100% - 64px), 58ch) !important;
+  max-width: 58ch !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+.medicine-layout .pass-page .pass-proof-head h3,
+.medicine-layout .pass-page .pass-publications-head h3{
+  text-align: center !important;
+}
+.medicine-layout .pass-page .pass-proof-lead,
+.medicine-layout .pass-page .pass-publications-intro,
+.medicine-layout .pass-page .pass-publications-points{
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  text-align: left !important;
+}
+
+/* Platform buttons now use just the platform name; make that one label intentional. */
+.medicine-layout .pass-page .pass-platform-button{
+  min-height: 62px !important;
+  gap: 0 !important;
+  font-size: clamp(1rem, 1.3vw, 1.18rem) !important;
+  line-height: 1.1 !important;
+}
+.medicine-layout .pass-page .pass-platform-button span{
+  display: block !important;
+  font-size: 1em !important;
+  font-weight: 800 !important;
+  line-height: 1.1 !important;
+}
+
+/* Phone PASS reading measure: enough inset to look centered as a block, while
+   preserving left alignment inside that block. This intentionally applies in
+   landscape too because the phone class survives rotation. */
+html.wmol-phone-device .medicine-layout .pass-page .pass-what-details,
+html.wmol-phone-device .medicine-layout .pass-page .pass-use-intro,
+html.wmol-phone-device .medicine-layout .pass-page .pass-demanding-copy,
+html.wmol-phone-device .medicine-layout .pass-page .pass-fit-intro,
+html.wmol-phone-device .medicine-layout .pass-page .pass-contact-copy > p:last-child,
+html.wmol-phone-device .medicine-layout .pass-page .pass-section-head > p:last-child:not(.pass-section-kicker),
+html.wmol-phone-device .medicine-layout .pass-page .pass-proof-head,
+html.wmol-phone-device .medicine-layout .pass-page .pass-publications-head{
+  width: min(calc(100dvw - 64px), 560px) !important;
+  max-width: 560px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+html.wmol-phone-device .medicine-layout .pass-page .pass-platform-button{
+  min-height: 58px !important;
+  padding: 10px 6px !important;
+  font-size: clamp(1.04rem, 4.5vw, 1.22rem) !important;
+}
+
+/* =========================================================
+   FINAL POLISH v11 — 2026-09-21
+   Requested follow-up:
+   - mobile landing WMOL identity +12%
+   - main mobile hero gets 3x keystone-to-title gap
+   - key payoff/copy lines stay farther inside the arch on all screens
+   - PASS left-aligned copy sits inside a more centered reading measure
+   - PASS platform buttons are visibly gold and grouped with What Do We Do?
+   - phones keep portrait-style geometry even after rotation
+   - desktop Domains first personal line returns to two lines while phone stays one line
+   ========================================================= */
+
+/* ---------- LANDING: keep selected statements farther from arch edges ---------- */
+.wmol-landing.wmol-flow .wmol-flow-hero .wmol-flow-copy,
+.wmol-landing.wmol-flow .wmol-flow-belief .wmol-flow-payoff,
+.wmol-landing.wmol-flow .wmol-flow-proof .wmol-flow-proof-close,
+.wmol-landing.wmol-flow .wmol-flow-fit .wmol-flow-fit-close{
+  width: 78% !important;
+  max-width: 78% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Keep the requested explicit break before "want:" everywhere. */
+.wmol-landing.wmol-flow .wmol-fit-want-break{
+  display: block !important;
+}
+
+/* Mobile hero only: +12% from v10's 43px reference. */
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-hero .wmol-flow-brand{
+  font-size: calc(48.2px * var(--wmol-flow-mobile-scale)) !important;
+  line-height: 1.02 !important;
+}
+
+/* The narrowed key statements still scale naturally on very small phones. */
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-hero .wmol-flow-copy,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-belief .wmol-flow-payoff,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-proof .wmol-flow-proof-close,
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-fit .wmol-flow-fit-close{
+  width: 78% !important;
+  max-width: 78% !important;
+}
+
+/* ---------- DOMAINS: desktop line parity, phone stays one line ---------- */
+.home-viewport.domains-page .domains-desktop-break{
+  display: inline !important;
+}
+html.wmol-phone-device .home-viewport.domains-page .domains-desktop-break{
+  display: none !important;
+}
+
+/* Keep each phone panel's internal composition at portrait-phone width after rotation. */
+html.wmol-phone-device .home-viewport.domains-page .wml-home .wml-rail .rail-inner{
+  width: min(100%, var(--wmol-phone-design-w, 430px)) !important;
+  max-width: var(--wmol-phone-design-w, 430px) !important;
+  height: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* ---------- PASS: more centered LEFT-aligned reading measure ---------- */
+.medicine-layout .pass-page .pass-hero-outcomes{
+  display: grid !important;
+  width: min(74%, 760px) !important;
+  max-width: 760px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: left !important;
+}
+.medicine-layout .pass-page .pass-hero-outcomes span{
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  text-align: left !important;
+  white-space: normal !important;
+}
+
+/* Pull the left-aligned descriptive blocks farther toward the visual center,
+   while keeping their text itself left aligned. */
+.medicine-layout .pass-page .pass-what-details,
+.medicine-layout .pass-page .pass-use-intro,
+.medicine-layout .pass-page .pass-demanding-copy,
+.medicine-layout .pass-page .pass-fit-intro,
+.medicine-layout .pass-page .pass-contact-copy > p:last-child,
+.medicine-layout .pass-page .pass-section-head > p:last-child:not(.pass-section-kicker){
+  width: min(calc(100% - 96px), 56ch) !important;
+  max-width: 56ch !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: left !important;
+}
+
+.medicine-layout .pass-page .pass-proof-head,
+.medicine-layout .pass-page .pass-publications-head{
+  width: min(calc(100% - 96px), 54ch) !important;
+  max-width: 54ch !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Top four PASS outcomes get a stronger inset than the other reading blocks. */
+html.wmol-phone-device .medicine-layout .pass-page .pass-hero-outcomes{
+  width: min(calc(100dvw - 128px), 30ch) !important;
+  max-width: 30ch !important;
+  margin: 22px auto 0 !important;
+  text-align: left !important;
+  gap: 4px !important;
+}
+html.wmol-phone-device .medicine-layout .pass-page .pass-hero-outcomes span{
+  white-space: normal !important;
+  text-align: left !important;
+}
+
+/* Mobile descriptions: noticeably more inset than v10, but still readable. */
+html.wmol-phone-device .medicine-layout .pass-page .pass-what-details,
+html.wmol-phone-device .medicine-layout .pass-page .pass-use-intro,
+html.wmol-phone-device .medicine-layout .pass-page .pass-demanding-copy,
+html.wmol-phone-device .medicine-layout .pass-page .pass-fit-intro,
+html.wmol-phone-device .medicine-layout .pass-page .pass-contact-copy > p:last-child,
+html.wmol-phone-device .medicine-layout .pass-page .pass-section-head > p:last-child:not(.pass-section-kicker),
+html.wmol-phone-device .medicine-layout .pass-page .pass-proof-head,
+html.wmol-phone-device .medicine-layout .pass-page .pass-publications-head{
+  width: min(calc(100dvw - 136px), 31ch) !important;
+  max-width: 31ch !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* ---------- PASS platform row: authoritative gold treatment on every screen ---------- */
+.medicine-layout .pass-page .pass-platforms{
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: clamp(8px, 1vw, 12px) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 22px auto 0 !important;
+  padding: 0 !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+}
+.medicine-layout .pass-page .pass-platform-button{
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 62px !important;
+  padding: 11px 8px !important;
+  border: 1px solid #C9962F !important;
+  border-radius: 12px !important;
+  background: #D8A83F !important;
+  background-image: none !important;
+  color: #4B3627 !important;
+  -webkit-text-fill-color: #4B3627 !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: clamp(1rem, 1.25vw, 1.18rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.1 !important;
+  text-align: center !important;
+}
+.medicine-layout .pass-page .pass-platform-button:disabled{
+  background: #D8A83F !important;
+  color: #4B3627 !important;
+  -webkit-text-fill-color: #4B3627 !important;
+  opacity: 1 !important;
+}
+
+/* Phones always use the same two-by-two portrait-style button grid, even rotated. */
+html.wmol-phone-device .medicine-layout .pass-page .pass-platforms{
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+html.wmol-phone-device .medicine-layout .pass-page .pass-platform-button{
+  min-height: 58px !important;
+  padding: 10px 8px !important;
+  font-size: clamp(1rem, calc(var(--wmol-phone-design-w, 390px) * .045), 1.18rem) !important;
+}
+
+/* ---------- PHONE ORIENTATION: never switch to a desktop/horizontal layout ---------- */
+html.wmol-phone-device,
+html.wmol-phone-device body{
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+/* PASS remains a portrait-style single-column mobile page in phone landscape. */
+html.wmol-phone-device .medicine-layout{
+  display: block !important;
+  grid-template-columns: 1fr !important;
+  width: 100dvw !important;
+  min-width: 0 !important;
+  min-height: 100dvh !important;
+}
+html.wmol-phone-device .medicine-layout > .rail-medicine{
+  display: none !important;
+}
+html.wmol-phone-device .medicine-layout .med-content{
+  width: 100dvw !important;
+  max-width: 100dvw !important;
+  min-width: 0 !important;
+  height: 100dvh !important;
+  min-height: 100dvh !important;
+  padding-left: var(--content-pad) !important;
+  padding-right: var(--content-pad) !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+html.wmol-phone-device .medicine-layout .content-inner.pass-page{
+  width: min(100%, var(--wmol-phone-design-w, 430px)) !important;
+  max-width: var(--wmol-phone-design-w, 430px) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+html.wmol-phone-device .medicine-layout .pass-transition-grid,
+html.wmol-phone-device .medicine-layout .pass-proof-grid,
+html.wmol-phone-device .medicine-layout .pass-fit-grid{
+  grid-template-columns: 1fr !important;
+}
+
+/* In landscape, retain portrait dimensions rather than allowing viewport width
+   to inflate phone typography or buttons. The page simply gets more side space. */
+html.wmol-phone-device.wmol-phone-landscape #wmol-landing.wmol-landing.wmol-flow .wmol-flow-view,
+html.wmol-phone-device.wmol-phone-landscape #wmol-landing.wmol-landing.wmol-flow .wmol-flow-view[aria-hidden="false"]{
+  width: min(calc(var(--wmol-phone-design-w, 430px) - 32px), 398px) !important;
+  max-width: min(calc(var(--wmol-phone-design-w, 430px) - 32px), 398px) !important;
+}
+html.wmol-phone-device.wmol-phone-landscape #wmol-landing.wmol-landing.wmol-flow .wmol-landing-actions{
+  width: min(292px, calc(var(--wmol-phone-design-w, 430px) - 32px)) !important;
+  max-width: 292px !important;
+}
+
+/* Desktop systems page: restore the actual gold primary-domain button. */
+@media (min-width: 701px){
+  .home-viewport.domains-page .rail-medicine .wml-link{
+    background: var(--gold) !important;
+    background-image: none !important;
+    color: #111 !important;
+    -webkit-text-fill-color: #111 !important;
+    border-color: rgba(0,0,0,0.16) !important;
+    opacity: 1 !important;
+  }
+}
