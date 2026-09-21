@@ -233,6 +233,17 @@
         landing.style.setProperty("--wmol-flow-stage-top", `${stageTop}px`);
         landing.style.setProperty("--wmol-flow-button-gap", `${buttonGap}px`);
 
+        /* MOBILE CENTER ANCHOR — use the actual rendered arch/keystone center as
+           the horizontal source of truth. This keeps the entire phone composition
+           aligned to the visible WMOL arch instead of relying on browser viewport
+           rounding or asymmetric mobile safe-area math. */
+        if (mobile) {
+          void arch.offsetWidth;
+          const archRect = arch.getBoundingClientRect();
+          const archCenterX = archRect.left + (archRect.width / 2);
+          landing.style.setProperty("--wmol-flow-mobile-center-x", `${archCenterX}px`);
+        }
+
         /* FINAL CTA sizing pass — use the visible smaller-desktop button as the
            reference instead of measuring a hidden title. This removes the source
            of the inconsistent button geometry between the two monitor sizes. */
