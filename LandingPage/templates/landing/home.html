@@ -154,8 +154,8 @@
         const visualHeight = mobile && window.visualViewport
           ? Math.min(vh, window.visualViewport.height)
           : vh;
-        const mobileScale = mobile
-          ? clamp(Math.min(vw / 390, visualHeight / 760), 0.84, 1)
+        let mobileScale = mobile
+          ? clamp(Math.min(vw / 390, visualHeight / 760), 0.82, 1)
           : 1;
 
         /* Desktop is now a true reference-canvas layout. The 1741 × 913
@@ -176,8 +176,11 @@
           ? 1
           : (portraitDesktop ? portraitScale : Math.max(0.82, vh / referenceHeight));
 
+        /* Keep the phone arch geometry stable. Mobile text can scale independently
+           when a longer slide needs extra room, but the keystone/arch should not
+           visibly grow and shrink from slide to slide. */
         const archWidth = mobile
-          ? Math.min(vw * 2.60, 1080) * mobileScale
+          ? Math.min(vw * 2.60, 1080)
           : 1380 * desktopScale;
 
         /* SVG geometry (viewBox 1200 × 900): visible keystone y = 100..315.
@@ -195,7 +198,7 @@
           : (portraitDesktop ? portraitCenteredKeystoneTop : 31 * desktopScale);
 
         const contentGap = mobile
-          ? clamp(visualHeight * 0.014, 10, 14) * mobileScale
+          ? clamp(visualHeight * 0.014, 10, 14)
           : 16.5 * desktopScale;
 
         const keystoneBottom = keystoneTop + archWidth * (215 / 1200);
@@ -212,9 +215,12 @@
         const stageGapMultiplier = (!mobile && (step === 0 || step === 1)) ? 2 : 1;
         const stageTop = keystoneBottom + contentGap * stageGapMultiplier;
 
-        /* V4: use only one-third of the previous text-to-button gap on every
-           slide. Previous V3 gap = 4/3 contentGap, so the new gap is 4/9. */
-        const buttonGap = contentGap * (4 / 9);
+        /* Desktop keeps the approved compact gap. Phones use a small but visible
+           content-to-button gap so the controls stay attached to the copy instead
+           of drifting toward the bottom of the viewport. */
+        const buttonGap = mobile
+          ? 14 * mobileScale
+          : contentGap * (4 / 9);
 
         landing.style.setProperty("--wmol-flow-scale", String(desktopScale));
         landing.style.setProperty("--wmol-flow-mobile-scale", String(mobileScale));
@@ -348,34 +354,85 @@
         }
 
         const activeView = views[step];
-        const mobileButtonHeight = 46 * mobileScale;
-        const mobileButtonGap = 10 * mobileScale;
-        const buttonStackHeight = mobile && step < 3
-          ? (mobileButtonHeight * 2) + mobileButtonGap
-          : (mobile ? mobileButtonHeight : resolvedCtaHeight);
-        const bottomSafety = mobile ? Math.max(18, 18 * mobileScale) : 12 * desktopScale;
-        const maxActionsTop = (mobile ? visualHeight : vh) - buttonStackHeight - bottomSafety;
 
-        /* Always measure the slide at its natural height first. This is what
-           prevents a short/popup viewport from leaving the CTA in a stale
-           position after the window becomes large again. */
-        landing.classList.remove("wmol-flow-tight");
-        landing.style.setProperty("--wmol-flow-stage-max-h", `${Math.max(120, (mobile ? visualHeight : vh) - stageTop)}px`);
+        /* MOBILE FIT PASS
+           Keep the copy + CTA cluster together instead of pinning the buttons to
+           the bottom when a slide is long. Start at the normal phone scale, then
+           shrink the whole mobile type/CTA system only as much as that specific
+           slide needs. The arch itself remains unchanged. */
+        if (mobile) {
+          const bottomSafety = 18;
+          const minMobileScale = 0.74;
+          const maxFitPasses = 3;
 
-        const naturalBottom = activeView.getBoundingClientRect().bottom;
-        const requestedActionsTop = naturalBottom + buttonGap;
+          landing.classList.remove("wmol-flow-tight");
 
-        if (requestedActionsTop <= maxActionsTop) {
-          landing.style.setProperty("--wmol-flow-actions-top", `${requestedActionsTop}px`);
+          for (let pass = 0; pass < maxFitPasses; pass += 1) {
+            landing.style.setProperty("--wmol-flow-mobile-scale", String(mobileScale));
+            /* Force layout after changing the shared scale variable. */
+            void activeView.offsetHeight;
+
+            const mobileButtonHeight = 44 * mobileScale;
+            const mobileButtonGap = 9 * mobileScale;
+            const buttonStackHeight = step < 3
+              ? (mobileButtonHeight * 2) + mobileButtonGap
+              : mobileButtonHeight;
+            const mobileContentGap = 14 * mobileScale;
+            const available = Math.max(120, visualHeight - stageTop - bottomSafety);
+            const contentHeight = activeView.getBoundingClientRect().height;
+            const needed = contentHeight + mobileContentGap + buttonStackHeight;
+
+            if (needed <= available + 1 || mobileScale <= minMobileScale + 0.001) break;
+
+            const fitRatio = clamp((available / needed) * 0.985, 0.80, 0.98);
+            mobileScale = Math.max(minMobileScale, mobileScale * fitRatio);
+          }
+
+          landing.style.setProperty("--wmol-flow-mobile-scale", String(mobileScale));
+          void activeView.offsetHeight;
+
+          const mobileButtonHeight = 44 * mobileScale;
+          const mobileButtonGap = 9 * mobileScale;
+          const buttonStackHeight = step < 3
+            ? (mobileButtonHeight * 2) + mobileButtonGap
+            : mobileButtonHeight;
+          const mobileContentGap = 14 * mobileScale;
+          const maxActionsTop = visualHeight - buttonStackHeight - bottomSafety;
+          const naturalBottom = activeView.getBoundingClientRect().bottom;
+          const requestedActionsTop = naturalBottom + mobileContentGap;
+
+          if (requestedActionsTop <= maxActionsTop + 1) {
+            landing.style.setProperty("--wmol-flow-actions-top", `${requestedActionsTop}px`);
+            landing.style.setProperty("--wmol-flow-stage-max-h", `${Math.max(120, visualHeight - stageTop)}px`);
+          } else {
+            /* Very small phones still get a safe escape hatch: the copy scrolls
+               inside the available zone, while the CTA remains visible. */
+            const actionsTop = maxActionsTop;
+            const availableHeight = Math.max(96, actionsTop - mobileContentGap - stageTop);
+            landing.style.setProperty("--wmol-flow-actions-top", `${actionsTop}px`);
+            landing.style.setProperty("--wmol-flow-stage-max-h", `${availableHeight}px`);
+            landing.classList.add("wmol-flow-tight");
+          }
         } else {
-          /* On genuinely short screens, reserve the same two-gap distance
-             above the CTA and let only the copy area scroll. The button can
-             no longer be capped upward into the text. */
-          const actionsTop = maxActionsTop;
-          const availableHeight = Math.max(96, actionsTop - buttonGap - stageTop);
-          landing.style.setProperty("--wmol-flow-actions-top", `${actionsTop}px`);
-          landing.style.setProperty("--wmol-flow-stage-max-h", `${availableHeight}px`);
-          landing.classList.add("wmol-flow-tight");
+          const buttonStackHeight = resolvedCtaHeight;
+          const bottomSafety = 12 * desktopScale;
+          const maxActionsTop = vh - buttonStackHeight - bottomSafety;
+
+          landing.classList.remove("wmol-flow-tight");
+          landing.style.setProperty("--wmol-flow-stage-max-h", `${Math.max(120, vh - stageTop)}px`);
+
+          const naturalBottom = activeView.getBoundingClientRect().bottom;
+          const requestedActionsTop = naturalBottom + buttonGap;
+
+          if (requestedActionsTop <= maxActionsTop) {
+            landing.style.setProperty("--wmol-flow-actions-top", `${requestedActionsTop}px`);
+          } else {
+            const actionsTop = maxActionsTop;
+            const availableHeight = Math.max(96, actionsTop - buttonGap - stageTop);
+            landing.style.setProperty("--wmol-flow-actions-top", `${actionsTop}px`);
+            landing.style.setProperty("--wmol-flow-stage-max-h", `${availableHeight}px`);
+            landing.classList.add("wmol-flow-tight");
+          }
         }
       });
     }

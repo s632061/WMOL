@@ -14405,3 +14405,184 @@ html.leaving-tools-ui .domains-thesis{
     font-size: clamp(.88rem, 4.15vw, 1rem) !important;
   }
 }
+
+/* =========================================================
+   MOBILE POLISH v2 — 2026-09-21
+   Final phone-only geometry pass based on live staging screenshots.
+   - Homepage flow is centered from the actual viewport edges, not translate math.
+   - Mobile type is slightly calmer and the WMOL wordmark gets desktop-like height.
+   - CTA cluster stays directly beneath each slide and scales with long slides.
+   - Explore Systems gives the artwork more breathing room without resizing it.
+   Desktop / laptop / portrait-monitor layouts are intentionally untouched.
+   ========================================================= */
+@media (max-width: 700px){
+  /* ---- Main WMOL conversation flow ---- */
+  .wmol-landing.wmol-flow .wmol-flow-view{
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding-left: max(18px, env(safe-area-inset-left)) !important;
+    padding-right: max(18px, env(safe-area-inset-right)) !important;
+    margin: 0 !important;
+    transform: none !important;
+    overflow-x: visible !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-flow-view > *,
+  .wmol-landing.wmol-flow .wmol-flow-copy,
+  .wmol-landing.wmol-flow .wmol-flow-lead,
+  .wmol-landing.wmol-flow .wmol-flow-payoff,
+  .wmol-landing.wmol-flow .wmol-flow-proof-list,
+  .wmol-landing.wmol-flow .wmol-flow-mechanism-intro{
+    width: 100% !important;
+    max-width: 370px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-flow-proof-list p{
+    width: 100% !important;
+    max-width: 365px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Restore some vertical character height so the phone wordmark matches the
+     desktop personality without making it any wider. */
+  .wmol-landing.wmol-flow .wmol-flow-brand{
+    font-size: calc(34px * var(--wmol-flow-mobile-scale)) !important;
+    line-height: 1.00 !important;
+    margin-bottom: calc(8px * var(--wmol-flow-mobile-scale)) !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-flow-brand span{
+    transform: scaleY(1.065) !important;
+    transform-origin: center center !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-flow-brand span + span{
+    margin-top: calc(4px * var(--wmol-flow-mobile-scale)) !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-flow-title{
+    font-size: calc(15.8px * var(--wmol-flow-mobile-scale)) !important;
+    line-height: 1.20 !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-flow-title-large{
+    font-size: calc(25.4px * var(--wmol-flow-mobile-scale)) !important;
+    line-height: 1.08 !important;
+    margin-bottom: calc(9px * var(--wmol-flow-mobile-scale)) !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-flow-proof .wmol-flow-title-large{
+    font-size: calc(23.8px * var(--wmol-flow-mobile-scale)) !important;
+    line-height: 1.08 !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-flow-hero .wmol-flow-copy{
+    max-width: 355px !important;
+    font-size: calc(15.2px * var(--wmol-flow-mobile-scale)) !important;
+    line-height: 1.34 !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-flow-belief .wmol-flow-copy,
+  .wmol-landing.wmol-flow .wmol-flow-belief .wmol-flow-lead,
+  .wmol-landing.wmol-flow .wmol-flow-belief .wmol-flow-payoff,
+  .wmol-landing.wmol-flow .wmol-flow-proof .wmol-flow-proof-list p,
+  .wmol-landing.wmol-flow .wmol-flow-proof .wmol-flow-payoff,
+  .wmol-landing.wmol-flow .wmol-flow-fit .wmol-flow-copy,
+  .wmol-landing.wmol-flow .wmol-flow-fit .wmol-flow-payoff,
+  .wmol-landing.wmol-flow .wmol-flow-fit .wmol-flow-mechanism-intro,
+  .wmol-landing.wmol-flow .wmol-flow-mechanism strong{
+    font-size: calc(14.4px * var(--wmol-flow-mobile-scale)) !important;
+    line-height: 1.30 !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-flow-proof-list p{
+    margin-bottom: calc(6px * var(--wmol-flow-mobile-scale)) !important;
+    line-height: 1.27 !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-flow-proof-close,
+  .wmol-landing.wmol-flow .wmol-flow-fit-close{
+    margin-top: calc(8px * var(--wmol-flow-mobile-scale)) !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-landing-actions{
+    left: 50% !important;
+    right: auto !important;
+    width: min(286px, calc(100vw - 48px)) !important;
+    gap: calc(9px * var(--wmol-flow-mobile-scale)) !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-landing-cta{
+    width: min(286px, calc(100vw - 48px)) !important;
+    min-width: 0 !important;
+    max-width: min(286px, calc(100vw - 48px)) !important;
+    height: calc(44px * var(--wmol-flow-mobile-scale)) !important;
+    min-height: calc(44px * var(--wmol-flow-mobile-scale)) !important;
+    padding-inline: calc(13px * var(--wmol-flow-mobile-scale)) !important;
+    font-size: calc(9.2px * var(--wmol-flow-mobile-scale)) !important;
+    letter-spacing: .15em !important;
+  }
+
+  /* ---- Explore Systems / Domains phone composition ----
+     Keep the tree/artwork exactly as-is. Move the title slightly upward and the
+     CTA/text stack downward so the image has clean air on both sides. */
+  .home-viewport.domains-page .wml-home .wml-title,
+  .home-viewport.domains-page .wml-home .wml-title-tech{
+    top: clamp(58px, 8dvh, 72px) !important;
+    font-size: clamp(27px, 8.35vw, 36px) !important;
+    line-height: 1.20 !important;
+  }
+
+  .home-viewport.domains-page .wml-home .wml-subtitle{
+    margin-top: .38em !important;
+    font-size: clamp(13.5px, 4.05vw, 17.5px) !important;
+    line-height: 1.24 !important;
+  }
+
+  .home-viewport.domains-page .wml-cta,
+  .home-viewport.domains-page .wml-cta-tech,
+  .home-viewport.domains-page .wml-cta-gadgets,
+  .home-viewport.domains-page .wml-cta-lifestyle{
+    bottom: clamp(74px, 9.2dvh, 84px) !important;
+    width: min(318px, 88vw) !important;
+  }
+
+  .home-viewport.domains-page .wml-link,
+  .home-viewport.domains-page .wml-link-tech,
+  .home-viewport.domains-page .wml-link-gadgets,
+  .home-viewport.domains-page .wml-link-lifestyle{
+    width: min(300px, 82vw) !important;
+    height: 44px !important;
+    padding: 0 20px !important;
+    font-size: clamp(.60rem, 2.52vw, .80rem) !important;
+  }
+
+  .home-viewport.domains-page .wml-personal-line{
+    width: min(310px, 86vw) !important;
+    margin-top: 8px !important;
+    font-size: clamp(13.2px, 3.72vw, 14.8px) !important;
+    line-height: 1.28 !important;
+  }
+}
+
+@media (max-width: 370px){
+  .home-viewport.domains-page .wml-home .wml-title,
+  .home-viewport.domains-page .wml-home .wml-title-tech{
+    top: 56px !important;
+    font-size: 26px !important;
+  }
+
+  .home-viewport.domains-page .wml-cta,
+  .home-viewport.domains-page .wml-cta-tech,
+  .home-viewport.domains-page .wml-cta-gadgets,
+  .home-viewport.domains-page .wml-cta-lifestyle{
+    bottom: 72px !important;
+  }
+}
