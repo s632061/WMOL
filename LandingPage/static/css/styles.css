@@ -15255,3 +15255,178 @@ html.leaving-tools-ui .domains-thesis{
     font-size: 13.8px !important;
   }
 }
+
+
+/* =========================================================
+   MOBILE POLISH v6 — 2026-09-21
+   Final phone-only centering + systems proportion correction.
+   Desktop/laptop/portrait-monitor layouts are intentionally untouched.
+   ========================================================= */
+@media (max-width: 700px){
+  /* LANDING: use the same literal center line as the keystone (left:50%).
+     No measured SVG coordinate, no translated viewport canvas, no horizontal drift. */
+  html,
+  body,
+  .wmol-landing.wmol-flow{
+    overflow-x: hidden !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-landing-inner{
+    position: absolute !important;
+    inset: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    bottom: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 100dvh !important;
+    margin: 0 !important;
+    padding-top: var(--wmol-flow-stage-top) !important;
+    padding-right: 0 !important;
+    padding-bottom: max(12px, env(safe-area-inset-bottom)) !important;
+    padding-left: 0 !important;
+    transform: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    text-align: center !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Keep all phone copy visibly under the inner arch. */
+  .wmol-landing.wmol-flow .wmol-flow-view,
+  .wmol-landing.wmol-flow .wmol-flow-view[aria-hidden="false"]{
+    position: relative !important;
+    inset: auto !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    width: min(86dvw, 400px) !important;
+    max-width: min(86dvw, 400px) !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    transform: none !important;
+    align-self: center !important;
+    text-align: center !important;
+    overflow-x: visible !important;
+    box-sizing: border-box !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-flow-view > *,
+  .wmol-landing.wmol-flow .wmol-flow-copy,
+  .wmol-landing.wmol-flow .wmol-flow-lead,
+  .wmol-landing.wmol-flow .wmol-flow-payoff,
+  .wmol-landing.wmol-flow .wmol-flow-proof-list,
+  .wmol-landing.wmol-flow .wmol-flow-proof-list p,
+  .wmol-landing.wmol-flow .wmol-flow-mechanism-intro,
+  .wmol-landing.wmol-flow .wmol-flow-copy-split span,
+  .wmol-landing.wmol-flow .wmol-flow-payoff-split span,
+  .wmol-landing.wmol-flow .wmol-flow-fit-context,
+  .wmol-landing.wmol-flow .wmol-flow-fit-skills{
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
+
+  /* Preserve the desktop/laptop treatment for the five mechanism lines:
+     left aligned inside one centered group. */
+  .wmol-landing.wmol-flow .wmol-flow-mechanism{
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: max-content !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: left !important;
+  }
+
+  .wmol-landing.wmol-flow .wmol-flow-mechanism strong{
+    width: auto !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    text-align: left !important;
+    white-space: nowrap !important;
+  }
+
+  /* Keep the approved tight copy-to-button relationship. */
+  .wmol-landing.wmol-flow .wmol-landing-actions{
+    position: relative !important;
+    inset: auto !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    align-self: center !important;
+    margin: var(--wmol-flow-mobile-gap, 4px) auto 0 !important;
+  }
+
+  /* EXPLORE SYSTEMS: reduce the current v5 identity block by 12% while
+     preserving its vertical position and leaving the center artwork untouched. */
+  .home-viewport.domains-page .wml-home .wml-title,
+  .home-viewport.domains-page .wml-home .wml-title-tech{
+    top: clamp(40px, 5.2dvh, 50px) !important;
+    font-size: clamp(24.5px, 7.53vw, 32.4px) !important;
+    line-height: 1.20 !important;
+  }
+
+  .home-viewport.domains-page .wml-home .wml-subtitle{
+    margin-top: .36em !important;
+    font-size: clamp(12.2px, 3.65vw, 15.8px) !important;
+    line-height: 1.24 !important;
+  }
+
+  /* Make the personal statement a single line on phones, then lower the whole
+     lower block slightly while keeping it comfortably above the arrows/dots. */
+  .home-viewport.domains-page .wml-personal-line{
+    width: min(350px, 92vw) !important;
+    max-width: min(350px, 92vw) !important;
+    margin-top: 8px !important;
+    font-size: clamp(12.0px, 3.25vw, 13.8px) !important;
+    line-height: 1.18 !important;
+    white-space: nowrap !important;
+    text-wrap: nowrap !important;
+  }
+
+  .home-viewport.domains-page .wml-personal-line br{
+    display: none !important;
+  }
+
+  .home-viewport.domains-page .wml-cta,
+  .home-viewport.domains-page .wml-cta-tech,
+  .home-viewport.domains-page .wml-cta-gadgets,
+  .home-viewport.domains-page .wml-cta-lifestyle{
+    bottom: clamp(88px, 10.5dvh, 100px) !important;
+  }
+}
+
+@media (max-width: 370px){
+  .home-viewport.domains-page .wml-home .wml-title,
+  .home-viewport.domains-page .wml-home .wml-title-tech{
+    top: 38px !important;
+    font-size: 23.6px !important;
+  }
+
+  .home-viewport.domains-page .wml-home .wml-subtitle{
+    font-size: 12.2px !important;
+  }
+
+  .home-viewport.domains-page .wml-personal-line{
+    width: min(318px, 94vw) !important;
+    max-width: min(318px, 94vw) !important;
+    font-size: 11.6px !important;
+  }
+
+  .home-viewport.domains-page .wml-cta,
+  .home-viewport.domains-page .wml-cta-tech,
+  .home-viewport.domains-page .wml-cta-gadgets,
+  .home-viewport.domains-page .wml-cta-lifestyle{
+    bottom: 84px !important;
+  }
+}

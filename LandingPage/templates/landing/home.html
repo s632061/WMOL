@@ -233,15 +233,12 @@
         landing.style.setProperty("--wmol-flow-stage-top", `${stageTop}px`);
         landing.style.setProperty("--wmol-flow-button-gap", `${buttonGap}px`);
 
-        /* MOBILE CENTER ANCHOR — use the actual rendered arch/keystone center as
-           the horizontal source of truth. This keeps the entire phone composition
-           aligned to the visible WMOL arch instead of relying on browser viewport
-           rounding or asymmetric mobile safe-area math. */
+        /* MOBILE CENTERING: the arch and the content both use the same CSS
+           center line (50% of the landing viewport). Do not re-measure the
+           oversized SVG on phones: transformed SVG bounds can produce a
+           misleading horizontal coordinate in mobile Safari. */
         if (mobile) {
-          void arch.offsetWidth;
-          const archRect = arch.getBoundingClientRect();
-          const archCenterX = archRect.left + (archRect.width / 2);
-          landing.style.setProperty("--wmol-flow-mobile-center-x", `${archCenterX}px`);
+          landing.style.setProperty("--wmol-flow-mobile-center-x", "50%");
         }
 
         /* FINAL CTA sizing pass — use the visible smaller-desktop button as the
