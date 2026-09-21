@@ -151,6 +151,12 @@
         const vw = window.innerWidth;
         const vh = window.innerHeight;
         const mobile = vw <= 700;
+        const visualHeight = mobile && window.visualViewport
+          ? Math.min(vh, window.visualViewport.height)
+          : vh;
+        const mobileScale = mobile
+          ? clamp(Math.min(vw / 390, visualHeight / 760), 0.84, 1)
+          : 1;
 
         /* Desktop is now a true reference-canvas layout. The 1741 × 913
            screenshots are the reference composition: larger/taller screens
@@ -171,7 +177,7 @@
           : (portraitDesktop ? portraitScale : Math.max(0.82, vh / referenceHeight));
 
         const archWidth = mobile
-          ? Math.min(vw * 2.60, 1080)
+          ? Math.min(vw * 2.60, 1080) * mobileScale
           : 1380 * desktopScale;
 
         /* SVG geometry (viewBox 1200 × 900): visible keystone y = 100..315.
@@ -185,11 +191,11 @@
         const visibleArchHeight = archWidth * (800 / 1200);
         const portraitCenteredKeystoneTop = Math.max(18, (vh - visibleArchHeight) / 2);
         const keystoneTop = mobile
-          ? clamp(vh * 0.025, 15, 24)
+          ? clamp(visualHeight * 0.024, 14, 22)
           : (portraitDesktop ? portraitCenteredKeystoneTop : 31 * desktopScale);
 
         const contentGap = mobile
-          ? clamp(vh * 0.015, 11, 15)
+          ? clamp(visualHeight * 0.014, 10, 14) * mobileScale
           : 16.5 * desktopScale;
 
         const keystoneBottom = keystoneTop + archWidth * (215 / 1200);
@@ -198,7 +204,7 @@
            There is intentionally no old 1000px desktop cap: on a large screen
            the text grows with the same composition instead of becoming tiny. */
         const safeWidth = mobile
-          ? Math.min(vw * 0.90, 470)
+          ? Math.min(Math.max(0, vw - 36), 470)
           : Math.min(archWidth * 0.67, vw * 0.94);
 
         /* Pages 1 and 2 get the requested extra breathing room below the
@@ -211,6 +217,7 @@
         const buttonGap = contentGap * (4 / 9);
 
         landing.style.setProperty("--wmol-flow-scale", String(desktopScale));
+        landing.style.setProperty("--wmol-flow-mobile-scale", String(mobileScale));
         landing.style.setProperty("--wmol-flow-arch-w", `${archWidth}px`);
         landing.style.setProperty("--wmol-flow-keystone-top", `${keystoneTop}px`);
         landing.style.setProperty("--wmol-flow-safe-w", `${safeWidth}px`);
@@ -341,17 +348,19 @@
         }
 
         const activeView = views[step];
+        const mobileButtonHeight = 46 * mobileScale;
+        const mobileButtonGap = 10 * mobileScale;
         const buttonStackHeight = mobile && step < 3
-          ? 102
-          : (mobile ? 46 : resolvedCtaHeight);
-        const bottomSafety = mobile ? 14 : 12 * desktopScale;
-        const maxActionsTop = vh - buttonStackHeight - bottomSafety;
+          ? (mobileButtonHeight * 2) + mobileButtonGap
+          : (mobile ? mobileButtonHeight : resolvedCtaHeight);
+        const bottomSafety = mobile ? Math.max(18, 18 * mobileScale) : 12 * desktopScale;
+        const maxActionsTop = (mobile ? visualHeight : vh) - buttonStackHeight - bottomSafety;
 
         /* Always measure the slide at its natural height first. This is what
            prevents a short/popup viewport from leaving the CTA in a stale
            position after the window becomes large again. */
         landing.classList.remove("wmol-flow-tight");
-        landing.style.setProperty("--wmol-flow-stage-max-h", `${Math.max(120, vh - stageTop)}px`);
+        landing.style.setProperty("--wmol-flow-stage-max-h", `${Math.max(120, (mobile ? visualHeight : vh) - stageTop)}px`);
 
         const naturalBottom = activeView.getBoundingClientRect().bottom;
         const requestedActionsTop = naturalBottom + buttonGap;
