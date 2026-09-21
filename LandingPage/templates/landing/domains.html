@@ -543,32 +543,61 @@ function fitHomeInnerScale() {
 
   
 
-  // ===== MOBILE DOMAINS: center the artwork in the REAL free space =====
-  // The top title/subtitle and bottom CTA stack have different heights on each
-  // phone. Measure those two edges and put the artwork exactly halfway between
-  // them instead of assuming 50% of the rail is the visual center.
+  // ===== MOBILE DOMAINS: one measured phone composition =====
+  // 1) Keep the CTA stack above the fixed arrows/dots.
+  // 2) Then center the artwork in the ACTUAL free space between the subtitle
+  //    and CTA. The artwork also shrinks only when a shorter phone requires it.
   function recenterMobileDomainArtwork() {
     const mq = window.matchMedia('(max-width: 650px)');
     const rails = Array.from(document.querySelectorAll('.home-viewport.domains-page .wml-home .wml-rail'));
+    const ui = document.querySelector('.domains-carousel-ui');
 
     rails.forEach((rail) => {
       if (!mq.matches) {
         rail.style.removeProperty('--domains-mobile-art-center-y');
+        rail.style.removeProperty('--domains-mobile-art-size');
+        rail.style.removeProperty('--domains-mobile-cta-bottom');
         return;
       }
 
       const title = rail.querySelector('.wml-title, .wml-title-tech');
       const cta = rail.querySelector('.wml-cta, .wml-cta-tech, .wml-cta-gadgets, .wml-cta-lifestyle');
       const art = rail.querySelector('.rail-image-wrap:not(.rail-image-wrap-performance)');
-      if (!title || !cta || !art) return;
+      if (!title || !cta) return;
 
-      // offsetTop/offsetHeight ignore the fly-in transform and describe the final layout.
-      const titleBottom = title.offsetTop + title.offsetHeight;
-      const ctaTop = cta.offsetTop;
-      if (!(ctaTop > titleBottom)) return;
+      const railRect = rail.getBoundingClientRect();
+      const uiRect = ui?.getBoundingClientRect();
 
-      const centerY = (titleBottom + ctaTop) / 2;
+      // Reserve a real visual gap above the carousel controls instead of using
+      // a percentage that changes meaning on different phone heights.
+      if (uiRect && uiRect.height > 0) {
+        const controlsClearance = Math.max(0, railRect.bottom - uiRect.top) + 18;
+        rail.style.setProperty('--domains-mobile-cta-bottom', `${Math.ceil(controlsClearance)}px`);
+      } else {
+        rail.style.setProperty('--domains-mobile-cta-bottom', '92px');
+      }
+
+      // Apply the new CTA bottom before measuring the space above it.
+      void cta.offsetHeight;
+
+      if (!art) return;
+      const freshRailRect = rail.getBoundingClientRect();
+      const titleRect = title.getBoundingClientRect();
+      const ctaRect = cta.getBoundingClientRect();
+      const titleBottom = titleRect.bottom - freshRailRect.top;
+      const ctaTop = ctaRect.top - freshRailRect.top;
+      const freeHeight = Math.max(0, ctaTop - titleBottom);
+
+      if (freeHeight <= 0) return;
+
+      const centerY = titleBottom + freeHeight / 2;
+      const artSize = Math.max(
+        160,
+        Math.min(460, rail.clientWidth * 0.86, freeHeight * 0.82)
+      );
+
       rail.style.setProperty('--domains-mobile-art-center-y', `${centerY}px`);
+      rail.style.setProperty('--domains-mobile-art-size', `${artSize}px`);
     });
   }
 
