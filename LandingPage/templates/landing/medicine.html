@@ -1078,6 +1078,7 @@ document.addEventListener("keydown", (e) => {
   }
 
   function fitTestimonialCard(){
+    if (window.wmolZoomIsActive && window.wmolZoomIsActive()) return;
     if (!card) return;
 
     const number = idx + 1;
@@ -1353,6 +1354,7 @@ document.addEventListener("DOMContentLoaded", () => {
     problemCarousel?.addEventListener(
       "touchend",
       (event) => {
+        if (window.wmolZoomIsActive && window.wmolZoomIsActive()) return;
         const touch = event.changedTouches[0];
         const dx = touch.clientX - problemStartX;
         const dy = touch.clientY - problemStartY;
@@ -1412,6 +1414,7 @@ document.addEventListener("DOMContentLoaded", () => {
     carousel?.addEventListener(
       "touchend",
       (event) => {
+        if (window.wmolZoomIsActive && window.wmolZoomIsActive()) return;
         const touch = event.changedTouches[0];
         const dx = touch.clientX - startX;
         const dy = touch.clientY - startY;

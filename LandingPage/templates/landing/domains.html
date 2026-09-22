@@ -392,6 +392,7 @@ let baseU  = 1;
 let isScrollMode = false;
 
 function fitHomeInnerScale() {
+  if (window.wmolZoomIsActive && window.wmolZoomIsActive()) return;
 
   const vw = window.innerWidth;
   const vh = window.innerHeight;
@@ -564,6 +565,7 @@ function fitHomeInnerScale() {
   // 2) Then center the artwork in the ACTUAL free space between the subtitle
   //    and CTA. The artwork also shrinks only when a shorter phone requires it.
   function recenterMobileDomainArtwork() {
+    if (window.wmolZoomIsActive && window.wmolZoomIsActive()) return;
 
     const rails = Array.from(document.querySelectorAll('.home-viewport.domains-page .wml-home .wml-rail'));
     const ui = document.querySelector('.domains-carousel-ui');

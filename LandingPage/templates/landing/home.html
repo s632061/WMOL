@@ -80,7 +80,7 @@
       </h1>
 
       <p class="wmol-flow-copy wmol-flow-fit-copy">
-        <span class="wmol-flow-fit-context">We may all start in different places, but we all use the same skills to get where we<br class="wmol-fit-want-break">want:</span>
+        <span class="wmol-flow-fit-context">We may all start in different places, but we all use the same skills to get where we<br class="wmol-fit-want-break"> want:</span>
         <span class="wmol-flow-fit-skills">learning, adapting, practicing, recovering, and moving forward.</span>
       </p>
 
@@ -141,18 +141,22 @@
     let layoutFrame = null;
     let resizeSettleTimer = null;
     let entryTimer = null;
+    let stableViewport = null;
 
     const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
-    function syncLayout() {
+    function syncLayout(force = false) {
       if (layoutFrame) cancelAnimationFrame(layoutFrame);
       layoutFrame = requestAnimationFrame(() => {
         layoutFrame = null;
+        const magnified = window.wmolZoomIsActive && window.wmolZoomIsActive();
+        if (magnified && (!force || !stableViewport)) return;
         const root = document.documentElement;
-        const vw = root.clientWidth || window.innerWidth;
-        const viewportHeight = window.visualViewport && window.visualViewport.scale === 1
+        const vw = magnified ? stableViewport.width : root.clientWidth || window.innerWidth;
+        const viewportHeight = magnified ? stableViewport.height : window.visualViewport && window.visualViewport.scale === 1
           ? Math.min(window.innerHeight, window.visualViewport.height)
           : window.innerHeight;
+        if (!magnified) stableViewport = {width: vw, height: viewportHeight};
         const phone = root.classList.contains("wmol-phone-device");
         const mobile = phone || vw <= 700;
         const sideways = phone && root.classList.contains("wmol-phone-landscape");
@@ -168,7 +172,7 @@
         const keyTop = mobile ? clamp(vh * 0.024, 14, 22) : portraitDesktop
           ? Math.max(18, (vh - visibleArchHeight) / 2) : 31 * desktopScale;
         const keyBottom = keyTop + archWidth * (215 / 1200);
-        const topGap = mobile ? clamp(vh * 0.008, 5, 8) * (step === 0 ? 3 : 1)
+        const topGap = mobile ? clamp(vh * 0.008, 5, 8) * (step === 0 ? 6 : 2)
           : 16.5 * desktopScale * ((step === 0 || step === 1) ? 2.2 : 1.45);
         const stageTop = keyBottom + topGap;
         const safeWidth = mobile ? Math.max(0, designWidth - 32) : Math.min(archWidth * 0.67, vw - 40);
@@ -206,21 +210,47 @@
             const range = document.createRange(); range.selectNodeContents(span);
             glyphWidth = Math.max(glyphWidth, range.getBoundingClientRect().width);
           });
-          if (glyphWidth > safeWidth - 4) put(brand, {"font-size":`${font * (safeWidth - 4) / glyphWidth}px`});
+          const brandAvailable = mobile ? Math.max(0, designWidth - 18) : safeWidth - 4;
+          if (glyphWidth > brandAvailable) put(brand, {"font-size":`${font * brandAvailable / glyphWidth}px`});
         }
         // Measure normal layout, not temporary entrance transforms. Scale text AND buttons
         // together only when the complete composition does not fit beneath the keystone.
+        if (mobile) {
+          // Prefer two heading lines, but allow a third before making type unreadable.
+          const heading = active.querySelector('.wmol-flow-title-large');
+          if (heading) {
+            heading.style.removeProperty('font-size');
+            const desired = parseFloat(getComputedStyle(heading).fontSize);
+            const minimum = Math.max(20 * mobileScale, desired * .86);
+            const lines = () => heading.offsetHeight / parseFloat(getComputedStyle(heading).lineHeight);
+            if (lines() > 2.1) {
+              let low = minimum, high = desired;
+              put(heading, {'font-size': `${low}px`});
+              if (lines() <= 2.1) {
+                for (let i=0; i<10; i++) {
+                  const mid = (low + high) / 2;
+                  put(heading, {'font-size': `${mid}px`});
+                  if (lines() <= 2.1) low = mid; else high = mid;
+                }
+                put(heading, {'font-size': `${low}px`});
+              }
+            }
+          }
+        }
         const naturalHeight = inner.offsetHeight;
         const available = Math.max(1, vh - stageTop - 14);
         const fit = Math.min(1, (available - 1) / Math.max(1, naturalHeight));
         // Extremely small windows retain readable content and scroll the entire composition,
         // rather than concealing lines inside an independently scrollable text box.
-        const appliedFit = Math.max(0.64, fit);
+        // Phones keep readable, consistent type and scroll as one page if needed.
+        // Do not undo the requested enlargement by squeezing everything back to one screen.
+        const appliedFit = mobile ? 1 : Math.max(0.64, fit);
         put(inner, {"transform":`translateX(-50%) scale(${appliedFit})`});
         landing.dataset.fit = appliedFit.toFixed(4);
         landing.dataset.layoutReady = "true";
         landing.style.setProperty("--wmol-flow-actions-top", `${stageTop + (active.offsetHeight + buttonGap) * appliedFit}px`);
-        landing.scrollLeft = 0;
+        if (!mobile) landing.scrollLeft = 0;
+        if (mobile) landing.style.setProperty('--wmol-home-content-h', `${Math.ceil(stageTop + naturalHeight + 28)}px`);
       });
     }
 
@@ -231,7 +261,7 @@
     }
 
     function playEntryMotion() {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (document.documentElement.classList.contains("wmol-phone-device") || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
       landing.classList.remove("wmol-flow-entering");
       void landing.offsetWidth;
@@ -266,10 +296,10 @@
       }
 
       if (landing) { landing.scrollLeft = 0; landing.scrollTop = 0; }
-      syncLayout();
+      syncLayout(true);
       requestAnimationFrame(() => {
         if (landing) landing.scrollLeft = 0;
-        syncLayout();
+        syncLayout(true);
         requestAnimationFrame(playEntryMotion);
       });
     }

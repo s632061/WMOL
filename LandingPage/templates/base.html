@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-wmol-release="v15">
+<html lang="en" data-wmol-release="mobile-zoom-spacing-16">
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
@@ -13,6 +13,49 @@
         var frame = 0;
         var lastSize = "";
         var stored;
+        var gestureActive = false;
+        var resumeTimer = 0;
+        // Pinch zoom changes the visual viewport, not the layout we should fit to.
+        // Leave native zoom/pan untouched and pause our responsive measurements.
+        function zoomIsActive() {
+          var viewport = window.visualViewport;
+          return gestureActive || !!(viewport && Math.abs(viewport.scale - 1) > 0.02);
+        }
+        window.wmolZoomIsActive = zoomIsActive;
+        function resumeLayout() {
+          clearTimeout(resumeTimer);
+          resumeTimer = setTimeout(function () {
+            if (zoomIsActive()) return;
+            syncPhoneMode();
+            window.dispatchEvent(new Event("wmol:viewport"));
+          }, 100);
+        }
+        document.addEventListener("touchstart", function (event) {
+          if (event.touches.length > 1) gestureActive = true;
+        }, {passive: true});
+        function finishTouches(event) {
+          if (event.touches.length < 2 && gestureActive) {
+            gestureActive = false;
+            resumeLayout();
+          }
+        }
+        document.addEventListener("touchend", finishTouches, {passive: true});
+        document.addEventListener("touchcancel", finishTouches, {passive: true});
+        document.addEventListener("gesturestart", function () {gestureActive = true;}, {passive: true});
+        document.addEventListener("gestureend", function () {gestureActive = false; resumeLayout();}, {passive: true});
+        function syncSurface() {
+          var surface = document.getElementById("wmol-landing") ? "home"
+            : document.getElementById("wmol-medicine") ? "medicine"
+            : document.getElementById("wmol-tools") ? "tools"
+            : document.querySelector(".domains-page") ? "domains" : "other";
+          root.dataset.wmolSurface = surface;
+          if (!phone) return;
+          var color = surface === "home" ? "#342515" : surface === "medicine" ? "#f8f4e9"
+            : surface === "tools" ? "#6b4b36" : "#020826";
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (!meta) {meta = document.createElement("meta"); meta.name = "theme-color"; document.head.appendChild(meta);}
+          meta.content = color;
+        }
         try { stored = JSON.parse(sessionStorage.getItem("wmol-portrait-size") || "null"); } catch (_) {}
 
         function syncPhoneMode() {
@@ -21,7 +64,7 @@
           var shortSide = Math.min(sw, sh);
           phone = phone || ((navigator.maxTouchPoints || 0) > 0 && shortSide <= 600);
           root.classList.toggle("wmol-phone-device", phone);
-          if (!phone) return;
+          if (!phone || zoomIsActive()) return;
           var orientationType = window.screen.orientation && window.screen.orientation.type;
           var sideways = typeof window.orientation === "number" ? Math.abs(window.orientation) === 90
             : orientationType ? orientationType.indexOf("landscape") === 0
@@ -60,7 +103,7 @@
           wasLandscape = sideways;
         }
         syncPhoneMode();
-        document.addEventListener("DOMContentLoaded", syncPhoneMode);
+        document.addEventListener("DOMContentLoaded", function () {syncPhoneMode(); syncSurface();});
         window.addEventListener("resize", syncPhoneMode, {passive: true});
         window.addEventListener("orientationchange", syncPhoneMode, {passive: true});
         window.addEventListener("pageshow", syncPhoneMode, {passive: true});
@@ -71,7 +114,7 @@
       })();
     </script>
     <title>{% block title %}Wang Method of Learning{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-consolidated-rotation-15">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-mobile-zoom-spacing-16">
   </head>
   <body>
     <main>
@@ -105,13 +148,67 @@
     el.style.setProperty('white-space', fit >= minimum ? 'nowrap' : 'normal', 'important');
   }
   function syncPass() {
+    if (window.wmolZoomIsActive && window.wmolZoomIsActive()) return;
     const page = document.querySelector('#wmol-medicine .pass-page');
     if (!page) return;
+    const phone = document.documentElement.classList.contains('wmol-phone-device');
+    if (phone) {
+      // Group related short lines only on phones; desktop DOM/layout stays unchanged.
+      const wrap = (parent, selector) => {
+        if (!parent || parent.querySelector(':scope > .pass-mobile-copy-group')) return;
+        const children = Array.from(parent.children).filter(el => el.matches(selector));
+        if (!children.length) return;
+        const group = document.createElement('div');
+        group.className = 'pass-mobile-copy-group';
+        group.dataset.mobileGroupFit = '';
+        children[0].before(group);
+        children.forEach(el => group.appendChild(el));
+      };
+      wrap(page.querySelector('.pass-proof-testimonials .pass-proof-head'), '.pass-proof-lead');
+      wrap(page.querySelector('.pass-publications-head'), '.pass-publications-intro, .pass-publications-points');
+    }
+    page.querySelectorAll('[data-mobile-group-fit]').forEach(group => {
+      group.style.removeProperty('width');
+      if (!phone) return;
+      const children = Array.from(group.querySelectorAll('p, li'));
+      const available = group.parentElement.clientWidth;
+      if (!children.length || !available) return;
+      let needed = Math.max(...children.map(el => fullTextWidth(el, parseFloat(getComputedStyle(el).fontSize))));
+      // Include list markers/padding without changing their indent.
+      const list = group.querySelector('ul');
+      if (list) needed += parseFloat(getComputedStyle(list).paddingLeft) || 0;
+      group.style.setProperty('width', `${Math.min(available, Math.ceil(needed + 4))}px`, 'important');
+    });
     fitSingleLine(page.querySelector('#pass-publications-title'), 13);
     fitSingleLine(page.querySelector('.pass-contact-copy h2'), 12);
+    if (phone) {
+      // Trim only unused end-of-line space, not the reading measure itself.
+      // The block remains left aligned; equal auto margins center the whole group.
+      const targets = page.querySelectorAll('.pass-what-points, .pass-use-summary, .pass-system-description, .pass-section-head > p:not(.pass-section-kicker), .pass-fit-intro, .pass-mobile-copy-group');
+      Array.from(new Set(targets)).forEach(group => {
+        const maxWidth = group.parentElement.clientWidth;
+        if (!maxWidth) return;
+        group.style.setProperty('width', '100%', 'important');
+        const oldHeight = group.offsetHeight;
+        const box = group.getBoundingClientRect();
+        const walker = document.createTreeWalker(group, NodeFilter.SHOW_TEXT);
+        let node, right = box.left;
+        while ((node = walker.nextNode())) {
+          if (!node.textContent.trim()) continue;
+          const range = document.createRange(); range.selectNodeContents(node);
+          Array.from(range.getClientRects()).forEach(rect => {if (rect.width > 0) right = Math.max(right, rect.right);});
+        }
+        const minimum = group.hasAttribute('data-mobile-group-fit') ? 0 : maxWidth * .92;
+        const fitted = Math.min(maxWidth, Math.max(minimum, Math.ceil(right - box.left + 3)));
+        if (fitted > 0) group.style.setProperty('width', `${fitted}px`, 'important');
+        // Never add an extra line merely to center the body visually.
+        if (group.offsetHeight > oldHeight + 2) group.style.setProperty('width', '100%', 'important');
+      });
+    }
     const benefits = page.querySelector('.pass-hero-outcomes');
     if (benefits) {
       benefits.style.removeProperty('font-size');
+      benefits.style.removeProperty('width');
       const items = Array.from(benefits.querySelectorAll('.pass-outcome-item'));
       items.forEach(item => item.style.removeProperty('white-space'));
       if (document.documentElement.classList.contains('wmol-phone-device') || innerWidth <= 700) {
@@ -120,6 +217,11 @@
         const needed = Math.max(...items.slice(0, 3).map(item => fullTextWidth(item, base)));
         benefits.style.setProperty('font-size', `${Math.min(base, base * available / Math.max(1, needed))}px`, 'important');
         items.slice(0, 3).forEach(item => item.style.setProperty('white-space', 'nowrap', 'important'));
+        const fitted = parseFloat(getComputedStyle(benefits).fontSize);
+        // Use a single centered block, not four separately centered sentences.
+        // Last sentence wraps naturally within the longest of the first three.
+        const groupWidth = Math.min(available + 4, Math.ceil(Math.max(...items.slice(0,3).map(item => fullTextWidth(item, fitted))) + 4));
+        benefits.style.setProperty('width', `${groupWidth}px`, 'important');
       }
     }
     const grid = page.querySelector('.pass-proof-grid');
