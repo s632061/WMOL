@@ -19118,15 +19118,18 @@ html.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-fit-close
 /* September mobile finishing: preserve the complete desktop rules above.
    Styles target the persisted phone class in either orientation, not a
    max-width rule that disappears when a phone turns sideways. */
-html.wmol-phone-device[data-wmol-surface="home"],
-html.wmol-phone-device[data-wmol-surface="home"] body {
-  background: #342515 url("/static/img/wmol-bronze-texture.png") center center / cover no-repeat fixed !important;
+/* One original bronze image on the document canvas. The previous second
+   copy was independently cropped inside the visible landing area. */
+html.wmol-phone-device[data-wmol-surface="home"] {
+  background: #0c0906 url("/static/img/wmol-bronze-texture.png") center center / cover no-repeat fixed !important;
 }
-html.wmol-phone-device[data-wmol-surface="home"] body { background: transparent !important; }
+html.wmol-phone-device[data-wmol-surface="home"] body,
+html.wmol-phone-device[data-wmol-surface="home"] body > main,
+html.wmol-phone-device[data-wmol-surface="home"] #wmol-landing.wmol-landing.wmol-flow {
+  background: transparent !important;
+}
 html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-landing-bg {
-  position: fixed !important; inset: 0 !important; width: 100% !important;
-  height: 100% !important; min-height: 100% !important;
-  background: #342515 url("/static/img/wmol-bronze-texture.png") center center / cover no-repeat !important;
+  display: none !important;
 }
 html.wmol-phone-device[data-wmol-surface="domains"],
 html.wmol-phone-device[data-wmol-surface="domains"] body { background: var(--wmol-active-panel-color, #020826) !important; }
@@ -19214,4 +19217,25 @@ html.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-fit-close
   width: 100% !important; max-width: 100% !important; padding: 0 !important;
   margin-inline: 0 !important; text-align: center !important;
   text-wrap: wrap !important; font-size: 1.18rem !important; line-height: 1.3 !important;
+}
+
+
+/* Mobile landing finishing, release 20. No arch/keystone selectors; no rules
+   for desktop, Systems, Tools or Medicine are changed by this block. */
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow {
+  scroll-padding-bottom: max(20px, calc(env(safe-area-inset-bottom, 0px) + 12px)) !important;
+}
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow .wmol-flow-hero .wmol-flow-brand {
+  width: 100% !important; max-width: 100% !important;
+  left: 0 !important; right: auto !important;
+  margin-inline: 0 !important; text-align: center !important;
+}
+/* Invisible whole-page tail: lets the last button scroll clear of the home
+   indicator on a short screen. It is not another independently scrolling box. */
+html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow::after {
+  content: "" !important; position: absolute !important;
+  top: 0 !important; left: 0 !important; right: auto !important; bottom: auto !important;
+  width: 1px !important; height: var(--wmol-home-content-h, 100%) !important;
+  background: none !important; border: 0 !important; box-shadow: none !important;
+  pointer-events: none !important; z-index: -1 !important;
 }

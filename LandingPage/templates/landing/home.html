@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Wang Method of Learning{% endblock %}
 {% block content %}
+<script>
+  // Use the original full-page texture from the first mobile content frame.
+  if (document.documentElement.classList.contains('wmol-phone-device')) {
+    document.documentElement.dataset.wmolSurface = 'home';
+  }
+</script>
 
 <section class="wmol-landing wmol-flow" id="wmol-landing" data-step="0">
   <div class="wmol-landing-bg" aria-hidden="true"></div>
@@ -206,6 +212,12 @@
         const ctaWidth = Math.min(260 * desktopScale, (safeWidth - 24 * desktopScale) / 2);
         const ctaHeight = stacked ? 46 * mobileScale : Math.max(36, 53 * desktopScale);
         actions.querySelectorAll(".wmol-landing-cta").forEach(cta => put(cta, {"display":cta.hidden ? "none" : "flex", "flex":"0 0 auto", "align-items":"center", "justify-content":"center", "box-sizing":"border-box", "width":stacked ? "100%" : `${ctaWidth}px`, "min-width":"0", "max-width":"100%", "height":`${ctaHeight}px`, "min-height":`${ctaHeight}px`, "padding":`0 ${mobile ? 12 : 16}px`, "font-size":`${stacked ? 9.8 * mobileScale : Math.max(10.8, 13.5 * desktopScale)}px` }));
+        if (phone) {
+          // Reset the prior measurement: repeated resize events must not compound scaling.
+          views[2].querySelectorAll('.wmol-flow-title-large, .wmol-flow-proof-list p, .wmol-flow-proof-close').forEach(el => {
+            ['font-size','line-height','margin-top','margin-bottom'].forEach(prop => el.style.removeProperty(prop));
+          });
+        }
         // Fit both brand lines uniformly; do not clip the final letters of the first line.
         const brand = views[0].querySelector(".wmol-flow-brand");
         brand.style.removeProperty("font-size");
@@ -219,6 +231,11 @@
           });
           const brandAvailable = mobile ? Math.max(0, designWidth - 18) : safeWidth - 4;
           if (glyphWidth > brandAvailable) put(brand, {"font-size":`${font * brandAvailable / glyphWidth}px`});
+          if (phone) {
+            // Reduce AFTER the existing width fit, so fitting cannot cancel the 5% change.
+            const fittedFont = parseFloat(getComputedStyle(brand).fontSize);
+            put(brand, {"font-size":`${fittedFont * 0.95}px`});
+          }
         }
         // Measure normal layout, not temporary entrance transforms. Scale text AND buttons
         // together only when the complete composition does not fit beneath the keystone.
@@ -243,6 +260,50 @@
               }
             }
           }
+        }
+        if (phone && step === 2) {
+          // Scale only the proof text, keeping its hierarchy. The arch and button
+          // touch targets stay outside this sizing calculation.
+          const textNodes = [
+            active.querySelector('.wmol-flow-title-large'),
+            ...active.querySelectorAll('.wmol-flow-proof-list p'),
+            active.querySelector('.wmol-flow-proof-close')
+          ].filter(Boolean);
+          const metrics = textNodes.map(el => {
+            const css = getComputedStyle(el);
+            return {el, font:parseFloat(css.fontSize), line:parseFloat(css.lineHeight),
+              top:parseFloat(css.marginTop)||0, bottom:parseFloat(css.marginBottom)||0};
+          });
+          const reserve = parseFloat(getComputedStyle(landing).scrollPaddingBottom) || 20;
+          const textBudget = Math.max(1, vh - stageTop - reserve);
+          // Default: 6% smaller. Reduce further only when necessary. On very short
+          // screens, retain readable type and scroll instead of hiding a button.
+          const minimumFont = Math.min(...metrics.map(item => item.font));
+          const lowerLimit = Math.min(0.94, Math.max(0.78, 12.5 / minimumFont));
+          const applyTextScale = scale => metrics.forEach(item => put(item.el, {
+            'font-size':`${item.font * scale}px`,
+            'line-height':`${item.line * scale}px`,
+            'margin-top':`${item.top * scale}px`,
+            'margin-bottom':`${item.bottom * scale}px`
+          }));
+          let scale = 0.94;
+          applyTextScale(scale);
+          if (inner.offsetHeight > textBudget) {
+            applyTextScale(lowerLimit);
+            scale = lowerLimit;
+            if (inner.offsetHeight <= textBudget) {
+              let low = lowerLimit, high = 0.94;
+              for (let i = 0; i < 10; i++) {
+                const mid = (low + high) / 2;
+                applyTextScale(mid);
+                if (inner.offsetHeight <= textBudget - 1) low = mid;
+                else high = mid;
+              }
+              scale = low;
+            }
+            applyTextScale(scale);
+          }
+          landing.dataset.proofTextFit = scale.toFixed(4);
         }
         const naturalHeight = inner.offsetHeight;
         const available = Math.max(1, vh - stageTop - 14);
@@ -270,7 +331,10 @@
         landing.dataset.layoutReady = "true";
         landing.style.setProperty("--wmol-flow-actions-top", `${stageTop + (active.offsetHeight + buttonGap) * appliedFit}px`);
         if (!mobile) landing.scrollLeft = 0;
-        if (mobile) landing.style.setProperty('--wmol-home-content-h', `${Math.ceil(stageTop + naturalHeight + 28)}px`);
+        if (mobile) {
+          const reserve = phone ? (parseFloat(getComputedStyle(landing).scrollPaddingBottom) || 20) : 28;
+          landing.style.setProperty('--wmol-home-content-h', `${Math.ceil(stageTop + naturalHeight + reserve + 2)}px`);
+        }
       });
     }
 

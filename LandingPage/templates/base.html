@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-wmol-release="combined-staging-19">
+<html lang="en" data-wmol-release="mobile-landing-20">
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
@@ -52,6 +52,12 @@
             : document.querySelector(".aws5-page") ? "aws" : "other";
           root.dataset.wmolSurface = surface;
           if (!phone) return;
+          if (surface === "home") {
+            // One flat theme-color cannot match both ends of the bronze texture.
+            // Let browser chrome derive its treatment from the actual page.
+            document.querySelectorAll('meta[name="theme-color"]').forEach(function (meta) {meta.remove();});
+            return;
+          }
           var color = surface === "home" || surface === "domains" ? "#342515"
             : surface === "medicine" ? "#f8f4e9" : surface === "tools" ? "#5a3b26"
             : surface === "hsk" ? "#080909" : surface === "aws" ? "#06192f" : "#020826";
@@ -123,7 +129,7 @@
       })();
     </script>
     <title>{% block title %}Wang Method of Learning{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-combined-staging-19">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-mobile-landing-20">
   </head>
   <body>
     <main>
