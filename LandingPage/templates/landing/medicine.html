@@ -3,7 +3,7 @@
 {% block title %}WMOL PASS | Pre-Matriculation Academic Student Success{% endblock %}
 
 {% block content %}
-<section class="medicine-layout">
+<section class="medicine-layout" id="wmol-medicine">
 
   <aside class="wml-rail rail-medicine rail-static">
     <div class="rail-inner">
@@ -28,12 +28,16 @@
 <header class="pass-hero" aria-labelledby="pass-title">
   <h1 class="pass-title pass-title--long" id="pass-title">Pre-Matriculation Academic Student Success (PASS)</h1>
 
-  <p class="pass-hero-outcomes" aria-label="PASS institutional benefits">
-    <span>Increased incoming student retention.</span>
-    <span>More predictable student success.</span>
-    <span>Earlier support for struggling students.</span>
-    <span>Help prevent remediation problems before they become serious.</span>
-  </p>
+  <div class="pass-hero-outcomes" aria-label="PASS institutional benefits">
+    <span class="pass-outcome-row">
+      <span class="pass-outcome-item">Increased incoming student retention.</span>
+      <span class="pass-outcome-item">More predictable student success.</span>
+    </span>
+    <span class="pass-outcome-row">
+      <span class="pass-outcome-item">Earlier support for struggling students.</span>
+      <span class="pass-outcome-item">Help prevent remediation problems before they become serious.</span>
+    </span>
+  </div>
 </header>
 
 <section class="pass-section pass-transition pass-what" aria-labelledby="pass-transition-title">
@@ -84,38 +88,38 @@
         <nav class="pass-platforms" aria-label="Use WMOL PASS on your device">
           {% if pass_web_url %}
           <a class="pass-platform-button" href="{{ pass_web_url }}">
-            <span>Web</span>
+            <span>Download for Web</span>
           </a>
           {% else %}
-          <button class="pass-platform-button" type="button" disabled aria-label="Web">
-            <span>Web</span>
+          <button class="pass-platform-button" type="button" disabled aria-label="Download for Web">
+            <span>Download for Web</span>
           </button>
           {% endif %}
           {% if pass_windows_url %}
           <a class="pass-platform-button" href="{{ pass_windows_url }}">
-            <span>Windows</span>
+            <span>Download for Windows</span>
           </a>
           {% else %}
-          <button class="pass-platform-button" type="button" disabled aria-label="Windows">
-            <span>Windows</span>
+          <button class="pass-platform-button" type="button" disabled aria-label="Download for Windows">
+            <span>Download for Windows</span>
           </button>
           {% endif %}
           {% if pass_mac_url %}
           <a class="pass-platform-button" href="{{ pass_mac_url }}">
-            <span>Mac</span>
+            <span>Download for Mac</span>
           </a>
           {% else %}
-          <button class="pass-platform-button" type="button" disabled aria-label="Mac">
-            <span>Mac</span>
+          <button class="pass-platform-button" type="button" disabled aria-label="Download for Mac">
+            <span>Download for Mac</span>
           </button>
           {% endif %}
           {% if pass_mobile_url %}
           <a class="pass-platform-button" href="{{ pass_mobile_url }}">
-            <span>Mobile</span>
+            <span>Download for Mobile</span>
           </a>
           {% else %}
-          <button class="pass-platform-button" type="button" disabled aria-label="Mobile for iPhone and Android">
-            <span>Mobile</span>
+          <button class="pass-platform-button" type="button" disabled aria-label="Download for Mobile">
+            <span>Download for Mobile</span>
           </button>
           {% endif %}
         </nav>

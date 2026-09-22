@@ -146,343 +146,81 @@
 
     function syncLayout() {
       if (layoutFrame) cancelAnimationFrame(layoutFrame);
-
       layoutFrame = requestAnimationFrame(() => {
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        const screenW = (window.screen && window.screen.width) || vw;
-        const screenH = (window.screen && window.screen.height) || vh;
-        const phoneShortSide = Math.min(screenW, screenH);
-        const phoneLongSide = Math.max(screenW, screenH);
-        const phoneDevice = document.documentElement.classList.contains("wmol-phone-device") ||
-          (((navigator.maxTouchPoints || 0) > 0) && phoneShortSide <= 600);
-        const mobile = vw <= 700 || phoneDevice;
-        const visualHeight = mobile && window.visualViewport
-          ? Math.min(vh, window.visualViewport.height)
-          : vh;
-        const visualWidth = mobile
-          ? Math.min(vw, document.documentElement.clientWidth || vw)
-          : vw;
-
-        /* A real phone keeps ONE portrait-style composition even when the device
-           rotates. We size from the physical short side and keep the portrait
-           long-side height as the layout canvas. In landscape the page may scroll
-           vertically, but it never falls into the desktop/horizontal design. */
-        const mobileDesignWidth = phoneDevice
-          ? Math.min(phoneShortSide, 430)
-          : visualWidth;
-        const phoneLandscape = phoneDevice && vw > vh;
-        const mobileLayoutHeight = phoneLandscape
-          ? Math.max(visualHeight, phoneLongSide)
-          : visualHeight;
-
-        let mobileScale = mobile
-          ? clamp(mobileDesignWidth / 390, 0.90, 1.06)
-          : 1;
-
-        landing.classList.toggle("wmol-phone-mode", phoneDevice);
-        if (phoneDevice) {
-          landing.style.setProperty("--wmol-phone-layout-h", `${mobileLayoutHeight}px`);
-        } else {
-          landing.style.removeProperty("--wmol-phone-layout-h");
-        }
-
-        /* Desktop is now a true reference-canvas layout. The 1741 × 913
-           screenshots are the reference composition: larger/taller screens
-           scale that whole composition from viewport HEIGHT, so the arch can
-           no longer get stranded in the upper part of a large display. */
-        const referenceHeight = 913;
-
-        /* Portrait desktop / rotated-monitor mode.
-           The normal desktop composition intentionally scales from viewport height,
-           which is correct for landscape screens. On a tall portrait monitor that
-           same rule makes every text tier enormous. In portrait, scale from BOTH
-           dimensions and cap the composition near the approved laptop scale so all
-           four landing screens remain visible without changing the phone layout. */
-        const portraitDesktop = !mobile && vh > (vw * 1.12);
-        const portraitScale = clamp(Math.min(vw / 1150, vh / 1500), 0.68, 0.84);
-        const desktopScale = mobile
-          ? 1
-          : (portraitDesktop ? portraitScale : Math.max(0.82, vh / referenceHeight));
-
-        /* Keep the phone arch geometry stable. Mobile text can scale independently
-           when a longer slide needs extra room, but the keystone/arch should not
-           visibly grow and shrink from slide to slide. */
-        const archWidth = mobile
-          ? Math.min(mobileDesignWidth * 2.60, 1080)
-          : 1380 * desktopScale;
-
-        /* SVG geometry (viewBox 1200 × 900): visible keystone y = 100..315.
-           Desktop geometry scales from the same reference values as the arch. */
-        /* In portrait desktop mode, center the entire visible arch vertically
-           instead of pinning the keystone near the top. The SVG's visible arch
-           runs from y=100 to y=900, i.e. 800/1200 of its rendered width. Because
-           stageTop is derived from keystoneTop, the copy and CTAs move with the
-           arch as one centered composition. Landscape and phone geometry stay
-           unchanged. */
+        layoutFrame = null;
+        const root = document.documentElement;
+        const vw = root.clientWidth || window.innerWidth;
+        const viewportHeight = window.visualViewport && window.visualViewport.scale === 1
+          ? Math.min(window.innerHeight, window.visualViewport.height)
+          : window.innerHeight;
+        const phone = root.classList.contains("wmol-phone-device");
+        const mobile = phone || vw <= 700;
+        const sideways = phone && root.classList.contains("wmol-phone-landscape");
+        const vh = sideways ? (parseFloat(getComputedStyle(root).getPropertyValue("--wmol-phone-layout-h")) || viewportHeight) : viewportHeight;
+        const designWidth = phone ? Math.min(vw, parseFloat(getComputedStyle(root).getPropertyValue("--wmol-phone-design-w")) || vw) : vw;
+        const mobileScale = clamp(designWidth / 390, 0.90, 1.06);
+        const portraitDesktop = !mobile && vh > vw * 1.12;
+        const desktopScale = mobile ? 1 : portraitDesktop
+          ? clamp(Math.min(vw / 1150, vh / 1500), 0.68, 0.84)
+          : clamp(vh / 913, 0.64, 1.18);
+        const archWidth = mobile ? Math.min(designWidth * 2.60, 1080) : Math.min(1380 * desktopScale, vw * 1.20);
         const visibleArchHeight = archWidth * (800 / 1200);
-        const portraitCenteredKeystoneTop = Math.max(18, (vh - visibleArchHeight) / 2);
-        const keystoneTop = mobile
-          ? clamp(mobileLayoutHeight * 0.024, 14, 22)
-          : (portraitDesktop ? portraitCenteredKeystoneTop : 31 * desktopScale);
-
-        const contentGap = mobile
-          ? clamp(mobileLayoutHeight * 0.008, 5, 8)
-          : 16.5 * desktopScale;
-
-        const keystoneBottom = keystoneTop + archWidth * (215 / 1200);
-
-        /* Keep the usable text width at the same proportion of the arch.
-           There is intentionally no old 1000px desktop cap: on a large screen
-           the text grows with the same composition instead of becoming tiny. */
-        const safeWidth = mobile
-          ? Math.min(Math.max(0, mobileDesignWidth - 32), 470)
-          : Math.min(archWidth * 0.67, vw * 0.94);
-
-        /* Keep every slide cleanly below the keystone. On phones the main
-           WMOL identity gets the requested 3x keystone-to-title breathing room.
-           Desktop keeps its approved composition but gives pages 3/4 a little
-           more clearance so no text can touch the keystone on shorter screens. */
-        const stageGapMultiplier = mobile
-          ? (step === 0 ? 3 : 1)
-          : ((step === 0 || step === 1) ? 2.2 : 1.45);
-        const stageTop = keystoneBottom + contentGap * stageGapMultiplier;
-
-        /* Desktop keeps the approved compact gap. Phones use the same visual breathing-room ratio as the approved desktop flow: enough
-           separation to read as two groups without letting the controls drift toward the bottom. */
-        const buttonGap = mobile
-          ? clamp(16 * mobileScale, 14, 20)
-          : contentGap * (4 / 9);
-
-        landing.style.setProperty("--wmol-flow-scale", String(desktopScale));
-        landing.style.setProperty("--wmol-flow-mobile-scale", String(mobileScale));
+        const keyTop = mobile ? clamp(vh * 0.024, 14, 22) : portraitDesktop
+          ? Math.max(18, (vh - visibleArchHeight) / 2) : 31 * desktopScale;
+        const keyBottom = keyTop + archWidth * (215 / 1200);
+        const topGap = mobile ? clamp(vh * 0.008, 5, 8) * (step === 0 ? 3 : 1)
+          : 16.5 * desktopScale * ((step === 0 || step === 1) ? 2.2 : 1.45);
+        const stageTop = keyBottom + topGap;
+        const safeWidth = mobile ? Math.max(0, designWidth - 32) : Math.min(archWidth * 0.67, vw - 40);
+        const buttonGap = mobile ? clamp(16 * mobileScale, 14, 20) : clamp(30 * desktopScale, 18, 36);
+        const inner = landing.querySelector(".wmol-landing-inner");
+        const active = views[step];
+        const put = (el, styles) => Object.entries(styles).forEach(([k,v]) => el.style.setProperty(k, String(v), "important"));
+        landing.classList.remove("wmol-flow-tight");
+        landing.classList.toggle("wmol-phone-mode", mobile);
+        landing.dataset.layout = "v14";
+        landing.style.setProperty("--wmol-flow-scale", desktopScale);
+        landing.style.setProperty("--wmol-flow-mobile-scale", mobileScale);
         landing.style.setProperty("--wmol-flow-arch-w", `${archWidth}px`);
-        landing.style.setProperty("--wmol-flow-keystone-top", `${keystoneTop}px`);
-        landing.style.setProperty("--wmol-flow-safe-w", `${safeWidth}px`);
+        landing.style.setProperty("--wmol-flow-keystone-top", `${keyTop}px`);
         landing.style.setProperty("--wmol-flow-stage-top", `${stageTop}px`);
-        landing.style.setProperty("--wmol-flow-button-gap", `${buttonGap}px`);
-
-        /* MOBILE CENTERING: the arch and the content both use the same CSS
-           center line (50% of the landing viewport). Do not re-measure the
-           oversized SVG on phones: transformed SVG bounds can produce a
-           misleading horizontal coordinate in mobile Safari. */
-        if (mobile) {
-          landing.style.setProperty("--wmol-flow-mobile-center-x", "50%");
+        landing.style.setProperty("--wmol-flow-safe-w", `${safeWidth}px`);
+        landing.style.setProperty("--wmol-flow-proof-title-px", `${46.2 * desktopScale * (vw < 1500 ? clamp(vw / 1500, 0.82, 1) : 1)}px`);
+        landing.style.setProperty("--wmol-flow-proof-body-px", `${21.55 * desktopScale * (vw < 1500 ? clamp(vw / 1500, 0.82, 1) : 1)}px`);
+        put(landing, {"height": `${viewportHeight}px`, "min-height": "0", "overflow-x": "clip", "overflow-y": "auto"});
+        // All screen coordinates are relative to the same viewport, never to SVG bounds.
+        put(arch, {"position":"absolute", "left":"50%", "right":"auto", "top":`${keyTop - archWidth / 12}px`, "width":`${archWidth}px`, "max-width":"none", "height":"auto", "transform":"translateX(-50%)"});
+        put(inner, {"position":"absolute", "inset":"auto", "left":"50%", "top":`${stageTop}px`, "width":`${safeWidth}px`, "min-width":"0", "max-width":"none", "height":"auto", "min-height":"0", "max-height":"none", "margin":"0", "padding":"0", "display":"flex", "flex-direction":"column", "align-items":"center", "justify-content":"flex-start", "gap":`${buttonGap}px`, "overflow":"visible", "zoom":"1", "transform":"translateX(-50%)", "transform-origin":"top center"});
+        views.forEach((view, index) => put(view, {"display":index === step ? "block" : "none", "position":"relative", "inset":"auto", "width":"100%", "max-width":"100%", "height":"auto", "min-height":"0", "max-height":"none", "margin":"0", "padding":"0", "transform":"none", "overflow":"visible", "flex":"0 0 auto"}));
+        put(actions, {"position":"static", "inset":"auto", "transform":"none", "width":mobile ? `${Math.min(safeWidth, 292 * mobileScale)}px` : "max-content", "max-width":"100%", "height":"auto", "min-height":"0", "margin":"0", "padding":"0", "display":"flex", "flex-direction":mobile ? "column" : "row", "align-items":"stretch", "justify-content":"center", "flex-wrap":"nowrap", "gap":mobile ? `${10 * mobileScale}px` : `${clamp(vw * 0.024,18,46)}px`});
+        const ctaWidth = Math.min(clamp(vw * 0.22, 220, 430), (safeWidth - clamp(vw * 0.024,18,46)) / 2);
+        const ctaHeight = mobile ? 46 * mobileScale : clamp(ctaWidth * 59 / 290, 44, 86);
+        actions.querySelectorAll(".wmol-landing-cta").forEach(cta => put(cta, {"display":cta.hidden ? "none" : "flex", "flex":"0 0 auto", "align-items":"center", "justify-content":"center", "box-sizing":"border-box", "width":mobile ? "100%" : `${ctaWidth}px`, "min-width":"0", "max-width":"100%", "height":`${ctaHeight}px`, "min-height":`${ctaHeight}px`, "padding":`0 ${mobile ? 12 : 16}px`, "font-size":`${mobile ? 9.8 * mobileScale : clamp(vw * 0.008,11.5,16)}px` }));
+        // Fit both brand lines uniformly; do not clip the final letters of the first line.
+        const brand = views[0].querySelector(".wmol-flow-brand");
+        brand.style.removeProperty("font-size");
+        if (step === 0) {
+          const font = parseFloat(getComputedStyle(brand).fontSize);
+          let glyphWidth = 0;
+          brand.querySelectorAll("span").forEach(span => {
+            const range = document.createRange(); range.selectNodeContents(span);
+            glyphWidth = Math.max(glyphWidth, range.getBoundingClientRect().width);
+          });
+          if (glyphWidth > safeWidth - 4) put(brand, {"font-size":`${font * (safeWidth - 4) / glyphWidth}px`});
         }
-
-        /* FINAL CTA sizing pass — use the visible smaller-desktop button as the
-           reference instead of measuring a hidden title. This removes the source
-           of the inconsistent button geometry between the two monitor sizes. */
-        let resolvedCtaHeight = 54 * desktopScale;
-
-        if (!mobile) {
-          /* V14 CTA sizing. The approved smaller-screen button is the geometric
-             reference. Large-monitor screenshots can report a smaller CSS viewport
-             when Windows/browser display scaling is active, so detect the large
-             monitor from physical viewport height as well as CSS dimensions. */
-          const CTA_REF_W = 1901;
-          const CTA_REF_H = 963;
-          const CTA_BASE_W = 290;
-          const CTA_BASE_H = 59;
-          const CTA_BASE_GAP = 25;
-          const CTA_BASE_PAD = 19.3;
-
-          const deviceScale = Math.max(1, window.devicePixelRatio || 1);
-          const physicalViewportW = vw * deviceScale;
-          const physicalViewportH = vh * deviceScale;
-
-          /* FINAL LARGE-MONITOR DETECTION.
-             The prior pass required both large physical width AND large physical
-             viewport height. Browser chrome / Windows scaling can reduce the
-             reported viewport height enough that a real 2048-wide monitor falls
-             back into the small-button branch. Detect the monitor from physical
-             width (including screen width) instead, which cleanly separates the
-             supplied ~2048px large-screen reference from the ~1901px laptop one. */
-          const physicalScreenW = Math.max(
-            physicalViewportW,
-            (window.screen && window.screen.width ? window.screen.width * deviceScale : 0),
-            (window.screen && window.screen.availWidth ? window.screen.availWidth * deviceScale : 0)
-          );
-          const largeDesktop = !portraitDesktop && (physicalScreenW >= 1980 || vw >= 1980);
-
-          const regularScale = portraitDesktop
-            ? clamp(vw / 1150, 0.68, 0.86)
-            : clamp(Math.min(vw / CTA_REF_W, vh / CTA_REF_H), 0.86, 1.12);
-          const physicalScale = clamp(Math.min(physicalViewportW / CTA_REF_W, physicalViewportH / CTA_REF_H), 1.00, 1.20);
-
-          /* V17 LARGE CTA FIX. Keep the large-monitor LABEL exactly where it is.
-             The smaller-screen screenshot is the visual reference for the BUTTON
-             shape: about 4.65:1 width-to-height with roughly a 9.4% inter-button
-             gap. The previous code assigned the same numeric scale to width and
-             height, but the browser was still rendering the large CTA cluster far
-             narrower than that reference. We now calibrate against the button's
-             ACTUAL rendered rectangle and correct width only. */
-          const LARGE_BUTTON_BOX_SCALE = 1.44;
-          const SMALL_BUTTON_VISUAL_ASPECT = 4.65;
-          const SMALL_BUTTON_GAP_TO_WIDTH = 0.094;
-          const boxScale = largeDesktop ? LARGE_BUTTON_BOX_SCALE : regularScale;
-
-          /* Preserve the current label decisions exactly. */
-          const regularFont = 13.60 * 0.85 * regularScale;
-          const largeFont = 10.88 * 1.10 * physicalScale;
-          const ctaFont = (largeDesktop ? largeFont : regularFont) * 1.15;
-
-          let ctaWidth = CTA_BASE_W * boxScale;
-          const ctaHeight = CTA_BASE_H * boxScale;
-          const ctaPad = CTA_BASE_PAD * boxScale;
-          let ctaGap = CTA_BASE_GAP * boxScale;
-
-          const ctaBoxScale = ctaHeight / CTA_BASE_H;
-          const ctaRadius = 4 * ctaBoxScale;
-          const ctaBorder = Math.max(1, 1 * ctaBoxScale);
-          const ctaShadowY = 8 * ctaBoxScale;
-          const ctaShadowBlur = 18 * ctaBoxScale;
-
-          resolvedCtaHeight = ctaHeight;
-          landing.style.setProperty("--wmol-flow-cta-w", `${ctaWidth}px`);
-          landing.style.setProperty("--wmol-flow-cta-h", `${ctaHeight}px`);
-          landing.style.setProperty("--wmol-flow-cta-font", `${ctaFont}px`);
-          landing.style.setProperty("--wmol-flow-cta-pad", `${ctaPad}px`);
-          landing.style.setProperty("--wmol-flow-cta-gap", `${ctaGap}px`);
-          landing.style.setProperty("--wmol-flow-cta-radius", `${ctaRadius}px`);
-          landing.style.setProperty("--wmol-flow-cta-border", `${ctaBorder}px`);
-          landing.style.setProperty("--wmol-flow-cta-shadow-y", `${ctaShadowY}px`);
-          landing.style.setProperty("--wmol-flow-cta-shadow-blur", `${ctaShadowBlur}px`);
-
-          /* Make the final geometry authoritative at the element level too, then
-             measure what the browser ACTUALLY rendered. On a large monitor, if
-             browser/OS scaling squeezes the CTA horizontally, compensate only in
-             width until the visible button matches the smaller-screen aspect. */
-          const ctaElements = Array.from(actions.querySelectorAll(".wmol-landing-cta"));
-          const applyCtaGeometry = (widthPx, gapPx) => {
-            actions.style.setProperty("gap", `${gapPx}px`, "important");
-            ctaElements.forEach((cta) => {
-              cta.style.setProperty("box-sizing", "border-box", "important");
-              cta.style.setProperty("flex", `0 0 ${widthPx}px`, "important");
-              cta.style.setProperty("width", `${widthPx}px`, "important");
-              cta.style.setProperty("min-width", `${widthPx}px`, "important");
-              cta.style.setProperty("max-width", `${widthPx}px`, "important");
-              cta.style.setProperty("height", `${ctaHeight}px`, "important");
-              cta.style.setProperty("min-height", `${ctaHeight}px`, "important");
-              cta.style.setProperty("padding-left", `${ctaPad}px`, "important");
-              cta.style.setProperty("padding-right", `${ctaPad}px`, "important");
-              cta.style.setProperty("font-size", `${ctaFont}px`, "important");
-            });
-          };
-
-          applyCtaGeometry(ctaWidth, ctaGap);
-
-          if (largeDesktop && ctaElements.length) {
-            const rendered = ctaElements[0].getBoundingClientRect();
-            if (rendered.width > 0 && rendered.height > 0) {
-              const renderedAspect = rendered.width / rendered.height;
-              const widthCorrection = clamp(SMALL_BUTTON_VISUAL_ASPECT / renderedAspect, 1.0, 2.25);
-              ctaWidth *= widthCorrection;
-              ctaGap = ctaWidth * SMALL_BUTTON_GAP_TO_WIDTH;
-              landing.style.setProperty("--wmol-flow-cta-w", `${ctaWidth}px`);
-              landing.style.setProperty("--wmol-flow-cta-gap", `${ctaGap}px`);
-              applyCtaGeometry(ctaWidth, ctaGap);
-            }
-          }
-
-          /* Page 3 only: keep the approved smaller/portrait trim, and take the
-             large landscape monitor down another 2% so its longest lines clear
-             the inner arch comfortably. */
-          const proofTextScale = largeDesktop ? 0.96 : 0.93;
-          landing.style.setProperty("--wmol-flow-proof-title-px", `${46.2 * desktopScale * proofTextScale}px`);
-          landing.style.setProperty("--wmol-flow-proof-body-px", `${21.55 * desktopScale * proofTextScale}px`);
-        }
-
-        const activeView = views[step];
-
-        /* MOBILE FIT PASS — NORMAL-FLOW PHONE GEOMETRY
-           Phones no longer position the copy and CTA as two independent absolute
-           layers. The active slide and its buttons live in one centered vertical
-           flow with symmetric safe-area padding. This removes the recurring left
-           drift and makes the copy-to-button gap a real fixed gap on every phone.
-           Only genuinely short viewports reduce the shared mobile scale; if the
-           smallest supported scale still cannot fit, the inner phone canvas scrolls
-           instead of hiding a button below Safari. */
-        if (mobile) {
-          const bottomSafety = 12;
-          const minMobileScale = 0.72;
-          const maxFitPasses = 5;
-
-          landing.classList.remove("wmol-flow-tight");
-
-          const measureContentHeight = () => {
-            const last = activeView.lastElementChild;
-            if (!last) return activeView.scrollHeight;
-            // offsetTop/offsetHeight are layout metrics, so the entrance animation's
-            // temporary translateY cannot accidentally become permanent CTA spacing.
-            return Math.max(0, last.offsetTop + last.offsetHeight);
-          };
-
-          const measureNeededHeight = () => {
-            const contentHeight = measureContentHeight();
-            const actionsHeight = actions.offsetHeight;
-            const liveGap = clamp(16 * mobileScale, 14, 20);
-            return contentHeight + liveGap + actionsHeight;
-          };
-
-          for (let pass = 0; pass < maxFitPasses; pass += 1) {
-            landing.style.setProperty("--wmol-flow-mobile-scale", String(mobileScale));
-            landing.style.setProperty("--wmol-flow-mobile-gap", `${clamp(16 * mobileScale, 14, 20)}px`);
-            void activeView.offsetHeight;
-
-            const available = Math.max(120, mobileLayoutHeight - stageTop - bottomSafety);
-            const needed = measureNeededHeight();
-
-            if (needed <= available + 1 || mobileScale <= minMobileScale + 0.001) break;
-
-            const fitRatio = clamp((available / needed) * 0.994, 0.84, 0.988);
-            mobileScale = Math.max(minMobileScale, mobileScale * fitRatio);
-          }
-
-          landing.style.setProperty("--wmol-flow-mobile-scale", String(mobileScale));
-          landing.style.setProperty("--wmol-flow-mobile-gap", `${clamp(16 * mobileScale, 14, 20)}px`);
-          landing.style.setProperty("--wmol-flow-stage-max-h", `${Math.max(120, mobileLayoutHeight - stageTop)}px`);
-          void activeView.offsetHeight;
-
-          /* Mobile v7: the copy is positioned from equal left/right screen edges.
-             Place the CTA immediately after the ACTUAL rendered copy, then keep
-             both inside the visible phone height. This removes the flex-flow drift
-             that could move the whole composition sideways or toward the top. */
-          const liveGap = clamp(16 * mobileScale, 14, 20);
-          const finalContentHeight = measureContentHeight();
-          const finalActionsHeight = actions.offsetHeight;
-          const requestedActionsTop = stageTop + finalContentHeight + liveGap;
-          const maxActionsTop = mobileLayoutHeight - finalActionsHeight - bottomSafety;
-          const actionsTop = Math.min(requestedActionsTop, maxActionsTop);
-
-          landing.style.setProperty("--wmol-flow-actions-top", `${Math.max(stageTop, actionsTop)}px`);
-
-          if (requestedActionsTop > maxActionsTop + 1) {
-            const maxViewHeight = Math.max(96, maxActionsTop - stageTop - liveGap);
-            landing.style.setProperty("--wmol-flow-stage-max-h", `${maxViewHeight}px`);
-            landing.classList.add("wmol-flow-tight");
-          }
-        } else {
-          const buttonStackHeight = resolvedCtaHeight;
-          const bottomSafety = 12 * desktopScale;
-          const maxActionsTop = vh - buttonStackHeight - bottomSafety;
-
-          landing.classList.remove("wmol-flow-tight");
-          landing.style.setProperty("--wmol-flow-stage-max-h", `${Math.max(120, vh - stageTop)}px`);
-
-          const naturalBottom = activeView.getBoundingClientRect().bottom;
-          const requestedActionsTop = naturalBottom + buttonGap;
-
-          if (requestedActionsTop <= maxActionsTop) {
-            landing.style.setProperty("--wmol-flow-actions-top", `${requestedActionsTop}px`);
-          } else {
-            const actionsTop = maxActionsTop;
-            const availableHeight = Math.max(96, actionsTop - buttonGap - stageTop);
-            landing.style.setProperty("--wmol-flow-actions-top", `${actionsTop}px`);
-            landing.style.setProperty("--wmol-flow-stage-max-h", `${availableHeight}px`);
-            landing.classList.add("wmol-flow-tight");
-          }
-        }
+        // Measure normal layout, not temporary entrance transforms. Scale text AND buttons
+        // together only when the complete composition does not fit beneath the keystone.
+        const naturalHeight = inner.offsetHeight;
+        const available = Math.max(1, vh - stageTop - 14);
+        const fit = Math.min(1, (available - 1) / Math.max(1, naturalHeight));
+        // Extremely small windows retain readable content and scroll the entire composition,
+        // rather than concealing lines inside an independently scrollable text box.
+        const appliedFit = Math.max(0.64, fit);
+        put(inner, {"transform":`translateX(-50%) scale(${appliedFit})`});
+        landing.dataset.fit = appliedFit.toFixed(4);
+        landing.dataset.layoutReady = "true";
+        landing.style.setProperty("--wmol-flow-actions-top", `${stageTop + (active.offsetHeight + buttonGap) * appliedFit}px`);
+        landing.scrollLeft = 0;
       });
     }
 
@@ -527,8 +265,10 @@
         flowBtn.setAttribute("aria-expanded", "true");
       }
 
+      if (landing) { landing.scrollLeft = 0; landing.scrollTop = 0; }
       syncLayout();
       requestAnimationFrame(() => {
+        if (landing) landing.scrollLeft = 0;
         syncLayout();
         requestAnimationFrame(playEntryMotion);
       });
@@ -544,6 +284,8 @@
     window.addEventListener("resize", settleLayout, { passive: true });
     window.addEventListener("orientationchange", settleLayout, { passive: true });
     window.addEventListener("pageshow", settleLayout, { passive: true });
+    window.addEventListener("wmol:portrait", settleLayout);
+    window.addEventListener("wmol:viewport", settleLayout);
     if (window.visualViewport) {
       window.visualViewport.addEventListener("resize", settleLayout, { passive: true });
     }

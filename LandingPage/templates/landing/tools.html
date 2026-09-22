@@ -10,7 +10,7 @@
 .tool-icon-card--aws .tool-aws-benefits span{display:block;}
 </style>
 
-<section class="tools-layout">
+<section class="tools-layout" id="wmol-tools">
 
 
 
@@ -181,6 +181,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const MAX_RAIL = 520;
 
     function apply() {
+      if (document.documentElement.classList.contains("wmol-phone-device")) {
+        layout.dataset.toolsDensity = "standard";
+        layout.style.removeProperty("--tools-rail-w");
+        return;
+      }
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       const dpr = Math.max(1, window.devicePixelRatio || 1);

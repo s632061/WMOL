@@ -392,6 +392,7 @@ let baseU  = 1;
 let isScrollMode = false;
 
 function fitHomeInnerScale() {
+
   const vw = window.innerWidth;
   const vh = window.innerHeight;
 
@@ -524,7 +525,7 @@ function fitHomeInnerScale() {
     ticking = true;
 
     requestAnimationFrame(() => {
-      const vw = window.innerWidth || 1;
+      const vw = scroller.clientWidth || 1;
       const newIdx = Math.round(scroller.scrollLeft / vw);
       idx = Math.max(0, Math.min(rails.length - 1, newIdx));
       setActiveDot(idx);
@@ -563,6 +564,7 @@ function fitHomeInnerScale() {
   // 2) Then center the artwork in the ACTUAL free space between the subtitle
   //    and CTA. The artwork also shrinks only when a shorter phone requires it.
   function recenterMobileDomainArtwork() {
+
     const rails = Array.from(document.querySelectorAll('.home-viewport.domains-page .wml-home .wml-rail'));
     const ui = document.querySelector('.domains-carousel-ui');
 
@@ -641,6 +643,8 @@ function fitHomeInnerScale() {
 
   window.addEventListener('resize', fitHomeInnerScale);
   window.addEventListener('resize', settleMobileDomainArtwork, { passive: true });
+  window.addEventListener('wmol:portrait', () => { fitHomeInnerScale(); settleMobileDomainArtwork(); });
+  window.addEventListener('wmol:viewport', () => { fitHomeInnerScale(); settleMobileDomainArtwork(); });
   window.addEventListener('orientationchange', settleMobileDomainArtwork, { passive: true });
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', settleMobileDomainArtwork, { passive: true });

@@ -1,37 +1,160 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-wmol-release="v15">
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <script>
       (function () {
+        var root = document.documentElement;
+        var phone = false;
+        var wasLandscape = false;
+        var portraitHeight = 0;
+        var frame = 0;
+        var lastSize = "";
+        var stored;
+        try { stored = JSON.parse(sessionStorage.getItem("wmol-portrait-size") || "null"); } catch (_) {}
+
         function syncPhoneMode() {
-          var screenW = (window.screen && window.screen.width) || window.innerWidth || 9999;
-          var screenH = (window.screen && window.screen.height) || window.innerHeight || 9999;
-          var shortSide = Math.min(screenW, screenH);
-          var longSide = Math.max(screenW, screenH);
-          var isPhone = (navigator.maxTouchPoints || 0) > 0 && shortSide <= 600;
-
-          document.documentElement.classList.toggle("wmol-phone-device", isPhone);
-          if (!isPhone) return;
-
-          document.documentElement.style.setProperty("--wmol-phone-design-w", Math.min(shortSide, 430) + "px");
-          document.documentElement.style.setProperty("--wmol-phone-design-h", longSide + "px");
-          document.documentElement.classList.toggle("wmol-phone-landscape", window.innerWidth > window.innerHeight);
+          var sw = (window.screen && window.screen.width) || window.innerWidth;
+          var sh = (window.screen && window.screen.height) || window.innerHeight;
+          var shortSide = Math.min(sw, sh);
+          phone = phone || ((navigator.maxTouchPoints || 0) > 0 && shortSide <= 600);
+          root.classList.toggle("wmol-phone-device", phone);
+          if (!phone) return;
+          var orientationType = window.screen.orientation && window.screen.orientation.type;
+          var sideways = typeof window.orientation === "number" ? Math.abs(window.orientation) === 90
+            : orientationType ? orientationType.indexOf("landscape") === 0
+            : window.innerWidth > window.innerHeight;
+          var visual = window.visualViewport;
+          var viewHeight = visual && Math.abs(visual.scale - 1) < 0.01
+            ? Math.min(window.innerHeight, visual.height) : window.innerHeight;
+          var designWidth = Math.min(shortSide, 430);
+          root.classList.toggle("wmol-phone-compact", shortSide <= 420);
+          var editing = document.activeElement && /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+          if (!sideways && window.innerHeight > window.innerWidth && !editing) {
+            portraitHeight = viewHeight;
+            try { sessionStorage.setItem("wmol-portrait-size", JSON.stringify({width: designWidth, height: portraitHeight})); } catch (_) {}
+          } else if (!portraitHeight) {
+            portraitHeight = stored && Math.abs(stored.width - designWidth) < 1 && stored.height >= designWidth && stored.height <= Math.max(sw, sh)
+              ? stored.height : Math.max(sw, sh);
+          }
+          // The narrow phone layout keeps its portrait proportions. Only the
+          // visible scrolling window becomes shorter when the phone turns sideways.
+          root.style.setProperty("--wmol-phone-design-w", designWidth + "px");
+          root.style.setProperty("--wmol-phone-design-h", Math.max(sw, sh) + "px");
+          root.style.setProperty("--wmol-phone-layout-h", portraitHeight + "px");
+          root.style.setProperty("--wmol-phone-visible-h", viewHeight + "px");
+          root.classList.toggle("wmol-phone-landscape", sideways);
+          var signature = [designWidth, portraitHeight, viewHeight, sideways].join(":");
+          if (signature !== lastSize) {
+            lastSize = signature;
+            var returnedUpright = !sideways && wasLandscape;
+            if (frame) cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(function () {
+              frame = 0;
+              window.dispatchEvent(new Event("wmol:viewport"));
+              if (returnedUpright) window.dispatchEvent(new Event("wmol:portrait"));
+            });
+          }
+          wasLandscape = sideways;
         }
-
         syncPhoneMode();
-        window.addEventListener("resize", syncPhoneMode, { passive: true });
-        window.addEventListener("orientationchange", syncPhoneMode, { passive: true });
+        document.addEventListener("DOMContentLoaded", syncPhoneMode);
+        window.addEventListener("resize", syncPhoneMode, {passive: true});
+        window.addEventListener("orientationchange", syncPhoneMode, {passive: true});
+        window.addEventListener("pageshow", syncPhoneMode, {passive: true});
+        if (window.visualViewport) window.visualViewport.addEventListener("resize", syncPhoneMode, {passive: true});
+        if (window.screen.orientation && window.screen.orientation.addEventListener) {
+          window.screen.orientation.addEventListener("change", syncPhoneMode);
+        }
       })();
     </script>
     <title>{% block title %}Wang Method of Learning{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-mobile-v11-20260921">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-consolidated-rotation-15">
   </head>
   <body>
     <main>
       {% block content %}{% endblock %}
     </main>
+    <script>
+/* Width-dependent finishing only. No saved one-off offsets or physical-monitor sizing. */
+(() => {
+  'use strict';
+  let raf = 0;
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  function fullTextWidth(el, fontPx) {
+    const cs = getComputedStyle(el);
+    const text = el.textContent.trim().replace(/\s+/g, ' ');
+    ctx.font = `${cs.fontStyle} ${cs.fontWeight} ${fontPx}px ${cs.fontFamily}`;
+    return ctx.measureText(text).width + (parseFloat(cs.letterSpacing) || 0) * Math.max(0, text.length - 1);
+  }
+  function fitSingleLine(el, minimum = 12) {
+    if (!el || !el.getClientRects().length) return;
+    el.style.removeProperty('font-size');
+    el.style.removeProperty('white-space');
+    const cs = getComputedStyle(el);
+    const base = parseFloat(cs.fontSize);
+    const width = el.clientWidth - (parseFloat(cs.paddingLeft)||0) - (parseFloat(cs.paddingRight)||0) - 4;
+    if (width <= 0) return;
+    const needed = fullTextWidth(el, base);
+    const fit = Math.min(base, base * width / Math.max(1, needed));
+    el.style.setProperty('font-size', `${Math.max(minimum, fit)}px`, 'important');
+    // If an accessibility text size exceeds the safe minimum, wrap rather than clip.
+    el.style.setProperty('white-space', fit >= minimum ? 'nowrap' : 'normal', 'important');
+  }
+  function syncPass() {
+    const page = document.querySelector('#wmol-medicine .pass-page');
+    if (!page) return;
+    fitSingleLine(page.querySelector('#pass-publications-title'), 13);
+    fitSingleLine(page.querySelector('.pass-contact-copy h2'), 12);
+    const benefits = page.querySelector('.pass-hero-outcomes');
+    if (benefits) {
+      benefits.style.removeProperty('font-size');
+      const items = Array.from(benefits.querySelectorAll('.pass-outcome-item'));
+      items.forEach(item => item.style.removeProperty('white-space'));
+      if (document.documentElement.classList.contains('wmol-phone-device') || innerWidth <= 700) {
+        const base = parseFloat(getComputedStyle(benefits).fontSize);
+        const available = benefits.clientWidth - 4;
+        const needed = Math.max(...items.slice(0, 3).map(item => fullTextWidth(item, base)));
+        benefits.style.setProperty('font-size', `${Math.min(base, base * available / Math.max(1, needed))}px`, 'important');
+        items.slice(0, 3).forEach(item => item.style.setProperty('white-space', 'nowrap', 'important'));
+      }
+    }
+    const grid = page.querySelector('.pass-proof-grid');
+    if (grid) {
+      grid.style.removeProperty('--wmol-proof-head-height');
+      const heads = Array.from(grid.querySelectorAll('.pass-proof-head'));
+      if (heads.length === 2 && Math.abs(heads[0].getBoundingClientRect().left - heads[1].getBoundingClientRect().left) > 40) {
+        const height = Math.max(...heads.map(el => Math.max(el.offsetHeight, el.scrollHeight)));
+        grid.style.setProperty('--wmol-proof-head-height', `${height}px`);
+      }
+    }
+  }
+  function schedule() { if (raf) cancelAnimationFrame(raf); raf = requestAnimationFrame(() => {raf=0; syncPass();}); }
+  function init() {
+    schedule();
+    window.addEventListener('resize', schedule, {passive:true});
+    window.addEventListener('pageshow', schedule, {passive:true});
+    window.addEventListener('wmol:portrait', schedule);
+    window.addEventListener('wmol:viewport', schedule);
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', schedule, {passive:true});
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+    // Re-measure after actual images are decoded, without substituting artwork.
+    document.querySelectorAll('#wmol-medicine img').forEach(img => img.addEventListener('load', schedule, {once:true}));
+    const page = document.querySelector('#wmol-medicine .pass-page');
+    if (page && window.ResizeObserver) {
+      let lastWidth = -1;
+      new ResizeObserver(entries => {
+        const width = entries[0].contentRect.width;
+        if (Math.abs(width-lastWidth) > .5) {lastWidth=width;schedule();}
+      }).observe(page);
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, {once:true});
+  else init();
+})();
+    </script>
   </body>
 </html>
