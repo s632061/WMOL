@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-wmol-release="mobile-zoom-spacing-16">
+<html lang="en" data-wmol-release="combined-staging-19">
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
@@ -47,11 +47,20 @@
           var surface = document.getElementById("wmol-landing") ? "home"
             : document.getElementById("wmol-medicine") ? "medicine"
             : document.getElementById("wmol-tools") ? "tools"
-            : document.querySelector(".domains-page") ? "domains" : "other";
+            : document.querySelector(".domains-page") ? "domains"
+            : document.querySelector(".hsk-page") ? "hsk"
+            : document.querySelector(".aws5-page") ? "aws" : "other";
           root.dataset.wmolSurface = surface;
           if (!phone) return;
-          var color = surface === "home" ? "#342515" : surface === "medicine" ? "#f8f4e9"
-            : surface === "tools" ? "#6b4b36" : "#020826";
+          var color = surface === "home" || surface === "domains" ? "#342515"
+            : surface === "medicine" ? "#f8f4e9" : surface === "tools" ? "#5a3b26"
+            : surface === "hsk" ? "#080909" : surface === "aws" ? "#06192f" : "#020826";
+          if (surface === "hsk" || surface === "aws") {
+            var ownPage = document.querySelector(surface === "hsk" ? ".hsk-page" : ".aws5-page");
+            var ownColor = ownPage && getComputedStyle(ownPage).backgroundColor;
+            if (ownColor && ownColor !== "rgba(0, 0, 0, 0)" && ownColor !== "transparent") color = ownColor;
+            root.style.setProperty("--wmol-page-edge-color", color);
+          }
           var meta = document.querySelector('meta[name="theme-color"]');
           if (!meta) {meta = document.createElement("meta"); meta.name = "theme-color"; document.head.appendChild(meta);}
           meta.content = color;
@@ -114,7 +123,7 @@
       })();
     </script>
     <title>{% block title %}Wang Method of Learning{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-mobile-zoom-spacing-16">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-combined-staging-19">
   </head>
   <body>
     <main>
@@ -146,6 +155,60 @@
     el.style.setProperty('font-size', `${Math.max(minimum, fit)}px`, 'important');
     // If an accessibility text size exceeds the safe minimum, wrap rather than clip.
     el.style.setProperty('white-space', fit >= minimum ? 'nowrap' : 'normal', 'important');
+  }
+  // Desktop-only finishing. Phone DOM and native-zoom behaviour are unchanged.
+  function syncDesktopPass(page) {
+    const wrap = (head, selector) => {
+      if (!head || head.querySelector(':scope > .pass-desktop-copy-group')) return;
+      const children = Array.from(head.children).filter(el => el.matches(selector));
+      if (!children.length) return;
+      const group = document.createElement('div'); group.className = 'pass-desktop-copy-group';
+      children[0].before(group); children.forEach(el => group.appendChild(el));
+    };
+    wrap(page.querySelector('.pass-proof-testimonials .pass-proof-head'), '.pass-proof-lead');
+    wrap(page.querySelector('.pass-publications-head'), '.pass-publications-intro, .pass-publications-points');
+    // Both proof headings use the same fitted size, not two unrelated scales.
+    const titles = Array.from(page.querySelectorAll('.pass-proof-head h3'));
+    titles.forEach(el => {el.style.removeProperty('font-size'); el.style.removeProperty('white-space');});
+    if (titles.length) {
+      let size = Math.min(...titles.map(el => parseFloat(getComputedStyle(el).fontSize)));
+      titles.forEach(el => { size = Math.min(size, size * Math.max(1, el.clientWidth - 6) / Math.max(1, fullTextWidth(el, size))); });
+      titles.forEach(el => {
+        el.style.setProperty('font-size', `${Math.max(24, size)}px`, 'important');
+        el.style.setProperty('white-space', size >= 24 ? 'nowrap' : 'normal', 'important');
+      });
+    }
+    const media = page.querySelector('.pass-transition-media');
+    const frame = page.querySelector('.pass-transition-frame');
+    const copy = page.querySelector('.pass-what-copy');
+    if (media && frame && copy) {
+      copy.style.removeProperty('--pass-product-top-space');
+      const sideBySide = getComputedStyle(page.querySelector('.pass-transition-grid')).gridTemplateColumns.trim().split(/\s+/).length === 2;
+      // Centre to the image itself, excluding the thumbnail/caption rows below it.
+      const gap = sideBySide ? Math.max(0, (frame.offsetHeight - copy.offsetHeight) / 2) : 0;
+      copy.style.setProperty('--pass-product-top-space', `${gap}px`);
+    }
+    const proofGrid = page.querySelector('.pass-proof-grid');
+    const excerptCard = page.querySelector('.testimonial-card');
+    if (proofGrid && excerptCard) {
+      const height = Math.ceil(excerptCard.offsetHeight);
+      if (height > 0) proofGrid.style.setProperty('--pass-proof-card-height', `${height}px`);
+    }
+    // Enlarge short one-line statements toward their card/grid boundaries.
+    // Do not justify/stretch letters or force a multiline sentence onto one line.
+    const fill = (el, maximum) => {
+      if (!el) return;
+      el.style.removeProperty('font-size');
+      const css = getComputedStyle(el), base = parseFloat(css.fontSize);
+      const measured = fullTextWidth(el, base);
+      const available = el.clientWidth - (parseFloat(css.paddingLeft)||0) - (parseFloat(css.paddingRight)||0) - 8;
+      if (available > measured && measured > 0) {
+        el.style.setProperty('font-size', `${base * Math.min(maximum, available / measured)}px`, 'important');
+      }
+    };
+    fill(page.querySelector('.pass-system-description'), 1.18);
+    fill(page.querySelector('[aria-labelledby="pass-program-title"] .pass-section-head > p:last-child'), 1.18);
+    fill(page.querySelector('.pass-fit-close'), 1.22);
   }
   function syncPass() {
     if (window.wmolZoomIsActive && window.wmolZoomIsActive()) return;
@@ -179,16 +242,30 @@
       if (list) needed += parseFloat(getComputedStyle(list).paddingLeft) || 0;
       group.style.setProperty('width', `${Math.min(available, Math.ceil(needed + 4))}px`, 'important');
     });
-    fitSingleLine(page.querySelector('#pass-publications-title'), 13);
+    const desktop = !phone && innerWidth > 700;
+    if (desktop) syncDesktopPass(page);
+    else {
+      page.querySelectorAll('.pass-desktop-copy-group').forEach(group => group.replaceWith(...group.childNodes));
+      page.querySelectorAll('.pass-proof-head h3, .pass-system-description, [aria-labelledby="pass-program-title"] .pass-section-head > p:last-child, .pass-fit-close').forEach(el => {el.style.removeProperty('font-size');el.style.removeProperty('white-space');});
+      fitSingleLine(page.querySelector('#pass-publications-title'), 13);
+    }
     fitSingleLine(page.querySelector('.pass-contact-copy h2'), 12);
     if (phone) {
       // Trim only unused end-of-line space, not the reading measure itself.
       // The block remains left aligned; equal auto margins center the whole group.
       const targets = page.querySelectorAll('.pass-what-points, .pass-use-summary, .pass-system-description, .pass-section-head > p:not(.pass-section-kicker), .pass-fit-intro, .pass-mobile-copy-group');
       Array.from(new Set(targets)).forEach(group => {
-        const maxWidth = group.parentElement.clientWidth;
+        let maxWidth = group.parentElement.clientWidth;
         if (!maxWidth) return;
-        group.style.setProperty('width', '100%', 'important');
+        if (group.matches('.pass-what-points, .pass-mobile-copy-group')) {
+          // Inset once at the grouped body, never at each nested paragraph.
+          maxWidth -= Math.min(24, maxWidth * .06);
+          if (group.closest('.pass-proof-testimonials')) {
+            const card = page.querySelector('.testimonial-card');
+            if (card && card.clientWidth) maxWidth = Math.min(maxWidth, card.clientWidth);
+          }
+        }
+        group.style.setProperty('width', `${maxWidth}px`, 'important');
         const oldHeight = group.offsetHeight;
         const box = group.getBoundingClientRect();
         const walker = document.createTreeWalker(group, NodeFilter.SHOW_TEXT);
@@ -202,7 +279,7 @@
         const fitted = Math.min(maxWidth, Math.max(minimum, Math.ceil(right - box.left + 3)));
         if (fitted > 0) group.style.setProperty('width', `${fitted}px`, 'important');
         // Never add an extra line merely to center the body visually.
-        if (group.offsetHeight > oldHeight + 2) group.style.setProperty('width', '100%', 'important');
+        if (group.offsetHeight > oldHeight + 2) group.style.setProperty('width', `${maxWidth}px`, 'important');
       });
     }
     const benefits = page.querySelector('.pass-hero-outcomes');
@@ -252,11 +329,57 @@
         const width = entries[0].contentRect.width;
         if (Math.abs(width-lastWidth) > .5) {lastWidth=width;schedule();}
       }).observe(page);
+      const excerptCard = page.querySelector('.testimonial-card');
+      if (excerptCard && !document.documentElement.classList.contains('wmol-phone-device')) {
+        let lastHeight = -1;
+        new ResizeObserver(() => {
+          const height = excerptCard.offsetHeight;
+          if (Math.abs(height - lastHeight) > .5) {lastHeight = height; schedule();}
+        }).observe(excerptCard);
+      }
     }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, {once:true});
   else init();
 })();
+    </script>
+
+    <script>
+    (() => {
+      const root = document.documentElement;
+      if (!root.classList.contains('wmol-phone-device')) return;
+      const panels = [...document.querySelectorAll('.domains-page .wml-rail')];
+      if (!panels.length) return;
+      const scroller = document.querySelector('.domains-page .wml-home');
+      const fallback = ['#020826','#202425','#3e422f','#171717'];
+      const colors = [...fallback];
+      function update() {
+        if (window.wmolZoomIsActive && window.wmolZoomIsActive()) return;
+        const index = Math.max(0, Math.min(panels.length-1, Math.round(scroller.scrollLeft / Math.max(1,scroller.clientWidth))));
+        root.style.setProperty('--wmol-active-panel-color', colors[index]);
+      }
+      panels.forEach((panel,i) => {
+        panel.style.setProperty('--wmol-panel-color', colors[i]);
+        const imageCSS = getComputedStyle(panel,'::before').backgroundImage;
+        const url = /url\(["']?([^"')]+)["']?\)/.exec(imageCSS);
+        if (!url) return;
+        const img = new Image();
+        img.onload = () => {
+          try {
+            // Read only this site's original poster's corner, not its artwork.
+            const canvas=document.createElement('canvas');canvas.width=1;canvas.height=1;
+            const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,Math.max(1,img.width*.01),Math.max(1,img.height*.01),0,0,1,1);
+            const p=ctx.getImageData(0,0,1,1).data;
+            if(p[3]<250)return;
+            colors[i]=`rgb(${p[0]}, ${p[1]}, ${p[2]})`;
+            panel.style.setProperty('--wmol-panel-color',colors[i]);update();
+          } catch (_) { /* Keep the safe panel-specific fallback. */ }
+        };
+        img.src=url[1];
+      });
+      scroller.addEventListener('scroll', update, {passive:true});
+      window.addEventListener('wmol:viewport', update);update();
+    })();
     </script>
   </body>
 </html>

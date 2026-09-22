@@ -162,21 +162,27 @@
         const sideways = phone && root.classList.contains("wmol-phone-landscape");
         const vh = sideways ? (parseFloat(getComputedStyle(root).getPropertyValue("--wmol-phone-layout-h")) || viewportHeight) : viewportHeight;
         const designWidth = phone ? Math.min(vw, parseFloat(getComputedStyle(root).getPropertyValue("--wmol-phone-design-w")) || vw) : vw;
-        const mobileScale = clamp(designWidth / 390, 0.90, 1.06);
         const portraitDesktop = !mobile && vh > vw * 1.12;
+        const mobileScale = portraitDesktop
+          ? clamp(Math.min((vw - 56) / 390, (vh - 24) / 780), 1, 3.1)
+          : clamp(designWidth / 390, 0.90, 1.06);
+        const stacked = mobile || portraitDesktop;
+        landing.classList.toggle("wmol-portrait-desktop", portraitDesktop);
         const desktopScale = mobile ? 1 : portraitDesktop
-          ? clamp(Math.min(vw / 1150, vh / 1500), 0.68, 0.84)
+          ? mobileScale
           : clamp(vh / 913, 0.64, 1.18);
-        const archWidth = mobile ? Math.min(designWidth * 2.60, 1080) : Math.min(1380 * desktopScale, vw * 1.20);
+        const archWidth = mobile ? Math.min(designWidth * 2.60, 1080)
+          : portraitDesktop ? Math.min(vw * 2.60, 422 * mobileScale * 2.60)
+          : Math.min(1380 * desktopScale, vw * 1.20);
         const visibleArchHeight = archWidth * (800 / 1200);
         const keyTop = mobile ? clamp(vh * 0.024, 14, 22) : portraitDesktop
-          ? Math.max(18, (vh - visibleArchHeight) / 2) : 31 * desktopScale;
+          ? 18 * mobileScale : 31 * desktopScale;
         const keyBottom = keyTop + archWidth * (215 / 1200);
         const topGap = mobile ? clamp(vh * 0.008, 5, 8) * (step === 0 ? 6 : 2)
-          : 16.5 * desktopScale * ((step === 0 || step === 1) ? 2.2 : 1.45);
+          : portraitDesktop ? (step === 0 ? 24 : 12) * mobileScale : 16.5 * desktopScale * ((step === 0 || step === 1) ? 2.2 : 1.45);
         const stageTop = keyBottom + topGap;
-        const safeWidth = mobile ? Math.max(0, designWidth - 32) : Math.min(archWidth * 0.67, vw - 40);
-        const buttonGap = mobile ? clamp(16 * mobileScale, 14, 20) : clamp(30 * desktopScale, 18, 36);
+        const safeWidth = mobile ? Math.max(0, designWidth - 32) : portraitDesktop ? Math.min(vw - 56, 390 * mobileScale) : Math.min(archWidth * 0.67, vw - 40);
+        const buttonGap = mobile ? clamp(16 * mobileScale, 14, 20) : portraitDesktop ? 18 * mobileScale : clamp(30 * desktopScale, 18, 36);
         const inner = landing.querySelector(".wmol-landing-inner");
         const active = views[step];
         const put = (el, styles) => Object.entries(styles).forEach(([k,v]) => el.style.setProperty(k, String(v), "important"));
@@ -196,15 +202,16 @@
         put(arch, {"position":"absolute", "left":"50%", "right":"auto", "top":`${keyTop - archWidth / 12}px`, "width":`${archWidth}px`, "max-width":"none", "height":"auto", "transform":"translateX(-50%)"});
         put(inner, {"position":"absolute", "inset":"auto", "left":"50%", "top":`${stageTop}px`, "width":`${safeWidth}px`, "min-width":"0", "max-width":"none", "height":"auto", "min-height":"0", "max-height":"none", "margin":"0", "padding":"0", "display":"flex", "flex-direction":"column", "align-items":"center", "justify-content":"flex-start", "gap":`${buttonGap}px`, "overflow":"visible", "zoom":"1", "transform":"translateX(-50%)", "transform-origin":"top center"});
         views.forEach((view, index) => put(view, {"display":index === step ? "block" : "none", "position":"relative", "inset":"auto", "width":"100%", "max-width":"100%", "height":"auto", "min-height":"0", "max-height":"none", "margin":"0", "padding":"0", "transform":"none", "overflow":"visible", "flex":"0 0 auto"}));
-        put(actions, {"position":"static", "inset":"auto", "transform":"none", "width":mobile ? `${Math.min(safeWidth, 292 * mobileScale)}px` : "max-content", "max-width":"100%", "height":"auto", "min-height":"0", "margin":"0", "padding":"0", "display":"flex", "flex-direction":mobile ? "column" : "row", "align-items":"stretch", "justify-content":"center", "flex-wrap":"nowrap", "gap":mobile ? `${10 * mobileScale}px` : `${clamp(vw * 0.024,18,46)}px`});
-        const ctaWidth = Math.min(clamp(vw * 0.22, 220, 430), (safeWidth - clamp(vw * 0.024,18,46)) / 2);
-        const ctaHeight = mobile ? 46 * mobileScale : clamp(ctaWidth * 59 / 290, 44, 86);
-        actions.querySelectorAll(".wmol-landing-cta").forEach(cta => put(cta, {"display":cta.hidden ? "none" : "flex", "flex":"0 0 auto", "align-items":"center", "justify-content":"center", "box-sizing":"border-box", "width":mobile ? "100%" : `${ctaWidth}px`, "min-width":"0", "max-width":"100%", "height":`${ctaHeight}px`, "min-height":`${ctaHeight}px`, "padding":`0 ${mobile ? 12 : 16}px`, "font-size":`${mobile ? 9.8 * mobileScale : clamp(vw * 0.008,11.5,16)}px` }));
+        put(actions, {"position":"static", "inset":"auto", "transform":"none", "width":stacked ? `${Math.min(safeWidth, 292 * mobileScale)}px` : "max-content", "max-width":"100%", "height":"auto", "min-height":"0", "margin":"0", "padding":"0", "display":"flex", "flex-direction":stacked ? "column" : "row", "align-items":"stretch", "justify-content":"center", "flex-wrap":"nowrap", "gap":stacked ? `${10 * mobileScale}px` : `${24 * desktopScale}px`});
+        const ctaWidth = Math.min(260 * desktopScale, (safeWidth - 24 * desktopScale) / 2);
+        const ctaHeight = stacked ? 46 * mobileScale : Math.max(36, 53 * desktopScale);
+        actions.querySelectorAll(".wmol-landing-cta").forEach(cta => put(cta, {"display":cta.hidden ? "none" : "flex", "flex":"0 0 auto", "align-items":"center", "justify-content":"center", "box-sizing":"border-box", "width":stacked ? "100%" : `${ctaWidth}px`, "min-width":"0", "max-width":"100%", "height":`${ctaHeight}px`, "min-height":`${ctaHeight}px`, "padding":`0 ${mobile ? 12 : 16}px`, "font-size":`${stacked ? 9.8 * mobileScale : Math.max(10.8, 13.5 * desktopScale)}px` }));
         // Fit both brand lines uniformly; do not clip the final letters of the first line.
         const brand = views[0].querySelector(".wmol-flow-brand");
         brand.style.removeProperty("font-size");
         if (step === 0) {
-          const font = parseFloat(getComputedStyle(brand).fontSize);
+          const font = parseFloat(getComputedStyle(brand).fontSize) * (mobile ? 1 : 1.12);
+          if (!mobile) put(brand, {"font-size":`${font}px`});
           let glyphWidth = 0;
           brand.querySelectorAll("span").forEach(span => {
             const range = document.createRange(); range.selectNodeContents(span);
@@ -215,7 +222,7 @@
         }
         // Measure normal layout, not temporary entrance transforms. Scale text AND buttons
         // together only when the complete composition does not fit beneath the keystone.
-        if (mobile) {
+        if (stacked) {
           // Prefer two heading lines, but allow a third before making type unreadable.
           const heading = active.querySelector('.wmol-flow-title-large');
           if (heading) {
@@ -244,8 +251,21 @@
         // rather than concealing lines inside an independently scrollable text box.
         // Phones keep readable, consistent type and scroll as one page if needed.
         // Do not undo the requested enlargement by squeezing everything back to one screen.
-        const appliedFit = mobile ? 1 : Math.max(0.64, fit);
+        const appliedFit = mobile ? 1 : Math.max(portraitDesktop ? 0.76 : 0.64, fit);
         put(inner, {"transform":`translateX(-50%) scale(${appliedFit})`});
+        // On roomy landscape screens, balance the visible keystone/text/controls
+        // as one group. The laptop reference is left at its original top anchor.
+        const largeBalance = !mobile && !portraitDesktop
+          ? clamp((vw - 1560) / 360, 0, 1) * clamp((vh - 760) / 200, 0, 1) : 0;
+        const occupied = stageTop + naturalHeight * appliedFit - keyTop;
+        const shift = Math.max(0, (vh - occupied) / 2 - keyTop) * largeBalance;
+        if (shift > 0) {
+          put(arch, {"top":`${keyTop - archWidth / 12 + shift}px`});
+          put(inner, {"top":`${stageTop + shift}px`});
+          landing.style.setProperty("--wmol-flow-keystone-top", `${keyTop + shift}px`);
+          landing.style.setProperty("--wmol-flow-stage-top", `${stageTop + shift}px`);
+        }
+        landing.dataset.desktopShift = shift.toFixed(2);
         landing.dataset.fit = appliedFit.toFixed(4);
         landing.dataset.layoutReady = "true";
         landing.style.setProperty("--wmol-flow-actions-top", `${stageTop + (active.offsetHeight + buttonGap) * appliedFit}px`);

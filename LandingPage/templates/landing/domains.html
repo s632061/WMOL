@@ -619,10 +619,30 @@ function fitHomeInnerScale() {
     });
   }
 
+  function recenterDesktopDomainArtwork() {
+    if (isPhoneMobile() || (window.wmolZoomIsActive && window.wmolZoomIsActive())) return;
+    document.querySelectorAll('.home-viewport.domains-page .wml-home .wml-rail').forEach(rail => {
+      const title = rail.querySelector('.wml-title, .wml-title-tech');
+      const cta = rail.querySelector('.wml-cta, .wml-cta-tech, .wml-cta-gadgets, .wml-cta-lifestyle');
+      const inner = rail.querySelector('.rail-inner');
+      if (!title || !cta || !inner || rail.clientHeight <= 0) return;
+      // The prior title sat at 9.5% of the rail height. Retain two thirds of it.
+      const top = inner.clientHeight * .095 * (2 / 3);
+      rail.style.setProperty('--domains-desktop-title-top', `${top}px`);
+      // Read offset geometry: entry animations must not change the final centre.
+      const titleBottom = title.offsetTop + title.offsetHeight;
+      const ctaTop = cta.offsetTop;
+      const center = (titleBottom + ctaTop) / 2;
+      const offset = center - rail.clientHeight / 2;
+      rail.style.setProperty('--domains-desktop-art-offset', `${offset}px`);
+      rail.dataset.artMidpoint = center.toFixed(2);
+    });
+  }
   function settleMobileDomainArtwork() {
     recenterMobileDomainArtwork();
-    requestAnimationFrame(recenterMobileDomainArtwork);
-    window.setTimeout(recenterMobileDomainArtwork, 120);
+    recenterDesktopDomainArtwork();
+    requestAnimationFrame(() => {recenterMobileDomainArtwork(); recenterDesktopDomainArtwork();});
+    window.setTimeout(() => {recenterMobileDomainArtwork(); recenterDesktopDomainArtwork();}, 120);
   }
 
   // Wire everything
@@ -641,6 +661,7 @@ function fitHomeInnerScale() {
     resetHomeState();
     playReturnFromMedicineIfNeeded();
     fitHomeInnerScale();
+    settleMobileDomainArtwork();
   });
 
   window.addEventListener('resize', fitHomeInnerScale);
