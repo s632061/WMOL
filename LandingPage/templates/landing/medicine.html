@@ -159,11 +159,17 @@
 
       <div class="pass-proof-body">
         <div class="testimonial-shell">
-          <button class="t-nav prev" type="button" aria-label="Previous testimonial">‹</button>
           <article class="testimonial-card" id="testimonialCard" aria-live="polite"></article>
-          <button class="t-nav next" type="button" aria-label="Next testimonial">›</button>
         </div>
-        <div class="t-dots" id="testimonialDots" aria-label="Testimonial navigation"></div>
+        <nav class="testimonial-controls" aria-label="Testimonial navigation">
+          <button class="t-nav prev" type="button" aria-label="Previous testimonial" aria-controls="testimonialCard">
+            <svg viewBox="0 0 28 20" aria-hidden="true" focusable="false"><path d="M25 10H7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M3 10L11 3V17Z" fill="currentColor"/></svg>
+          </button>
+          <div class="t-dots" id="testimonialDots" aria-label="Choose a testimonial"></div>
+          <button class="t-nav next" type="button" aria-label="Next testimonial" aria-controls="testimonialCard">
+            <svg viewBox="0 0 28 20" aria-hidden="true" focusable="false"><path d="M3 10H21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M25 10L17 3V17Z" fill="currentColor"/></svg>
+          </button>
+        </nav>
       </div>
 
       <div class="t-modal" id="tModal" aria-hidden="true">
@@ -1018,6 +1024,7 @@ headline: "I study about 25% less, keep my grades strong, and finally have time 
       b.type = "button";
       b.className = "t-dot" + (i === idx ? " active" : "");
       b.setAttribute("aria-label", `Go to testimonial ${i+1}`);
+      b.setAttribute("aria-current", i === idx ? "true" : "false");
       b.addEventListener("click", () => { idx = i; render(); });
       dots.appendChild(b);
     });
@@ -1078,52 +1085,13 @@ document.addEventListener("keydown", (e) => {
   }
 
   function fitTestimonialCard(){
-    if (window.wmolZoomIsActive && window.wmolZoomIsActive()) return;
-    if (!card) return;
-    // Desktop uses readable page type and a content-sized excerpt card. Only
-    // the existing phone layout uses the legacy fixed-height fitting pass.
-    if (!document.documentElement.classList.contains('wmol-phone-device') && window.innerWidth > 700) {
-      card.style.removeProperty('font-size');
-      card.style.gap = '8px';
-      return;
-    }
-
-    const number = idx + 1;
-    const denseTestimonials = new Set([5, 6, 9]);
-    const isDense = denseTestimonials.has(number);
-
-    const BASE_PX = 16;
-    const MAX_SCALE = isDense ? 1.00 : 1.04;
-    const MIN_SCALE = 0.86;
-    const STEP = 0.01;
-
-    card.style.gap = "0px";
-    card.style.fontSize = `${BASE_PX * MAX_SCALE}px`;
-
-    let scale = MAX_SCALE;
-
-    // First: only shrink when this specific testimonial actually needs it.
-    while (scale > MIN_SCALE && card.scrollHeight > card.clientHeight + 1){
-      scale = Math.max(MIN_SCALE, scale - STEP);
-      card.style.fontSize = `${BASE_PX * scale}px`;
-    }
-
-    // Second: shorter testimonials use the same font proportions as the page.
-    // Instead of stretching a headline or creating one giant empty canyon,
-    // distribute a modest amount of the remaining room between the content blocks.
-    if (!isDense){
-      const free = Math.max(0, card.clientHeight - card.scrollHeight);
-      const adaptiveGap = Math.min(12, Math.max(6, free / 5));
-      card.style.gap = `${adaptiveGap}px`;
-
-      // If the new spacing is just enough to cause overflow, trim minimally.
-      while (scale > MIN_SCALE && card.scrollHeight > card.clientHeight + 1){
-        scale = Math.max(MIN_SCALE, scale - STEP);
-        card.style.fontSize = `${BASE_PX * scale}px`;
-      }
-    } else {
-      card.style.gap = "7px";
-    }
+    if (!card || (window.wmolZoomIsActive && window.wmolZoomIsActive())) return;
+    // Natural content height on phones and desktops. Do not compress readable
+    // text into a fixed box or distribute spare height as large paragraph gaps.
+    card.style.removeProperty('font-size');
+    card.style.removeProperty('gap');
+    card.style.removeProperty('height');
+    card.style.removeProperty('max-height');
   }
 
   function render(){

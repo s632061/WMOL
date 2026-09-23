@@ -19339,3 +19339,187 @@ html.wmol-phone-device .home-viewport.domains-page .rail-gadgets::before,
 html.wmol-phone-device .home-viewport.domains-page .rail-lifestyle::before {
   background-position: center calc(50% + var(--domains-mobile-art-offset, 0px)) !important;
 }
+
+
+/* Testimonial navigation, release 22 (restored cumulative package).
+   No landing, Systems, Tools-card or artwork layout changes. */
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid {
+  --pass-proof-gutter: 0px;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-shell {
+  display: block !important; position: relative !important;
+  width: 100% !important; max-width: 100% !important; min-width: 0 !important;
+  height: auto !important; min-height: 0 !important; max-height: none !important;
+  margin: 0 !important; padding: 0 !important; overflow: visible !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card {
+  display: flex !important; flex-direction: column !important;
+  justify-content: flex-start !important; align-items: stretch !important;
+  position: relative !important; inset: auto !important;
+  box-sizing: border-box !important; width: 100% !important; max-width: 100% !important;
+  min-width: 0 !important; height: auto !important; min-height: 0 !important; max-height: none !important;
+  margin: 0 !important; padding: 18px 20px !important; gap: 12px !important;
+  overflow: visible !important; transform: none !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card > * {
+  flex: 0 0 auto !important; min-width: 0 !important;
+  height: auto !important; max-height: none !important;
+  margin-block: 0 !important; overflow: visible !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-top {
+  display: flex !important; align-items: flex-start !important;
+  justify-content: space-between !important; gap: 12px !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-top > div:first-child {
+  flex: 1 1 auto !important; min-width: 0 !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-count {
+  flex: 0 0 auto !important; white-space: nowrap !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-meta {
+  margin-top: 3px !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-theme,
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-headline,
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-proof {
+  margin: 0 !important; padding-block: 0 !important;
+  text-align: left !important; line-height: 1.4 !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-proof {
+  padding-inline: 1.15em 0 !important; box-sizing: border-box !important; width: 100% !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-proof li {
+  margin: 0 0 .35em !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-proof li:last-child {
+  margin-bottom: 0 !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-actions {
+  display: flex !important; justify-content: flex-end !important;
+  position: static !important; inset: auto !important;
+  margin: 0 !important; padding: 2px 0 0 !important;
+  width: 100% !important; min-height: 0 !important; transform: none !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-read {
+  position: static !important; inset: auto !important; margin: 0 !important;
+  max-width: 100% !important; height: auto !important; min-height: 36px !important;
+  padding: 7px 14px !important; transform: none !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .pass-publications-card {
+  width: 100% !important; max-width: 100% !important;
+  margin-inline: 0 !important; box-sizing: border-box !important;
+}
+/* One centered row under the card. Dots can become closer on narrow phones;
+   the oval arrow targets do not move into the card or the browser controls. */
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-controls {
+  display: grid !important; grid-template-columns: auto minmax(0,1fr) auto !important;
+  align-items: center !important; column-gap: clamp(4px, 2vw, 10px) !important;
+  width: min(100%, 360px) !important; max-width: 100% !important;
+  margin: 12px auto 0 !important; padding: 0 !important; box-sizing: border-box !important;
+  position: relative !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-controls .t-nav {
+  display: inline-flex !important; align-items: center !important; justify-content: center !important;
+  position: static !important; inset: auto !important; transform: none !important;
+  width: 56px !important; height: 44px !important; min-width: 44px !important;
+  min-height: 44px !important; margin: 0 !important; padding: 8px 12px !important;
+  border-radius: 999px !important; border: 1px solid rgba(105,75,45,.25) !important;
+  background: #fbfaf6 !important; color: #4e3625 !important;
+  box-shadow: 0 2px 5px rgba(55,38,22,.06) !important; box-sizing: border-box !important;
+  cursor: pointer !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-controls .t-nav:hover {
+  background: #f1e6c8 !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-controls .t-nav svg {
+  display: block; width: 26px; height: 20px; flex: 0 0 auto; pointer-events: none;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-controls .t-dots {
+  display: grid !important; grid-template-columns: repeat(10, minmax(0,1fr)) !important;
+  align-items: center !important; justify-content: center !important; gap: 2px !important;
+  width: 100% !important; max-width: 220px !important; min-width: 0 !important;
+  height: 44px !important; min-height: 0 !important; margin: 0 auto !important; padding: 0 !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-controls .t-dot {
+  display: flex !important; align-items: center !important; justify-content: center !important;
+  box-sizing: border-box !important; min-width: 0 !important; width: 100% !important;
+  height: 44px !important; min-height: 44px !important; max-width: none !important;
+  border: 0 !important; background: transparent !important; padding: 0 !important; margin: 0 !important;
+  box-shadow: none !important; transform: none !important; cursor: pointer !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-controls .t-dot::before {
+  content: ""; display: block; box-sizing: border-box;
+  width: 8px; height: 8px; flex: 0 0 8px; border-radius: 50%;
+  background: #fbfaf6; border: 1px solid #b8ac9c;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-controls .t-dot.active::before {
+  background: #795530; border-color: #795530;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-controls button:focus-visible {
+  outline: 2px solid #795530 !important; outline-offset: 2px !important;
+}
+/* The desktop body groups follow the now full-width proof cards. */
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .pass-desktop-copy-group {
+  width: 100% !important; max-width: 100% !important;
+  margin-inline: auto !important; padding-inline: 0 !important;
+}
+/* Phone copy uses the same reading measure for both proof columns, with equal
+   side margins. No per-paragraph fitting, forced line breaks or justified text. */
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .pass-proof-head {
+  width: 100% !important; max-width: 100% !important;
+  padding-inline: 0 !important; margin-inline: 0 !important;
+}
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .pass-mobile-copy-group {
+  display: block !important; box-sizing: border-box !important;
+  width: calc(100% - 16px) !important; max-width: 100% !important;
+  margin-inline: auto !important; padding: 0 !important; text-align: left !important;
+}
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .pass-mobile-copy-group > p,
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .pass-mobile-copy-group > ul {
+  width: 100% !important; max-width: 100% !important; box-sizing: border-box !important;
+  margin-inline: 0 !important; text-align: left !important; text-wrap: wrap !important;
+  text-indent: 0 !important; white-space: normal !important;
+  font-size: 1rem !important; line-height: 1.4 !important;
+}
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .pass-mobile-copy-group > p {
+  margin-block: 0 8px !important; padding: 0 !important;
+}
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .pass-publications-points {
+  padding-inline: 1.15em 0 !important; margin-block: 8px 0 !important;
+}
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .pass-publications-points li {
+  margin-block: 0 8px !important; padding: 0 !important;
+}
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card {
+  font-size: 1rem !important; padding: 16px !important;
+}
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-name,
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-theme {
+  font-size: 1em !important; line-height: 1.32 !important;
+}
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-meta,
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-count {
+  font-size: .9em !important; line-height: 1.32 !important;
+}
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-headline,
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-proof {
+  font-size: 1em !important; line-height: 1.4 !important;
+}
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-read {
+  min-height: 44px !important;
+}
+/* The Tools frame and card interior are untouched. Only the mobile document
+   canvas and requested browser colour revert to black. */
+html:root.wmol-phone-device[data-wmol-surface="tools"],
+html:root.wmol-phone-device[data-wmol-surface="tools"] body {
+  background: #000 !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-controls .t-nav.prev {
+  grid-column: 1 !important; grid-row: 1 !important; order: 0 !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-controls .t-dots {
+  grid-column: 2 !important; grid-row: 1 !important; order: 0 !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-controls .t-nav.next {
+  grid-column: 3 !important; grid-row: 1 !important; order: 0 !important;
+}

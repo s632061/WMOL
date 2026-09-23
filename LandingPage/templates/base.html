@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-wmol-release="cards-surface-21">
+<html lang="en" data-wmol-release="testimonial-navigation-22-reissued">
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
@@ -59,7 +59,7 @@
             return;
           }
           var color = surface === "home" || surface === "domains" ? "#342515"
-            : surface === "medicine" ? "#f8f4e9" : surface === "tools" ? "#5a3b26"
+            : surface === "medicine" ? "#f8f4e9" : surface === "tools" ? "#000000"
             : surface === "hsk" ? "#080909" : surface === "aws" ? "#06192f" : "#020826";
           if (surface === "hsk" || surface === "aws") {
             var ownPage = document.querySelector(surface === "hsk" ? ".hsk-page" : ".aws5-page");
@@ -129,7 +129,7 @@
       })();
     </script>
     <title>{% block title %}Wang Method of Learning{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-cards-surface-21">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-testimonial-navigation-22-reissued">
   </head>
   <body>
     <div class="wmol-phone-backdrop" aria-hidden="true"></div>
@@ -239,6 +239,7 @@
     }
     page.querySelectorAll('[data-mobile-group-fit]').forEach(group => {
       group.style.removeProperty('width');
+      if (group.closest('.pass-proof-grid')) return;
       if (!phone) return;
       const children = Array.from(group.querySelectorAll('p, li'));
       const available = group.parentElement.clientWidth;
@@ -262,6 +263,7 @@
       // The block remains left aligned; equal auto margins center the whole group.
       const targets = page.querySelectorAll('.pass-what-points, .pass-use-summary, .pass-system-description, .pass-section-head > p:not(.pass-section-kicker), .pass-fit-intro, .pass-mobile-copy-group');
       Array.from(new Set(targets)).forEach(group => {
+        if (group.closest('.pass-proof-grid')) {group.style.removeProperty('width'); return;}
         let maxWidth = group.parentElement.clientWidth;
         if (!maxWidth) return;
         if (group.matches('.pass-what-points, .pass-mobile-copy-group')) {
