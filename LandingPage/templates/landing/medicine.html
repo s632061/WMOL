@@ -26,7 +26,8 @@
   <main class="med-content" role="main">
     <div class="content-inner pass-page">
 <header class="pass-hero" aria-labelledby="pass-title">
-  <h1 class="pass-title pass-title--long" id="pass-title">Pre-Matriculation Academic Student Success (PASS)</h1>
+  <h1 class="pass-title pass-title--long" id="pass-title"><span class="pass-title-line">Pre-Matriculation Academic</span>
+    <span class="pass-title-line">Student Success (PASS)</span></h1>
 
   <div class="pass-hero-outcomes" aria-label="PASS institutional benefits">
     <span class="pass-outcome-row">
@@ -140,7 +141,7 @@
 <section class="pass-section pass-use-section" aria-labelledby="pass-use-title">
   <div class="pass-section-head">
     <p class="pass-section-kicker">Real-World Use</p>
-    <h2 id="pass-use-title">Where PASS Is Already Being<br class="pass-use-title-break-small"> Used</h2>
+    <h2 id="pass-use-title">Where PASS Is Already Being Used</h2>
   </div>
 
   <div class="pass-use-intro">
@@ -1016,6 +1017,15 @@ headline: "I study about 25% less, keep my grades strong, and finally have time 
   const modalMeta = document.getElementById("tModalMeta");
   const modalBody = document.getElementById("tModalBody");
   const modalClose = modal.querySelector(".t-modal-close");
+  document.body.appendChild(modal);
+  const modalDialog = modal.querySelector('.t-modal-inner');
+  modalDialog.setAttribute('aria-labelledby', 'tModalName');
+  modalDialog.setAttribute('tabindex', '-1');
+  modalClose.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+  let modalReturnFocus = null;
+  let previousBodyOverflow = '';
+  const backgroundMain = document.querySelector('body > main');
+  let backgroundWasInert = false;
 
   function renderDots(){
     dots.innerHTML = "";
@@ -1031,6 +1041,10 @@ headline: "I study about 25% less, keep my grades strong, and finally have time 
   }
 
 function openModal(t){
+  modalReturnFocus = document.activeElement;
+  previousBodyOverflow = document.body.style.overflow;
+  document.body.style.overflow = 'hidden';
+  if (backgroundMain) {backgroundWasInert = backgroundMain.inert; backgroundMain.inert = true;}
   modalName.textContent = t.name || "";
   modalMeta.textContent = formatTestimonialMeta(t.meta);
 
@@ -1045,6 +1059,8 @@ function openModal(t){
 
   modal.classList.add("is-open");
   modal.setAttribute("aria-hidden", "false");
+  modalBody.scrollTop = 0;
+  modalClose.focus({preventScroll:true});
   document.getElementById('backHome')?.classList.add('hidden');
 
 }
@@ -1052,6 +1068,9 @@ function openModal(t){
 function closeModal(){
   modal.classList.remove("is-open");
   modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = previousBodyOverflow;
+  if (backgroundMain) backgroundMain.inert = backgroundWasInert;
+  if (modalReturnFocus && modalReturnFocus.isConnected) modalReturnFocus.focus({preventScroll:true});
   document.getElementById('backHome')?.classList.remove('hidden');
 }
 
@@ -1069,7 +1088,14 @@ modal.addEventListener("click", (e) => {
 
 // Escape closes
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && modal.classList.contains("is-open")) closeModal();
+  if (!modal.classList.contains('is-open')) return;
+  if (e.key === 'Escape') {e.preventDefault(); closeModal();}
+  if (e.key === 'Tab') {
+    const stops = [...modal.querySelectorAll('button, a[href], input, [tabindex="0"]')].filter(el => !el.disabled && el.getClientRects().length);
+    const first = stops[0], last = stops[stops.length-1];
+    if (e.shiftKey && (document.activeElement === first || document.activeElement === modalDialog)) {e.preventDefault();last?.focus();}
+    else if (!e.shiftKey && document.activeElement === last) {e.preventDefault();first?.focus();}
+  }
 });
 
 
@@ -1084,25 +1110,14 @@ document.addEventListener("keydown", (e) => {
     return `(${cleaned})`;
   }
 
-  function fitTestimonialCard(){
-    if (!card || (window.wmolZoomIsActive && window.wmolZoomIsActive())) return;
-    // Natural content height on phones and desktops. Do not compress readable
-    // text into a fixed box or distribute spare height as large paragraph gaps.
-    card.style.removeProperty('font-size');
-    card.style.removeProperty('gap');
-    card.style.removeProperty('height');
-    card.style.removeProperty('max-height');
-  }
-
-  function render(){
-    const t = testimonials[idx];
-    card.innerHTML = `
+  function testimonialMarkup(t, index) {
+    return `
       <div class="t-top">
         <div>
           <div class="t-name">${t.name}</div>
           <div class="t-meta">${formatTestimonialMeta(t.meta)}</div>
         </div>
-        <div class="t-count">${idx+1} / ${testimonials.length}</div>
+        <div class="t-count">${index+1} / ${testimonials.length}</div>
       </div>
 
  ${t.theme ? `<div class="t-theme">${t.theme}</div>` : ""}
@@ -1119,13 +1134,65 @@ document.addEventListener("keydown", (e) => {
         <button class="t-read" type="button">Read full</button>
       </div>
     `;
-
-    card.querySelector(".t-read").addEventListener("click", () => openModal(t));
-    renderDots();
-
-    requestAnimationFrame(() => fitTestimonialCard());
   }
 
+  // One stable height for all ten excerpts at the current reading width.
+  // Measuring the hidden duplicate never changes the visible active card.
+  let measureKey = '';
+  let largestExcerpt = 0;
+  function fitTestimonialCard(force = false) {
+    if (!card || !card.clientWidth || (window.wmolZoomIsActive && window.wmolZoomIsActive())) return;
+    const css = getComputedStyle(card);
+    const key = [card.clientWidth,css.fontSize,css.fontFamily,css.lineHeight,css.padding,css.gap].join('|');
+    if (force || key !== measureKey) {
+      const probe = document.createElement('article');
+      probe.className = 'testimonial-card';
+      probe.setAttribute('aria-hidden','true'); probe.inert = true;
+      probe.dataset.testimonialMeasure = '';
+      probe.style.setProperty('position','absolute','important');
+      probe.style.setProperty('visibility','hidden','important');
+      probe.style.setProperty('pointer-events','none','important');
+      probe.style.setProperty('height','auto','important');
+      probe.style.setProperty('min-height','0','important');
+      probe.style.setProperty('max-height','none','important');
+      probe.style.setProperty('inset','0 auto auto 0','important');
+      card.parentElement.appendChild(probe);
+      largestExcerpt = 0;
+      testimonials.forEach((item,i) => {
+        probe.innerHTML = testimonialMarkup(item,i);
+        largestExcerpt = Math.max(largestExcerpt, probe.offsetHeight, probe.scrollHeight);
+      });
+      probe.remove();
+      largestExcerpt = Math.ceil(largestExcerpt) + 4;
+      measureKey = key;
+    }
+    const grid = card.closest('.pass-proof-grid');
+    const heads = [...grid.querySelectorAll('.pass-proof-head')];
+    const sideBySide = heads.length === 2 && Math.abs(heads[0].getBoundingClientRect().left-heads[1].getBoundingClientRect().left)>40;
+    const heights = heads.map(head => head.offsetHeight);
+    const topMax = sideBySide ? Math.max(...heights) : 0;
+    // Shorter heading area receives a taller card, not a large blank gap above it.
+    grid.style.setProperty('--testimonial-set-height', (largestExcerpt + (sideBySide ? topMax-heights[0] : 0))+'px');
+    grid.style.setProperty('--publication-set-height', (largestExcerpt + (sideBySide ? topMax-heights[1] : 0))+'px');
+  }
+  window.wmolFitTestimonialSet = fitTestimonialCard;
+
+  function render(){
+    const t = testimonials[idx];
+    card.innerHTML = testimonialMarkup(t, idx);
+    card.querySelector('.t-read').addEventListener('click', () => openModal(t));
+    renderDots();
+    fitTestimonialCard();
+  }
+  if (window.ResizeObserver) {
+    let oldWidth = 0;
+    new ResizeObserver(entries => {
+      const width = entries[0].contentRect.width;
+      if (Math.abs(width-oldWidth)>.5) {oldWidth=width;requestAnimationFrame(() => fitTestimonialCard());}
+    }).observe(card.parentElement);
+  }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => fitTestimonialCard(true));
+  window.addEventListener('wmol:viewport', () => fitTestimonialCard());
   let testimonialResizeFrame = null;
   window.addEventListener("resize", () => {
     if (testimonialResizeFrame) cancelAnimationFrame(testimonialResizeFrame);

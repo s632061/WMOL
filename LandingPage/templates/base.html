@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-wmol-release="desktop-proportions-23">
+<html lang="en" data-wmol-release="portrait-proof-24">
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
@@ -129,7 +129,7 @@
       })();
     </script>
     <title>{% block title %}Wang Method of Learning{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-desktop-proportions-23">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-portrait-proof-24">
   </head>
   <body>
     <div class="wmol-phone-backdrop" aria-hidden="true"></div>
@@ -214,12 +214,6 @@
       // Centre to the image itself, excluding the thumbnail/caption rows below it.
       const gap = sideBySide ? Math.max(0, (frame.offsetHeight - copy.offsetHeight) / 2) : 0;
       copy.style.setProperty('--pass-product-top-space', `${gap}px`);
-    }
-    const proofGrid = page.querySelector('.pass-proof-grid');
-    const excerptCard = page.querySelector('.testimonial-card');
-    if (proofGrid && excerptCard) {
-      const height = Math.ceil(excerptCard.offsetHeight);
-      if (height > 0) proofGrid.style.setProperty('--pass-proof-card-height', `${height}px`);
     }
     // Enlarge short one-line statements toward their card/grid boundaries.
     // Do not justify/stretch letters or force a multiline sentence onto one line.
@@ -311,34 +305,26 @@
         if (group.offsetHeight > oldHeight + 2) group.style.setProperty('width', `${maxWidth}px`, 'important');
       });
     }
+    // Keep the requested two-line title at its largest non-overflowing size.
+    const heading = page.querySelector('#pass-title');
+    if (heading) {
+      heading.style.removeProperty('font-size');
+      const baseSize = parseFloat(getComputedStyle(heading).fontSize);
+      const lines = Array.from(heading.querySelectorAll('.pass-title-line'));
+      const needed = Math.max(1, ...lines.map(line => fullTextWidth(line, baseSize)));
+      const available = Math.max(1, heading.clientWidth - 8);
+      heading.style.setProperty('font-size', `${Math.min(baseSize, baseSize * available / needed)}px`, 'important');
+    }
     const benefits = page.querySelector('.pass-hero-outcomes');
     if (benefits) {
-      benefits.style.removeProperty('font-size');
-      benefits.style.removeProperty('width');
-      const items = Array.from(benefits.querySelectorAll('.pass-outcome-item'));
-      items.forEach(item => item.style.removeProperty('white-space'));
-      if (document.documentElement.classList.contains('wmol-phone-device') || innerWidth <= 700) {
-        const base = parseFloat(getComputedStyle(benefits).fontSize);
-        const available = benefits.clientWidth - 4;
-        const needed = Math.max(...items.slice(0, 3).map(item => fullTextWidth(item, base)));
-        benefits.style.setProperty('font-size', `${Math.min(base, base * available / Math.max(1, needed))}px`, 'important');
-        items.slice(0, 3).forEach(item => item.style.setProperty('white-space', 'nowrap', 'important'));
-        const fitted = parseFloat(getComputedStyle(benefits).fontSize);
-        // Use a single centered block, not four separately centered sentences.
-        // Last sentence wraps naturally within the longest of the first three.
-        const groupWidth = Math.min(available + 4, Math.ceil(Math.max(...items.slice(0,3).map(item => fullTextWidth(item, fitted))) + 4));
-        benefits.style.setProperty('width', `${groupWidth}px`, 'important');
-      }
+      ['font-size','width'].forEach(p => benefits.style.removeProperty(p));
+      benefits.querySelectorAll('.pass-outcome-item').forEach(item => item.style.removeProperty('white-space'));
     }
+    fitSingleLine(page.querySelector('#pass-use-title'), 12);
     const grid = page.querySelector('.pass-proof-grid');
-    if (grid) {
-      grid.style.removeProperty('--wmol-proof-head-height');
-      const heads = Array.from(grid.querySelectorAll('.pass-proof-head'));
-      if (heads.length === 2 && Math.abs(heads[0].getBoundingClientRect().left - heads[1].getBoundingClientRect().left) > 40) {
-        const height = Math.max(...heads.map(el => Math.max(el.offsetHeight, el.scrollHeight)));
-        grid.style.setProperty('--wmol-proof-head-height', `${height}px`);
-      }
-    }
+    if (grid) grid.style.removeProperty('--wmol-proof-head-height');
+    // The excerpt controller measures every slide, not just the active one.
+    if (window.wmolFitTestimonialSet) window.wmolFitTestimonialSet();
   }
   function schedule() { if (raf) cancelAnimationFrame(raf); raf = requestAnimationFrame(() => {raf=0; syncPass();}); }
   function init() {

@@ -19855,3 +19855,275 @@ html:root #wmol-medicine.medicine-layout .pass-page .pass-section[aria-labelledb
   transform: none !important;
   aspect-ratio: 1 / 1 !important;
 }
+
+/* Release 24: one clipped carousel entrance and stable, readable PASS proof.
+   All repairs stay in the existing stylesheet; other landing artwork is unchanged. */
+.domains-panel-window, .domains-entrance { display: contents; }
+html:root.wmol-domains-carousel .home-viewport.domains-page {
+  --domains-header-height: 44px;
+  padding: 0 !important; position: relative !important;
+}
+html:root.wmol-domains-carousel.wmol-domains-portrait .home-viewport.domains-page {
+  --domains-header-height: calc(44px * var(--domains-portrait-scale));
+}
+html:root.wmol-domains-carousel .home-viewport.domains-page .domains-header {
+  height: var(--domains-header-height) !important;
+  z-index: 40 !important;
+}
+html:root.wmol-domains-carousel .home-viewport.domains-page .domains-panel-window {
+  display: block; position: absolute; inset: var(--domains-header-height) 0 0;
+  overflow: hidden; isolation: isolate; border: 0; padding: 0; margin: 0;
+}
+html:root.wmol-domains-carousel .home-viewport.domains-page .domains-entrance {
+  display: block; position: relative; width: 100%; height: 100%;
+  margin: 0; padding: 0; border: 0;
+}
+html:root.wmol-domains-carousel .home-viewport.domains-page .wml-home {
+  position: relative !important; inset: auto !important;
+  display: flex !important; flex-direction: row !important;
+  width: 100% !important; height: 100% !important; min-height: 0 !important;
+  margin: 0 !important; padding: 0 !important; gap: 0 !important;
+  transform: none !important; animation: none !important; clip-path: none !important;
+  opacity: 1 !important; visibility: visible !important;
+  overflow-x: auto !important; overflow-y: hidden !important;
+  scroll-snap-type: x mandatory !important; scroll-behavior: smooth !important;
+  scrollbar-width: none !important; box-shadow: none !important; border: 0 !important;
+}
+html:root.wmol-domains-carousel .home-viewport.domains-page .wml-home::-webkit-scrollbar {display:none !important;}
+html:root.wmol-domains-carousel .home-viewport.domains-page .wml-home > .wml-rail {
+  position: relative !important; flex: 0 0 100% !important;
+  width: 100% !important; min-width: 0 !important; max-width: 100% !important;
+  height: 100% !important; min-height: 0 !important;
+  inset: auto !important; margin: 0 !important; padding: 0 !important;
+  border: 0 !important; outline: 0 !important; box-shadow: none !important;
+  clip-path: none !important; animation: none !important; transform: none !important;
+  filter: none !important; opacity: 1 !important; visibility: visible !important;
+  overflow: hidden !important; scroll-snap-align: start !important;
+  background: var(--domains-solid, #020826) !important;
+}
+html:root.wmol-domains-carousel .home-viewport.domains-page .wml-home > .rail-medicine {--domains-solid:#020826; --domains-poster:url('/static/img/coat-circle.png');}
+html:root.wmol-domains-carousel .home-viewport.domains-page .wml-home > .rail-technology {--domains-solid:#202425; --domains-poster:url('/static/img/technology.png');}
+html:root.wmol-domains-carousel .home-viewport.domains-page .wml-home > .rail-gadgets {--domains-solid:#3e422f; --domains-poster:url('/static/img/gadgets.png');}
+html:root.wmol-domains-carousel .home-viewport.domains-page .wml-home > .rail-lifestyle {--domains-solid:#171717; --domains-poster:url('/static/img/lifestyle.png');}
+html:root.wmol-domains-carousel .home-viewport.domains-page .wml-home > .wml-rail::before {
+  content: '' !important; display: block !important;
+  position: absolute !important; inset: auto !important;
+  left: 50% !important; top: var(--domains-mobile-art-center-y,50%) !important;
+  width: var(--domains-poster-width,100%) !important;
+  height: var(--domains-poster-height,100%) !important;
+  background: var(--domains-poster) center / 100% 100% no-repeat !important;
+  transform: translate(-50%,-50%) !important;
+  /* Clip only the outer frame pixels of the original poster, not its artwork. */
+  clip-path: inset(3px) !important;
+  animation: none !important; opacity: 1 !important; visibility: visible !important;
+  filter: none !important; border: 0 !important; outline: 0 !important;
+  box-shadow: none !important; pointer-events: none !important;
+}
+html:root.wmol-domains-carousel .home-viewport.domains-page .wml-home .rail-inner {
+  position: relative !important; width: 100% !important; height: 100% !important;
+  margin: 0 !important; padding: 0 !important; inset: auto !important;
+  transform: none !important; animation: none !important; clip-path: none !important;
+  border: 0 !important; box-shadow: none !important;
+}
+html:root.wmol-domains-carousel .home-viewport.domains-page .wml-home .rail-image-wrap { display:none !important; }
+html:root.wmol-domains-carousel .home-viewport.domains-page .wml-home :is(.wml-title,.wml-title-tech,.wml-cta,.wml-cta-tech,.wml-cta-gadgets,.wml-cta-lifestyle) {
+  animation: none !important; opacity:1 !important; visibility:visible !important;
+  transform:translateX(-50%) !important;
+}
+html:root.wmol-domains-carousel .home-viewport.domains-page .domains-carousel-ui {
+  display:flex !important; align-items:center !important; justify-content:center !important;
+  height:clamp(44px,5.5vw,60px) !important;
+  width:max-content !important; max-width:calc(100% - 24px) !important;
+  gap:clamp(10px,2vw,22px) !important;
+  background:transparent !important;
+}
+html:root.wmol-domains-carousel .home-viewport.domains-page .domains-nav-btn {
+  appearance:none !important; -webkit-appearance:none !important;
+  display:inline-flex !important; align-items:center !important; justify-content:center !important;
+  width:clamp(44px,5.5vw,60px) !important; height:clamp(44px,5.5vw,60px) !important;
+  min-width:44px !important; min-height:44px !important;
+  padding:0 !important; margin:0 !important; border:0 !important; border-radius:50% !important;
+  background:rgba(0,0,0,.68) !important; color:#f6f3ec !important;
+  font:400 clamp(26px,3.6vw,34px)/1 Arial,sans-serif !important;
+  box-shadow:none !important; cursor:pointer !important;
+}
+html:root.wmol-domains-carousel .home-viewport.domains-page .domains-nav-btn:hover {background:rgba(0,0,0,.88) !important;}
+html:root.wmol-domains-carousel .home-viewport.domains-page .domains-dots {gap:clamp(6px,1.1vw,12px) !important;}
+html:root.wmol-domains-carousel .home-viewport.domains-page .domains-dot {
+  appearance:none !important; -webkit-appearance:none !important;
+  width:clamp(8px,1vw,11px) !important; height:clamp(8px,1vw,11px) !important;
+  min-width:0 !important; min-height:0 !important; padding:0 !important; margin:0 !important;
+  border:0 !important; border-radius:50% !important; box-shadow:none !important;
+  background:rgba(248,247,242,.40) !important;
+}
+html:root.wmol-domains-carousel .home-viewport.domains-page .domains-dot.is-active {background:#f6f3ec !important;}
+html:root.wmol-domains-carousel .home-viewport.domains-page .domains-nav-btn:focus-visible {outline:2px solid #d7b645 !important;outline-offset:3px !important;}
+
+/* Mobile cards have the same square preference as the desktop cards. They can
+   grow taller for large accessibility text; nothing is hidden to force a square. */
+html:root.wmol-phone-device #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid .tool-icon-card {
+  display:flex !important; flex-direction:column !important; align-items:stretch !important;
+  justify-content:flex-start !important; box-sizing:border-box !important;
+  width:100% !important; max-width:100% !important; height:auto !important;
+  min-height:auto !important; aspect-ratio:1 / 1 !important; padding:18px !important;
+}
+html:root.wmol-phone-device #wmol-tools.tools-layout .tools-grid .tool-icon-card > * {flex-shrink:0 !important;}
+
+/* Explicit title lines keep the laptop's composition on wider and narrower screens. */
+html:root #wmol-medicine.medicine-layout .pass-page #pass-title {
+  display:block !important; width:100% !important; max-width:100% !important;
+  margin-inline:auto !important; padding-inline:0 !important;
+  font-size:clamp(42px,3.5vw,64px) !important; line-height:1.12 !important;
+  text-align:center !important; white-space:normal !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page #pass-title .pass-title-line {
+  display:block !important; width:100% !important; white-space:nowrap !important;
+  font:inherit !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-hero .pass-hero-outcomes {
+  display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  width:min(100%,1100px) !important; max-width:100% !important;
+  box-sizing:border-box !important; margin:24px auto 0 !important; padding:0 !important;
+  gap:12px 32px !important; text-align:left !important;
+  font-size:clamp(30px,1.7vw,38px) !important; line-height:1.35 !important; font-weight:700 !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-hero .pass-outcome-row {display:contents !important;}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-hero .pass-outcome-item {
+  font:inherit !important; text-align:left !important; white-space:normal !important;
+  text-wrap:wrap !important; width:auto !important; max-width:100% !important;
+  min-width:0 !important; margin:0 !important; padding:0 !important;
+}
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page #pass-title {font-size:clamp(28px,7.2vw,34px) !important;}
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-hero .pass-hero-outcomes {
+  font-size:clamp(16px,4.3vw,19px) !important; gap:12px 20px !important;
+  width:100% !important; margin-top:20px !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page #pass-use-title {
+  width:100% !important; max-width:100% !important; padding:0 !important;
+  white-space:nowrap !important; text-align:center !important;
+}
+
+/* Header-to-card gaps match. The stable card-height controller compensates for
+   unequal heading lengths in the cards instead of inserting blank head space. */
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .pass-proof-column {
+  display:flex !important; flex-direction:column !important; justify-content:flex-start !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .pass-proof-head {
+  min-height:0 !important; height:auto !important; max-height:none !important; margin:0 !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .pass-proof-body {
+  flex:0 0 auto !important; margin:20px 0 0 !important; padding:0 !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card {
+  height:var(--testimonial-set-height,auto) !important;
+  min-height:0 !important; max-height:none !important;
+  font-size:clamp(23px,1.4vw,28px) !important; line-height:1.4 !important;
+  padding:22px !important; gap:12px !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card :is(.t-name,.t-theme,.t-headline,.t-proof) {
+  font-size:1em !important; line-height:1.4 !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card :is(.t-meta,.t-count) {font-size:.9em !important;line-height:1.35 !important;}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-actions {margin-top:auto !important;}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card .t-read {font-size:.94em !important;}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .pass-publications-card {
+  height:var(--publication-set-height,400px) !important;
+  min-height:0 !important; max-height:none !important;
+}
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .testimonial-card {
+  font-size:clamp(16px,4.3vw,19px) !important; padding:18px !important;
+}
+
+/* The popup is a body child, outside the PASS page's compact zoom. */
+html:root body > #tModal.t-modal {
+  position:fixed !important; inset:0 !important; z-index:100000 !important;
+  display:none !important; align-items:center !important; justify-content:center !important;
+  width:100% !important; height:100% !important; margin:0 !important;
+  box-sizing:border-box !important; padding:clamp(12px,2.5vmin,32px) !important;
+  background:rgba(24,20,15,.65) !important; transform:none !important; zoom:1 !important;
+}
+html:root body > #tModal.t-modal.is-open {display:flex !important;}
+html:root body > #tModal .t-modal-inner {
+  position:relative !important; display:flex !important; flex-direction:column !important;
+  box-sizing:border-box !important; width:min(1120px,100%) !important; max-width:100% !important;
+  max-height:90vh !important; max-height:90dvh !important;
+  min-height:0 !important; padding:clamp(20px,2.8vw,36px) !important;
+  border:1px solid #daceb6 !important; border-radius:18px !important;
+  background:#f8f4e9 !important; color:#392c22 !important;
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:clamp(18px,1.12vw,22px) !important;
+  box-shadow:0 20px 70px rgba(0,0,0,.30) !important;
+  overflow:hidden !important; transform:none !important; zoom:1 !important;
+}
+html:root body > #tModal .t-modal-name {
+  flex:0 0 auto !important; margin:0 44px 4px 0 !important;
+  font:700 1.18em/1.3 Georgia,'Times New Roman',serif !important; color:#392c22 !important;
+}
+html:root body > #tModal .t-modal-meta {
+  flex:0 0 auto !important; margin:0 44px 20px 0 !important;
+  font:400 .96em/1.35 Georgia,'Times New Roman',serif !important; color:#76685a !important;
+}
+html:root body > #tModal .t-modal-body {
+  flex:1 1 auto !important; min-height:0 !important; overflow-y:auto !important; overflow-x:auto !important;
+  scrollbar-width:thin !important; scrollbar-color:#a28c68 #ece5d6 !important;
+  mask-image:none !important; -webkit-mask-image:none !important;
+  overscroll-behavior:contain; padding-right:12px !important;
+}
+html:root body > #tModal .t-modal-body::-webkit-scrollbar {display:block !important; width:8px !important;height:8px !important;}
+html:root body > #tModal .t-modal-body::-webkit-scrollbar-thumb {background:#a28c68;border-radius:9px;}
+html:root body > #tModal .t-modal-body,
+html:root body > #tModal .t-modal-body :is(p,ul,li,table,th,td,h4) {
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:inherit !important; line-height:1.55 !important; color:#392c22 !important;
+}
+html:root body > #tModal .t-modal-body p {margin:0 0 .85em !important;}
+html:root body > #tModal .t-modal-body h4 {font-weight:700 !important;margin:1em 0 .35em !important;}
+html:root body > #tModal .t-modal-body .t-disclaimer {font-size:.88em !important;color:#76685a !important;}
+html:root body > #tModal .t-modal-close {
+  appearance:none !important; -webkit-appearance:none !important;
+  position:absolute !important; top:12px !important; right:12px !important;
+  display:grid !important; place-items:center !important; width:40px !important; height:40px !important;
+  box-sizing:border-box !important; padding:0 !important; margin:0 !important;
+  border:1px solid #d2c5ae !important; border-radius:50% !important;
+  color:#4a3727 !important; background:#f8f4e9 !important; cursor:pointer !important;
+}
+html:root body > #tModal .t-modal-close svg {width:20px;height:20px;display:block;pointer-events:none;}
+html:root body > #tModal .t-modal-close:focus-visible {outline:2px solid #795530;outline-offset:3px;}
+html:root.wmol-phone-device body > #tModal .t-modal-inner {font-size:17px !important;max-height:92dvh !important;}
+/* Beat the earlier desktop :not(phone) selector without per-line inline sizing. */
+html:root #wmol-medicine.medicine-layout .content-inner.pass-page .pass-hero[aria-labelledby="pass-title"] .pass-hero-outcomes {
+  font-size:clamp(30px,1.7vw,38px) !important;
+  gap:12px 32px !important;
+}
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .content-inner.pass-page .pass-hero[aria-labelledby="pass-title"] .pass-hero-outcomes {
+  font-size:clamp(16px,4.3vw,19px) !important;
+  gap:12px 20px !important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .pass-proof-head :is(.pass-desktop-copy-group,.pass-mobile-copy-group) > :last-child,
+html:root #wmol-medicine.medicine-layout .pass-page .pass-proof-grid .pass-publications-points li:last-child {
+  margin-bottom:0 !important;
+}
+/* Trim an original poster's edge frame without trimming the central illustration. */
+html:root.wmol-domains-carousel .home-viewport.domains-page .wml-home > .wml-rail::before {clip-path:inset(1%) !important;}
+html:root.wmol-domains-carousel .home-viewport.domains-page .domains-panel-window {
+  background:#0c0906 url('/static/img/wmol-bronze-texture.png') center / cover no-repeat;
+}
+html:root.wmol-phone-device #wmol-medicine.medicine-layout .content-inner.pass-page .pass-hero[aria-labelledby="pass-title"] .pass-hero-outcomes {
+  font-size:clamp(18px,4.75vw,21px) !important;
+}
+html:root.wmol-domains-carousel:not(.wmol-domains-portrait) .home-viewport.domains-page .domains-header {
+  position:absolute !important; inset:0 0 auto !important; width:100% !important;
+  max-width:100% !important; margin:0 !important; transform:none !important;
+  padding:8px 12px 0 !important; box-sizing:border-box !important;
+}
+html:root.wmol-phone-device body > #tModal .t-modal-close {width:44px !important;height:44px !important;}
+/* Extremely short non-phone windows keep readable carousel geometry and scroll. */
+@media (max-height:500px) {
+  html:root.wmol-domains-carousel:not(.wmol-phone-device),
+  html:root.wmol-domains-carousel:not(.wmol-phone-device) body {
+    height:auto !important; min-height:100% !important; overflow-y:auto !important;
+  }
+  html:root.wmol-domains-carousel:not(.wmol-phone-device) .home-viewport.domains-page {
+    height:560px !important; min-height:560px !important;
+  }
+}
