@@ -4,6 +4,18 @@
 {% block content %}
 
 <script>
+  // Page-local portrait monitor mode. Other pages keep their own layout.
+  window.wmolSyncDomainsPortrait = function () {
+    const root = document.documentElement;
+    if (window.wmolZoomIsActive && window.wmolZoomIsActive()) return;
+    const portrait = !root.classList.contains('wmol-phone-device') &&
+      innerWidth > 650 && innerHeight > innerWidth * 1.12;
+    root.classList.toggle('wmol-domains-portrait', portrait);
+    const scale = Math.max(1, Math.min(innerWidth / 430, innerHeight / 780, 2.8));
+    root.style.setProperty('--domains-portrait-scale', String(scale));
+  };
+  window.wmolSyncDomainsPortrait();
+  window.addEventListener('resize', window.wmolSyncDomainsPortrait, {passive:true});
   // EARLY: runs before first paint
   (function () {
     if (sessionStorage.getItem('closingToHome') === '1') {
@@ -142,7 +154,7 @@
 <script>
 (() => {
 function isPhoneMobile() {
-  if (document.documentElement.classList.contains('wmol-phone-device')) return true;
+  if (document.documentElement.classList.contains('wmol-phone-device') || document.documentElement.classList.contains('wmol-domains-portrait')) return true;
   const sw = Math.min(
     (window.screen && window.screen.width) || window.innerWidth || 9999,
     (window.screen && window.screen.height) || window.innerHeight || 9999
@@ -393,99 +405,24 @@ let isScrollMode = false;
 
 function fitHomeInnerScale() {
   if (window.wmolZoomIsActive && window.wmolZoomIsActive()) return;
-
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-
-    // ===== MOBILE: let the carousel layout run (no scaling / no scroll-mode canvas) =====
-  if (isPhoneMobile()) {
-    const viewport = document.querySelector('.home-viewport');
-    const home = document.querySelector('.wml-home');
-    if (!viewport || !home) return;
-
-    const screenW = (window.screen && window.screen.width) || vw;
-    const screenH = (window.screen && window.screen.height) || vh;
-    const designW = Math.min(screenW, screenH, 430);
-
-    // kill desktop scroll-mode + canvas sizing. Phone landscape stays in the
-    // same one-panel carousel layout instead of becoming the desktop grid.
-    viewport.classList.remove('home-scroll');
-    home.classList.remove('home-scroll');
-    home.style.width = '100%';
-    home.style.height = '100%';
-
-    document.documentElement.style.setProperty('--home-u', '1');
-    document.documentElement.style.setProperty('--home-canvas-w', vw + 'px');
-    document.documentElement.style.setProperty('--home-canvas-h', vh + 'px');
-    document.documentElement.style.setProperty('--wmol-phone-design-w', designW + 'px');
-    return;
-  }
-
+  window.wmolSyncDomainsPortrait();
+  const vw = document.documentElement.clientWidth || innerWidth;
+  const vh = innerHeight;
   const viewport = document.querySelector('.home-viewport');
   const home = document.querySelector('.wml-home');
   if (!viewport || !home) return;
-
-  // First run baseline
-  if (baseVW === 0 || baseVH === 0) {
-    baseVW = vw;
-    baseVH = vh;
-    baseU = Math.min(vw / baseW, vh / baseH);
-    baseU = Math.min(baseU, 1.35);
+  // Refit the current window, not a frozen canvas from the other orientation.
+  viewport.classList.remove('home-scroll'); home.classList.remove('home-scroll');
+  home.style.width = '100%'; home.style.height = '100%';
+  const carousel = isPhoneMobile();
+  const root = document.documentElement;
+  root.style.setProperty('--home-u', String(carousel ? 1 : Math.min(vw / baseW, vh / baseH, 1.35)));
+  root.style.setProperty('--home-canvas-w', vw + 'px');
+  root.style.setProperty('--home-canvas-h', vh + 'px');
+  if (root.classList.contains('wmol-phone-device')) {
+    const designW = Math.min(screen.width || vw, screen.height || vh, 430);
+    root.style.setProperty('--wmol-phone-design-w', designW + 'px');
   }
-
-  // If window grows, update baseline (new "best" fullscreen look)
-  if (!isScrollMode && (vw > baseVW || vh > baseVH)) {
-    baseVW = vw;
-    baseVH = vh;
-    baseU = Math.min(vw / baseW, vh / baseH);
-    baseU = Math.min(baseU, 1.35);
-  }
-
-  // ENTER scroll mode immediately on ANY shrink
-  const shouldEnterScroll = (vw < baseVW) || (vh < baseVH);
-  const shouldExitScroll  = (vw >= baseVW) && (vh >= baseVH);
-
-  if (!isScrollMode && shouldEnterScroll) isScrollMode = true;
-  if (isScrollMode && shouldExitScroll) isScrollMode = false;
-
-  if (isScrollMode) {
-    viewport.classList.add('home-scroll');
-    home.classList.add('home-scroll');
-
-    // Freeze the scale at the baseline look (NO more shrinking)
-    const u = baseU;
-
-    // Canvas is the frozen design size (scaled),
-    // but if user drags wider/taller after shrinking, expand canvas to avoid black bars.
-    const baseCanvasW = Math.round(baseW * u);
-    const baseCanvasH = Math.round(baseH * u);
-
-    const canvasW = Math.max(baseCanvasW, vw);
-    const canvasH = Math.max(baseCanvasH, vh);
-
-    home.style.width  = canvasW + 'px';
-    home.style.height = canvasH + 'px';
-
-    document.documentElement.style.setProperty('--home-u', String(u));
-    document.documentElement.style.setProperty('--home-canvas-w', canvasW + 'px');
-    document.documentElement.style.setProperty('--home-canvas-h', canvasH + 'px');
-    return;
-  }
-
-  // Normal fullscreen: fit-to-screen, no scrollbars
-  viewport.classList.remove('home-scroll');
-  home.classList.remove('home-scroll');
-
-  home.style.width  = '100%';
-  home.style.height = '100%';
-
-  // In normal mode we scale to the current window (because we are not shrunk)
-  let sFit = Math.min(vw / baseW, vh / baseH);
-  sFit = Math.min(sFit, 1.35);
-
-  document.documentElement.style.setProperty('--home-u', String(sFit));
-  document.documentElement.style.setProperty('--home-canvas-w', vw + 'px');
-  document.documentElement.style.setProperty('--home-canvas-h', vh + 'px');
 }
 
    function initMobileDomainsCarousel() {
@@ -505,13 +442,14 @@ function fitHomeInnerScale() {
 
   function buildDots() {
     dotsWrap.innerHTML = rails.map((_, i) =>
-      `<span class="domains-dot ${i === 0 ? 'is-active' : ''}" aria-hidden="true"></span>`
+      `<button type="button" class="domains-dot ${i === 0 ? 'is-active' : ''}" aria-label="Show system ${i + 1}" aria-current="${i === 0 ? 'true' : 'false'}"></button>`
     ).join('');
+    dotsWrap.querySelectorAll('button').forEach((button, i) => button.addEventListener('click', () => goTo(i)));
   }
 
   function setActiveDot(i) {
     const dots = dotsWrap.querySelectorAll('.domains-dot');
-    dots.forEach((d, k) => d.classList.toggle('is-active', k === i));
+    dots.forEach((d, k) => {d.classList.toggle('is-active', k === i);d.setAttribute('aria-current',String(k === i));});
   }
 
   function goTo(i) {
@@ -550,9 +488,21 @@ function fitHomeInnerScale() {
     scroller.removeEventListener('scroll', onScroll);
   }
 
-  // init + breakpoint changes
-  if (isMobileMode()) enable();
-  mq.addEventListener?.('change', () => isMobileMode() ? enable() : disable());
+  let enabled = false;
+  function syncMode() {
+    if (window.wmolZoomIsActive && window.wmolZoomIsActive()) return;
+    window.wmolSyncDomainsPortrait();
+    const active = isMobileMode();
+    if (active && !enabled) { enable(); enabled = true; }
+    else if (!active && enabled) { disable(); enabled = false; }
+    if (active) {
+      scroller.scrollTo({left: idx * scroller.clientWidth, behavior:'instant'});
+    } else { scroller.scrollLeft = 0; }
+  }
+  syncMode();
+  mq.addEventListener?.('change', syncMode);
+  window.addEventListener('resize', syncMode, {passive:true});
+  window.addEventListener('wmol:viewport', syncMode);
 }
 
 
@@ -571,12 +521,12 @@ function fitHomeInnerScale() {
     const ui = document.querySelector('.domains-carousel-ui');
     const root = document.documentElement;
     const viewport = document.querySelector('.home-viewport.domains-page');
-    if (root.classList.contains('wmol-phone-device') && ui && viewport) {
+    if ((root.classList.contains('wmol-phone-device') || root.classList.contains('wmol-domains-portrait')) && ui && viewport) {
       const css = getComputedStyle(root);
       const sideways = root.classList.contains('wmol-phone-landscape');
       const height = sideways ? (parseFloat(css.getPropertyValue('--wmol-phone-layout-h')) || viewport.clientHeight) : viewport.clientHeight;
       const inset = parseFloat(css.getPropertyValue('--wmol-phone-safe-bottom')) || 0;
-      const bottom = Math.max(6, inset + 4);
+      const bottom = root.classList.contains('wmol-domains-portrait') ? Math.max(12, 12 * parseFloat(css.getPropertyValue('--domains-portrait-scale'))) : Math.max(6, inset + 4);
       // This is the bottom of the *webpage*, never Safari's native toolbar.
       ui.style.setProperty('position', 'absolute', 'important');
       ui.style.setProperty('top', `${Math.max(44, height-ui.offsetHeight-bottom)}px`, 'important');

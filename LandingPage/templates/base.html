@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-wmol-release="testimonial-navigation-22-reissued">
+<html lang="en" data-wmol-release="desktop-proportions-23">
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
@@ -129,7 +129,7 @@
       })();
     </script>
     <title>{% block title %}Wang Method of Learning{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-testimonial-navigation-22-reissued">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-desktop-proportions-23">
   </head>
   <body>
     <div class="wmol-phone-backdrop" aria-hidden="true"></div>
@@ -174,6 +174,26 @@
     };
     wrap(page.querySelector('.pass-proof-testimonials .pass-proof-head'), '.pass-proof-lead');
     wrap(page.querySelector('.pass-publications-head'), '.pass-publications-intro, .pass-publications-points');
+    // Centre each left-aligned body by trimming only unused line-end space.
+    // Never create another wrapped line just to make a block narrower.
+    page.querySelectorAll('.pass-desktop-copy-group').forEach(group => {
+      const available = Math.max(0, group.parentElement.clientWidth - 16);
+      if (!available) return;
+      group.style.setProperty('width', available + 'px', 'important');
+      const initialHeight = group.offsetHeight;
+      const rect = group.getBoundingClientRect();
+      const scale = rect.width / Math.max(1, group.offsetWidth);
+      const walker = document.createTreeWalker(group, NodeFilter.SHOW_TEXT);
+      let node, right = rect.left;
+      while ((node = walker.nextNode())) {
+        if (!node.textContent.trim()) continue;
+        const range = document.createRange(); range.selectNodeContents(node);
+        for (const r of range.getClientRects()) if (r.width > 0) right = Math.max(right, r.right);
+      }
+      const fitted = Math.min(available, Math.ceil((right - rect.left) / scale + 6));
+      if (fitted > 0) group.style.setProperty('width', fitted + 'px', 'important');
+      if (group.offsetHeight > initialHeight + 1) group.style.setProperty('width', available + 'px', 'important');
+    });
     // Both proof headings use the same fitted size, not two unrelated scales.
     const titles = Array.from(page.querySelectorAll('.pass-proof-head h3'));
     titles.forEach(el => {el.style.removeProperty('font-size'); el.style.removeProperty('white-space');});
