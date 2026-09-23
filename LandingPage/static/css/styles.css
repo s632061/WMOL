@@ -19239,3 +19239,103 @@ html.wmol-phone-device #wmol-landing.wmol-landing.wmol-flow::after {
   background: none !important; border: 0 !important; box-shadow: none !important;
   pointer-events: none !important; z-index: -1 !important;
 }
+
+
+/* Cards and mobile surface finishing, release 21.
+   Existing files only. No change to the arch/keystone geometry. */
+
+/* Compact square marks at the text's left edge, like the live-site reference.
+   Explicit height/fit rules defeat the old short-strip and HSK-native-ratio rules. */
+html:root #wmol-tools.tools-layout .tools-grid .tool-icon-card .tool-icon-imgwrap {
+  display: grid !important; place-items: center !important;
+  position: relative !important; inset: auto !important;
+  width: min(100%, clamp(112px, 36%, 160px)) !important;
+  height: auto !important; min-height: 0 !important; max-height: none !important;
+  aspect-ratio: 1 / 1 !important; flex: none !important;
+  margin: 0 0 14px !important; padding: 0 !important;
+  border-radius: 18px !important; overflow: hidden !important;
+  background: #030728 !important; transform: none !important;
+}
+html:root #wmol-tools.tools-layout .tools-grid .tool-icon-card .tool-icon-imgwrap img {
+  display: block !important; position: absolute !important; inset: 0 !important;
+  width: 100% !important; height: 100% !important;
+  min-width: 0 !important; max-width: 100% !important; max-height: 100% !important;
+  margin: 0 !important; padding: 0 !important; aspect-ratio: auto !important;
+  object-fit: contain !important; object-position: center !important;
+  transform: none !important; border-radius: 0 !important;
+}
+html:root #wmol-tools.tools-layout .tools-grid .tool-icon-card[data-hub-theme="hsk"] .tool-icon-imgwrap {
+  background: #0c0e12 !important;
+}
+html:root #wmol-tools.tools-layout .tools-grid .tool-pass-heading-row {
+  display: flex !important; align-items: baseline !important; justify-content: flex-start !important;
+  flex-wrap: wrap !important; gap: .15em .40em !important;
+  width: 100% !important; max-width: 100% !important; margin: 0 0 4px !important;
+  text-align: left !important;
+}
+html:root #wmol-tools.tools-layout .tools-grid .tool-pass-heading-row .tool-icon-name--pass,
+html:root #wmol-tools.tools-layout .tools-grid .tool-pass-heading-row .tool-pass-audience {
+  flex: 0 1 auto !important; width: auto !important; max-width: 100% !important;
+  position: static !important; inset: auto !important; float: none !important;
+  margin: 0 !important; text-align: left !important; transform: none !important;
+}
+html:root #wmol-tools.tools-layout .tools-grid .tool-pass-heading-row .tool-pass-audience { white-space: nowrap !important; }
+
+/* One actual image layer extends beyond the normal viewport into safe areas.
+   This cannot draw interactive page content inside the browser's native UI. */
+.wmol-phone-backdrop { display: none; }
+html.wmol-phone-device { --wmol-phone-safe-bottom: env(safe-area-inset-bottom, 0px); }
+html.wmol-phone-device:is([data-wmol-surface="home"],[data-wmol-surface="domains"]) {
+  background: #0c0906 url("/static/img/wmol-bronze-texture.png") center top / cover no-repeat fixed !important;
+}
+html.wmol-phone-device:is([data-wmol-surface="home"],[data-wmol-surface="domains"]) body {
+  background: transparent !important;
+}
+html.wmol-phone-device:is([data-wmol-surface="home"],[data-wmol-surface="domains"]) body > .wmol-phone-backdrop {
+  display: block !important; position: fixed !important;
+  top: calc(0px - env(safe-area-inset-top, 0px)) !important;
+  left: calc(0px - env(safe-area-inset-left, 0px)) !important;
+  right: calc(0px - env(safe-area-inset-right, 0px)) !important;
+  bottom: calc(0px - env(safe-area-inset-bottom, 0px)) !important;
+  min-height: calc(100lvh + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px)) !important;
+  margin: 0 !important; padding: 0 !important;
+  background: #0c0906 url("/static/img/wmol-bronze-texture.png") center top / cover no-repeat !important;
+  pointer-events: none !important; z-index: 0 !important;
+}
+html.wmol-phone-device:is([data-wmol-surface="home"],[data-wmol-surface="domains"]) body > main {
+  position: relative !important; z-index: 1 !important; background: transparent !important;
+}
+html.wmol-phone-device[data-wmol-surface="domains"] .wmol-phone-backdrop::after {
+  content: ""; position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 44px); right: 0; bottom: 0; left: 0;
+  background: var(--wmol-active-panel-color, #020826);
+}
+html.wmol-phone-device .home-viewport.domains-page {
+  background: transparent !important;
+}
+html.wmol-phone-device .home-viewport.domains-page::before,
+html.wmol-phone-device .home-viewport.domains-page::after { display: none !important; }
+html.wmol-phone-device .home-viewport.domains-page .domains-header {
+  background: transparent !important;
+}
+
+/* Controls move to the lowest tappable page row. The measured CTA and artwork
+   use that row as their lower boundary in every phone orientation. */
+html.wmol-phone-device .home-viewport.domains-page .domains-carousel-ui {
+  position: absolute !important; height: 44px !important; min-height: 44px !important;
+  bottom: max(6px, calc(env(safe-area-inset-bottom, 0px) + 4px)) !important;
+  left: 50% !important; transform: translateX(-50%) !important;
+  gap: 14px !important; z-index: 25 !important;
+}
+html.wmol-phone-device .home-viewport.domains-page .domains-nav-btn {
+  width: 44px !important; height: 44px !important; min-width: 44px !important; min-height: 44px !important;
+}
+html.wmol-phone-device .home-viewport.domains-page .wml-home {
+  scrollbar-width: none !important; -ms-overflow-style: none !important;
+}
+html.wmol-phone-device .home-viewport.domains-page .wml-home::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+html.wmol-phone-device .home-viewport.domains-page .rail-technology::before,
+html.wmol-phone-device .home-viewport.domains-page .rail-gadgets::before,
+html.wmol-phone-device .home-viewport.domains-page .rail-lifestyle::before {
+  background-position: center calc(50% + var(--domains-mobile-art-offset, 0px)) !important;
+}

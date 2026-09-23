@@ -218,6 +218,10 @@
             ['font-size','line-height','margin-top','margin-bottom'].forEach(prop => el.style.removeProperty(prop));
           });
         }
+        // Reset before measuring so repeated resize/rotation never compounds the increase.
+        views[1].querySelectorAll('.wmol-flow-title-large, .wmol-flow-lead, .wmol-flow-copy, .wmol-flow-payoff').forEach(el => {
+          ['font-size','line-height','margin-top','margin-bottom'].forEach(prop => el.style.removeProperty(prop));
+        });
         // Fit both brand lines uniformly; do not clip the final letters of the first line.
         const brand = views[0].querySelector(".wmol-flow-brand");
         brand.style.removeProperty("font-size");
@@ -232,9 +236,9 @@
           const brandAvailable = mobile ? Math.max(0, designWidth - 18) : safeWidth - 4;
           if (glyphWidth > brandAvailable) put(brand, {"font-size":`${font * brandAvailable / glyphWidth}px`});
           if (phone) {
-            // Reduce AFTER the existing width fit, so fitting cannot cancel the 5% change.
+            // Retain the prior 5% reduction, then apply this batch's additional 5%.
             const fittedFont = parseFloat(getComputedStyle(brand).fontSize);
-            put(brand, {"font-size":`${fittedFont * 0.95}px`});
+            put(brand, {"font-size":`${fittedFont * 0.95 * 0.95}px`});
           }
         }
         // Measure normal layout, not temporary entrance transforms. Scale text AND buttons
@@ -260,6 +264,38 @@
               }
             }
           }
+        }
+        const originalBeliefHeight = step === 1 ? inner.offsetHeight : 0;
+        if (step === 1) {
+          // A restrained 12% increase for the complete belief text hierarchy.
+          // Keep buttons/arch unchanged; reduce the increase only if a phone needs room.
+          const metrics = [...active.querySelectorAll('.wmol-flow-title-large, .wmol-flow-lead, .wmol-flow-copy, .wmol-flow-payoff')].map(el => {
+            const css = getComputedStyle(el);
+            return {el, font:parseFloat(css.fontSize), line:parseFloat(css.lineHeight),
+              top:parseFloat(css.marginTop)||0, bottom:parseFloat(css.marginBottom)||0};
+          });
+          const apply = scale => metrics.forEach(m => put(m.el, {
+            'font-size':`${m.font*scale}px`, 'line-height':`${m.line*scale}px`,
+            'margin-top':`${m.top*scale}px`, 'margin-bottom':`${m.bottom*scale}px`
+          }));
+          let scale = 1.12;
+          apply(scale);
+          const reserve = parseFloat(getComputedStyle(landing).scrollPaddingBottom) || 20;
+          const budget = vh - stageTop - reserve;
+          if (phone && inner.offsetHeight > budget) {
+            apply(1);
+            scale = 1;
+            if (inner.offsetHeight <= budget) {
+              let low = 1, high = 1.12;
+              for (let i=0; i<10; i++) {
+                const mid = (low+high)/2; apply(mid);
+                if (inner.offsetHeight <= budget-1) low=mid; else high=mid;
+              }
+              scale=low;
+            }
+            apply(scale);
+          }
+          landing.dataset.beliefTextFit=scale.toFixed(4);
         }
         if (phone && step === 2) {
           // Scale only the proof text, keeping its hierarchy. The arch and button
@@ -318,7 +354,10 @@
         // as one group. The laptop reference is left at its original top anchor.
         const largeBalance = !mobile && !portraitDesktop
           ? clamp((vw - 1560) / 360, 0, 1) * clamp((vh - 760) / 200, 0, 1) : 0;
-        const occupied = stageTop + naturalHeight * appliedFit - keyTop;
+        const originalBeliefFit = Math.max(portraitDesktop ? .76 : .64, Math.min(1, (available - 1) / Math.max(1, originalBeliefHeight)));
+        // Text enlargement does not reposition the existing arch on wide desktops.
+        const balanceHeight = step === 1 && !mobile ? originalBeliefHeight * originalBeliefFit : naturalHeight * appliedFit;
+        const occupied = stageTop + balanceHeight - keyTop;
         const shift = Math.max(0, (vh - occupied) / 2 - keyTop) * largeBalance;
         if (shift > 0) {
           put(arch, {"top":`${keyTop - archWidth / 12 + shift}px`});

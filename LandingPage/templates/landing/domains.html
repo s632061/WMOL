@@ -569,12 +569,28 @@ function fitHomeInnerScale() {
 
     const rails = Array.from(document.querySelectorAll('.home-viewport.domains-page .wml-home .wml-rail'));
     const ui = document.querySelector('.domains-carousel-ui');
+    const root = document.documentElement;
+    const viewport = document.querySelector('.home-viewport.domains-page');
+    if (root.classList.contains('wmol-phone-device') && ui && viewport) {
+      const css = getComputedStyle(root);
+      const sideways = root.classList.contains('wmol-phone-landscape');
+      const height = sideways ? (parseFloat(css.getPropertyValue('--wmol-phone-layout-h')) || viewport.clientHeight) : viewport.clientHeight;
+      const inset = parseFloat(css.getPropertyValue('--wmol-phone-safe-bottom')) || 0;
+      const bottom = Math.max(6, inset + 4);
+      // This is the bottom of the *webpage*, never Safari's native toolbar.
+      ui.style.setProperty('position', 'absolute', 'important');
+      ui.style.setProperty('top', `${Math.max(44, height-ui.offsetHeight-bottom)}px`, 'important');
+      ui.style.setProperty('bottom', 'auto', 'important');
+    } else if (ui) {
+      ['position','top','bottom'].forEach(prop => ui.style.removeProperty(prop));
+    }
 
     rails.forEach((rail) => {
       if (!isPhoneMobile()) {
         rail.style.removeProperty('--domains-mobile-art-center-y');
         rail.style.removeProperty('--domains-mobile-art-size');
         rail.style.removeProperty('--domains-mobile-cta-bottom');
+        rail.style.removeProperty('--domains-mobile-art-offset');
         return;
       }
 
@@ -589,7 +605,8 @@ function fitHomeInnerScale() {
       // Reserve a real visual gap above the carousel controls instead of using
       // a percentage that changes meaning on different phone heights.
       if (uiRect && uiRect.height > 0) {
-        const controlsClearance = Math.max(0, railRect.bottom - uiRect.top) + 18;
+        const controlsGap = root.classList.contains('wmol-phone-device') ? 8 : 18;
+        const controlsClearance = Math.max(0, railRect.bottom - uiRect.top) + controlsGap;
         rail.style.setProperty('--domains-mobile-cta-bottom', `${Math.ceil(controlsClearance)}px`);
       } else {
         rail.style.setProperty('--domains-mobile-cta-bottom', '92px');
@@ -598,7 +615,6 @@ function fitHomeInnerScale() {
       // Apply the new CTA bottom before measuring the space above it.
       void cta.offsetHeight;
 
-      if (!art) return;
       const freshRailRect = rail.getBoundingClientRect();
       const titleRect = title.getBoundingClientRect();
       const ctaRect = cta.getBoundingClientRect();
@@ -615,6 +631,7 @@ function fitHomeInnerScale() {
       );
 
       rail.style.setProperty('--domains-mobile-art-center-y', `${centerY}px`);
+      rail.style.setProperty('--domains-mobile-art-offset', `${centerY - rail.clientHeight / 2}px`);
       rail.style.setProperty('--domains-mobile-art-size', `${artSize}px`);
     });
   }
