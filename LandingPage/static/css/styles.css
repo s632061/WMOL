@@ -20516,6 +20516,21 @@ html:root:not(.wmol-phone-device) .home-viewport.domains-page .wml-learning-tagl
    Snapshot auto-height preserved two different aspect ratios and exposed the
    page behind the lower edge. Only its geometry moves; its colour stays opaque. */
 html[data-wmol-nav-mode="morph"] {background-color:#020826;}
+/* The transition is painted above the document on its own surface. An html
+   background alone cannot cover its transparent pixels on every compositor. */
+html[data-wmol-nav-mode="morph"]::view-transition {
+  background:#020826;
+}
+/* Preserve the content cross-fades, without the UA's additive blending pass.
+   Transparent title/button snapshots must blend normally over the blue rail. */
+html[data-wmol-nav-mode="morph"]::view-transition-old(med-title),
+html[data-wmol-nav-mode="morph"]::view-transition-new(med-title),
+html[data-wmol-nav-mode="morph"]::view-transition-old(med-logo),
+html[data-wmol-nav-mode="morph"]::view-transition-new(med-logo),
+html[data-wmol-nav-mode="morph"]::view-transition-old(med-cta),
+html[data-wmol-nav-mode="morph"]::view-transition-new(med-cta) {
+  mix-blend-mode:normal !important;
+}
 html[data-wmol-nav-mode="morph"]::view-transition-group(med-rail),
 html[data-wmol-nav-mode="morph"]::view-transition-image-pair(med-rail) {
   background:#020826;overflow:clip;
@@ -20554,4 +20569,11 @@ html[data-wmol-nav-mode="morph"]::view-transition-new(med-rail) {
   html[data-wmol-nav-mode="morph"] :is(.wml-home .rail-medicine,.tools-layout .rail-tools,.medicine-layout .rail-medicine) .rail-image-wrap {
     view-transition-name:none !important;
   }
+}
+
+/* A geometric arrow stays centred regardless of the text font's arrow glyph. */
+html:root #awsSaaPageV5 .aws5-safe-bar .aws5-back {gap:4px !important;}
+html:root #awsSaaPageV5 .aws5-safe-bar .aws5-back .aws5-back-icon {
+  display:block;width:14px;height:14px;flex:0 0 14px;
+  fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;
 }
