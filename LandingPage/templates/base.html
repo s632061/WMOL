@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" data-wmol-release="transition-surface-34">
+<html lang="en" data-wmol-release="display-transition-35">
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-transition-surface-34">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-display-transition-35">
     <script>
       (function () {
         var root = document.documentElement;
@@ -156,6 +156,30 @@
       const syncMode = () => { root.dataset.wmolNavMode = compact() ? 'fade' : 'morph'; };
       syncMode();
       window.addEventListener('resize', syncMode, {passive:true});
+      // Display scaling can change without a resize. Refresh both ends of the
+      // shared banner and discard snapshots from the previous display geometry.
+      const displayStamp = () => [innerWidth, innerHeight, devicePixelRatio || 1,
+        screen.width, screen.height, screen.availWidth, screen.availHeight].join(':');
+      let lastDisplay = displayStamp();
+      function refreshDisplay() {
+        if (root.classList.contains('wmol-phone-device') || !core(location.pathname)) return;
+        const next = displayStamp();
+        if (next === lastDisplay) return;
+        lastDisplay = next;
+        const active = window.wmolPageTransition;
+        if (active) {
+          window.wmolPageTransition = null;
+          active.skipTransition();
+        }
+        window.wmolPrepareDomainsReturn?.();
+        syncMode();
+        window.dispatchEvent(new Event('wmol:viewport'));
+      }
+      if (!root.classList.contains('wmol-phone-device') && core(location.pathname)) {
+        setInterval(refreshDisplay, 200);
+        ['resize', 'focus', 'pageshow'].forEach(type => window.addEventListener(type, refreshDisplay, {passive:true}));
+        document.addEventListener('visibilitychange', () => {if (!document.hidden) refreshDisplay();});
+      }
       window.wmolNavigationUsesFade = compact;
       window.wmolPlainClick = event => !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
       if (incoming && incoming.fallback && !reduceMotion()) root.dataset.wmolFallbackEntry = 'true';
@@ -174,6 +198,7 @@
         const from = pathOf(window.navigation?.activation?.from?.url || incoming?.from || '');
         const returning = location.pathname === '/domains/' && (from === '/tools/' || window.wmolDomainsShouldEnter === false);
         if (returning) window.wmolPrepareDomainsReturn?.();
+        if (!compact()) window.dispatchEvent(new Event('wmol:prepare-snapshot'));
         const transition = event.viewTransition;
         const activeRoute = core(location.pathname) && (core(from) || !!incoming);
         if (transition && (reduceMotion() || !activeRoute)) transition.skipTransition();
@@ -184,6 +209,10 @@
         }
         settleReveal(transition);
         window.wmolPageTransition = transition;
+        if (transition) {
+          const clearTransition = () => {if (window.wmolPageTransition === transition) window.wmolPageTransition = null;};
+          transition.finished.then(clearTransition, clearTransition);
+        }
         if (returning && transition && !compact() && !reduceMotion()) {
           transition.ready.then(() => window.wmolContinueDomainsReturn?.(transition)).catch(() => {});
         }
@@ -218,10 +247,16 @@
           if (destination.pathname === '/domains/') write('closingToHome', '1');
         };
         try {
-          if (window.wmolPageTransition) {
-            // A deliberate new desktop navigation should not wait for a decorative tail.
-            if (mode === 'morph') window.wmolPageTransition.skipTransition();
-            await window.wmolPageTransition.finished.catch(() => {});
+          const activeTransition = window.wmolPageTransition;
+          // Queue a quick Back/Explore click until the current captured view is
+          // released. Starting another capture during cancellation can flash.
+          if (activeTransition) await activeTransition.finished.catch(() => {});
+          if (mode === 'morph' && core(location.pathname) && core(destination.pathname)) {
+            refreshDisplay();
+            window.dispatchEvent(new Event('wmol:prepare-snapshot'));
+            // Allow the refreshed geometry and pointer/focus state to paint
+            // before the browser captures either click target's outgoing view.
+            await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
           }
           // The outgoing and incoming banner snapshots share one native timeline.
           // Never slide live panels away first and then start a second page morph.

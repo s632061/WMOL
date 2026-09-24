@@ -20275,7 +20275,7 @@ html:root #awsSaaPageV5 .aws5-safe-bar .aws5-back {
   line-height:1 !important;min-height:36px !important;box-sizing:border-box !important;
   text-align:center !important;padding:9px 12px !important;
 }
-html:root #awsSaaPageV5 .aws5-safe-bar .aws5-back span {display:block;line-height:1;}
+html:root #awsSaaPageV5 .aws5-safe-bar .aws5-back span {display:block;line-height:1;transform:translateY(.5px);}
 
 /* Hidden ancestors must use opacity: descendants have explicit visibility rules. */
 html:root.wmol-domains-controlled[data-domains-entry="pending"] .domains-carousel-ui {opacity:0 !important;pointer-events:none !important;}
@@ -20575,5 +20575,6 @@ html[data-wmol-nav-mode="morph"]::view-transition-new(med-rail) {
 html:root #awsSaaPageV5 .aws5-safe-bar .aws5-back {gap:4px !important;}
 html:root #awsSaaPageV5 .aws5-safe-bar .aws5-back .aws5-back-icon {
   display:block;width:14px;height:14px;flex:0 0 14px;
+  transform:translateY(-.5px);
   fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;
 }

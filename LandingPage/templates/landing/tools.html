@@ -211,6 +211,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     apply();
     window.addEventListener("resize", onResize, { passive: true });
+    window.addEventListener("wmol:viewport", onResize);
+    window.addEventListener("wmol:prepare-snapshot", apply);
   })();
 </script>
 
@@ -232,6 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function schedule(){if(frame)cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{frame=0;fit();});}
   if(window.ResizeObserver){const observer=new ResizeObserver(schedule);cards.forEach(card=>observer.observe(card));}
   ['resize','wmol:viewport','wmol:portrait'].forEach(type=>window.addEventListener(type,schedule,{passive:true}));
+  window.addEventListener('wmol:prepare-snapshot',fit);
   if(document.fonts)document.fonts.ready.then(schedule);
   fit();
 })();

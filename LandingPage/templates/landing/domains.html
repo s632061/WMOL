@@ -210,10 +210,11 @@ function wireHomeNav() {
   function startMedicineTransition() {
     if(navigating)return;
     navigating=true;
-    ++returnGeneration;
-    returnMotions.forEach(motion => motion.pause());
-    // A click during the first rise must not snap the remaining panels to rest.
-    Promise.resolve(window.wmolDomainsEntrance?.playState === 'running' ? window.wmolDomainsEntrance.finished : undefined).catch(() => {}).then(() => {
+    // Keep every rising/returning panel moving and remember this one click.
+    // Capture the next departure only after all of them reach their final frame.
+    const movingPanels = [...entranceMotions, ...returnMotions];
+    Promise.all(movingPanels.map(motion => motion.finished.catch(() => {}))).then(() => {
+      ++returnGeneration;
       finishEntrance();
       window.wmolNavigate(trigger.href, {panels:true});
     });
@@ -715,67 +716,12 @@ function fitHomeInnerScale() {
     fitHomeInnerScale();settleMobileDomainArtwork();
   }
   ['resize','orientationchange','wmol:portrait','wmol:viewport'].forEach(type=>window.addEventListener(type,resized,{passive:true}));
+  window.addEventListener('wmol:prepare-snapshot',()=>{fitHomeInnerScale();measureDomains();});
   if(window.visualViewport)window.visualViewport.addEventListener('resize',resized,{passive:true});
   if(document.fonts)document.fonts.ready.then(settleMobileDomainArtwork);
   matchMedia('(prefers-reduced-motion: reduce)').addEventListener?.('change',event=>{if(event.matches)finishEntrance();});
 
-    // ===== Extra robustness: detect monitor/DPI moves and re-baseline =====
-  // Some monitor moves (especially different DPI scaling) don't reliably trigger
-  // a normal resize event. We'll watch for changes and force a recalculation.
-
-   // ===== Extra robustness: detect monitor/DPI moves and re-baseline =====
-  // IMPORTANT: Do NOT treat normal resize (innerWidth/innerHeight) as env change,
-  // or we'll constantly re-baseline while shrinking and scrollbars will never appear.
-
-  let lastEnv = {
-    dpr: window.devicePixelRatio || 1,
-    sw: window.screen.width,
-    sh: window.screen.height
-  };
-
-  function envChanged() {
-    const now = {
-      dpr: window.devicePixelRatio || 1,
-      sw: window.screen.width,
-      sh: window.screen.height
-    };
-
-    const changed =
-      now.dpr !== lastEnv.dpr ||
-      now.sw !== lastEnv.sw ||
-      now.sh !== lastEnv.sh;
-
-    lastEnv = now;
-    return changed;
-  }
-
-  function forceRebaseline() {
-    // Reset baseline so fitHomeInnerScale() treats the NEXT call like a first run
-    baseVW = 0;
-    baseVH = 0;
-    baseU  = 1;
-    isScrollMode = false;
-    fitHomeInnerScale();
-  }
-
-  // 1) Poll lightly (cheap + very reliable)
-  setInterval(() => {
-    if (envChanged()) {
-      forceRebaseline();
-    }
-  }, 200);
-
-  window.addEventListener('visibilitychange', () => {
-    if (!document.hidden) {
-      if (envChanged()) forceRebaseline();
-      else fitHomeInnerScale();
-    }
-  });
-
-  window.addEventListener('focus', () => {
-    if (envChanged()) forceRebaseline();
-    else fitHomeInnerScale();
-  });
+  // The shared navigation owner watches display changes for Domains and Tools.
 
 
 })();
