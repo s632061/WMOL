@@ -20345,7 +20345,7 @@ html[data-wmol-nav-mode="morph"]::view-transition-group(med-rail),
 html[data-wmol-nav-mode="morph"]::view-transition-group(med-title),
 html[data-wmol-nav-mode="morph"]::view-transition-group(med-logo),
 html[data-wmol-nav-mode="morph"]::view-transition-group(med-cta) {
-  animation-duration:900ms !important;animation-timing-function:cubic-bezier(.22,1,.36,1) !important;
+  animation-duration:740ms !important;animation-timing-function:cubic-bezier(.22,1,.36,1) !important;
 }
 html[data-wmol-nav-mode="morph"]::view-transition-old(med-rail),
 html[data-wmol-nav-mode="morph"]::view-transition-new(med-rail),
@@ -20355,7 +20355,7 @@ html[data-wmol-nav-mode="morph"]::view-transition-old(med-logo),
 html[data-wmol-nav-mode="morph"]::view-transition-new(med-logo),
 html[data-wmol-nav-mode="morph"]::view-transition-old(med-cta),
 html[data-wmol-nav-mode="morph"]::view-transition-new(med-cta) {
-  animation-duration:900ms !important;animation-timing-function:cubic-bezier(.22,1,.36,1) !important;
+  animation-duration:740ms !important;animation-timing-function:cubic-bezier(.22,1,.36,1) !important;
 }
 @keyframes wmol-page-out {to {opacity:0;}}
 @keyframes wmol-page-in {from {opacity:0;}}
@@ -20412,19 +20412,19 @@ html[data-wmol-nav-mode="morph"]::view-transition-group(domains-lifestyle) {z-in
 html[data-wmol-nav-mode="morph"]::view-transition-old(domains-technology),
 html[data-wmol-nav-mode="morph"]::view-transition-old(domains-gadgets),
 html[data-wmol-nav-mode="morph"]::view-transition-old(domains-lifestyle) {
-  animation:wmol-domains-panel-out 1400ms cubic-bezier(.4,0,.2,1) both !important;
+  animation:wmol-domains-panel-out 1150ms cubic-bezier(.4,0,.2,1) both !important;
   mix-blend-mode:normal;opacity:1;
 }
 html[data-wmol-nav-mode="morph"]::view-transition-new(domains-technology),
 html[data-wmol-nav-mode="morph"]::view-transition-new(domains-gadgets),
 html[data-wmol-nav-mode="morph"]::view-transition-new(domains-lifestyle) {
-  animation:wmol-domains-panel-back 2200ms cubic-bezier(.22,1,.36,1) both !important;
+  animation:wmol-domains-panel-back 1600ms cubic-bezier(.22,1,.36,1) both !important;
   mix-blend-mode:normal;opacity:1;
 }
 html[data-wmol-nav-mode="morph"]::view-transition-old(domains-gadgets),
-html[data-wmol-nav-mode="morph"]::view-transition-new(domains-gadgets) {animation-delay:180ms !important;}
+html[data-wmol-nav-mode="morph"]::view-transition-new(domains-gadgets) {animation-delay:130ms !important;}
 html[data-wmol-nav-mode="morph"]::view-transition-old(domains-lifestyle),
-html[data-wmol-nav-mode="morph"]::view-transition-new(domains-lifestyle) {animation-delay:360ms !important;}
+html[data-wmol-nav-mode="morph"]::view-transition-new(domains-lifestyle) {animation-delay:260ms !important;}
 /* Restore the original texture on its own surface. The obsolete heavy shadow
    overlays stay disabled. This also covers narrow non-touch desktop windows. */
 html:root.wmol-domains-controlled:not(.wmol-phone-device) .home-viewport.domains-page {
@@ -20467,5 +20467,35 @@ html:root.wmol-phone-device.wmol-domains-controlled .home-viewport.domains-page 
 /* Each departing panel travels only as far as the viewport edge. A full extra
    screen width made panels disappear during the first fraction of the easing. */
 html[data-wmol-nav-mode="morph"]::view-transition-old(domains-technology) {--wmol-panel-exit-distance:75vw;}
-html[data-wmol-nav-mode="morph"]::view-transition-old(domains-gadgets) {--wmol-panel-exit-distance:50vw;animation-delay:140ms !important;}
-html[data-wmol-nav-mode="morph"]::view-transition-old(domains-lifestyle) {--wmol-panel-exit-distance:25vw;animation-delay:280ms !important;}
+html[data-wmol-nav-mode="morph"]::view-transition-old(domains-gadgets) {--wmol-panel-exit-distance:50vw;animation-delay:115ms !important;}
+html[data-wmol-nav-mode="morph"]::view-transition-old(domains-lifestyle) {--wmol-panel-exit-distance:25vw;animation-delay:230ms !important;}
+
+/* Desktop finishing 29: one header row reserves the prompt, divider and breathing
+   space before the panels. No offsetHeight/top mismatch or refresh-dependent gap. */
+html:root.wmol-domains-controlled:not(.wmol-phone-device) .home-viewport.domains-page {
+  display:grid !important;grid-template-rows:auto minmax(0,1fr) !important;
+  height:100dvh !important;min-height:0 !important;padding:0 !important;gap:0 !important;
+}
+html:root.wmol-domains-controlled:not(.wmol-phone-device) .home-viewport.domains-page .domains-header {
+  grid-row:1;position:relative !important;inset:auto !important;transform:none !important;
+  width:100% !important;max-width:100% !important;height:auto !important;min-height:0 !important;
+  margin:0 !important;padding:clamp(8px,.6vw,12px) 12px clamp(7px,.45vw,10px) !important;
+  box-sizing:border-box !important;
+}
+html:root.wmol-domains-controlled:not(.wmol-phone-device) .home-viewport.domains-page .domains-prompt {
+  white-space:normal !important;text-wrap:balance !important;
+}
+html:root.wmol-domains-controlled:not(.wmol-phone-device) .home-viewport.domains-page .domains-divider {
+  margin:4px auto 0 !important;flex:none !important;
+}
+html:root.wmol-domains-controlled:not(.wmol-phone-device) .home-viewport.domains-page .domains-panel-window {
+  grid-row:2;position:relative !important;inset:auto !important;align-self:stretch !important;
+  width:100% !important;height:100% !important;min-height:0 !important;
+}
+.wml-learning-tagline-line {font:inherit;letter-spacing:inherit;color:inherit;}
+html:root.wmol-domains-controlled:not(.wmol-phone-device) .home-viewport.domains-page .rail-medicine .wml-cta .wml-learning-tagline {
+  display:block !important;white-space:normal !important;text-wrap:wrap !important;
+}
+html:root:not(.wmol-phone-device) .home-viewport.domains-page .wml-learning-tagline-line {
+  display:block !important;white-space:nowrap !important;
+}

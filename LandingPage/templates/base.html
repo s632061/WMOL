@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" data-wmol-release="motion-polish-28">
+<html lang="en" data-wmol-release="desktop-finish-29">
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-motion-polish-28">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-desktop-finish-29">
     <script>
       (function () {
         var root = document.documentElement;
@@ -174,6 +174,9 @@
         }
         settleReveal(transition);
         window.wmolPageTransition = transition;
+        if (returning && transition && !compact() && !reduceMotion()) {
+          transition.ready.then(() => window.wmolContinueDomainsReturn?.(transition)).catch(() => {});
+        }
       });
       window.addEventListener('pageswap', event => {
         revealed = new Promise(resolve => {settleReveal = resolve;});
@@ -205,7 +208,11 @@
           if (destination.pathname === '/domains/') write('closingToHome', '1');
         };
         try {
-          if (window.wmolPageTransition) await window.wmolPageTransition.finished.catch(() => {});
+          if (window.wmolPageTransition) {
+            // A deliberate new desktop navigation should not wait for a decorative tail.
+            if (mode === 'morph') window.wmolPageTransition.skipTransition();
+            await window.wmolPageTransition.finished.catch(() => {});
+          }
           // The outgoing and incoming banner snapshots share one native timeline.
           // Never slide live panels away first and then start a second page morph.
           if (!nativeNavigation && !reduceMotion()) {
@@ -233,6 +240,10 @@
       const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
       function fit(el) {
         if(!el.getClientRects().length)return;
+        if (el.classList.contains('wml-learning-tagline') && !document.documentElement.classList.contains('wmol-phone-device')) {
+          ['font-size','white-space','text-wrap'].forEach(prop => el.style.removeProperty(prop));
+          return;
+        }
         el.style.setProperty('display','block','important');
         el.style.setProperty('white-space','nowrap','important');
         el.style.setProperty('text-wrap','nowrap','important');

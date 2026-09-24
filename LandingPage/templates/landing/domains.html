@@ -82,7 +82,7 @@ window.wmolDomainStorage={
     Explore Seamless Learning
   </a>
 
-  <span class="wml-personal-line" data-wmol-one-line>
+  <span class="wml-personal-line wml-learning-tagline" data-wmol-one-line>
     Your way to always know what to learn next.
   </span>
 </nav>
@@ -211,6 +211,7 @@ function wireHomeNav() {
     if(navigating)return;
     navigating=true;
     ++returnGeneration;
+    returnMotions.forEach(motion => motion.pause());
     // A click during the first rise must not snap the remaining panels to rest.
     Promise.resolve(window.wmolDomainsEntrance?.playState === 'running' ? window.wmolDomainsEntrance.finished : undefined).catch(() => {}).then(() => {
       finishEntrance();
@@ -321,11 +322,13 @@ function wireToolsNav() {
 }
 
   
-  let returnGeneration = 0;
+  let returnGeneration = 0, returnMotions = [];
   window.wmolPrepareDomainsReturn = function () {
     const home = document.querySelector('.wml-home'), root = document.documentElement;
     if (!home) return;
     ++returnGeneration;
+    returnMotions.forEach(motion => motion.cancel());
+    returnMotions = [];
     window.wmolDomainsShouldEnter = false;
     window.wmolDomainStorage.remove('closingToHome');
     finishEntrance();
@@ -334,6 +337,37 @@ function wireToolsNav() {
     home.classList.remove('leaving-med', 'from-med', 'enter-from-med');
     root.classList.remove('returning-from-med');
     root.dataset.domainsEntry = 'ready';
+  };
+  // Once the blue banner is in place, continue the other panels as live
+  // compositor animations. This releases native snapshot hit-testing so the
+  // Explore link can hover/click while the last panels finish their glide.
+  window.wmolContinueDomainsReturn = async function (transition) {
+    const generation = returnGeneration;
+    const snapshots = document.getAnimations().filter(motion => motion.effect?.pseudoElement);
+    const blue = snapshots.filter(motion => /::view-transition-(group|old|new)\(med-/.test(motion.effect.pseudoElement));
+    const panels = snapshots.filter(motion => motion.animationName === 'wmol-domains-panel-back');
+    if (!blue.length || !panels.length) return;
+    await Promise.all(blue.map(motion => motion.finished.catch(() => {})));
+    if (generation !== returnGeneration || window.wmolPageTransition !== transition || window.wmolNavigationUsesFade()) return;
+    returnMotions = panels.map(snapshot => {
+      const name = snapshot.effect.pseudoElement;
+      const selector = name.includes('technology') ? '.rail-technology' : name.includes('gadgets') ? '.rail-gadgets' : '.rail-lifestyle';
+      const panel = document.querySelector('.wml-home ' + selector);
+      const timing = snapshot.effect.getTiming();
+      const motion = panel.animate([{translate:'100vw 0'}, {translate:'0 0'}], {
+        id:'wmol-panel-return', duration:timing.duration, delay:timing.delay,
+        easing:snapshot.effect.getKeyframes()[0].easing, fill:'both'
+      });
+      // Keep the exact eased progress, including each panel's stagger.
+      motion.currentTime = snapshot.currentTime;
+      return motion;
+    });
+    transition.skipTransition();
+    Promise.all(returnMotions.map(motion => motion.finished.catch(() => {}))).then(() => {
+      if (generation !== returnGeneration) return;
+      returnMotions.forEach(motion => motion.cancel());
+      returnMotions = [];
+    });
   };
   function playReturnFromMedicineIfNeeded() {
     if (window.wmolDomainStorage.get('closingToHome') === '1') window.wmolPrepareDomainsReturn();
@@ -561,7 +595,7 @@ function fitHomeInnerScale() {
     const rails=[...viewport.querySelectorAll('.wml-rail')],ui=viewport.querySelector('.domains-carousel-ui'),stage=viewport.querySelector('.domains-panel-window');
     if(!stage||rails.length!==4)return;
     const carousel=isPhoneMobile(),header=viewport.querySelector('.domains-header');
-    if(!carousel)viewport.style.setProperty('--domains-header-height',`${header.offsetHeight}px`);
+    // Desktop header and panels occupy separate CSS grid rows; no measured offset.
     if(window.wmolFitTaglines)window.wmolFitTaglines(viewport);
     const css=getComputedStyle(root);
     if(carousel&&ui){
@@ -631,8 +665,8 @@ function fitHomeInnerScale() {
     const targets=carousel?[entrance]:[...entrance.querySelectorAll('.wml-rail')];
     entranceMotions=targets.map((target,i)=>target.animate(
       [{translate:'0 100%'},{translate:'0 0'}],
-      {id:carousel?'wmol-systems-entry':`wmol-panel-entry-${i}`,duration:carousel?1100:2000,
-       delay:carousel?0:i*180,easing:'cubic-bezier(.22,1,.36,1)',fill:'both'}));
+      {id:carousel?'wmol-systems-entry':`wmol-panel-entry-${i}`,duration:carousel?1100:1640,
+       delay:carousel?0:i*150,easing:'cubic-bezier(.22,1,.36,1)',fill:'both'}));
     entranceMotion=entranceMotions[entranceMotions.length-1];
     window.wmolDomainsEntrance=entranceMotion;
     root.dataset.domainsEntry='running';
@@ -643,6 +677,13 @@ function fitHomeInnerScale() {
     });
   }
   document.addEventListener('DOMContentLoaded',()=>{
+    if (!document.documentElement.classList.contains('wmol-phone-device')) {
+      const tagline = document.querySelector('.wml-learning-tagline');
+      const lines = ['Your way to always know', 'what to learn next.'].map(text => {
+        const line = document.createElement('span');line.className='wml-learning-tagline-line';line.textContent=text;return line;
+      });
+      tagline.replaceChildren(lines[0], document.createTextNode(' '), lines[1]);
+    }
     resetHomeState();wireHomeNav();wireToolsNav();playReturnFromMedicineIfNeeded();playReturnFromToolsIfNeeded();
     document.querySelector('.home-viewport').classList.add('home-ready');
     fitHomeInnerScale();initMobileDomainsCarousel();measureDomains();
