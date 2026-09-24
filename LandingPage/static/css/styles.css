@@ -20499,3 +20499,59 @@ html:root.wmol-domains-controlled:not(.wmol-phone-device) .home-viewport.domains
 html:root:not(.wmol-phone-device) .home-viewport.domains-page .wml-learning-tagline-line {
   display:block !important;white-space:nowrap !important;
 }
+
+/* Desktop stability 30: portrait sentences share one fitted line. */
+@media (orientation:portrait) {
+  html:root.wmol-domains-controlled:not(.wmol-phone-device) .home-viewport.domains-page .wml-home .wml-rail nav .wml-personal-line {
+    display:block !important;width:100% !important;max-width:100% !important;
+    height:auto !important;min-height:0 !important;
+    white-space:nowrap !important;text-wrap:nowrap !important;
+  }
+  html:root.wmol-domains-controlled:not(.wmol-phone-device) .home-viewport.domains-page .wml-learning-tagline-line {
+    display:inline !important;
+  }
+}
+
+/* The solid blue surface must cover the entire changing banner rectangle.
+   Snapshot auto-height preserved two different aspect ratios and exposed the
+   page behind the lower edge. Only its geometry moves; its colour stays opaque. */
+html[data-wmol-nav-mode="morph"] {background-color:#020826;}
+html[data-wmol-nav-mode="morph"]::view-transition-group(med-rail),
+html[data-wmol-nav-mode="morph"]::view-transition-image-pair(med-rail) {
+  background:#020826;overflow:clip;
+}
+html[data-wmol-nav-mode="morph"]::view-transition-old(med-rail),
+html[data-wmol-nav-mode="morph"]::view-transition-new(med-rail) {
+  height:100%;object-fit:fill;animation:none !important;
+  opacity:1;mix-blend-mode:normal;
+}
+
+/* The carousel controls sit outside .wml-home. Cover that surface too, so
+   clicking an arrow cannot leave a text caret. Keyboard focus stays visible. */
+.home-viewport.domains-page,
+.home-viewport.domains-page *:not(input):not(textarea):not([contenteditable="true"]) {
+  caret-color:transparent !important;
+}
+.home-viewport.domains-page .domains-carousel-ui,
+.home-viewport.domains-page .domains-carousel-ui * {
+  -webkit-user-select:none !important;
+  user-select:none !important;
+}
+
+/* Keep the full-height artwork poster inside its moving blue banner. Flat
+   transition snapshots lose the live parent's overflow clipping, which exposed
+   the poster's top edge until the snapshots were handed back to the live page. */
+@supports (view-transition-group: nearest) {
+  html[data-wmol-nav-mode="morph"] :is(.wml-home .rail-medicine,.tools-layout .rail-tools,.medicine-layout .rail-medicine) .rail-image-wrap {
+    view-transition-group:nearest;
+  }
+  html[data-wmol-nav-mode="morph"]::view-transition-group-children(med-rail) {
+    overflow:clip;
+  }
+}
+/* Older engines capture the poster with the clipped banner itself. */
+@supports not (view-transition-group: nearest) {
+  html[data-wmol-nav-mode="morph"] :is(.wml-home .rail-medicine,.tools-layout .rail-tools,.medicine-layout .rail-medicine) .rail-image-wrap {
+    view-transition-name:none !important;
+  }
+}

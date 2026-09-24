@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" data-wmol-release="desktop-finish-29">
+<html lang="en" data-wmol-release="banner-clip-32">
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-desktop-finish-29">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-banner-clip-32">
     <script>
       (function () {
         var root = document.documentElement;
@@ -119,6 +119,16 @@
           wasLandscape = sideways;
         }
         syncPhoneMode();
+        // A first network visit can be painted while the HTML is still arriving.
+        // Keep the old page until the destination's markup and inline setup have
+        // all been parsed, so the morph cannot capture an unfinished banner/hub.
+        if (!phone && ['/', '/domains/', '/tools/', '/medicine/'].includes(location.pathname)) {
+          var readyLink = document.createElement('link');
+          readyLink.rel = 'expect';
+          readyLink.href = '#wmol-page-ready';
+          readyLink.setAttribute('blocking', 'render');
+          document.head.appendChild(readyLink);
+        }
         document.addEventListener("DOMContentLoaded", function () {syncPhoneMode(); syncSurface();});
         window.addEventListener("resize", syncPhoneMode, {passive: true});
         window.addEventListener("orientationchange", syncPhoneMode, {passive: true});
@@ -260,6 +270,29 @@
       window.wmolFitTaglines=(scope=document)=>{
         if(window.wmolZoomIsActive&&window.wmolZoomIsActive())return;
         scope.querySelectorAll('[data-wmol-one-line]').forEach(fit);
+        const root=document.documentElement;
+        if(!root.classList.contains('wmol-domains-controlled') || root.classList.contains('wmol-phone-device'))return;
+        const lines=[...scope.querySelectorAll('.domains-page .wml-personal-line')];
+        lines.forEach(el=>el.style.removeProperty('font-size'));
+        if(!matchMedia('(orientation:portrait)').matches)return;
+        // Fit the longest sentence and keep all four at the same scale.
+        // CSS restores landscape wrapping when the window changes orientation.
+        const measures=lines.map(el=>{
+          const cs=getComputedStyle(el),base=parseFloat(cs.fontSize);
+          const range=document.createRange();range.selectNodeContents(el);
+          const natural=range.getBoundingClientRect().width;
+          const width=el.clientWidth-(parseFloat(cs.paddingLeft)||0)-(parseFloat(cs.paddingRight)||0)-4;
+          return {el,base,width,ratio:width>0&&natural>0?width/natural:1};
+        });
+        const scale=Math.min(1,...measures.map(item=>item.ratio));
+        measures.forEach(({el,base})=>el.style.setProperty('font-size',`${base*scale}px`,'important'));
+        // Font hinting can round glyphs differently at the fitted size. One
+        // bounded correction keeps the longest line inside its button width.
+        const correction=Math.min(1,...measures.map(({el,width})=>{
+          const range=document.createRange();range.selectNodeContents(el);
+          return width>0?width/Math.max(1,range.getBoundingClientRect().width):1;
+        }));
+        if(correction<1)measures.forEach(({el,base})=>el.style.setProperty('font-size',`${base*scale*correction*.995}px`,'important'));
       };
       function init(){
         document.querySelectorAll('p,h1,h2,h3,h4,span,div').forEach(el=>{
@@ -571,5 +604,6 @@
       window.addEventListener('wmol:viewport', update);update();
     })();
     </script>
+    <span id="wmol-page-ready" hidden></span>
   </body>
 </html>
