@@ -2,6 +2,13 @@
 {% block title %}Wang Method of Learning{% endblock %}
 
 {% block content %}
+<script>
+window.wmolDomainStorage={
+ get(key){try{return sessionStorage.getItem(key);}catch(_){return null;}},
+ remove(key){try{sessionStorage.removeItem(key);}catch(_){}},
+ set(key,value){try{sessionStorage.setItem(key,value);}catch(_){}}
+};
+</script>
 
 <script>
   // Page-local portrait monitor mode. Other pages keep their own layout.
@@ -22,11 +29,11 @@
     const root=document.documentElement;root.classList.add('wmol-domains-controlled');
     let returning=false;
     try {
-      if(sessionStorage.getItem('closingToHome')==='1'){root.classList.add('returning-from-med');returning=true;}
-      else if(sessionStorage.getItem('closingToHomeTools')==='1'){root.classList.add('returning-from-tools');returning=true;}
+      if(window.wmolDomainStorage.get('closingToHome')==='1'){root.classList.add('returning-from-med');returning=true;}
+      else if(window.wmolDomainStorage.get('closingToHomeTools')==='1'){root.classList.add('returning-from-tools');returning=true;}
     }catch(_){/* Storage restrictions must not hide the page. */}
     window.wmolDomainsShouldEnter=!returning;
-    root.dataset.domainsEntry=returning?'ready':'pending';
+    root.dataset.domainsEntry=returning?'returning':'pending';
     window.wmolDomainsRevealFallback=setTimeout(()=>{
       if(root.dataset.domainsEntry==='pending'){window.wmolDomainsSkipEntrance=true;root.dataset.domainsEntry='ready';}
     },3000);
@@ -171,7 +178,7 @@ function isPhoneMobile() {
 
 function resetHomeState() {
   // If we're returning from medicine/tools, don't clear state first (prevents flashes)
-  if (sessionStorage.getItem('closingToHome') === '1' || sessionStorage.getItem('closingToHomeTools') === '1') return;
+  if (window.wmolDomainStorage.get('closingToHome') === '1' || window.wmolDomainStorage.get('closingToHomeTools') === '1') return;
 
   const home = document.querySelector('.wml-home');
   if (!home) return;
@@ -198,22 +205,20 @@ function wireHomeNav() {
   const rail = document.querySelector('.wml-home .rail-medicine');
   if (!home || !trigger || !rail) return;
 
+  let navigating=false;
   function startMedicineTransition() {
-    if (isPhoneMobile()) { window.location.href = trigger.href; return; }
+    if(navigating)return;
+    navigating=true;
+    finishEntrance();
+    if (isPhoneMobile() || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.location.href = trigger.href; return;
+    }
     home.classList.add('leaving-med');
-    document.body.style.pointerEvents = 'none';
-
-    const go = () => { window.location.href = trigger.href; };
-
-    const SLIDE_PREVIEW = 400;
-
-    window.setTimeout(() => {
-      if (document.startViewTransition) {
-        document.startViewTransition(go);
-      } else {
-        go();
-      }
-    }, SLIDE_PREVIEW);
+    document.documentElement.dataset.domainsEntry='leaving';
+    document.body.style.pointerEvents='none';
+    // Let all three panels clear before the browser matches the remaining blue
+    // rail to Tools. Do not nest a same-document transition around navigation.
+    window.setTimeout(() => { window.location.href = trigger.href; }, 920);
   }
 
   // Clicking the actual link
@@ -319,36 +324,37 @@ function wireToolsNav() {
 
   
   function playReturnFromMedicineIfNeeded() {
-    const home = document.querySelector('.wml-home');
-    if (!home) return;
-
-    if (sessionStorage.getItem('closingToHome') === '1') {
-      sessionStorage.removeItem('closingToHome');
-      if (isPhoneMobile()) {
-        home.classList.remove('from-med','enter-from-med','leaving-med');
-        document.documentElement.classList.remove('returning-from-med');
-        return;
-      }
-
-      // Keep the freeze class ON during the morph
-      home.classList.add('from-med', 'enter-from-med');
-
-      const MORPH_MS = 700;
-
-      // After morph: bring Q2–Q4 back
-      window.setTimeout(() => {
-        home.classList.remove('enter-from-med');
-      }, MORPH_MS);
+    const home=document.querySelector('.wml-home');
+    if(!home || window.wmolDomainStorage.get('closingToHome')!=='1')return;
+    window.wmolDomainStorage.remove('closingToHome');
+    if(isPhoneMobile() || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      home.classList.remove('from-med','enter-from-med','leaving-med');
+      document.documentElement.classList.remove('returning-from-med');
+      document.documentElement.dataset.domainsEntry='ready';
+      return;
     }
+    home.classList.add('from-med','enter-from-med');
+    document.documentElement.dataset.domainsEntry='returning';
+    // The blue rail gets the first 520ms to expand back. The remaining panels
+    // then fly in once, in their original order, rather than replaying entry.
+    window.setTimeout(()=>{
+      home.classList.remove('enter-from-med');
+      document.documentElement.dataset.domainsEntry='return-reveal';
+      window.setTimeout(()=>{
+        home.classList.remove('from-med');
+        document.documentElement.classList.remove('returning-from-med');
+        document.documentElement.dataset.domainsEntry='ready';
+      },1100);
+    },540);
   }
 function playReturnFromToolsIfNeeded() {
   const home = document.querySelector('.wml-home');
   if (!home) return;
 
-  if (sessionStorage.getItem('closingToHomeTools') === '1') {
+  if (window.wmolDomainStorage.get('closingToHomeTools') === '1') {
     // ✅ MOBILE: do NOT run the desktop return morph (prevents visible rail movement)
 if (isPhoneMobile()) {
-  sessionStorage.removeItem('closingToHomeTools');
+  window.wmolDomainStorage.remove('closingToHomeTools');
 
   // Clean state (bfcache safety)
   home.classList.remove('from-tools', 'enter-from-tools', 'leaving-tools');
@@ -375,7 +381,7 @@ if (isPhoneMobile()) {
   return;
 }
 // Desktop / large screens: keep your existing return morph
-sessionStorage.removeItem('closingToHomeTools');
+window.wmolDomainStorage.remove('closingToHomeTools');
 
 // ✅ IMPORTANT: unhide the home viewport (otherwise you get a black screen)
 const viewport = document.querySelector('.home-viewport');
@@ -417,7 +423,7 @@ let baseU  = 1;
 let isScrollMode = false;
 
 function fitHomeInnerScale() {
-  if (window.wmolZoomIsActive && window.wmolZoomIsActive()) return;
+  if ((window.wmolZoomIsActive && window.wmolZoomIsActive()) || entryRunning) return;
   window.wmolSyncDomainsPortrait();
   const vw = document.documentElement.clientWidth || innerWidth;
   const vh = innerHeight;
@@ -501,16 +507,17 @@ function fitHomeInnerScale() {
     scroller.removeEventListener('scroll', onScroll);
   }
 
-  let enabled = false;
+  let enabled = false, lastCarouselWidth=0;
   function syncMode() {
     if (window.wmolZoomIsActive && window.wmolZoomIsActive()) return;
     window.wmolSyncDomainsPortrait();
     const active = isMobileMode();
     if (active && !enabled) { enable(); enabled = true; }
     else if (!active && enabled) { disable(); enabled = false; }
-    if (active) {
+    if (active && Math.abs(scroller.clientWidth-lastCarouselWidth)>.5) {
       scroller.scrollTo({left: idx * scroller.clientWidth, behavior:'instant'});
-    } else { scroller.scrollLeft = 0; }
+      lastCarouselWidth=scroller.clientWidth;
+    } else if(!active) {scroller.scrollLeft=0;lastCarouselWidth=0;}
   }
   syncMode();
   mq.addEventListener?.('change', syncMode);
@@ -526,7 +533,7 @@ function fitHomeInnerScale() {
   // Measure the actual visible medallion inside each original poster.
   const posterFiles=['coat-circle.png','technology.png','gadgets.png','lifestyle.png'];
   const posterMetrics=posterFiles.map(()=>({ratio:.449,x:.5,y:.5,width:.66,height:.29634}));
-  let entrancePlayed=false,entranceMotion=null,geometryFrame=0,layoutQueued=false,lastDimensions='';
+  let entrancePlayed=false,entranceMotion=null,entranceMotions=[],entryRunning=false,entryWidth=0,geometryFrame=0,layoutQueued=false,lastDimensions='';
   function readArtworkBounds(image,fallback){
     const ratio=image.naturalWidth/image.naturalHeight,result={...fallback,ratio};
     try{
@@ -554,7 +561,7 @@ function fitHomeInnerScale() {
   }
   function measureDomains(){
     if(window.wmolZoomIsActive&&window.wmolZoomIsActive())return;
-    if(entranceMotion&&entranceMotion.playState==='running'){layoutQueued=true;return;}
+    if(entryRunning){layoutQueued=true;return;}
     const root=document.documentElement,viewport=document.querySelector('.home-viewport.domains-page');
     const rails=[...viewport.querySelectorAll('.wml-rail')],ui=viewport.querySelector('.domains-carousel-ui'),stage=viewport.querySelector('.domains-panel-window');
     if(!stage||rails.length!==4)return;
@@ -603,24 +610,49 @@ function fitHomeInnerScale() {
   }
   function settleMobileDomainArtwork(){if(geometryFrame)cancelAnimationFrame(geometryFrame);geometryFrame=requestAnimationFrame(()=>{geometryFrame=0;measureDomains();});}
   function finishEntrance(){
-    entrancePlayed=true;clearTimeout(window.wmolDomainsRevealFallback);
-    if(entranceMotion&&entranceMotion.playState==='running')entranceMotion.finish();
-    document.documentElement.dataset.domainsEntry='ready';
+    entrancePlayed=true;entryRunning=false;clearTimeout(window.wmolDomainsRevealFallback);
+    entranceMotions.forEach(motion=>{try{motion.finish();motion.cancel();}catch(_){}});
+    entranceMotions=[];
+    const viewport=document.querySelector('.home-viewport.domains-page');
+    const entrance=document.querySelector('.domains-entrance');
+    if(viewport)viewport.style.removeProperty('height');
+    if(entrance)entrance.style.removeProperty('height');
+    if(!document.querySelector('.wml-home.from-med'))document.documentElement.dataset.domainsEntry='ready';
   }
   function playCarouselEntrance(){
-    const root=document.documentElement;if(entrancePlayed)return;entrancePlayed=true;clearTimeout(window.wmolDomainsRevealFallback);
+    const root=document.documentElement;if(entrancePlayed)return;
+    entrancePlayed=true;clearTimeout(window.wmolDomainsRevealFallback);
+    const viewport=document.querySelector('.home-viewport.domains-page');
     const entrance=document.querySelector('.domains-entrance');
-    if(!window.wmolDomainsShouldEnter||window.wmolDomainsSkipEntrance||!entrance.animate||matchMedia('(prefers-reduced-motion: reduce)').matches){root.dataset.domainsEntry='ready';return;}
-    entranceMotion=entrance.animate([{transform:'translateY(100%)'},{transform:'translateY(0)'}],{duration:800,easing:'cubic-bezier(.22,.8,.25,1)',fill:'none'});
-    entranceMotion.id='wmol-systems-entry';window.wmolDomainsEntrance=entranceMotion;root.dataset.domainsEntry='running';
-    const done=()=>{root.dataset.domainsEntry='ready';if(layoutQueued){layoutQueued=false;settleMobileDomainArtwork();}};
-    entranceMotion.onfinish=done;entranceMotion.oncancel=done;
+    if(!window.wmolDomainsShouldEnter||window.wmolDomainsSkipEntrance||!entrance.animate||matchMedia('(prefers-reduced-motion: reduce)').matches){
+      if(root.dataset.domainsEntry!=='returning')root.dataset.domainsEntry='ready';return;
+    }
+    // Lock height only for this short animation. Safari's address bar may change
+    // the visual viewport as a new page opens, but must not finish/restart entry.
+    viewport.style.setProperty('height',viewport.clientHeight+'px','important');
+    entrance.style.setProperty('height',entrance.clientHeight+'px','important');
+    entryWidth=viewport.clientWidth;entryRunning=true;
+    const carousel=isPhoneMobile();
+    const targets=carousel?[entrance]:[...entrance.querySelectorAll('.wml-rail')];
+    entranceMotions=targets.map((target,i)=>target.animate(
+      [{translate:'0 100%'},{translate:'0 0'}],
+      {id:carousel?'wmol-systems-entry':`wmol-panel-entry-${i}`,duration:800,
+       delay:carousel?0:i*110,easing:'cubic-bezier(.22,.8,.25,1)',fill:'both'}));
+    entranceMotion=entranceMotions[entranceMotions.length-1];
+    window.wmolDomainsEntrance=entranceMotion;
+    root.dataset.domainsEntry='running';
+    Promise.all(entranceMotions.map(m=>m.finished.catch(()=>{}))).then(()=>{
+      if(!entryRunning)return;
+      finishEntrance();
+      if(layoutQueued){layoutQueued=false;fitHomeInnerScale();settleMobileDomainArtwork();}
+    });
   }
   document.addEventListener('DOMContentLoaded',()=>{
     resetHomeState();wireHomeNav();wireToolsNav();playReturnFromMedicineIfNeeded();playReturnFromToolsIfNeeded();
+    document.querySelector('.home-viewport').classList.add('home-ready');
     fitHomeInnerScale();initMobileDomainsCarousel();measureDomains();
     const images=posterFiles.map((name,i)=>new Promise(resolve=>{
-      const image=new Image();image.onload=()=>{if(image.naturalHeight)posterMetrics[i]=readArtworkBounds(image,posterMetrics[i]);settleMobileDomainArtwork();resolve();};
+      const image=new Image();image.onload=()=>{if(image.naturalHeight && !entrancePlayed)posterMetrics[i]=readArtworkBounds(image,posterMetrics[i]);if(!entrancePlayed)settleMobileDomainArtwork();resolve();};
       image.onerror=()=>resolve();image.src='/static/img/'+name;
     }));
     const fonts=document.fonts?document.fonts.ready:Promise.resolve();
@@ -628,11 +660,23 @@ function fitHomeInnerScale() {
       measureDomains();requestAnimationFrame(()=>{measureDomains();requestAnimationFrame(playCarouselEntrance);});
     });
   });
-  window.addEventListener('pageshow',event=>{if(event.persisted)finishEntrance();resetHomeState();fitHomeInnerScale();settleMobileDomainArtwork();});
+  window.addEventListener('pageshow',event=>{
+    if(event.persisted){
+      finishEntrance();document.documentElement.classList.remove('returning-from-med','returning-from-tools');
+      document.querySelector('.wml-home')?.classList.remove('from-med','enter-from-med','leaving-med');
+      document.body.style.pointerEvents='';
+    }
+    if(!entryRunning){resetHomeState();fitHomeInnerScale();settleMobileDomainArtwork();}
+  });
   function resized(){
     if(window.wmolZoomIsActive&&window.wmolZoomIsActive())return;
     const viewport=document.querySelector('.home-viewport.domains-page');
-    if(entranceMotion&&entranceMotion.playState==='running'&&lastDimensions!==`${viewport.clientWidth}:${viewport.clientHeight}`)finishEntrance();
+    if(entryRunning){
+      // A genuine width/orientation change can finish entry, never replay it.
+      // Height-only changes (browser chrome) wait until the one ascent finishes.
+      if(Math.abs(viewport.clientWidth-entryWidth)>2)finishEntrance();
+      else {layoutQueued=true;return;}
+    }
     fitHomeInnerScale();settleMobileDomainArtwork();
   }
   ['resize','orientationchange','wmol:portrait','wmol:viewport'].forEach(type=>window.addEventListener(type,resized,{passive:true}));

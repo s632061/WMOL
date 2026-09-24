@@ -20128,8 +20128,8 @@ html:root.wmol-phone-device body > #tModal .t-modal-close {width:44px !important
   }
 }
 
-/* Release 25: one entrance per page, responsive card contents and stacked benefits.
-   Shared styling remains in this existing stylesheet. */
+/* Responsive repair: one motion owner, distinct desktop/mobile layout rules.
+   All site styling remains in this existing stylesheet. */
 #wmol-landing .wmol-soft-entry {animation:none !important;}
 [data-wmol-one-line] {white-space:nowrap !important;text-wrap:nowrap !important;}
 [data-wmol-one-line] br {display:none !important;}
@@ -20143,16 +20143,17 @@ html:root.wmol-domains-controlled .home-viewport.domains-page .domains-entrance 
   display:block !important;position:relative !important;width:100% !important;height:100% !important;
   margin:0 !important;padding:0 !important;border:0 !important;transition:none !important;
 }
-html:root.wmol-domains-controlled[data-domains-entry="pending"] .domains-entrance {visibility:hidden !important;}
+html:root.wmol-domains-controlled[data-domains-entry="pending"] .domains-entrance {opacity:0 !important;pointer-events:none !important;}
 html:root.wmol-domains-controlled .home-viewport.domains-page .wml-home {
   position:relative !important;inset:auto !important;width:100% !important;height:100% !important;
   margin:0 !important;padding:0 !important;animation:none !important;transition:none !important;
   transform:none !important;clip-path:none !important;opacity:1 !important;visibility:visible !important;
+  box-shadow:none !important;filter:none !important;
 }
 html:root.wmol-domains-controlled .home-viewport.domains-page .wml-home > .wml-rail {
   animation:none !important;transition:none !important;clip-path:none !important;transform:none !important;
   opacity:1 !important;visibility:visible !important;border:0 !important;outline:0 !important;box-shadow:none !important;
-  background:var(--domains-solid,#020826) !important;
+  background:var(--domains-solid,#020826) !important;filter:none !important;
 }
 html:root.wmol-domains-controlled .home-viewport.domains-page .rail-medicine {--domains-solid:#020826;--domains-poster:url('/static/img/coat-circle.png');}
 html:root.wmol-domains-controlled .home-viewport.domains-page .rail-technology {--domains-solid:#202425;--domains-poster:url('/static/img/technology.png');}
@@ -20175,40 +20176,109 @@ html:root.wmol-domains-controlled .home-viewport.domains-page .rail-image-wrap {
 html:root.wmol-domains-controlled .home-viewport.domains-page .wml-home :is(.wml-title,.wml-title-tech,.wml-cta,.wml-cta-tech,.wml-cta-gadgets,.wml-cta-lifestyle) {
   animation:none !important;transition:none !important;opacity:1 !important;visibility:visible !important;transform:translateX(-50%) !important;
 }
+/* The original desktop rail exit/return is separate from the entrance translate.
+   The mobile/portrait carousel never matches these selectors. */
+html:root.wmol-domains-controlled:not(.wmol-domains-carousel) .home-viewport.domains-page .wml-home > .wml-rail {
+  transition:transform 700ms cubic-bezier(.22,.8,.25,1) var(--domains-panel-delay,0ms) !important;
+}
+html:root.wmol-domains-controlled:not(.wmol-domains-carousel) .wml-home > .rail-technology {--domains-panel-delay:0ms;}
+html:root.wmol-domains-controlled:not(.wmol-domains-carousel) .wml-home > .rail-gadgets {--domains-panel-delay:100ms;}
+html:root.wmol-domains-controlled:not(.wmol-domains-carousel) .wml-home > .rail-lifestyle {--domains-panel-delay:200ms;}
+html:root.wmol-domains-controlled:not(.wmol-domains-carousel) .home-viewport.domains-page .wml-home.leaving-med > .wml-rail:not(.rail-medicine),
+html:root.wmol-domains-controlled:not(.wmol-domains-carousel) .home-viewport.domains-page .wml-home.enter-from-med > .wml-rail:not(.rail-medicine) {
+  transform:translateX(105vw) !important;
+}
+html:root.wmol-domains-controlled:not(.wmol-domains-carousel) .home-viewport.domains-page .wml-home.enter-from-med > .wml-rail {transition:none !important;}
+html:root.wmol-domains-controlled .home-viewport.domains-page .wml-home.leaving-med,
+html:root.wmol-domains-controlled .home-viewport.domains-page .wml-home.from-med {background:var(--paper) !important;}
+/* Remove the oversized flat shadow from the systems viewport, not the texture. */
+html:root.wmol-domains-controlled .home-viewport.domains-page::before,
+html:root.wmol-domains-controlled .home-viewport.domains-page::after {content:none !important;display:none !important;}
+html:root.wmol-domains-controlled .home-viewport.domains-page .wml-home > .wml-rail::after {content:none !important;}
 
-/* Four benefits read top-to-bottom; the complete left-aligned block is centred. */
+/* Desktop: a centred two-by-two set. Phone/narrow window: left-aligned stack. */
 html:root #wmol-medicine.medicine-layout .content-inner.pass-page .pass-hero[aria-labelledby="pass-title"] .pass-hero-outcomes {
-  display:flex !important;flex-direction:column !important;align-items:stretch !important;
-  grid-template-columns:none !important;width:max-content;max-width:100% !important;
-  margin-inline:auto !important;padding-inline:0 !important;gap:.32em !important;text-align:left !important;
+  display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  width:min(100%,1100px) !important;max-width:100% !important;
+  margin-inline:auto !important;padding:0 !important;gap:.4em 1.466667em !important;text-align:left !important;
 }
 html:root #wmol-medicine.medicine-layout .content-inner.pass-page .pass-hero .pass-outcome-row {display:contents !important;}
 html:root #wmol-medicine.medicine-layout .content-inner.pass-page .pass-hero .pass-outcome-item {
-  display:block !important;flex:none !important;width:100% !important;max-width:100% !important;
+  display:block !important;flex:none !important;width:auto !important;min-width:0 !important;max-width:100% !important;
   text-align:left !important;white-space:normal !important;margin:0 !important;padding:0 !important;
 }
 html:root #wmol-medicine.medicine-layout .pass-hero .pass-outcome-item::before {content:none !important;}
+html:root #wmol-medicine.medicine-layout .content-inner.pass-page .pass-hero[aria-labelledby="pass-title"] .pass-hero-outcomes[data-benefit-layout="stacked"] {
+  display:flex !important;flex-direction:column !important;align-items:stretch !important;
+  gap:.45em !important;font-size:clamp(18px,4.75vw,21px) !important;line-height:1.35 !important;
+}
 
-/* A single card-width unit scales icon, typography and inset together on phones. */
-html:root.wmol-phone-device #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid .tool-icon-card {
-  --tool-phone-unit:1;
+/* Cards follow a bounded square preference without losing the bottom padding.
+   The content minimum wins when copy/large text needs more height. */
+html:root #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid .tool-icon-card[style*="--tool-card-min-height"] {
+  aspect-ratio:auto !important;min-height:var(--tool-card-min-height) !important;height:auto !important;max-height:none !important;
+  overflow:visible !important;box-sizing:border-box !important;
+}
+html:root #wmol-tools.tools-layout .tools-grid .tool-icon-card > * {flex-shrink:0 !important;}
+html:root #wmol-tools.tools-layout .tool-pass-heading-row {
+  display:flex !important;flex-wrap:wrap !important;justify-content:flex-start !important;align-items:baseline !important;gap:0 .35em !important;
+}
+html:root #wmol-tools.tools-layout .tool-pass-heading-row :is(.tool-icon-name--pass,.tool-pass-audience) {
+  flex:0 1 auto !important;width:auto !important;margin:0 !important;text-align:left !important;
+}
+html:root #wmol-tools.tools-layout .tools-grid .tool-icon-imgwrap {
+  margin-left:0 !important;margin-right:auto !important;
+}
+html:root #wmol-tools.tools-layout .tools-grid .tool-icon-card .tool-icon-imgwrap img {
+  display:block !important;position:absolute !important;inset:0 !important;
+  width:100% !important;height:100% !important;max-width:100% !important;max-height:100% !important;
+  object-position:center !important;transform:none !important;
+}
+html:root #wmol-tools.tools-layout .tools-grid .tool-icon-card[data-hub-theme="hsk"] .tool-icon-imgwrap img {object-fit:cover !important;}
+/* One proportional unit for phone cards and truly narrow desktop windows. */
+html:root #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid .tool-icon-card[style*="--tool-phone-unit"] {
+  display:flex !important;flex-direction:column !important;align-items:stretch !important;justify-content:flex-start !important;
   font-size:calc(17px * var(--tool-phone-unit)) !important;
   padding:calc(18px * var(--tool-phone-unit)) !important;
-  height:auto !important;aspect-ratio:1 / 1 !important;overflow:visible !important;
+  height:auto !important;min-height:var(--tool-card-min-height) !important;aspect-ratio:auto !important;
 }
-html:root.wmol-phone-device #wmol-tools.tools-layout .tools-grid .tool-icon-card .tool-icon-imgwrap {
+html:root #wmol-tools.tools-layout .tools-grid .tool-icon-card[style*="--tool-phone-unit"] .tool-icon-imgwrap {
   width:calc(128px * var(--tool-phone-unit)) !important;max-width:100% !important;
+  position:relative !important;min-height:0 !important;max-height:none !important;
   height:auto !important;aspect-ratio:1 / 1 !important;
   margin:0 0 calc(12px * var(--tool-phone-unit)) !important;
   border-radius:calc(18px * var(--tool-phone-unit)) !important;
 }
-html:root.wmol-phone-device #wmol-tools.tools-layout .tools-grid .tool-icon-card :is(.tool-icon-name,.tool-pass-audience) {
+html:root #wmol-tools.tools-layout .tools-grid .tool-icon-card[style*="--tool-phone-unit"] :is(.tool-icon-name,.tool-pass-audience) {
   font-size:calc(18.5px * var(--tool-phone-unit)) !important;line-height:1.20 !important;margin-top:0 !important;
 }
-html:root.wmol-phone-device #wmol-tools.tools-layout .tools-grid .tool-icon-card :is(.tool-icon-kicker,.tool-icon-desc,.tool-pass-description,.tool-aws-benefits) {
-  font-size:calc(17px * var(--tool-phone-unit)) !important;line-height:1.36 !important;
+html:root #wmol-tools.tools-layout .tools-grid .tool-icon-card[style*="--tool-phone-unit"] :is(.tool-icon-kicker,.tool-icon-desc,.tool-pass-description,.tool-aws-benefits) {
+  font-size:calc(17px * var(--tool-phone-unit)) !important;line-height:1.40 !important;
 }
-html:root.wmol-phone-device #wmol-tools.tools-layout .tools-grid .tool-icon-card :is(.tool-pass-expanded-name,.tool-aws-expanded-name) {
-  font-size:calc(15px * var(--tool-phone-unit)) !important;line-height:1.26 !important;margin-bottom:calc(8px * var(--tool-phone-unit)) !important;
+html:root #wmol-tools.tools-layout .tools-grid .tool-icon-card[style*="--tool-phone-unit"] :is(.tool-pass-expanded-name,.tool-aws-expanded-name) {
+  font-size:calc(15px * var(--tool-phone-unit)) !important;line-height:1.30 !important;margin-bottom:calc(8px * var(--tool-phone-unit)) !important;
 }
-html:root.wmol-phone-device #wmol-tools.tools-layout .tools-grid .tool-icon-card .tool-aws-benefits {margin-top:calc(6px * var(--tool-phone-unit)) !important;}
+html:root #wmol-tools.tools-layout .tools-grid .tool-icon-card[style*="--tool-phone-unit"] .tool-aws-benefits {margin-top:calc(6px * var(--tool-phone-unit)) !important;}
+@media (max-width:700px) {
+  html:root #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid {
+    grid-template-columns:minmax(0,1fr) !important;max-width:430px !important;margin-inline:auto !important;
+  }
+  html:root #wmol-tools.tools-layout .tools-hub-density-surface .tools-hub-hero {max-width:430px !important;margin-inline:auto !important;}
+}
+html:root.wmol-phone-device #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid {
+  grid-template-columns:minmax(0,1fr) !important;max-width:430px !important;margin-inline:auto !important;
+}
+
+/* Back uses a single centred line box, independent of inherited page leading. */
+html:root #awsSaaPageV5 .aws5-safe-bar .aws5-back {
+  display:inline-flex !important;align-items:center !important;justify-content:center !important;
+  line-height:1 !important;min-height:36px !important;box-sizing:border-box !important;
+  text-align:center !important;padding:9px 12px !important;
+}
+html:root #awsSaaPageV5 .aws5-safe-bar .aws5-back span {display:block;line-height:1;}
+
+/* Hidden ancestors must use opacity: descendants have explicit visibility rules. */
+html:root.wmol-domains-controlled[data-domains-entry="pending"] .domains-carousel-ui {opacity:0 !important;pointer-events:none !important;}
+html:root.wmol-domains-controlled.returning-from-med:not(.wmol-domains-carousel)[data-domains-entry="returning"] .home-viewport.domains-page .wml-home > .wml-rail:not(.rail-medicine) {
+  transform:translateX(105vw) !important;transition:none !important;
+}

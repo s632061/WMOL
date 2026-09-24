@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-wmol-release="motion-content-25">
+<html lang="en" data-wmol-release="responsive-repair-26">
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
@@ -128,8 +128,25 @@
         }
       })();
     </script>
+    <script>
+      window.addEventListener('pagereveal', function(event) {
+        var root=document.documentElement;
+        var plainHome=!!document.getElementById('wmol-landing');
+        var domains=!!document.querySelector('.domains-page');
+        var returning=window.wmolDomainsShouldEnter===false;
+        if(event.viewTransition && (plainHome || (domains && (!returning || root.classList.contains('wmol-domains-carousel'))))) {
+          event.viewTransition.skipTransition();
+        }
+      });
+      window.addEventListener('pageswap', function(event) {
+        var root=document.documentElement;
+        if(event.viewTransition && (document.getElementById('wmol-landing') || root.classList.contains('wmol-domains-carousel'))) {
+          event.viewTransition.skipTransition();
+        }
+      });
+    </script>
     <title>{% block title %}Wang Method of Learning{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-motion-content-25">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-responsive-repair-26">
   </head>
   <body>
     <div class="wmol-phone-backdrop" aria-hidden="true"></div>
@@ -362,9 +379,29 @@
       ['font-size','width'].forEach(p => benefits.style.removeProperty(p));
       const items=[...benefits.querySelectorAll('.pass-outcome-item')];
       items.forEach(item=>item.style.removeProperty('white-space'));
+      const narrow = phone || innerWidth <= 700;
+      benefits.dataset.benefitLayout = narrow ? 'stacked' : 'grid';
+      // A grid is centred by its full, equal-width columns, never by the width of
+      // one long sentence. Phones use a single generously sized reading measure.
       const available=benefits.parentElement.clientWidth;
-      const widest=Math.max(1,...items.map(item=>fullTextWidth(item,parseFloat(getComputedStyle(item).fontSize))));
-      benefits.style.setProperty('width',`${Math.min(available,Math.ceil(widest+4))}px`,'important');
+      if (!narrow) {
+        const unit=parseFloat(getComputedStyle(benefits).fontSize)/30;
+        benefits.style.setProperty('width', `${Math.min(available,1100*unit)}px`, 'important');
+      } else {
+        const limit=Math.max(1,available-Math.min(24,available*.06));
+        benefits.style.setProperty('width', `${limit}px`, 'important');
+        // Trim only genuine unused line-end space, without adding new wraps.
+        const originalHeight=benefits.offsetHeight, box=benefits.getBoundingClientRect();
+        const scale=box.width/Math.max(1,benefits.offsetWidth);
+        let right=box.left;
+        items.forEach(item=>{
+          const range=document.createRange();range.selectNodeContents(item);
+          for(const r of range.getClientRects()) if(r.width>0)right=Math.max(right,r.right);
+        });
+        const fitted=Math.min(limit,Math.max(limit*.92,Math.ceil((right-box.left)/scale+4)));
+        benefits.style.setProperty('width', `${fitted}px`, 'important');
+        if(benefits.offsetHeight>originalHeight+1)benefits.style.setProperty('width', `${limit}px`, 'important');
+      }
     }
     fitSingleLine(page.querySelector('#pass-use-title'), 12);
     const grid = page.querySelector('.pass-proof-grid');

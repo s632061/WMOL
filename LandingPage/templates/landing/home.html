@@ -361,7 +361,8 @@
         const originalBeliefFit = Math.max(portraitDesktop ? .76 : .64, Math.min(1, (available - 1) / Math.max(1, originalBeliefHeight)));
         // Text enlargement does not reposition the existing arch on wide desktops.
         const balanceHeight = step === 1 && !mobile ? originalBeliefHeight * originalBeliefFit : naturalHeight * appliedFit;
-        const occupied = stageTop + balanceHeight - keyTop;
+        const compositionBottom = Math.max(stageTop + balanceHeight, keyTop + visibleArchHeight);
+        const occupied = compositionBottom - keyTop;
         const shift = Math.max(0, (vh - occupied) / 2 - keyTop) * largeBalance;
         if (shift > 0) {
           put(arch, {"top":`${keyTop - archWidth / 12 + shift}px`});

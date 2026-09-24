@@ -152,15 +152,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   back.addEventListener('click', (e) => {
     e.preventDefault();
-    sessionStorage.setItem('closingToHome', '1');
+    try {sessionStorage.setItem('closingToHome','1');} catch(_) {}
 
     const go = () => { window.location.href = back.href; };
 
-    if (document.startViewTransition) {
-      document.startViewTransition(go);
-    } else {
-      go();
-    }
+    go();
   });
 })();
 </script>
@@ -237,8 +233,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function fit(){
     if(window.wmolZoomIsActive&&window.wmolZoomIsActive())return;
     cards.forEach(card=>{
-      if(!root.classList.contains('wmol-phone-device')){card.style.removeProperty('--tool-phone-unit');return;}
-      const unit=Math.max(.75,Math.min(1.5,card.clientWidth/320)).toFixed(5);
+      const height=card.offsetWidth+'px';
+      if(card.style.getPropertyValue('--tool-card-min-height')!==height)card.style.setProperty('--tool-card-min-height',height);
+      if(!root.classList.contains('wmol-phone-device') && innerWidth>700){card.style.removeProperty('--tool-phone-unit');return;}
+      const unit=Math.max(.82,Math.min(1.36,card.clientWidth/300)).toFixed(5);
       if(card.style.getPropertyValue('--tool-phone-unit')!==unit)card.style.setProperty('--tool-phone-unit',unit);
     });
   }

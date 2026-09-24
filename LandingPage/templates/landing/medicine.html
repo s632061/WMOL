@@ -259,8 +259,8 @@
   </div>
 
   <div class="pass-card-rail pass-card-rail--four" data-mobile-carousel="program" aria-label="Four-week PASS progression">
-    <article class="pass-media-card pass-week-card" role="button" tabindex="0" aria-label="Open full Week 1 program image" data-week-image="{% static 'img/pass-week-1.png' %}?v=wmol-combined-staging-19" data-week-alt="Week 1 learning foundation">
-      <div class="pass-media-card-image"><img src="{% static 'img/pass-week-1.png' %}?v=wmol-combined-staging-19" alt="Week 1 learning foundation"></div>
+    <article class="pass-media-card pass-week-card" role="button" tabindex="0" aria-label="Open full Week 1 program image" data-week-image="{% static 'img/pass-week-1.png' %}?v=wmol-responsive-repair-26" data-week-alt="Week 1 learning foundation">
+      <div class="pass-media-card-image"><img src="{% static 'img/pass-week-1.png' %}?v=wmol-responsive-repair-26" alt="Week 1 learning foundation"></div>
       <div class="pass-media-card-copy">
         <span class="pass-card-label">Week 1</span>
         <h3>Understand and Build the Foundation</h3>
@@ -268,8 +268,8 @@
       </div>
     </article>
 
-    <article class="pass-media-card pass-week-card" role="button" tabindex="0" aria-label="Open full Week 2 program image" data-week-image="{% static 'img/pass-week-2.png' %}?v=wmol-combined-staging-19" data-week-alt="Week 2 question-based application">
-      <div class="pass-media-card-image"><img src="{% static 'img/pass-week-2.png' %}?v=wmol-combined-staging-19" alt="Week 2 question-based application"></div>
+    <article class="pass-media-card pass-week-card" role="button" tabindex="0" aria-label="Open full Week 2 program image" data-week-image="{% static 'img/pass-week-2.png' %}?v=wmol-responsive-repair-26" data-week-alt="Week 2 question-based application">
+      <div class="pass-media-card-image"><img src="{% static 'img/pass-week-2.png' %}?v=wmol-responsive-repair-26" alt="Week 2 question-based application"></div>
       <div class="pass-media-card-copy">
         <span class="pass-card-label">Week 2</span>
         <h3>Apply and Reveal Gaps</h3>
@@ -277,8 +277,8 @@
       </div>
     </article>
 
-    <article class="pass-media-card pass-week-card" role="button" tabindex="0" aria-label="Open full Week 3 program image" data-week-image="{% static 'img/pass-week-3.png' %}?v=wmol-combined-staging-19" data-week-alt="Week 3 correction and consolidation">
-      <div class="pass-media-card-image"><img src="{% static 'img/pass-week-3.png' %}?v=wmol-combined-staging-19" alt="Week 3 correction and consolidation"></div>
+    <article class="pass-media-card pass-week-card" role="button" tabindex="0" aria-label="Open full Week 3 program image" data-week-image="{% static 'img/pass-week-3.png' %}?v=wmol-responsive-repair-26" data-week-alt="Week 3 correction and consolidation">
+      <div class="pass-media-card-image"><img src="{% static 'img/pass-week-3.png' %}?v=wmol-responsive-repair-26" alt="Week 3 correction and consolidation"></div>
       <div class="pass-media-card-copy">
         <span class="pass-card-label">Week 3</span>
         <h3>Correct and Consolidate</h3>
@@ -1152,6 +1152,7 @@ document.addEventListener("keydown", (e) => {
       probe.style.setProperty('position','absolute','important');
       probe.style.setProperty('visibility','hidden','important');
       probe.style.setProperty('pointer-events','none','important');
+      probe.style.setProperty('width',card.offsetWidth+'px','important');
       probe.style.setProperty('height','auto','important');
       probe.style.setProperty('min-height','0','important');
       probe.style.setProperty('max-height','none','important');
