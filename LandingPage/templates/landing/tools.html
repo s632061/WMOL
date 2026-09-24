@@ -128,18 +128,10 @@ document.addEventListener("DOMContentLoaded", () => {
     card.addEventListener("blur", clearTheme);
 
     card.addEventListener("click", (e) => {
+      if (!window.wmolPlainClick(e)) return;
       e.preventDefault();
       applyTheme(theme);
-
-      const go = () => { window.location.href = card.href; };
-
-      window.setTimeout(() => {
-        if (document.startViewTransition) {
-          document.startViewTransition(go);
-        } else {
-          go();
-        }
-      }, 180);
+      window.wmolNavigate(card.href);
     });
   });
 });
@@ -151,12 +143,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!back) return;
 
   back.addEventListener('click', (e) => {
+    if (!window.wmolPlainClick(e)) return;
     e.preventDefault();
-    try {sessionStorage.setItem('closingToHome','1');} catch(_) {}
-
-    const go = () => { window.location.href = back.href; };
-
-    go();
+    window.wmolNavigate(back.href);
   });
 })();
 </script>

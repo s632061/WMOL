@@ -206,30 +206,25 @@ function wireHomeNav() {
   if (!home || !trigger || !rail) return;
 
   let navigating=false;
+  window.addEventListener('pageshow', () => {navigating=false;});
   function startMedicineTransition() {
     if(navigating)return;
     navigating=true;
+    ++returnGeneration;
     finishEntrance();
-    if (isPhoneMobile() || matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      window.location.href = trigger.href; return;
-    }
-    home.classList.add('leaving-med');
-    document.documentElement.dataset.domainsEntry='leaving';
-    document.body.style.pointerEvents='none';
-    // Let all three panels clear before the browser matches the remaining blue
-    // rail to Tools. Do not nest a same-document transition around navigation.
-    window.setTimeout(() => { window.location.href = trigger.href; }, 920);
+    window.wmolNavigate(trigger.href, {panels:true});
   }
 
   // Clicking the actual link
   trigger.addEventListener('click', (e) => {
+    if (!window.wmolPlainClick(e)) return;
     e.preventDefault();
     startMedicineTransition();
   });
 
   // Clicking anywhere on the rail (same timing)
   rail.addEventListener('click', (e) => {
-    if (e.target.closest('a')) return; // let link handler handle it
+    if (e.target.closest('a') || !window.wmolPlainClick(e)) return; // preserve new-tab clicks
     e.preventDefault();
     startMedicineTransition();
   });
@@ -323,29 +318,37 @@ function wireToolsNav() {
 }
 
   
-  function playReturnFromMedicineIfNeeded() {
-    const home=document.querySelector('.wml-home');
-    if(!home || window.wmolDomainStorage.get('closingToHome')!=='1')return;
+  let returnGeneration = 0;
+  window.wmolPrepareDomainsReturn = function () {
+    const home = document.querySelector('.wml-home'), root = document.documentElement;
+    if (!home) return;
+    const generation = ++returnGeneration;
+    window.wmolDomainsShouldEnter = false;
     window.wmolDomainStorage.remove('closingToHome');
-    if(isPhoneMobile() || matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      home.classList.remove('from-med','enter-from-med','leaving-med');
-      document.documentElement.classList.remove('returning-from-med');
-      document.documentElement.dataset.domainsEntry='ready';
-      return;
-    }
-    home.classList.add('from-med','enter-from-med');
-    document.documentElement.dataset.domainsEntry='returning';
-    // The blue rail gets the first 520ms to expand back. The remaining panels
-    // then fly in once, in their original order, rather than replaying entry.
-    window.setTimeout(()=>{
+    finishEntrance();
+    home.classList.remove('leaving-med');
+    const animatePanels = !window.wmolNavigationUsesFade() && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    home.classList.toggle('from-med', animatePanels);
+    home.classList.toggle('enter-from-med', animatePanels);
+    root.classList.toggle('returning-from-med', animatePanels);
+    root.dataset.domainsEntry = animatePanels ? 'returning' : 'ready';
+    if (!animatePanels) return;
+    window.wmolAfterPageReveal(async () => {
+      if (generation !== returnGeneration) return;
+      // Begin the panels only after the blue banner has reached its final bounds.
+      root.dataset.domainsEntry = 'return-reveal';
       home.classList.remove('enter-from-med');
-      document.documentElement.dataset.domainsEntry='return-reveal';
-      window.setTimeout(()=>{
-        home.classList.remove('from-med');
-        document.documentElement.classList.remove('returning-from-med');
-        document.documentElement.dataset.domainsEntry='ready';
-      },1100);
-    },540);
+      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      const motions = [...home.querySelectorAll('.wml-rail:not(.rail-medicine)')].flatMap(panel => panel.getAnimations());
+      await Promise.all(motions.map(motion => motion.finished.catch(() => {})));
+      if (generation !== returnGeneration) return;
+      home.classList.remove('from-med');
+      root.classList.remove('returning-from-med');
+      root.dataset.domainsEntry = 'ready';
+    });
+  };
+  function playReturnFromMedicineIfNeeded() {
+    if (window.wmolDomainStorage.get('closingToHome') === '1') window.wmolPrepareDomainsReturn();
   }
 function playReturnFromToolsIfNeeded() {
   const home = document.querySelector('.wml-home');
@@ -533,6 +536,10 @@ function fitHomeInnerScale() {
   // Measure the actual visible medallion inside each original poster.
   const posterFiles=['coat-circle.png','technology.png','gadgets.png','lifestyle.png'];
   const posterMetrics=posterFiles.map(()=>({ratio:.449,x:.5,y:.5,width:.66,height:.29634}));
+  try {
+    const saved=JSON.parse(window.wmolDomainStorage.get('wmol-domain-artwork') || 'null');
+    if(Array.isArray(saved) && saved.length===4 && saved.every(m=>['ratio','x','y','width','height'].every(k=>Number.isFinite(m[k]) && m[k]>0))) saved.forEach((m,i)=>posterMetrics[i]=m);
+  } catch (_) {}
   let entrancePlayed=false,entranceMotion=null,entranceMotions=[],entryRunning=false,entryWidth=0,geometryFrame=0,layoutQueued=false,lastDimensions='';
   function readArtworkBounds(image,fallback){
     const ratio=image.naturalWidth/image.naturalHeight,result={...fallback,ratio};
@@ -652,7 +659,7 @@ function fitHomeInnerScale() {
     document.querySelector('.home-viewport').classList.add('home-ready');
     fitHomeInnerScale();initMobileDomainsCarousel();measureDomains();
     const images=posterFiles.map((name,i)=>new Promise(resolve=>{
-      const image=new Image();image.onload=()=>{if(image.naturalHeight && !entrancePlayed)posterMetrics[i]=readArtworkBounds(image,posterMetrics[i]);if(!entrancePlayed)settleMobileDomainArtwork();resolve();};
+      const image=new Image();image.onload=()=>{if(image.naturalHeight && !entrancePlayed){posterMetrics[i]=readArtworkBounds(image,posterMetrics[i]);window.wmolDomainStorage.set('wmol-domain-artwork',JSON.stringify(posterMetrics));}if(!entrancePlayed)settleMobileDomainArtwork();resolve();};
       image.onerror=()=>resolve();image.src='/static/img/'+name;
     }));
     const fonts=document.fonts?document.fonts.ready:Promise.resolve();
@@ -662,8 +669,7 @@ function fitHomeInnerScale() {
   });
   window.addEventListener('pageshow',event=>{
     if(event.persisted){
-      finishEntrance();document.documentElement.classList.remove('returning-from-med','returning-from-tools');
-      document.querySelector('.wml-home')?.classList.remove('from-med','enter-from-med','leaving-med');
+      if (!window.wmolPageTransition) finishEntrance();
       document.body.style.pointerEvents='';
     }
     if(!entryRunning){resetHomeState();fitHomeInnerScale();settleMobileDomainArtwork();}

@@ -201,6 +201,20 @@
   </div>
 </section>
 
+<section class="pass-section pass-demanding" aria-labelledby="pass-demanding-title">
+  <div class="pass-section-head">
+    <p class="pass-section-kicker">Why Trust the System</p>
+    <h2 id="pass-demanding-title">Tested in the Most Demanding Environments</h2>
+  </div>
+
+  <div class="pass-demanding-copy">
+    <p class="pass-demanding-lead"><strong>The WMOL PASS System is the only medical education learning system that has been successful in helping medical students reach high standards while making it easier to get there at the same time.</strong></p>
+    <p>The system has been tested and successfully used to complete both Step 1 and Step 2 licensing exams back-to-back, each within a five-month time period, while spending roughly a third of the preparation time per day compared with traditional timelines.</p>
+    <p>At the same time, the system still allowed for the successful completion of a 100-mile ultramarathon while maintaining healthy amounts of sleep, nutrition, mental health, and a life outside of medical education.</p>
+    <p class="pass-demanding-close">The system has been tested and succeeded even when your time, energy, and emotional bandwidth are limited.</p>
+  </div>
+</section>
+
 <section class="pass-section" aria-labelledby="pass-system-title">
   <div class="pass-section-head">
     <p class="pass-section-kicker">The Learning System</p>
@@ -306,19 +320,7 @@
 
 
 
-    <section class="pass-section pass-demanding" aria-labelledby="pass-demanding-title">
-  <div class="pass-section-head">
-    <p class="pass-section-kicker">Why Trust the System</p>
-    <h2 id="pass-demanding-title">Tested in the Most Demanding Environments</h2>
-  </div>
 
-  <div class="pass-demanding-copy">
-    <p class="pass-demanding-lead"><strong>The WMOL PASS System is the only medical education learning system that has been successful in helping medical students reach high standards while making it easier to get there at the same time.</strong></p>
-    <p>The system has been tested and successfully used to complete both Step 1 and Step 2 licensing exams back-to-back, each within a five-month time period, while spending roughly a third of the preparation time per day compared with traditional timelines.</p>
-    <p>At the same time, the system still allowed for the successful completion of a 100-mile ultramarathon while maintaining healthy amounts of sleep, nutrition, mental health, and a life outside of medical education.</p>
-    <p class="pass-demanding-close">The system has been tested and succeeded even when your time, energy, and emotional bandwidth are limited.</p>
-  </div>
-</section>
 
 <section class="pass-section pass-fit-section" aria-labelledby="pass-fit-title">
   <div class="pass-section-head">
@@ -1764,13 +1766,7 @@ if (rail.dataset.mobileCarousel === "system") {
   const backButton = document.getElementById("backHome");
   backButton?.addEventListener("click", (event) => {
     event.preventDefault();
-    const go = () => { window.location.href = "/tools/"; };
-
-    if (document.startViewTransition) {
-      document.startViewTransition(go);
-    } else {
-      go();
-    }
+    window.wmolNavigate('/tools/');
   });
 });
 </script>

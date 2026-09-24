@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="en" data-wmol-release="responsive-repair-26">
+<html lang="en" data-wmol-release="final-touches-27">
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-final-touches-27">
     <script>
       (function () {
         var root = document.documentElement;
@@ -129,24 +130,106 @@
       })();
     </script>
     <script>
-      window.addEventListener('pagereveal', function(event) {
-        var root=document.documentElement;
-        var plainHome=!!document.getElementById('wmol-landing');
-        var domains=!!document.querySelector('.domains-page');
-        var returning=window.wmolDomainsShouldEnter===false;
-        if(event.viewTransition && (plainHome || (domains && (!returning || root.classList.contains('wmol-domains-carousel'))))) {
-          event.viewTransition.skipTransition();
+    /* One navigation owner: native cross-document morphs, with a fade fallback. */
+    (() => {
+      const root = document.documentElement;
+      const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const nativeNavigation = 'onpageswap' in window && 'onpagereveal' in window;
+      const core = path => ['/domains/', '/tools/', '/medicine/'].includes(path);
+      const pathOf = url => { if (!url) return ''; try { return new URL(url, location.href).pathname; } catch (_) { return ''; } };
+      const read = key => { try { return sessionStorage.getItem(key); } catch (_) { return null; } };
+      const write = (key, value) => { try { sessionStorage.setItem(key, value); } catch (_) {} };
+      let busy = false, incoming = null, exitMotion = null;
+      try { incoming = JSON.parse(read('wmol-navigation') || 'null'); } catch (_) {}
+      if (!incoming || incoming.to !== location.pathname || Date.now() - incoming.time > 15000) incoming = null;
+      const compact = () => root.classList.contains('wmol-phone-device') || innerWidth <= 900 || innerHeight >= innerWidth;
+      const syncMode = () => { root.dataset.wmolNavMode = compact() ? 'fade' : 'morph'; };
+      syncMode();
+      window.addEventListener('resize', syncMode, {passive:true});
+      window.wmolNavigationUsesFade = compact;
+      window.wmolPlainClick = event => !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
+      if (incoming && incoming.fallback && !reduceMotion()) root.dataset.wmolFallbackEntry = 'true';
+      // Browser Back/Forward also suppresses the unrelated first-visit panel entrance.
+      const previous = pathOf(window.navigation?.activation?.from?.url || incoming?.from || '');
+      if (location.pathname === '/domains/' && previous === '/tools/') write('closingToHome', '1');
+
+      let settleReveal;
+      let revealed = new Promise(resolve => { settleReveal = resolve; });
+      window.wmolAfterPageReveal = callback => revealed.then(transition => transition ? transition.finished.catch(() => {}) : undefined).then(callback);
+      window.addEventListener('pagereveal', event => {
+        busy = false;
+        if (exitMotion) {exitMotion.cancel(); exitMotion = null;}
+        document.body.style.pointerEvents = '';
+        syncMode();
+        const from = pathOf(window.navigation?.activation?.from?.url || incoming?.from || '');
+        const returning = location.pathname === '/domains/' && (from === '/tools/' || window.wmolDomainsShouldEnter === false);
+        if (returning) window.wmolPrepareDomainsReturn?.();
+        const transition = event.viewTransition;
+        const activeRoute = core(location.pathname) && (core(from) || !!incoming);
+        if (transition && (reduceMotion() || !activeRoute)) transition.skipTransition();
+        if (transition) transition.ready.catch(() => {});
+        delete root.dataset.wmolFallbackEntry;
+        if (!transition && activeRoute && !reduceMotion()) {
+          document.body.animate([{opacity:0}, {opacity:1}], {duration:260, easing:'ease-out'});
+        }
+        settleReveal(transition);
+        window.wmolPageTransition = transition;
+      });
+      window.addEventListener('pageswap', event => {
+        revealed = new Promise(resolve => {settleReveal = resolve;});
+        window.wmolPageTransition = null;
+        const to = pathOf(event.activation?.entry?.url || '');
+        if (location.pathname === '/tools/' && to === '/domains/') write('closingToHome', '1');
+        if (event.viewTransition) event.viewTransition.ready.catch(() => {});
+        if (event.viewTransition && (reduceMotion() || !core(location.pathname) || !core(to))) event.viewTransition.skipTransition();
+      });
+      window.addEventListener('pageshow', event => {
+        busy = false;
+        if (exitMotion) {exitMotion.cancel(); exitMotion = null;}
+        document.body.style.pointerEvents = '';
+        if (!nativeNavigation) {
+          delete root.dataset.wmolFallbackEntry;
+          if (incoming && !reduceMotion()) document.body.animate([{opacity:0}, {opacity:1}], {duration:260, easing:'ease-out'});
+          settleReveal(null);
+          if (event.persisted && location.pathname === '/domains/') window.wmolPrepareDomainsReturn?.();
         }
       });
-      window.addEventListener('pageswap', function(event) {
-        var root=document.documentElement;
-        if(event.viewTransition && (document.getElementById('wmol-landing') || root.classList.contains('wmol-domains-carousel'))) {
-          event.viewTransition.skipTransition();
+      window.wmolNavigate = async (url, options = {}) => {
+        if (busy) return;
+        busy = true;
+        const destination = new URL(url, location.href);
+        syncMode();
+        const mode = compact() ? 'fade' : 'morph';
+        const remember = () => {
+          write('wmol-navigation', JSON.stringify({from:location.pathname, to:destination.pathname, mode, fallback:!nativeNavigation, time:Date.now()}));
+          if (destination.pathname === '/domains/') write('closingToHome', '1');
+        };
+        try {
+          if (window.wmolPageTransition) await window.wmolPageTransition.finished.catch(() => {});
+          if (!reduceMotion() && mode === 'morph' && options.panels) {
+            const home = document.querySelector('.domains-page .wml-home');
+            home.classList.add('leaving-med');
+            root.dataset.domainsEntry = 'leaving';
+            // Await the actual panel transitions, including their stagger.
+            await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+            const motions = [...home.querySelectorAll('.wml-rail:not(.rail-medicine)')].flatMap(panel => panel.getAnimations());
+            await Promise.race([
+              Promise.all(motions.map(motion => motion.finished.catch(() => {}))),
+              new Promise(resolve => setTimeout(resolve, 1200))
+            ]);
+          }
+          if (!nativeNavigation && !reduceMotion()) {
+            exitMotion = document.body.animate([{opacity:1}, {opacity:0}], {duration:180, easing:'ease-in', fill:'forwards'});
+            await exitMotion.finished.catch(() => {});
+          }
+        } finally {
+          remember();
+          location.assign(destination.href);
         }
-      });
+      };
+    })();
     </script>
     <title>{% block title %}Wang Method of Learning{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-responsive-repair-26">
   </head>
   <body>
     <div class="wmol-phone-backdrop" aria-hidden="true"></div>
