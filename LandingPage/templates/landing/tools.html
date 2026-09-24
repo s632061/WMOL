@@ -41,7 +41,7 @@
 <header class="tools-hub-hero">
   <h1 class="tools-hub-title">Select Your System</h1>
 
-<p class="tools-hub-subtitle">
+<p class="tools-hub-subtitle" data-wmol-one-line>
   A way to always know what to learn next.
 </p>
 
@@ -230,5 +230,23 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 
+<script>
+(() => {
+  const root=document.documentElement,cards=[...document.querySelectorAll('#wmol-tools .tool-icon-card')];
+  let frame=0;
+  function fit(){
+    if(window.wmolZoomIsActive&&window.wmolZoomIsActive())return;
+    cards.forEach(card=>{
+      if(!root.classList.contains('wmol-phone-device')){card.style.removeProperty('--tool-phone-unit');return;}
+      const unit=Math.max(.75,Math.min(1.5,card.clientWidth/320)).toFixed(5);
+      if(card.style.getPropertyValue('--tool-phone-unit')!==unit)card.style.setProperty('--tool-phone-unit',unit);
+    });
+  }
+  function schedule(){if(frame)cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{frame=0;fit();});}
+  if(window.ResizeObserver){const observer=new ResizeObserver(schedule);cards.forEach(card=>observer.observe(card));}
+  ['resize','wmol:viewport','wmol:portrait'].forEach(type=>window.addEventListener(type,schedule,{passive:true}));
+  if(document.fonts)document.fonts.ready.then(schedule);
+  fit();
+})();
+</script>
 {% endblock %}
-

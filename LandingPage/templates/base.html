@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-wmol-release="portrait-proof-24">
+<html lang="en" data-wmol-release="motion-content-25">
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
@@ -129,13 +129,55 @@
       })();
     </script>
     <title>{% block title %}Wang Method of Learning{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-portrait-proof-24">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-motion-content-25">
   </head>
   <body>
     <div class="wmol-phone-backdrop" aria-hidden="true"></div>
     <main>
       {% block content %}{% endblock %}
     </main>
+    <script>
+    (() => {
+      'use strict';
+      const pattern=/^(?:a|your) way to always know what to (?:do|learn) next[.!]?$/i;
+      const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
+      function fit(el) {
+        if(!el.getClientRects().length)return;
+        el.style.setProperty('display','block','important');
+        el.style.setProperty('white-space','nowrap','important');
+        el.style.setProperty('text-wrap','nowrap','important');
+        el.querySelectorAll('br').forEach(br=>br.replaceWith(document.createTextNode(' ')));
+        el.style.removeProperty('font-size');
+        const cs=getComputedStyle(el),base=parseFloat(cs.fontSize);
+        const text=el.textContent.trim().replace(/\s+/g,' ');
+        const width=el.clientWidth-(parseFloat(cs.paddingLeft)||0)-(parseFloat(cs.paddingRight)||0)-4;
+        if(!ctx||width<=0||!base)return;
+        ctx.font=`${cs.fontStyle} ${cs.fontWeight} ${base}px ${cs.fontFamily}`;
+        const natural=ctx.measureText(text).width+(parseFloat(cs.letterSpacing)||0)*Math.max(0,text.length-1);
+        el.style.setProperty('font-size',`${Math.max(1,Math.min(base,base*width/Math.max(1,natural)))}px`,'important');
+      }
+      window.wmolFitTaglines=(scope=document)=>{
+        if(window.wmolZoomIsActive&&window.wmolZoomIsActive())return;
+        scope.querySelectorAll('[data-wmol-one-line]').forEach(fit);
+      };
+      function init(){
+        document.querySelectorAll('p,h1,h2,h3,h4,span,div').forEach(el=>{
+          if(pattern.test(el.textContent.trim().replace(/\s+/g,' '))&&![...el.children].some(c=>pattern.test(c.textContent.trim().replace(/\s+/g,' '))))el.setAttribute('data-wmol-one-line','');
+        });
+        let frame=0;
+        const schedule=()=>{if(frame)cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{frame=0;window.wmolFitTaglines();});};
+        ['resize','pageshow','wmol:viewport','wmol:portrait'].forEach(type=>window.addEventListener(type,schedule,{passive:true}));
+        if(document.fonts)document.fonts.ready.then(schedule);
+        if(window.ResizeObserver){
+          const widths=new WeakMap();
+          const observer=new ResizeObserver(entries=>{let changed=false;entries.forEach(e=>{if(Math.abs((widths.get(e.target)||0)-e.contentRect.width)>.5){widths.set(e.target,e.contentRect.width);changed=true;}});if(changed)schedule();});
+          document.querySelectorAll('[data-wmol-one-line]').forEach(el=>observer.observe(el.parentElement));
+        }
+        window.wmolFitTaglines();
+      }
+      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+    })();
+    </script>
     <script>
 /* Width-dependent finishing only. No saved one-off offsets or physical-monitor sizing. */
 (() => {
@@ -318,7 +360,11 @@
     const benefits = page.querySelector('.pass-hero-outcomes');
     if (benefits) {
       ['font-size','width'].forEach(p => benefits.style.removeProperty(p));
-      benefits.querySelectorAll('.pass-outcome-item').forEach(item => item.style.removeProperty('white-space'));
+      const items=[...benefits.querySelectorAll('.pass-outcome-item')];
+      items.forEach(item=>item.style.removeProperty('white-space'));
+      const available=benefits.parentElement.clientWidth;
+      const widest=Math.max(1,...items.map(item=>fullTextWidth(item,parseFloat(getComputedStyle(item).fontSize))));
+      benefits.style.setProperty('width',`${Math.min(available,Math.ceil(widest+4))}px`,'important');
     }
     fitSingleLine(page.querySelector('#pass-use-title'), 12);
     const grid = page.querySelector('.pass-proof-grid');

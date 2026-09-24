@@ -26,7 +26,7 @@
         <span>Learning</span>
       </h1>
 
-      <h2 class="wmol-flow-title">
+      <h2 class="wmol-flow-title" data-wmol-one-line>
         A way to always know what to do next.
       </h2>
 
@@ -147,6 +147,9 @@
     let layoutFrame = null;
     let resizeSettleTimer = null;
     let entryTimer = null;
+    let entryFrame = 0;
+    let entryItems = [];
+    let entryGeneration = 0;
     let stableViewport = null;
 
     const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -265,6 +268,7 @@
             }
           }
         }
+        if (window.wmolFitTaglines) window.wmolFitTaglines(landing);
         const originalBeliefHeight = step === 1 ? inner.offsetHeight : 0;
         if (step === 1) {
           // A restrained 12% increase for the complete belief text hierarchy.
@@ -383,21 +387,45 @@
       resizeSettleTimer = window.setTimeout(syncLayout, 120);
     }
 
+    function clearEntryMotion() {
+      ++entryGeneration;
+      if (entryFrame) cancelAnimationFrame(entryFrame);
+      clearTimeout(entryTimer);
+      entryItems.forEach(el => {
+        ['opacity', 'translate', 'transition', 'will-change'].forEach(prop => el.style.removeProperty(prop));
+        el.classList.remove('wmol-soft-entry');
+      });
+      entryItems = [];
+      landing.classList.remove('wmol-flow-entering');
+    }
+    function prepareEntryMotion() {
+      clearEntryMotion();
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      entryItems = [...views[step].children, ...actions.querySelectorAll('.wmol-landing-cta:not([hidden])')];
+      entryItems.forEach(el => {
+        el.classList.add('wmol-soft-entry');
+        el.style.setProperty('transition', 'none', 'important');
+        el.style.setProperty('opacity', '0', 'important');
+        el.style.setProperty('translate', '0 14px', 'important');
+        el.style.setProperty('will-change', 'opacity, translate');
+      });
+    }
     function playEntryMotion() {
-      if (document.documentElement.classList.contains("wmol-phone-device") || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-      landing.classList.remove("wmol-flow-entering");
+      if (!entryItems.length) return;
+      const generation = entryGeneration;
+      // Animate appearance, never the layout's centering or sizing transform.
       void landing.offsetWidth;
-      landing.classList.add("wmol-flow-entering");
-
-      window.clearTimeout(entryTimer);
-      /* The landing slide gets a deliberately slower, softer entrance. The
-         subsequent conversation slides are still quick, but roughly twice as
-         slow as the old animation so the rise reads as motion rather than a pop. */
-      const entryDuration = step === 0 ? 2100 : 1425;
-      entryTimer = window.setTimeout(() => {
-        landing.classList.remove("wmol-flow-entering");
-      }, entryDuration);
+      entryFrame = requestAnimationFrame(() => {
+        entryFrame = 0;
+        if (generation !== entryGeneration) return;
+        entryItems.forEach((el, index) => {
+          const delay = Math.min(index * 45, 180);
+          el.style.setProperty('transition', `opacity 560ms ease ${delay}ms, translate 560ms cubic-bezier(.22,.8,.25,1) ${delay}ms`, 'important');
+          el.style.setProperty('opacity', '1', 'important');
+          el.style.setProperty('translate', '0 0', 'important');
+        });
+        entryTimer = setTimeout(() => {if (generation === entryGeneration) clearEntryMotion();}, 800);
+      });
     }
 
     function renderStep() {
@@ -419,6 +447,7 @@
       }
 
       if (landing) { landing.scrollLeft = 0; landing.scrollTop = 0; }
+      prepareEntryMotion();
       syncLayout(true);
       requestAnimationFrame(() => {
         if (landing) landing.scrollLeft = 0;
@@ -447,6 +476,8 @@
       document.fonts.ready.then(settleLayout);
     }
 
+    window.addEventListener('pagehide', clearEntryMotion);
+    matchMedia('(prefers-reduced-motion: reduce)').addEventListener?.('change', e => {if(e.matches)clearEntryMotion();});
     renderStep();
     settleLayout();
   })();

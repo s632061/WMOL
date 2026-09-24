@@ -17,15 +17,19 @@
   };
   window.wmolSyncDomainsPortrait();
   window.addEventListener('resize', window.wmolSyncDomainsPortrait, {passive:true});
-  // EARLY: runs before first paint
-  (function () {
-    if (sessionStorage.getItem('closingToHome') === '1') {
-      document.documentElement.classList.add('returning-from-med');
-    } else if (sessionStorage.getItem('closingToHomeTools') === '1') {
-      document.documentElement.classList.add('returning-from-tools');
-    } else {
-      document.documentElement.classList.add('home-intro');
-    }
+  // One owner for the complete entrance, rather than competing layer animations.
+  (()=>{
+    const root=document.documentElement;root.classList.add('wmol-domains-controlled');
+    let returning=false;
+    try {
+      if(sessionStorage.getItem('closingToHome')==='1'){root.classList.add('returning-from-med');returning=true;}
+      else if(sessionStorage.getItem('closingToHomeTools')==='1'){root.classList.add('returning-from-tools');returning=true;}
+    }catch(_){/* Storage restrictions must not hide the page. */}
+    window.wmolDomainsShouldEnter=!returning;
+    root.dataset.domainsEntry=returning?'ready':'pending';
+    window.wmolDomainsRevealFallback=setTimeout(()=>{
+      if(root.dataset.domainsEntry==='pending'){window.wmolDomainsSkipEntrance=true;root.dataset.domainsEntry='ready';}
+    },3000);
   })();
 </script>
 
@@ -71,8 +75,8 @@
     Explore Seamless Learning
   </a>
 
-  <span class="wml-personal-line">
-    Your way to always know<br class="domains-desktop-break"> what to learn next.
+  <span class="wml-personal-line" data-wmol-one-line>
+    Your way to always know what to learn next.
   </span>
 </nav>
     </div>
@@ -519,165 +523,122 @@ function fitHomeInnerScale() {
 
   
 
-  // ===== MOBILE DOMAINS: one measured phone composition =====
-  // 1) Keep the CTA stack above the fixed arrows/dots.
-  // 2) Then center the artwork in the ACTUAL free space between the subtitle
-  //    and CTA. The artwork also shrinks only when a shorter phone requires it.
-  function recenterMobileDomainArtwork() {
-    if (window.wmolZoomIsActive && window.wmolZoomIsActive()) return;
-
-    const rails = Array.from(document.querySelectorAll('.home-viewport.domains-page .wml-home .wml-rail'));
-    const ui = document.querySelector('.domains-carousel-ui');
-    const root = document.documentElement;
-    const viewport = document.querySelector('.home-viewport.domains-page');
-    if (root.classList.contains('wmol-domains-carousel') && ui && viewport) {
-      const css = getComputedStyle(root);
-      const sideways = root.classList.contains('wmol-phone-landscape');
-      const height = sideways ? (parseFloat(css.getPropertyValue('--wmol-phone-layout-h')) || viewport.clientHeight) : viewport.clientHeight;
-      const inset = parseFloat(css.getPropertyValue('--wmol-phone-safe-bottom')) || 0;
-      const bottom = root.classList.contains('wmol-domains-portrait') ? Math.max(12, 12 * parseFloat(css.getPropertyValue('--domains-portrait-scale'))) : Math.max(6, inset + 4);
-      // This is the bottom of the *webpage*, never Safari's native toolbar.
-      ui.style.setProperty('position', 'absolute', 'important');
-      ui.style.setProperty('top', `${Math.max(44, height-ui.offsetHeight-bottom)}px`, 'important');
-      ui.style.setProperty('bottom', 'auto', 'important');
-    } else if (ui) {
-      ['position','top','bottom'].forEach(prop => ui.style.removeProperty(prop));
-    }
-
-    rails.forEach((rail) => {
-      if (!isPhoneMobile()) {
-        rail.style.removeProperty('--domains-mobile-art-center-y');
-        rail.style.removeProperty('--domains-mobile-art-size');
-        rail.style.removeProperty('--domains-mobile-cta-bottom');
-        rail.style.removeProperty('--domains-mobile-art-offset');
-        return;
+  // Measure the actual visible medallion inside each original poster.
+  const posterFiles=['coat-circle.png','technology.png','gadgets.png','lifestyle.png'];
+  const posterMetrics=posterFiles.map(()=>({ratio:.449,x:.5,y:.5,width:.66,height:.29634}));
+  let entrancePlayed=false,entranceMotion=null,geometryFrame=0,layoutQueued=false,lastDimensions='';
+  function readArtworkBounds(image,fallback){
+    const ratio=image.naturalWidth/image.naturalHeight,result={...fallback,ratio};
+    try{
+      const canvas=document.createElement('canvas');canvas.height=384;canvas.width=Math.max(32,Math.round(384*ratio));
+      const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(image,0,0,canvas.width,canvas.height);
+      const {width:w,height:h}=canvas,data=ctx.getImageData(0,0,w,h).data;
+      const pixel=(x,y)=>{const i=(y*w+x)*4;return [data[i],data[i+1],data[i+2]];};
+      const lum=p=>.299*p[0]+.587*p[1]+.114*p[2];
+      let widest=0,left=0,right=0,yFirst=h,yLast=0;
+      for(let y=Math.round(h*.15);y<Math.round(h*.85);y++){
+        const a=pixel(Math.round(w*.04),y),b=pixel(Math.round(w*.96),y),edge=a.map((v,i)=>(v+b[i])/2);
+        const isArt=x=>{const p=pixel(x,y);return lum(p)-lum(edge)>30&&p.reduce((n,v,i)=>n+Math.abs(v-edge[i]),0)>80;};
+        // Use the outer boundary: dark branches/engraving inside do not shrink it.
+        let l=w,r=0,count=0;
+        for(let x=Math.round(w*.06);x<Math.round(w*.94);x++)if(isArt(x)){l=Math.min(l,x);r=Math.max(r,x);count++;}
+        if(count<w*.08||r-l<w*.12)continue;
+        yFirst=Math.min(yFirst,y);yLast=Math.max(yLast,y);
+        if(r-l>widest){widest=r-l;left=l;right=r;}
       }
-
-      const title = rail.querySelector('.wml-title, .wml-title-tech');
-      const cta = rail.querySelector('.wml-cta, .wml-cta-tech, .wml-cta-gadgets, .wml-cta-lifestyle');
-      const art = rail.querySelector('.rail-image-wrap:not(.rail-image-wrap-performance)');
-      if (!title || !cta) return;
-
-      const railRect = rail.getBoundingClientRect();
-      const uiRect = ui?.getBoundingClientRect();
-      const stage = document.querySelector('.domains-panel-window');
-      const stageRect = stage?.getBoundingClientRect();
-
-      // Reserve a real visual gap above the carousel controls instead of using
-      // a percentage that changes meaning on different phone heights.
-      if (uiRect && uiRect.height > 0) {
-        const controlsGap = root.classList.contains('wmol-phone-device') ? 8 : 18;
-        const controlsClearance = Math.max(0, (stageRect ? stageRect.bottom : railRect.bottom) - uiRect.top) + controlsGap;
-        rail.style.setProperty('--domains-mobile-cta-bottom', `${Math.ceil(controlsClearance)}px`);
-      } else {
-        rail.style.setProperty('--domains-mobile-cta-bottom', '92px');
+      const tall=yLast-yFirst;
+      if(widest>w*.32&&widest<w*.96&&tall>h*.13&&tall<h*.62&&widest/tall>.80&&widest/tall<1.20)
+        return {ratio,x:(left+right)/(2*w),y:(yFirst+yLast)/(2*h),width:(widest+2)/w,height:(tall+2)/h};
+    }catch(_){/* Keep the original proportions if pixel access is unavailable. */}
+    return result;
+  }
+  function measureDomains(){
+    if(window.wmolZoomIsActive&&window.wmolZoomIsActive())return;
+    if(entranceMotion&&entranceMotion.playState==='running'){layoutQueued=true;return;}
+    const root=document.documentElement,viewport=document.querySelector('.home-viewport.domains-page');
+    const rails=[...viewport.querySelectorAll('.wml-rail')],ui=viewport.querySelector('.domains-carousel-ui'),stage=viewport.querySelector('.domains-panel-window');
+    if(!stage||rails.length!==4)return;
+    const carousel=isPhoneMobile(),header=viewport.querySelector('.domains-header');
+    if(!carousel)viewport.style.setProperty('--domains-header-height',`${header.offsetHeight}px`);
+    if(window.wmolFitTaglines)window.wmolFitTaglines(viewport);
+    const css=getComputedStyle(root);
+    if(carousel&&ui){
+      const sideways=root.classList.contains('wmol-phone-landscape');
+      const height=sideways?(parseFloat(css.getPropertyValue('--wmol-phone-layout-h'))||viewport.clientHeight):viewport.clientHeight;
+      const inset=parseFloat(css.getPropertyValue('--wmol-phone-safe-bottom'))||0;
+      const bottom=root.classList.contains('wmol-domains-portrait')?Math.max(12,12*(parseFloat(css.getPropertyValue('--domains-portrait-scale'))||1)):Math.max(6,inset+4);
+      ui.style.setProperty('position','absolute','important');ui.style.setProperty('top',`${Math.max(44,height-ui.offsetHeight-bottom)}px`,'important');ui.style.setProperty('bottom','auto','important');
+    }else if(ui){['position','top','bottom'].forEach(prop=>ui.style.removeProperty(prop));}
+    const spaces=rails.map(rail=>{
+      const title=rail.querySelector('.wml-title,.wml-title-tech'),cta=rail.querySelector('.wml-cta,.wml-cta-tech,.wml-cta-gadgets,.wml-cta-lifestyle');
+      if(carousel){
+        const gap=root.classList.contains('wmol-phone-device')?8:18;
+        const bottom=Math.max(0,stage.offsetTop+stage.offsetHeight-ui.offsetTop)+gap;
+        rail.style.setProperty('--domains-mobile-cta-bottom',`${Math.ceil(bottom)}px`);
+      }else{
+        ['--domains-mobile-cta-bottom','--domains-mobile-art-center-y','--domains-mobile-art-offset'].forEach(prop=>rail.style.removeProperty(prop));
+        rail.style.setProperty('--domains-desktop-title-top',`${rail.clientHeight*.095*(2/3)}px`);
       }
-
-      // Apply the new CTA bottom before measuring the space above it.
-      void cta.offsetHeight;
-
-      const freshRailRect = rail.getBoundingClientRect();
-      const titleRect = title.getBoundingClientRect();
-      const ctaRect = cta.getBoundingClientRect();
-      const titleBottom = title.offsetTop + title.offsetHeight;
-      const ctaTop = cta.offsetTop;
-      const freeHeight = Math.max(0, ctaTop - titleBottom);
-
-      if (freeHeight <= 0) return;
-
-      const centerY = titleBottom + freeHeight / 2;
-      const artSize = Math.max(
-        88,
-        Math.min(460, rail.clientWidth * 0.86, freeHeight * 0.82)
-      );
-
-      rail.style.setProperty('--domains-mobile-art-center-y', `${centerY}px`);
-      rail.style.setProperty('--domains-mobile-art-offset', `${centerY - rail.clientHeight / 2}px`);
-      rail.style.setProperty('--domains-mobile-art-size', `${artSize}px`);
-      const ratio = Number(rail.dataset.posterRatio) || .449;
-      const posterHeight = Math.min(rail.clientHeight, rail.clientWidth * .96 / ratio, freeHeight / .36);
-      rail.style.setProperty('--domains-poster-width', `${posterHeight * ratio}px`);
-      rail.style.setProperty('--domains-poster-height', `${posterHeight}px`);
-
+      const top=title.offsetTop+title.offsetHeight,bottom=cta.offsetTop;
+      return {rail,top,bottom,free:Math.max(0,bottom-top),center:(top+bottom)/2};
     });
-  }
-
-  function recenterDesktopDomainArtwork() {
-    if (isPhoneMobile() || (window.wmolZoomIsActive && window.wmolZoomIsActive())) return;
-    document.querySelectorAll('.home-viewport.domains-page .wml-home .wml-rail').forEach(rail => {
-      const title = rail.querySelector('.wml-title, .wml-title-tech');
-      const cta = rail.querySelector('.wml-cta, .wml-cta-tech, .wml-cta-gadgets, .wml-cta-lifestyle');
-      const inner = rail.querySelector('.rail-inner');
-      if (!title || !cta || !inner || rail.clientHeight <= 0) return;
-      // The prior title sat at 9.5% of the rail height. Retain two thirds of it.
-      const top = inner.clientHeight * .095 * (2 / 3);
-      rail.style.setProperty('--domains-desktop-title-top', `${top}px`);
-      // Read offset geometry: entry animations must not change the final centre.
-      const titleBottom = title.offsetTop + title.offsetHeight;
-      const ctaTop = cta.offsetTop;
-      const center = (titleBottom + ctaTop) / 2;
-      const offset = center - rail.clientHeight / 2;
-      rail.style.setProperty('--domains-desktop-art-offset', `${offset}px`);
-      rail.dataset.artMidpoint = center.toFixed(2);
+    const first=spaces[0],tree=posterMetrics[0];
+    const oldHeight=carousel?Math.min(first.rail.clientHeight,first.rail.clientWidth*.96/tree.ratio,first.free/.36):first.rail.clientWidth*.86/tree.ratio;
+    const reference=oldHeight*Math.max(tree.height,tree.width*tree.ratio)*(carousel?1.07:1);
+    const room=Math.min(...spaces.map(v=>Math.min(v.rail.clientWidth*.86,v.free*.82)));
+    const diameter=Math.max(1,Math.min(reference,room));
+    spaces.forEach((space,i)=>{
+      const metric=posterMetrics[i],rail=space.rail,posterHeight=diameter/Math.max(metric.height,metric.width*metric.ratio);
+      rail.style.setProperty('--domains-art-center',`${space.center}px`);
+      rail.style.setProperty('--domains-mobile-art-center-y',`${space.center}px`);
+      rail.style.setProperty('--domains-mobile-art-offset',`${space.center-rail.clientHeight/2}px`);
+      rail.style.setProperty('--domains-desktop-art-offset',`${space.center-rail.clientHeight/2}px`);
+      rail.style.setProperty('--domains-poster-width',`${posterHeight*metric.ratio}px`);
+      rail.style.setProperty('--domains-poster-height',`${posterHeight}px`);
+      rail.style.setProperty('--domains-poster-anchor-x',`${-100*metric.x}%`);
+      rail.style.setProperty('--domains-poster-anchor-y',`${-100*metric.y}%`);
+      rail.dataset.artDiameter=diameter.toFixed(2);
     });
+    lastDimensions=`${viewport.clientWidth}:${viewport.clientHeight}`;
   }
-  function settleMobileDomainArtwork() {
-    recenterMobileDomainArtwork();
-    recenterDesktopDomainArtwork();
-    requestAnimationFrame(() => {recenterMobileDomainArtwork(); recenterDesktopDomainArtwork();});
-    window.setTimeout(() => {recenterMobileDomainArtwork(); recenterDesktopDomainArtwork();}, 120);
+  function settleMobileDomainArtwork(){if(geometryFrame)cancelAnimationFrame(geometryFrame);geometryFrame=requestAnimationFrame(()=>{geometryFrame=0;measureDomains();});}
+  function finishEntrance(){
+    entrancePlayed=true;clearTimeout(window.wmolDomainsRevealFallback);
+    if(entranceMotion&&entranceMotion.playState==='running')entranceMotion.finish();
+    document.documentElement.dataset.domainsEntry='ready';
   }
-
-  let entrancePlayed = false;
-  function playCarouselEntrance() {
-    if (entrancePlayed || !isPhoneMobile() || document.documentElement.matches('.returning-from-tools,.returning-from-med')) return;
-    entrancePlayed = true;
-    const entrance = document.querySelector('.domains-entrance');
-    if (!entrance || !entrance.animate || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    // A single layer includes the poster, title, artwork and CTA. Its parent
-    // clips it below the prompt header throughout the entire transition.
-    const motion = entrance.animate([{transform:'translateY(100%)'}, {transform:'translateY(0)'}],
-      {duration:800, easing:'cubic-bezier(.22,.8,.25,1)', fill:'none'});
-    window.wmolDomainsEntrance = motion;
+  function playCarouselEntrance(){
+    const root=document.documentElement;if(entrancePlayed)return;entrancePlayed=true;clearTimeout(window.wmolDomainsRevealFallback);
+    const entrance=document.querySelector('.domains-entrance');
+    if(!window.wmolDomainsShouldEnter||window.wmolDomainsSkipEntrance||!entrance.animate||matchMedia('(prefers-reduced-motion: reduce)').matches){root.dataset.domainsEntry='ready';return;}
+    entranceMotion=entrance.animate([{transform:'translateY(100%)'},{transform:'translateY(0)'}],{duration:800,easing:'cubic-bezier(.22,.8,.25,1)',fill:'none'});
+    entranceMotion.id='wmol-systems-entry';window.wmolDomainsEntrance=entranceMotion;root.dataset.domainsEntry='running';
+    const done=()=>{root.dataset.domainsEntry='ready';if(layoutQueued){layoutQueued=false;settleMobileDomainArtwork();}};
+    entranceMotion.onfinish=done;entranceMotion.oncancel=done;
   }
-  // Wire everything
-  document.addEventListener('DOMContentLoaded', () => {
-    resetHomeState();
-    wireHomeNav();
-    wireToolsNav();
-    playReturnFromMedicineIfNeeded();
-    playReturnFromToolsIfNeeded();
-    fitHomeInnerScale();
-    initMobileDomainsCarousel();
-    settleMobileDomainArtwork();
-    playCarouselEntrance();
-    // Natural poster dimensions prevent aspect distortion; no replacement art.
-    ['coat-circle.png','technology.png','gadgets.png','lifestyle.png'].forEach((name,i) => {
-      const rail = document.querySelectorAll('.domains-page .wml-rail')[i];
-      const image = new Image();
-      image.onload = () => { if(image.naturalHeight) {rail.dataset.posterRatio = image.naturalWidth/image.naturalHeight; settleMobileDomainArtwork();} };
-      image.src = '/static/img/'+name;
+  document.addEventListener('DOMContentLoaded',()=>{
+    resetHomeState();wireHomeNav();wireToolsNav();playReturnFromMedicineIfNeeded();playReturnFromToolsIfNeeded();
+    fitHomeInnerScale();initMobileDomainsCarousel();measureDomains();
+    const images=posterFiles.map((name,i)=>new Promise(resolve=>{
+      const image=new Image();image.onload=()=>{if(image.naturalHeight)posterMetrics[i]=readArtworkBounds(image,posterMetrics[i]);settleMobileDomainArtwork();resolve();};
+      image.onerror=()=>resolve();image.src='/static/img/'+name;
+    }));
+    const fonts=document.fonts?document.fonts.ready:Promise.resolve();
+    Promise.race([Promise.all([...images,fonts]),new Promise(resolve=>setTimeout(resolve,1800))]).then(()=>{
+      measureDomains();requestAnimationFrame(()=>{measureDomains();requestAnimationFrame(playCarouselEntrance);});
     });
   });
-
-  window.addEventListener('pageshow', () => {
-    resetHomeState();
-    playReturnFromMedicineIfNeeded();
-    fitHomeInnerScale();
-    settleMobileDomainArtwork();
-  });
-
-  window.addEventListener('resize', fitHomeInnerScale);
-  window.addEventListener('resize', settleMobileDomainArtwork, { passive: true });
-  window.addEventListener('wmol:portrait', () => { fitHomeInnerScale(); settleMobileDomainArtwork(); });
-  window.addEventListener('wmol:viewport', () => { fitHomeInnerScale(); settleMobileDomainArtwork(); });
-  window.addEventListener('orientationchange', settleMobileDomainArtwork, { passive: true });
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', settleMobileDomainArtwork, { passive: true });
+  window.addEventListener('pageshow',event=>{if(event.persisted)finishEntrance();resetHomeState();fitHomeInnerScale();settleMobileDomainArtwork();});
+  function resized(){
+    if(window.wmolZoomIsActive&&window.wmolZoomIsActive())return;
+    const viewport=document.querySelector('.home-viewport.domains-page');
+    if(entranceMotion&&entranceMotion.playState==='running'&&lastDimensions!==`${viewport.clientWidth}:${viewport.clientHeight}`)finishEntrance();
+    fitHomeInnerScale();settleMobileDomainArtwork();
   }
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(settleMobileDomainArtwork);
-  }
+  ['resize','orientationchange','wmol:portrait','wmol:viewport'].forEach(type=>window.addEventListener(type,resized,{passive:true}));
+  if(window.visualViewport)window.visualViewport.addEventListener('resize',resized,{passive:true});
+  if(document.fonts)document.fonts.ready.then(settleMobileDomainArtwork);
+  matchMedia('(prefers-reduced-motion: reduce)').addEventListener?.('change',event=>{if(event.matches)finishEntrance();});
 
     // ===== Extra robustness: detect monitor/DPI moves and re-baseline =====
   // Some monitor moves (especially different DPI scaling) don't reliably trigger
