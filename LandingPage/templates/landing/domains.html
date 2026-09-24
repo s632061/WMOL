@@ -211,8 +211,11 @@ function wireHomeNav() {
     if(navigating)return;
     navigating=true;
     ++returnGeneration;
-    finishEntrance();
-    window.wmolNavigate(trigger.href, {panels:true});
+    // A click during the first rise must not snap the remaining panels to rest.
+    Promise.resolve(window.wmolDomainsEntrance?.playState === 'running' ? window.wmolDomainsEntrance.finished : undefined).catch(() => {}).then(() => {
+      finishEntrance();
+      window.wmolNavigate(trigger.href, {panels:true});
+    });
   }
 
   // Clicking the actual link
@@ -322,30 +325,15 @@ function wireToolsNav() {
   window.wmolPrepareDomainsReturn = function () {
     const home = document.querySelector('.wml-home'), root = document.documentElement;
     if (!home) return;
-    const generation = ++returnGeneration;
+    ++returnGeneration;
     window.wmolDomainsShouldEnter = false;
     window.wmolDomainStorage.remove('closingToHome');
     finishEntrance();
-    home.classList.remove('leaving-med');
-    const animatePanels = !window.wmolNavigationUsesFade() && !matchMedia('(prefers-reduced-motion: reduce)').matches;
-    home.classList.toggle('from-med', animatePanels);
-    home.classList.toggle('enter-from-med', animatePanels);
-    root.classList.toggle('returning-from-med', animatePanels);
-    root.dataset.domainsEntry = animatePanels ? 'returning' : 'ready';
-    if (!animatePanels) return;
-    window.wmolAfterPageReveal(async () => {
-      if (generation !== returnGeneration) return;
-      // Begin the panels only after the blue banner has reached its final bounds.
-      root.dataset.domainsEntry = 'return-reveal';
-      home.classList.remove('enter-from-med');
-      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-      const motions = [...home.querySelectorAll('.wml-rail:not(.rail-medicine)')].flatMap(panel => panel.getAnimations());
-      await Promise.all(motions.map(motion => motion.finished.catch(() => {})));
-      if (generation !== returnGeneration) return;
-      home.classList.remove('from-med');
-      root.classList.remove('returning-from-med');
-      root.dataset.domainsEntry = 'ready';
-    });
+    // Capture the final layout. The named incoming snapshots slide in while
+    // the blue banner morphs, so Back has no separate pause/reveal stage.
+    home.classList.remove('leaving-med', 'from-med', 'enter-from-med');
+    root.classList.remove('returning-from-med');
+    root.dataset.domainsEntry = 'ready';
   };
   function playReturnFromMedicineIfNeeded() {
     if (window.wmolDomainStorage.get('closingToHome') === '1') window.wmolPrepareDomainsReturn();
@@ -594,12 +582,12 @@ function fitHomeInnerScale() {
         rail.style.setProperty('--domains-desktop-title-top',`${rail.clientHeight*.095*(2/3)}px`);
       }
       const top=title.offsetTop+title.offsetHeight,bottom=cta.offsetTop;
-      return {rail,top,bottom,free:Math.max(0,bottom-top),center:(top+bottom)/2};
+      return {rail,width:Math.min(rail.clientWidth,rail.querySelector('.rail-inner').clientWidth),top,bottom,free:Math.max(0,bottom-top),center:(top+bottom)/2};
     });
     const first=spaces[0],tree=posterMetrics[0];
-    const oldHeight=carousel?Math.min(first.rail.clientHeight,first.rail.clientWidth*.96/tree.ratio,first.free/.36):first.rail.clientWidth*.86/tree.ratio;
+    const oldHeight=carousel?Math.min(first.rail.clientHeight,first.width*.96/tree.ratio,first.free/.36):first.width*.86/tree.ratio;
     const reference=oldHeight*Math.max(tree.height,tree.width*tree.ratio)*(carousel?1.07:1);
-    const room=Math.min(...spaces.map(v=>Math.min(v.rail.clientWidth*.86,v.free*.82)));
+    const room=Math.min(...spaces.map(v=>Math.min(v.width*.86,v.free*.82)));
     const diameter=Math.max(1,Math.min(reference,room));
     spaces.forEach((space,i)=>{
       const metric=posterMetrics[i],rail=space.rail,posterHeight=diameter/Math.max(metric.height,metric.width*metric.ratio);
@@ -643,8 +631,8 @@ function fitHomeInnerScale() {
     const targets=carousel?[entrance]:[...entrance.querySelectorAll('.wml-rail')];
     entranceMotions=targets.map((target,i)=>target.animate(
       [{translate:'0 100%'},{translate:'0 0'}],
-      {id:carousel?'wmol-systems-entry':`wmol-panel-entry-${i}`,duration:800,
-       delay:carousel?0:i*110,easing:'cubic-bezier(.22,.8,.25,1)',fill:'both'}));
+      {id:carousel?'wmol-systems-entry':`wmol-panel-entry-${i}`,duration:carousel?1100:2000,
+       delay:carousel?0:i*180,easing:'cubic-bezier(.22,1,.36,1)',fill:'both'}));
     entranceMotion=entranceMotions[entranceMotions.length-1];
     window.wmolDomainsEntrance=entranceMotion;
     root.dataset.domainsEntry='running';

@@ -20345,7 +20345,7 @@ html[data-wmol-nav-mode="morph"]::view-transition-group(med-rail),
 html[data-wmol-nav-mode="morph"]::view-transition-group(med-title),
 html[data-wmol-nav-mode="morph"]::view-transition-group(med-logo),
 html[data-wmol-nav-mode="morph"]::view-transition-group(med-cta) {
-  animation-duration:560ms !important;animation-timing-function:cubic-bezier(.22,.8,.25,1) !important;
+  animation-duration:900ms !important;animation-timing-function:cubic-bezier(.22,1,.36,1) !important;
 }
 html[data-wmol-nav-mode="morph"]::view-transition-old(med-rail),
 html[data-wmol-nav-mode="morph"]::view-transition-new(med-rail),
@@ -20355,7 +20355,7 @@ html[data-wmol-nav-mode="morph"]::view-transition-old(med-logo),
 html[data-wmol-nav-mode="morph"]::view-transition-new(med-logo),
 html[data-wmol-nav-mode="morph"]::view-transition-old(med-cta),
 html[data-wmol-nav-mode="morph"]::view-transition-new(med-cta) {
-  animation-duration:560ms !important;animation-timing-function:cubic-bezier(.22,.8,.25,1) !important;
+  animation-duration:900ms !important;animation-timing-function:cubic-bezier(.22,1,.36,1) !important;
 }
 @keyframes wmol-page-out {to {opacity:0;}}
 @keyframes wmol-page-in {from {opacity:0;}}
@@ -20398,3 +20398,74 @@ html:root.wmol-domains-controlled .home-viewport.domains-page .rail-gadgets :is(
 }
 
 html:root.wmol-phone-device #wmol-tools.tools-layout .tools-hub-density-surface .tools-hub-subtitle {font-size:14px !important;line-height:1.5 !important;}
+
+/* Motion polish 28: the complete departure/return shares one snapshot timeline.
+   The original long ease-out and stagger return without an empty waiting stage. */
+html:root.wmol-domains-controlled[data-wmol-nav-mode="morph"]:not(.wmol-domains-carousel) .home-viewport.domains-page .wml-home > .rail-technology {view-transition-name:domains-technology !important;}
+html:root.wmol-domains-controlled[data-wmol-nav-mode="morph"]:not(.wmol-domains-carousel) .home-viewport.domains-page .wml-home > .rail-gadgets {view-transition-name:domains-gadgets !important;}
+html:root.wmol-domains-controlled[data-wmol-nav-mode="morph"]:not(.wmol-domains-carousel) .home-viewport.domains-page .wml-home > .rail-lifestyle {view-transition-name:domains-lifestyle !important;}
+@keyframes wmol-domains-panel-out {from {transform:translateX(0);} to {transform:translateX(var(--wmol-panel-exit-distance,100vw));}}
+@keyframes wmol-domains-panel-back {from {transform:translateX(100vw);} to {transform:translateX(0);}}
+html[data-wmol-nav-mode="morph"]::view-transition-group(domains-technology),
+html[data-wmol-nav-mode="morph"]::view-transition-group(domains-gadgets),
+html[data-wmol-nav-mode="morph"]::view-transition-group(domains-lifestyle) {z-index:2;}
+html[data-wmol-nav-mode="morph"]::view-transition-old(domains-technology),
+html[data-wmol-nav-mode="morph"]::view-transition-old(domains-gadgets),
+html[data-wmol-nav-mode="morph"]::view-transition-old(domains-lifestyle) {
+  animation:wmol-domains-panel-out 1400ms cubic-bezier(.4,0,.2,1) both !important;
+  mix-blend-mode:normal;opacity:1;
+}
+html[data-wmol-nav-mode="morph"]::view-transition-new(domains-technology),
+html[data-wmol-nav-mode="morph"]::view-transition-new(domains-gadgets),
+html[data-wmol-nav-mode="morph"]::view-transition-new(domains-lifestyle) {
+  animation:wmol-domains-panel-back 2200ms cubic-bezier(.22,1,.36,1) both !important;
+  mix-blend-mode:normal;opacity:1;
+}
+html[data-wmol-nav-mode="morph"]::view-transition-old(domains-gadgets),
+html[data-wmol-nav-mode="morph"]::view-transition-new(domains-gadgets) {animation-delay:180ms !important;}
+html[data-wmol-nav-mode="morph"]::view-transition-old(domains-lifestyle),
+html[data-wmol-nav-mode="morph"]::view-transition-new(domains-lifestyle) {animation-delay:360ms !important;}
+/* Restore the original texture on its own surface. The obsolete heavy shadow
+   overlays stay disabled. This also covers narrow non-touch desktop windows. */
+html:root.wmol-domains-controlled:not(.wmol-phone-device) .home-viewport.domains-page {
+  background:#342515 url('/static/img/wmol-bronze-texture.png') center center / cover no-repeat !important;
+}
+html:root.wmol-domains-controlled .home-viewport.domains-page .wml-home {background:transparent !important;}
+/* The two closing sentences follow the full two-column card width. */
+@media (min-width:901px) and (orientation:landscape) {
+  html:root:not(.wmol-phone-device) #wmol-medicine.medicine-layout .pass-page .pass-fit-section .pass-fit-close {
+    display:flex !important;justify-content:space-between !important;align-items:baseline !important;
+    gap:20px !important;width:100% !important;max-width:100% !important;padding-inline:0 !important;
+    font-size:clamp(16px,1.18vw,24px) !important;line-height:1.3 !important;text-align:left !important;
+    text-wrap:wrap !important;
+  }
+  html:root:not(.wmol-phone-device) #wmol-medicine.medicine-layout .pass-page .pass-fit-close > span {
+    flex:0 1 auto;min-width:0;
+  }
+  html:root:not(.wmol-phone-device) #wmol-medicine.medicine-layout .pass-page .pass-fit-close > span:last-child {text-align:right;}
+}
+@media (prefers-reduced-motion:reduce) {
+  html[data-wmol-nav-mode]::view-transition-group(*),
+  html[data-wmol-nav-mode]::view-transition-old(*),
+  html[data-wmol-nav-mode]::view-transition-new(*) {animation:none !important;}
+}
+
+/* Centre the phone's portrait-sized composition inside every carousel panel,
+   including a wider landscape viewport. Artwork uses this same inner width. */
+html:root.wmol-phone-device.wmol-domains-controlled .home-viewport.domains-page .wml-home > .wml-rail > .rail-inner {
+  position:relative !important;left:auto !important;right:auto !important;
+  width:min(100%,var(--wmol-phone-design-w,100%)) !important;max-width:100% !important;
+  margin-inline:auto !important;transform:none !important;
+}
+html:root.wmol-phone-device.wmol-domains-controlled .home-viewport.domains-page .wml-personal-line {
+  display:block !important;position:relative !important;left:auto !important;right:auto !important;align-self:center !important;flex-shrink:0 !important;
+  width:max-content !important;max-width:min(calc(var(--wmol-phone-design-w,100vw) - 24px),calc(100vw - 24px)) !important;
+  margin-inline:0 !important;transform:none !important;text-align:center !important;
+  white-space:normal !important;text-wrap:balance !important;
+}
+
+/* Each departing panel travels only as far as the viewport edge. A full extra
+   screen width made panels disappear during the first fraction of the easing. */
+html[data-wmol-nav-mode="morph"]::view-transition-old(domains-technology) {--wmol-panel-exit-distance:75vw;}
+html[data-wmol-nav-mode="morph"]::view-transition-old(domains-gadgets) {--wmol-panel-exit-distance:50vw;animation-delay:140ms !important;}
+html[data-wmol-nav-mode="morph"]::view-transition-old(domains-lifestyle) {--wmol-panel-exit-distance:25vw;animation-delay:280ms !important;}

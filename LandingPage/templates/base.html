@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" data-wmol-release="final-touches-27">
+<html lang="en" data-wmol-release="motion-polish-28">
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-final-touches-27">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-motion-polish-28">
     <script>
       (function () {
         var root = document.documentElement;
@@ -206,18 +206,8 @@
         };
         try {
           if (window.wmolPageTransition) await window.wmolPageTransition.finished.catch(() => {});
-          if (!reduceMotion() && mode === 'morph' && options.panels) {
-            const home = document.querySelector('.domains-page .wml-home');
-            home.classList.add('leaving-med');
-            root.dataset.domainsEntry = 'leaving';
-            // Await the actual panel transitions, including their stagger.
-            await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-            const motions = [...home.querySelectorAll('.wml-rail:not(.rail-medicine)')].flatMap(panel => panel.getAnimations());
-            await Promise.race([
-              Promise.all(motions.map(motion => motion.finished.catch(() => {}))),
-              new Promise(resolve => setTimeout(resolve, 1200))
-            ]);
-          }
+          // The outgoing and incoming banner snapshots share one native timeline.
+          // Never slide live panels away first and then start a second page morph.
           if (!nativeNavigation && !reduceMotion()) {
             exitMotion = document.body.animate([{opacity:1}, {opacity:0}], {duration:180, easing:'ease-in', fill:'forwards'});
             await exitMotion.finished.catch(() => {});
@@ -371,7 +361,15 @@
     };
     fill(page.querySelector('.pass-system-description'), 1.18);
     fill(page.querySelector('[aria-labelledby="pass-program-title"] .pass-section-head > p:last-child'), 1.18);
-    fill(page.querySelector('.pass-fit-close'), 1.22);
+    const close = page.querySelector('.pass-fit-close');
+    if (close && getComputedStyle(close).display === 'flex') {
+      close.style.removeProperty('font-size');
+      const css = getComputedStyle(close), base = parseFloat(css.fontSize);
+      const words = [...close.children].reduce((sum, el) => sum + fullTextWidth(el, base), 0);
+      const available = close.clientWidth - (parseFloat(css.columnGap) || 20) - 8;
+      if (words > 0 && available > 0) close.style.setProperty('font-size',
+        `${Math.max(16, base * Math.min(1.22, available / words))}px`, 'important');
+    } else fill(close, 1.22);
   }
   function syncPass() {
     if (window.wmolZoomIsActive && window.wmolZoomIsActive()) return;
