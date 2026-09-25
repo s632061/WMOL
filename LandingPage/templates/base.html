@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" data-wmol-release="transition-settle-38">
+<html lang="en" data-wmol-release="transition-input-41">
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-transition-settle-38">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-transition-input-41">
     <script>
       (function () {
         var root = document.documentElement;
@@ -161,6 +161,7 @@
       const navigationControls = '#go-medicine,.domains-page .rail-medicine,.tools-back .btn-back,#backHome,.tools-grid .tool-icon-card';
       const motionLocks = new Set(['reveal']), disabledControls = new Map();
       let unlockFrame = 0, unlockTask = 0, lockGeneration = 0, blockedPointer = null;
+      let controlsReadyAt = Infinity;
       const desktopNavigation = () => core(location.pathname) && !compact();
       const motionPending = () => busy || motionLocks.size > 0 ||
         (location.pathname === '/domains/' && root.dataset.domainsEntry !== 'ready');
@@ -169,6 +170,9 @@
         (canQueryTransition && root.matches(':active-view-transition'));
       const afterPaint = () => new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 0)));
       function showNavigationLock(locked) {
+        const wasLocked = root.dataset.wmolNavLocked === 'true';
+        if (locked) controlsReadyAt = Infinity;
+        else if (wasLocked || !Number.isFinite(controlsReadyAt)) controlsReadyAt = performance.now();
         root.dataset.wmolNavLocked = locked ? 'true' : 'false';
         if (locked) document.querySelectorAll(navigationControls).forEach(control => {
           if (!disabledControls.has(control)) disabledControls.set(control, control.getAttribute('aria-disabled'));
@@ -193,7 +197,7 @@
         // finished can resolve before the browser has torn down its snapshots.
         // A brief live-paint interval also covers the compositor handoff on fast
         // displays. This replaces the old two pre-paint frame callbacks.
-        const settleMs = reduceMotion() ? 0 : 100;
+        const settleMs = reduceMotion() ? 0 : 150;
         const checkPaint = () => {
           unlockFrame = requestAnimationFrame(() => {
             unlockFrame = 0;
@@ -225,8 +229,13 @@
       window.wmolNavigationLocked = () => desktopNavigation() &&
         (motionPending() || browserTransitionActive() || root.dataset.wmolNavLocked === 'true');
       const navigationTarget = event => event.target instanceof Element && event.target.closest(navigationControls);
+      // An input event can reach its handler after a busy rendering frame.
+      // Judge when the gesture began, not only whether controls are open now.
+      // Allow 1ms for timestamp rounding on a fresh input at the boundary.
+      const staleNavigationInput = event => desktopNavigation() && event.timeStamp + 1 < controlsReadyAt;
       document.addEventListener('pointerdown', event => {
-        blockedPointer = navigationTarget(event) && window.wmolNavigationLocked() ? event.pointerId : null;
+        blockedPointer = navigationTarget(event) &&
+          (window.wmolNavigationLocked() || staleNavigationInput(event)) ? event.pointerId : null;
         if (blockedPointer !== null) event.preventDefault();
       }, true);
       document.addEventListener('pointercancel', event => {if (event.pointerId === blockedPointer) blockedPointer = null;}, true);
@@ -235,11 +244,11 @@
         const startedLocked = blockedPointer !== null &&
           (typeof event.pointerId === 'number' ? event.pointerId === blockedPointer : event.detail > 0);
         blockedPointer = null;
-        if (window.wmolNavigationLocked() || startedLocked) {event.preventDefault();event.stopImmediatePropagation();}
+        if (window.wmolNavigationLocked() || staleNavigationInput(event) || startedLocked) {event.preventDefault();event.stopImmediatePropagation();}
       }, true);
       document.addEventListener('keydown', event => {
         if (desktopNavigation() && navigationTarget(event) && (event.key === 'Enter' || event.key === ' ') &&
-            (window.wmolNavigationLocked() || event.repeat)) {event.preventDefault();event.stopImmediatePropagation();}
+            (window.wmolNavigationLocked() || staleNavigationInput(event) || event.repeat)) {event.preventDefault();event.stopImmediatePropagation();}
       }, true);
       document.addEventListener('DOMContentLoaded', refreshNavigationLock);
       refreshNavigationLock();
