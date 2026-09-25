@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" data-wmol-release="display-transition-35">
+<html lang="en" data-wmol-release="transition-lock-36">
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-display-transition-35">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-transition-lock-36">
     <script>
       (function () {
         var root = document.documentElement;
@@ -156,6 +156,68 @@
       const syncMode = () => { root.dataset.wmolNavMode = compact() ? 'fade' : 'morph'; };
       syncMode();
       window.addEventListener('resize', syncMode, {passive:true});
+      // Desktop controls stay unavailable through the entire animation and its
+      // final paint. Early input is discarded, never queued for later navigation.
+      const navigationControls = '#go-medicine,.domains-page .rail-medicine,.tools-back .btn-back,#backHome,.tools-grid .tool-icon-card';
+      const motionLocks = new Set(['reveal']), disabledControls = new Map();
+      let unlockFrame = 0, lockGeneration = 0, blockedPointer = null;
+      const desktopNavigation = () => core(location.pathname) && !compact();
+      const motionPending = () => busy || motionLocks.size > 0 ||
+        (location.pathname === '/domains/' && root.dataset.domainsEntry !== 'ready');
+      function showNavigationLock(locked) {
+        root.dataset.wmolNavLocked = locked ? 'true' : 'false';
+        if (locked) document.querySelectorAll(navigationControls).forEach(control => {
+          if (!disabledControls.has(control)) disabledControls.set(control, control.getAttribute('aria-disabled'));
+          control.setAttribute('aria-disabled', 'true');
+        });
+        else {
+          disabledControls.forEach((value, control) => {
+            if (value === null) control.removeAttribute('aria-disabled');
+            else control.setAttribute('aria-disabled', value);
+          });
+          disabledControls.clear();
+        }
+      }
+      function refreshNavigationLock() {
+        const generation = ++lockGeneration;
+        if (unlockFrame) {cancelAnimationFrame(unlockFrame); unlockFrame = 0;}
+        if (!desktopNavigation()) {showNavigationLock(false); return;}
+        if (motionPending()) {showNavigationLock(true); return;}
+        if (root.dataset.wmolNavLocked !== 'true') return;
+        unlockFrame = requestAnimationFrame(() => {
+          unlockFrame = requestAnimationFrame(() => {
+            unlockFrame = 0;
+            if (generation === lockGeneration && !motionPending()) showNavigationLock(false);
+          });
+        });
+      }
+      function holdNavigationUntil(finished) {
+        const token = Symbol();motionLocks.add(token);refreshNavigationLock();
+        const release = () => {motionLocks.delete(token);refreshNavigationLock();};
+        Promise.resolve(finished).then(release, release);
+      }
+      window.wmolRefreshNavigationLock = refreshNavigationLock;
+      window.wmolNavigationLocked = () => desktopNavigation() &&
+        (motionPending() || root.dataset.wmolNavLocked === 'true');
+      const navigationTarget = event => event.target instanceof Element && event.target.closest(navigationControls);
+      document.addEventListener('pointerdown', event => {
+        blockedPointer = navigationTarget(event) && window.wmolNavigationLocked() ? event.pointerId : null;
+        if (blockedPointer !== null) event.preventDefault();
+      }, true);
+      document.addEventListener('pointercancel', event => {if (event.pointerId === blockedPointer) blockedPointer = null;}, true);
+      document.addEventListener('click', event => {
+        if (!navigationTarget(event)) return;
+        const startedLocked = blockedPointer !== null &&
+          (typeof event.pointerId === 'number' ? event.pointerId === blockedPointer : event.detail > 0);
+        blockedPointer = null;
+        if (window.wmolNavigationLocked() || startedLocked) {event.preventDefault();event.stopImmediatePropagation();}
+      }, true);
+      document.addEventListener('keydown', event => {
+        if (desktopNavigation() && navigationTarget(event) && (event.key === 'Enter' || event.key === ' ') &&
+            (window.wmolNavigationLocked() || event.repeat)) {event.preventDefault();event.stopImmediatePropagation();}
+      }, true);
+      document.addEventListener('DOMContentLoaded', refreshNavigationLock);
+      refreshNavigationLock();
       // Display scaling can change without a resize. Refresh both ends of the
       // shared banner and discard snapshots from the previous display geometry.
       const displayStamp = () => [innerWidth, innerHeight, devicePixelRatio || 1,
@@ -174,6 +236,7 @@
         window.wmolPrepareDomainsReturn?.();
         syncMode();
         window.dispatchEvent(new Event('wmol:viewport'));
+        refreshNavigationLock();
       }
       if (!root.classList.contains('wmol-phone-device') && core(location.pathname)) {
         setInterval(refreshDisplay, 200);
@@ -191,6 +254,7 @@
       let revealed = new Promise(resolve => { settleReveal = resolve; });
       window.wmolAfterPageReveal = callback => revealed.then(transition => transition ? transition.finished.catch(() => {}) : undefined).then(callback);
       window.addEventListener('pagereveal', event => {
+        motionLocks.clear();motionLocks.add('reveal');
         busy = false;
         if (exitMotion) {exitMotion.cancel(); exitMotion = null;}
         document.body.style.pointerEvents = '';
@@ -205,19 +269,19 @@
         if (transition) transition.ready.catch(() => {});
         delete root.dataset.wmolFallbackEntry;
         if (!transition && activeRoute && !reduceMotion()) {
-          document.body.animate([{opacity:0}, {opacity:1}], {duration:260, easing:'ease-out'});
+          holdNavigationUntil(document.body.animate([{opacity:0}, {opacity:1}], {duration:260, easing:'ease-out'}).finished);
         }
         settleReveal(transition);
         window.wmolPageTransition = transition;
         if (transition) {
+          holdNavigationUntil(transition.finished);
           const clearTransition = () => {if (window.wmolPageTransition === transition) window.wmolPageTransition = null;};
           transition.finished.then(clearTransition, clearTransition);
         }
-        if (returning && transition && !compact() && !reduceMotion()) {
-          transition.ready.then(() => window.wmolContinueDomainsReturn?.(transition)).catch(() => {});
-        }
+        motionLocks.delete('reveal');refreshNavigationLock();
       });
       window.addEventListener('pageswap', event => {
+        motionLocks.add('reveal');refreshNavigationLock();
         revealed = new Promise(resolve => {settleReveal = resolve;});
         window.wmolPageTransition = null;
         const to = pathOf(event.activation?.entry?.url || '');
@@ -230,15 +294,19 @@
         if (exitMotion) {exitMotion.cancel(); exitMotion = null;}
         document.body.style.pointerEvents = '';
         if (!nativeNavigation) {
+          motionLocks.clear();motionLocks.add('reveal');
           delete root.dataset.wmolFallbackEntry;
-          if (incoming && !reduceMotion()) document.body.animate([{opacity:0}, {opacity:1}], {duration:260, easing:'ease-out'});
+          if (incoming && !reduceMotion()) holdNavigationUntil(document.body.animate([{opacity:0}, {opacity:1}], {duration:260, easing:'ease-out'}).finished);
           settleReveal(null);
           if (event.persisted && location.pathname === '/domains/') window.wmolPrepareDomainsReturn?.();
+          motionLocks.delete('reveal');
         }
+        refreshNavigationLock();
       });
       window.wmolNavigate = async (url, options = {}) => {
-        if (busy) return;
+        if (busy || window.wmolNavigationLocked()) return;
         busy = true;
+        refreshNavigationLock();
         const destination = new URL(url, location.href);
         syncMode();
         const mode = compact() ? 'fade' : 'morph';
@@ -248,8 +316,8 @@
         };
         try {
           const activeTransition = window.wmolPageTransition;
-          // Queue a quick Back/Explore click until the current captured view is
-          // released. Starting another capture during cancellation can flash.
+          // Compact layouts retain their existing wait for the captured view.
+          // Desktop controls reject early input before reaching this point.
           if (activeTransition) await activeTransition.finished.catch(() => {});
           if (mode === 'morph' && core(location.pathname) && core(destination.pathname)) {
             refreshDisplay();

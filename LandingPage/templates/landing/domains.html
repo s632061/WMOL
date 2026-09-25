@@ -35,7 +35,7 @@ window.wmolDomainStorage={
     window.wmolDomainsShouldEnter=!returning;
     root.dataset.domainsEntry=returning?'returning':'pending';
     window.wmolDomainsRevealFallback=setTimeout(()=>{
-      if(root.dataset.domainsEntry==='pending'){window.wmolDomainsSkipEntrance=true;root.dataset.domainsEntry='ready';}
+      if(root.dataset.domainsEntry==='pending'){window.wmolDomainsSkipEntrance=true;root.dataset.domainsEntry='ready';window.wmolRefreshNavigationLock?.();}
     },3000);
   })();
 </script>
@@ -208,13 +208,14 @@ function wireHomeNav() {
   let navigating=false;
   window.addEventListener('pageshow', () => {navigating=false;});
   function startMedicineTransition() {
-    if(navigating)return;
+    if(navigating || window.wmolNavigationLocked?.())return;
     navigating=true;
-    // Keep every rising/returning panel moving and remember this one click.
-    // Capture the next departure only after all of them reach their final frame.
-    const movingPanels = [...entranceMotions, ...returnMotions];
-    Promise.all(movingPanels.map(motion => motion.finished.catch(() => {}))).then(() => {
-      ++returnGeneration;
+    if (!window.wmolNavigationUsesFade()) {
+      window.wmolNavigate(trigger.href, {panels:true});
+      return;
+    }
+    // Retain the existing phone/portrait entrance behavior.
+    Promise.all(entranceMotions.map(motion => motion.finished.catch(() => {}))).then(() => {
       finishEntrance();
       window.wmolNavigate(trigger.href, {panels:true});
     });
@@ -323,13 +324,9 @@ function wireToolsNav() {
 }
 
   
-  let returnGeneration = 0, returnMotions = [];
   window.wmolPrepareDomainsReturn = function () {
     const home = document.querySelector('.wml-home'), root = document.documentElement;
     if (!home) return;
-    ++returnGeneration;
-    returnMotions.forEach(motion => motion.cancel());
-    returnMotions = [];
     window.wmolDomainsShouldEnter = false;
     window.wmolDomainStorage.remove('closingToHome');
     finishEntrance();
@@ -339,37 +336,7 @@ function wireToolsNav() {
     root.classList.remove('returning-from-med');
     root.dataset.domainsEntry = 'ready';
   };
-  // Once the blue banner is in place, continue the other panels as live
-  // compositor animations. This releases native snapshot hit-testing so the
-  // Explore link can hover/click while the last panels finish their glide.
-  window.wmolContinueDomainsReturn = async function (transition) {
-    const generation = returnGeneration;
-    const snapshots = document.getAnimations().filter(motion => motion.effect?.pseudoElement);
-    const blue = snapshots.filter(motion => /::view-transition-(group|old|new)\(med-/.test(motion.effect.pseudoElement));
-    const panels = snapshots.filter(motion => motion.animationName === 'wmol-domains-panel-back');
-    if (!blue.length || !panels.length) return;
-    await Promise.all(blue.map(motion => motion.finished.catch(() => {})));
-    if (generation !== returnGeneration || window.wmolPageTransition !== transition || window.wmolNavigationUsesFade()) return;
-    returnMotions = panels.map(snapshot => {
-      const name = snapshot.effect.pseudoElement;
-      const selector = name.includes('technology') ? '.rail-technology' : name.includes('gadgets') ? '.rail-gadgets' : '.rail-lifestyle';
-      const panel = document.querySelector('.wml-home ' + selector);
-      const timing = snapshot.effect.getTiming();
-      const motion = panel.animate([{translate:'100vw 0'}, {translate:'0 0'}], {
-        id:'wmol-panel-return', duration:timing.duration, delay:timing.delay,
-        easing:snapshot.effect.getKeyframes()[0].easing, fill:'both'
-      });
-      // Keep the exact eased progress, including each panel's stagger.
-      motion.currentTime = snapshot.currentTime;
-      return motion;
-    });
-    transition.skipTransition();
-    Promise.all(returnMotions.map(motion => motion.finished.catch(() => {}))).then(() => {
-      if (generation !== returnGeneration) return;
-      returnMotions.forEach(motion => motion.cancel());
-      returnMotions = [];
-    });
-  };
+  // Native return snapshots stay in place until every panel has settled.
   function playReturnFromMedicineIfNeeded() {
     if (window.wmolDomainStorage.get('closingToHome') === '1') window.wmolPrepareDomainsReturn();
   }
@@ -648,6 +615,7 @@ function fitHomeInnerScale() {
     if(viewport)viewport.style.removeProperty('height');
     if(entrance)entrance.style.removeProperty('height');
     if(!document.querySelector('.wml-home.from-med'))document.documentElement.dataset.domainsEntry='ready';
+    window.wmolRefreshNavigationLock?.();
   }
   function playCarouselEntrance(){
     const root=document.documentElement;if(entrancePlayed)return;
@@ -655,7 +623,8 @@ function fitHomeInnerScale() {
     const viewport=document.querySelector('.home-viewport.domains-page');
     const entrance=document.querySelector('.domains-entrance');
     if(!window.wmolDomainsShouldEnter||window.wmolDomainsSkipEntrance||!entrance.animate||matchMedia('(prefers-reduced-motion: reduce)').matches){
-      if(root.dataset.domainsEntry!=='returning')root.dataset.domainsEntry='ready';return;
+      if(root.dataset.domainsEntry!=='returning')root.dataset.domainsEntry='ready';
+      window.wmolRefreshNavigationLock?.();return;
     }
     // Lock height only for this short animation. Safari's address bar may change
     // the visual viewport as a new page opens, but must not finish/restart entry.
@@ -670,7 +639,7 @@ function fitHomeInnerScale() {
        delay:carousel?0:i*150,easing:'cubic-bezier(.22,1,.36,1)',fill:'both'}));
     entranceMotion=entranceMotions[entranceMotions.length-1];
     window.wmolDomainsEntrance=entranceMotion;
-    root.dataset.domainsEntry='running';
+    root.dataset.domainsEntry='running';window.wmolRefreshNavigationLock?.();
     Promise.all(entranceMotions.map(m=>m.finished.catch(()=>{}))).then(()=>{
       if(!entryRunning)return;
       finishEntrance();

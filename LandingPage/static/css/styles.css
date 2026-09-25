@@ -20275,7 +20275,7 @@ html:root #awsSaaPageV5 .aws5-safe-bar .aws5-back {
   line-height:1 !important;min-height:36px !important;box-sizing:border-box !important;
   text-align:center !important;padding:9px 12px !important;
 }
-html:root #awsSaaPageV5 .aws5-safe-bar .aws5-back span {display:block;line-height:1;transform:translateY(.5px);}
+html:root #awsSaaPageV5 .aws5-safe-bar .aws5-back span {display:block;line-height:1;}
 
 /* Hidden ancestors must use opacity: descendants have explicit visibility rules. */
 html:root.wmol-domains-controlled[data-domains-entry="pending"] .domains-carousel-ui {opacity:0 !important;pointer-events:none !important;}
@@ -20577,4 +20577,15 @@ html:root #awsSaaPageV5 .aws5-safe-bar .aws5-back .aws5-back-icon {
   display:block;width:14px;height:14px;flex:0 0 14px;
   transform:translateY(-.5px);
   fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* A moving desktop control is visibly inactive, including its hover state.
+   Input is also guarded in JS so clicks cannot fall through to the whole rail. */
+html:root[data-wmol-nav-locked="true"] :is(#go-medicine,.domains-page .rail-medicine,.tools-back .btn-back,#backHome,.tools-grid .tool-icon-card) {
+  cursor:default !important;
+}
+html:root[data-wmol-nav-locked="true"] .home-viewport.domains-page #go-medicine {
+  color:var(--gold) !important;-webkit-text-fill-color:var(--gold) !important;
+  background:transparent !important;border-color:var(--gold) !important;
+  box-shadow:none !important;transform:none !important;transition:none !important;
 }
