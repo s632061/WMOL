@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" data-wmol-release="transition-lock-36">
+<html lang="en" data-wmol-release="transition-settle-38">
   <head>
     <meta name="view-transition" content="same-origin">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-transition-lock-36">
+    <link rel="stylesheet" href="/static/css/styles.css?v=wmol-transition-settle-38">
     <script>
       (function () {
         var root = document.documentElement;
@@ -156,14 +156,18 @@
       const syncMode = () => { root.dataset.wmolNavMode = compact() ? 'fade' : 'morph'; };
       syncMode();
       window.addEventListener('resize', syncMode, {passive:true});
-      // Desktop controls stay unavailable through the entire animation and its
-      // final paint. Early input is discarded, never queued for later navigation.
+      // Desktop controls stay unavailable until the animation's snapshot layers
+      // are released and the live page has painted. Early input is not queued.
       const navigationControls = '#go-medicine,.domains-page .rail-medicine,.tools-back .btn-back,#backHome,.tools-grid .tool-icon-card';
       const motionLocks = new Set(['reveal']), disabledControls = new Map();
-      let unlockFrame = 0, lockGeneration = 0, blockedPointer = null;
+      let unlockFrame = 0, unlockTask = 0, lockGeneration = 0, blockedPointer = null;
       const desktopNavigation = () => core(location.pathname) && !compact();
       const motionPending = () => busy || motionLocks.size > 0 ||
         (location.pathname === '/domains/' && root.dataset.domainsEntry !== 'ready');
+      const canQueryTransition = CSS.supports('selector(:active-view-transition)');
+      const browserTransitionActive = () => !!document.activeViewTransition ||
+        (canQueryTransition && root.matches(':active-view-transition'));
+      const afterPaint = () => new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 0)));
       function showNavigationLock(locked) {
         root.dataset.wmolNavLocked = locked ? 'true' : 'false';
         if (locked) document.querySelectorAll(navigationControls).forEach(control => {
@@ -181,15 +185,36 @@
       function refreshNavigationLock() {
         const generation = ++lockGeneration;
         if (unlockFrame) {cancelAnimationFrame(unlockFrame); unlockFrame = 0;}
+        if (unlockTask) {clearTimeout(unlockTask); unlockTask = 0;}
         if (!desktopNavigation()) {showNavigationLock(false); return;}
         if (motionPending()) {showNavigationLock(true); return;}
         if (root.dataset.wmolNavLocked !== 'true') return;
-        unlockFrame = requestAnimationFrame(() => {
+        let clearSince = null, paintedFrames = 0;
+        // finished can resolve before the browser has torn down its snapshots.
+        // A brief live-paint interval also covers the compositor handoff on fast
+        // displays. This replaces the old two pre-paint frame callbacks.
+        const settleMs = reduceMotion() ? 0 : 100;
+        const checkPaint = () => {
           unlockFrame = requestAnimationFrame(() => {
             unlockFrame = 0;
-            if (generation === lockGeneration && !motionPending()) showNavigationLock(false);
+            unlockTask = setTimeout(() => {
+              unlockTask = 0;
+              if (generation !== lockGeneration || motionPending()) return;
+              if (!desktopNavigation()) {showNavigationLock(false); return;}
+              if (browserTransitionActive()) {clearSince = null; paintedFrames = 0;}
+              else {
+                if (clearSince === null) clearSince = performance.now();
+                paintedFrames++;
+                if (paintedFrames >= 2 && performance.now() - clearSince >= settleMs) {
+                  showNavigationLock(false);
+                  return;
+                }
+              }
+              checkPaint();
+            }, 0);
           });
-        });
+        };
+        checkPaint();
       }
       function holdNavigationUntil(finished) {
         const token = Symbol();motionLocks.add(token);refreshNavigationLock();
@@ -198,7 +223,7 @@
       }
       window.wmolRefreshNavigationLock = refreshNavigationLock;
       window.wmolNavigationLocked = () => desktopNavigation() &&
-        (motionPending() || root.dataset.wmolNavLocked === 'true');
+        (motionPending() || browserTransitionActive() || root.dataset.wmolNavLocked === 'true');
       const navigationTarget = event => event.target instanceof Element && event.target.closest(navigationControls);
       document.addEventListener('pointerdown', event => {
         blockedPointer = navigationTarget(event) && window.wmolNavigationLocked() ? event.pointerId : null;
@@ -322,9 +347,10 @@
           if (mode === 'morph' && core(location.pathname) && core(destination.pathname)) {
             refreshDisplay();
             window.dispatchEvent(new Event('wmol:prepare-snapshot'));
-            // Allow the refreshed geometry and pointer/focus state to paint
-            // before the browser captures either click target's outgoing view.
-            await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+            // Complete the paint tasks for geometry and hover/focus reset before
+            // capturing the next view, including an immediate accepted reversal.
+            await afterPaint();
+            await afterPaint();
           }
           // The outgoing and incoming banner snapshots share one native timeline.
           // Never slide live panels away first and then start a second page morph.

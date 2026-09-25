@@ -20523,6 +20523,8 @@ html[data-wmol-nav-mode="morph"]::view-transition {
 }
 /* Preserve the content cross-fades, without the UA's additive blending pass.
    Transparent title/button snapshots must blend normally over the blue rail. */
+html[data-wmol-nav-mode="morph"]::view-transition-old(root),
+html[data-wmol-nav-mode="morph"]::view-transition-new(root),
 html[data-wmol-nav-mode="morph"]::view-transition-old(med-title),
 html[data-wmol-nav-mode="morph"]::view-transition-new(med-title),
 html[data-wmol-nav-mode="morph"]::view-transition-old(med-logo),

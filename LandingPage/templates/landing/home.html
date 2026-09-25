@@ -243,6 +243,9 @@
             const fittedFont = parseFloat(getComputedStyle(brand).fontSize);
             put(brand, {"font-size":`${fittedFont * 0.95 * 0.95}px`});
           }
+          // Leave a little more room inside the arch on every screen size.
+          const settledBrandFont = parseFloat(getComputedStyle(brand).fontSize);
+          put(brand, {"font-size":`${settledBrandFont * 0.97}px`});
         }
         // Measure normal layout, not temporary entrance transforms. Scale text AND buttons
         // together only when the complete composition does not fit beneath the keystone.
