@@ -32,9 +32,9 @@
 
     <div class="aws5-active-preview" id="aws5ActivePreview">
       <button class="aws5-active-image-button" id="aws5ActiveImageButton" type="button" aria-label="Open selected preview">
-        <img id="aws5ActiveImage" src="{% static 'img/aws-saa/shot-01-mobile-plan.png' %}" alt="AWS SAA Companion App study plan preview">
+        <img id="aws5ActiveImage" src="{% static 'img/aws-saa/carousel-01-welcome.jpg' %}" alt="AWS SAA Companion App welcome screen">
       </button>
-      <p class="aws5-preview-caption" id="aws5PreviewCaption">See the study path, what comes next, and where you are in the system.</p>
+      <p class="aws5-preview-caption" id="aws5PreviewCaption">Work toward AWS certification with a clear next step each time you study.</p>
       <div class="aws5-preview-arrows" aria-label="Preview navigation">
         <button type="button" id="aws5PrevPreview" aria-label="Previous preview">←</button>
         <span id="aws5PreviewCount">1 / 9</span>
@@ -776,15 +776,15 @@
 (() => {
   const STATIC_BASE = "/static/img/aws-saa/";
   const previews = [
-    { src: STATIC_BASE + "shot-01-mobile-plan.png", alt: "Mobile study plan preview", caption: "See the study path, what comes next, and where you are in the system." },
-    { src: STATIC_BASE + "shot-02-mobile-resource.png", alt: "Mobile study resource preview", caption: "Read focused explanations built around what you need to understand and carry forward." },
-    { src: STATIC_BASE + "shot-03-mobile-practice.png", alt: "Mobile practice question preview", caption: "Apply what you learned with questions designed around the decisions the exam expects." },
-    { src: STATIC_BASE + "shot-04-mobile-progress.png", alt: "Mobile progress preview", caption: "See completed work, current progress, and the next part of the path." },
-    { src: STATIC_BASE + "shot-05-desktop-plan.png", alt: "Desktop study plan preview", caption: "Use the same system on a larger screen without changing the path you are following." },
-    { src: STATIC_BASE + "shot-06-desktop-resource.png", alt: "Desktop study resource preview", caption: "Give concepts more room when you want a larger reading and working view." },
-    { src: STATIC_BASE + "shot-07-desktop-practice.png", alt: "Desktop practice preview", caption: "Work through exam-style decisions with explanations and correction in the same environment." },
-    { src: STATIC_BASE + "shot-08-desktop-progress.png", alt: "Desktop progress preview", caption: "Track the larger preparation picture without losing the next concrete step." },
-    { src: STATIC_BASE + "shot-09-certification.png", alt: "Certification result preview", caption: "The final preview is the goal: a completed AWS SAA certification path." },
+    { src: STATIC_BASE + "carousel-01-welcome.jpg", alt: "AWS SAA Companion App welcome screen", caption: "Work toward AWS certification with a clear next step each time you study." },
+    { src: STATIC_BASE + "carousel-02-system-plan.jpg", alt: "AWS SAA learning, practice and review schedule", caption: "Follow a schedule for learning, practice, and review that helps preparation fit around your life." },
+    { src: STATIC_BASE + "shot-05-desktop-plan.png", alt: "AWS SAA desktop study plan preview", caption: "Conveniently follow the Learning System on your computer with any additional resources open beside it." },
+    { src: STATIC_BASE + "carousel-04-study-resources.jpg", alt: "AWS SAA study resources organized by week", caption: "Find this week’s study material or quickly return to a topic you need to review." },
+    { src: STATIC_BASE + "carousel-05-resource-detail.jpg", alt: "AWS SAA study resource explaining the shared responsibility model", caption: "Understand AWS concepts through plain-language explanations that connect what they mean to how you use them." },
+    { src: STATIC_BASE + "carousel-06-practice-question.jpg", alt: "AWS SAA practice question and answer choices", caption: "Put what you’ve learned to work by choosing the right solution for each situation." },
+    { src: STATIC_BASE + "carousel-07-question-bank.jpg", alt: "AWS SAA question bank guide and topic selection", caption: "Choose specific topics or mix them together to strengthen weak areas and prepare for different kinds of questions." },
+    { src: STATIC_BASE + "carousel-08-light-mode.jpg", alt: "AWS SAA Companion App welcome screen in light mode", caption: "Switch between light and dark mode to study in the view you find most comfortable." },
+    { src: STATIC_BASE + "carousel-09-full-access.jpg", alt: "AWS SAA full access plan and included learning resources", caption: "Bring learning, practice, review, and final exam preparation together in one complete plan." }
   ];
 
   const panelHtml = {

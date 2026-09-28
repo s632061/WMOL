@@ -53,8 +53,8 @@
         >
           <img
             id="passTransitionImage"
-            src="{% static 'img/wmol-framework.png' %}"
-            alt="Structured learner workflow"
+            src="{% static 'img/wmol-pass/01-entry.jpg' %}"
+            alt="WMOL PASS entry screen with institution selection"
           >
         </button>
       </div>
@@ -66,7 +66,7 @@
       </div>
 
       <p class="pass-transition-caption" id="passTransitionCaption">
-        PASS gives learners a clear daily structure for progressing through the program rather than leaving them to prepare independently.
+        Give incoming students a clear path to learning more in less time, with room for life outside school.
       </p>
     </div>
 
@@ -1211,26 +1211,41 @@ document.addEventListener("keydown", (e) => {
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-   const slides = [
+  const slides = [
     {
-      src: "{% static 'img/wmol-framework.png' %}",
-      alt: "Structured learner workflow",
-      caption: "PASS gives learners a clear daily structure for progressing through the program rather than leaving them to prepare independently."
+      src: "{% static 'img/wmol-pass/01-entry.jpg' %}",
+      alt: "WMOL PASS entry screen with institution selection",
+      caption: "Give incoming students a clear path to learning more in less time, with room for life outside school."
     },
     {
-      src: "{% static 'img/irb-endpoints.png' %}",
-      alt: "Early orientation to the medical school environment",
-     caption: "PASS introduces the demands, expectations, and working habits of medical school before formal coursework raises the stakes."
+      src: "{% static 'img/wmol-pass/02-weekly-overview.jpg' %}",
+      alt: "WMOL PASS four-week overview showing Week 1",
+      caption: "Guide students through four weeks of learning to understand, remember, apply, and stay consistent."
     },
     {
-      src: "{% static 'img/wmol-book.png' %}",
-      alt: "Defined learning system",
-      caption: "Learners are taught how to understand, remember, apply, and stabilize learning rather than relying on passive review or repeated note-taking."
+      src: "{% static 'img/wmol-pass/03-todays-work.jpg' %}",
+      alt: "WMOL PASS Today’s Work instructions and session button",
+      caption: "Show students what to work on today so they can get started without planning each session from scratch."
     },
     {
-      src: "{% static 'img/schedules.png' %}",
-      alt: "Four-week pre-matriculation progression",
-      caption: "The four-week sequence moves from guided understanding to application, correction, and stable carryover into medical school."
+      src: "{% static 'img/wmol-pass/04-implementation-guide.jpg' %}",
+      alt: "WMOL PASS implementation guide with steps and AI prompts",
+      caption: "Help students understand their own course material with clear steps, examples, and ready-to-use AI prompts."
+    },
+    {
+      src: "{% static 'img/wmol-pass/05-memory-example.jpg' %}",
+      alt: "WMOL PASS worked example turning a concept into a memorable story",
+      caption: "Teach students to turn complex material into simple stories they can recall and use to answer questions."
+    },
+    {
+      src: "{% static 'img/wmol-pass/06-desktop-lecturio.png' %}",
+      alt: "WMOL PASS desktop app beside Lecturio course materials",
+      caption: "Help students put the system to work alongside the lectures and practice questions your school already provides."
+    },
+    {
+      src: "{% static 'img/wmol-pass/07-weekly-reflection.jpg' %}",
+      alt: "WMOL PASS weekly reflection survey on studying and progress",
+      caption: "Use weekly check-ins to spot difficulties early and offer support before students fall further behind."
     }
   ];
 
