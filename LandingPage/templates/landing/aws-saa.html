@@ -930,6 +930,19 @@
 .aws5-policy-links a{color:var(--aws5-teal);text-decoration:underline;}
 
 html.wmol-phone-device.wmol-phone-landscape .aws5-info-grid a[data-panel] { padding:10px 6px !important; font-size:clamp(.84rem,calc(var(--wmol-phone-design-w) * 0.033),1rem) !important; }
+
+/* 2026-10-10: two distinct, source-based certification proofs. */
+.aws5-evidence-grid img { background:#fff; object-fit:contain; object-position:center; }
+.aws5-evidence-grid figcaption { font-size:clamp(.78rem,.88vw,.97rem)!important; line-height:1.35; text-align:center; }
+.aws5-evidence-grid figure { min-width:0; }
+.aws5-proof-intro { margin-top:16px!important; }
+@media (min-width:701px) and (orientation:landscape) {
+  .aws5-evidence-grid img { height:clamp(168px,12vw,235px)!important; }
+}
+@media (max-width:700px) {
+  .aws5-evidence-grid { grid-template-columns:1fr!important; }
+  .aws5-evidence-grid img { width:100%;height:auto!important;max-height:360px!important; }
+}
 </style>
 <!-- WMOL AWS website policy links 2026-10-09 -->
 
@@ -937,15 +950,15 @@ html.wmol-phone-device.wmol-phone-landscape .aws5-info-grid a[data-panel] { padd
 (() => {
   const STATIC_BASE = "/static/img/aws-saa/";
   const previews = [
-    { src: STATIC_BASE + "carousel-01-welcome.jpg", alt: "AWS SAA Companion App welcome screen", caption: "Work toward AWS certification with a clear next step each time you study." },
-    { src: STATIC_BASE + "carousel-02-system-plan.jpg", alt: "AWS SAA learning, practice and review schedule", caption: "Follow a schedule for learning, practice, and review that helps preparation fit around your life." },
-    { src: STATIC_BASE + "shot-05-desktop-plan.png", alt: "AWS SAA desktop study plan preview", caption: "Conveniently follow the Learning System on your computer with any additional resources open beside it." },
-    { src: STATIC_BASE + "carousel-04-study-resources.jpg", alt: "AWS SAA study resources organized by week", caption: "Find this week’s study material or quickly return to a topic you need to review." },
-    { src: STATIC_BASE + "carousel-05-resource-detail.jpg", alt: "AWS SAA study resource explaining the shared responsibility model", caption: "Understand AWS concepts through plain-language explanations that connect what they mean to how you use them." },
-    { src: STATIC_BASE + "carousel-06-practice-question.jpg", alt: "AWS SAA practice question and answer choices", caption: "Put what you’ve learned to work by choosing the right solution for each situation." },
-    { src: STATIC_BASE + "carousel-07-question-bank.jpg", alt: "AWS SAA question bank guide and topic selection", caption: "Choose specific topics or mix them together to strengthen weak areas and prepare for different kinds of questions." },
-    { src: STATIC_BASE + "carousel-08-light-mode.jpg", alt: "AWS SAA Companion App welcome screen in light mode", caption: "Switch between light and dark mode to study in the view you find most comfortable." },
-    { src: STATIC_BASE + "carousel-09-full-access.jpg", alt: "AWS SAA full access plan and included learning resources", caption: "Bring learning, practice, review, and final exam preparation together in one complete plan." }
+    { src: STATIC_BASE + "carousel-01-welcome.jpg", alt: "AWS SAA Companion App welcome screen", caption: "Open the app and pick up where you left off, without figuring out where to begin again." },
+    { src: STATIC_BASE + "carousel-02-system-plan.jpg", alt: "AWS SAA learning, practice, and review schedule", caption: "Follow a clear plan for what to learn, practice, and review each day." },
+    { src: STATIC_BASE + "carousel-04-study-resources.jpg", alt: "AWS SAA weekly study resources", caption: "See what matters this week and get straight to the material you need." },
+    { src: STATIC_BASE + "carousel-05-resource-detail.jpg", alt: "Plain-language AWS SAA concept explanation", caption: "Work through difficult AWS concepts until they actually make sense." },
+    { src: STATIC_BASE + "carousel-03-desktop-ai.jpg", alt: "WMOL AWS SAA desktop app shown beside ChatGPT in a Windows desktop layout", caption: "Keep WMOL beside ChatGPT, a course, or another resource so you can ask questions without losing your place." },
+    { src: STATIC_BASE + "carousel-06-practice-question.jpg", alt: "AWS SAA practice question", caption: "Put what you've learned to work and see where your reasoning still needs attention." },
+    { src: STATIC_BASE + "carousel-07-question-bank.jpg", alt: "AWS SAA question bank and topic selection", caption: "Choose what to practice, revisit what you missed, and make weak areas more reliable." },
+    { src: STATIC_BASE + "carousel-08-light-mode.jpg", alt: "AWS SAA light-mode screen", caption: "Switch between light and dark mode so the app fits the way you like to study." },
+    { src: STATIC_BASE + "carousel-09-full-access.jpg", alt: "AWS SAA Full Access and study plan", caption: "Bring learning, practice, and review together, then move toward test day at your own pace." }
   ];
 
   const panelHtml = {
@@ -1009,9 +1022,10 @@ html.wmol-phone-device.wmol-phone-landscape .aws5-info-grid a[data-panel] { padd
         <p>The purpose of the test wasn’t to show that everyone should or must pass the AWS SAA in seven days, but to answer a different question:</p>
         <h3 class="aws5-tested-question">Can you use the systems and still move toward your goals even when studying isn’t the only priority in your life?</h3>
         <p class="aws5-tested-answer"><strong>The answer is yes, you can.</strong></p>
+        <p class="aws5-proof-intro">Here is the result from that test and the credential it earned.</p>
         <div class="aws5-evidence-grid">
-          <figure><img src="${STATIC_BASE}pass-result.png" alt="AWS exam pass result"><figcaption>AWS Exam Pass Result</figcaption></figure>
-          <figure><img src="${STATIC_BASE}credential.png" alt="AWS Credly badge"><figcaption>AWS Credly Badge</figcaption></figure>
+          <figure><img src="${STATIC_BASE}pass-result.png" loading="lazy" alt="Official AWS certification result: passing score 729, with 720 required; personal candidate numbers hidden"><figcaption>Official AWS exam result: 729 (720 required)</figcaption></figure>
+          <figure><img src="${STATIC_BASE}credential.png" loading="lazy" alt="AWS Certified Solutions Architect Associate blue Credly certification badge and issuer"><figcaption>AWS Solutions Architect – Associate credential</figcaption></figure>
         </div>
         <p class="aws5-disclaimer">Individual starting points, schedules, and preparation times will vary.</p>
       </div>`,

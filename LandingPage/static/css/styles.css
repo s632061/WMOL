@@ -20605,3 +20605,113 @@ html:root[data-wmol-nav-locked="true"] .home-viewport.domains-page #go-medicine 
   background:transparent !important;border-color:var(--gold) !important;
   box-shadow:none !important;transform:none !important;transition:none !important;
 }
+
+
+/* ============================================================
+   WMOL PASS on-page Terms & Privacy - staging 2026-10-10
+   These are scoped additions. No other WMOL screens are altered.
+   ============================================================ */
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal {
+  width:min(100%,920px);max-width:100%;margin:0 auto clamp(38px,5vw,70px);
+  padding:0 clamp(0px,2vw,12px); color:var(--ink);min-width:0;
+  overflow:visible; box-sizing:border-box;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-heading {
+  max-width:780px; margin:0 auto 20px; text-align:center;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-heading > h2 {
+  font-family:"Times New Roman",Georgia,serif; font-weight:700;
+  font-size:clamp(1.45rem,2.6vw,2.3rem); line-height:1.14;
+  color:var(--ink-title); margin:4px 0 10px;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-heading > p:last-child {
+  font-family:Georgia,"Times New Roman",serif; font-size:clamp(.94rem,1.2vw,1.09rem);
+  line-height:1.55; margin:0; color:var(--ink);
+}
+html:root #wmol-medicine.medicine-layout .pass-page details.pass-legal-accordion {
+  box-sizing:border-box; width:100%;max-width:100%;min-width:0;
+  margin:12px 0 0; padding:0; border:1px solid rgba(75,54,39,.24);
+  background:rgba(255,255,255,.56); border-radius:12px;
+  box-shadow:0 3px 14px rgba(75,54,39,.05);overflow:hidden;
+  scroll-margin-top:clamp(12px,3vh,28px);
+}
+html:root #wmol-medicine.medicine-layout .pass-page details.pass-legal-accordion[open] {
+  border-color:rgba(115,83,42,.48); background:rgba(255,255,255,.72);
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-accordion > summary {
+  list-style:none;display:flex;justify-content:space-between;align-items:center;
+  gap:14px;min-height:60px;padding:15px clamp(15px,2.7vw,27px);
+  color:var(--ink-title);font-family:"Times New Roman",Georgia,serif;
+  font-weight:700;font-size:clamp(1.08rem,1.55vw,1.42rem);
+  line-height:1.22;cursor:pointer;user-select:none;-webkit-user-select:none;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-accordion > summary::-webkit-details-marker {display:none;}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-accordion > summary::marker {content:"";}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-chevron {
+  display:inline-block;width:11px;height:11px;flex:none;
+  border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+  transform:rotate(45deg);transition:transform .18s ease;margin-right:5px;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-accordion[open] .pass-legal-chevron {
+  transform:rotate(225deg);
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-accordion > summary:focus-visible,
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-document a:focus-visible {
+  outline:3px solid #886326;outline-offset:3px;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-document {
+  box-sizing:border-box;max-width:100%;min-width:0;
+  padding:clamp(17px,3vw,30px);border-top:1px solid rgba(75,54,39,.14);
+  overflow:visible;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-document,
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-document * {
+  -webkit-user-select:text!important;user-select:text!important;caret-color:auto!important;
+  overflow-wrap:anywhere;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-document h3 {
+  font-size:clamp(1.3rem,2vw,1.9rem)!important;line-height:1.2!important;
+  font-family:"Times New Roman",Georgia,serif!important; margin:0 0 9px!important;color:var(--ink-title)!important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-document h4 {
+  font-family:"Times New Roman",Georgia,serif!important;font-size:clamp(1.02rem,1.36vw,1.26rem)!important;
+  line-height:1.32!important;font-weight:700!important;margin:25px 0 9px!important;
+  color:var(--ink-title)!important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-document p,
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-document li {
+  font-family:Georgia,"Times New Roman",serif!important;
+  color:#433429!important;font-size:clamp(.96rem,1.12vw,1.1rem)!important;
+  line-height:1.66!important;font-weight:400!important;text-align:left!important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-document p {margin:0 0 14px!important;}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-document ul {margin:0 0 18px;padding-left:clamp(18px,3vw,28px);}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-document li {margin:0 0 8px;}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-document a {
+  color:#70481a!important;text-decoration:underline!important;text-underline-offset:2px;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-document .pass-legal-updated {
+  font-size:.9rem!important;opacity:.75;margin-bottom:20px!important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-document .pass-legal-direct {
+  border-top:1px solid rgba(75,54,39,.16);margin-top:25px!important;padding-top:16px;
+  font-size:.92rem!important;
+}
+@media (max-width:700px) {
+  html:root #wmol-medicine.medicine-layout .pass-page .pass-legal {
+    padding:0;margin-bottom:42px;
+  }
+  html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-accordion > summary {
+    min-height:56px;padding:13px 16px;font-size:1.15rem;
+  }
+  html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-document {
+    padding:18px 16px 22px;
+  }
+  html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-document p,
+  html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-document li {
+    font-size:1rem!important;line-height:1.58!important;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-chevron {transition:none;}
+}
