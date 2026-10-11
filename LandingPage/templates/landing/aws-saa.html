@@ -943,6 +943,32 @@ html.wmol-phone-device.wmol-phone-landscape .aws5-info-grid a[data-panel] { padd
   .aws5-evidence-grid { grid-template-columns:1fr!important; }
   .aws5-evidence-grid img { width:100%;height:auto!important;max-height:360px!important; }
 }
+
+/* October 10 follow-up: match the heading, question and answer on compact screens.
+   No changes to desktop reading typography or the rest of the site. */
+@media (max-width:700px) {
+  html:root #awsSaaPageV5 .aws5-info-panel :is(.aws5-tested-title,.aws5-tested-question,.aws5-tested-answer) {
+    font-size:clamp(1.52rem,7vw,1.72rem)!important;
+    line-height:1.16!important;
+    letter-spacing:-.018em;
+  }
+  html:root #awsSaaPageV5 .aws5-info-panel .aws5-tested-question {
+    margin-top:clamp(18px,4.5vw,24px)!important;
+  }
+  html:root #awsSaaPageV5 .aws5-info-panel .aws5-tested-answer {
+    margin-top:clamp(14px,3.6vw,20px)!important;
+    color:var(--aws5-text)!important;
+  }
+}
+/* Phone landscape can exceed 700 CSS pixels; use the same responsive type scale. */
+html.wmol-phone-device #awsSaaPageV5 .aws5-info-panel :is(.aws5-tested-title,.aws5-tested-question,.aws5-tested-answer) {
+  font-size:clamp(1.52rem,7vw,1.72rem)!important;
+  line-height:1.16!important;
+  letter-spacing:-.018em;
+}
+html.wmol-phone-device #awsSaaPageV5 .aws5-info-panel .aws5-tested-answer {
+  color:var(--aws5-text)!important;
+}
 </style>
 <!-- WMOL AWS website policy links 2026-10-09 -->
 
@@ -954,7 +980,7 @@ html.wmol-phone-device.wmol-phone-landscape .aws5-info-grid a[data-panel] { padd
     { src: STATIC_BASE + "carousel-02-system-plan.jpg", alt: "AWS SAA learning, practice, and review schedule", caption: "Follow a clear plan for what to learn, practice, and review each day." },
     { src: STATIC_BASE + "carousel-04-study-resources.jpg", alt: "AWS SAA weekly study resources", caption: "See what matters this week and get straight to the material you need." },
     { src: STATIC_BASE + "carousel-05-resource-detail.jpg", alt: "Plain-language AWS SAA concept explanation", caption: "Work through difficult AWS concepts until they actually make sense." },
-    { src: STATIC_BASE + "carousel-03-desktop-ai.jpg", alt: "WMOL AWS SAA desktop app shown beside ChatGPT in a Windows desktop layout", caption: "Keep WMOL beside ChatGPT, a course, or another resource so you can ask questions without losing your place." },
+    { src: STATIC_BASE + "carousel-03-desktop-ai.jpg", alt: "WMOL AWS SAA desktop app shown beside ChatGPT in a Windows desktop layout", caption: "(Desktop Version) Keep WMOL beside ChatGPT, a course, or another resource so you can ask questions without losing your place." },
     { src: STATIC_BASE + "carousel-06-practice-question.jpg", alt: "AWS SAA practice question", caption: "Put what you've learned to work and see where your reasoning still needs attention." },
     { src: STATIC_BASE + "carousel-07-question-bank.jpg", alt: "AWS SAA question bank and topic selection", caption: "Choose what to practice, revisit what you missed, and make weak areas more reliable." },
     { src: STATIC_BASE + "carousel-08-light-mode.jpg", alt: "AWS SAA light-mode screen", caption: "Switch between light and dark mode so the app fits the way you like to study." },
@@ -1009,7 +1035,7 @@ html.wmol-phone-device.wmol-phone-landscape .aws5-info-grid a[data-panel] { padd
     tested: `
       <div class="aws5-panel">
         <p class="aws5-panel-kicker">How It’s Been Tested</p>
-        <h2>Tested when studying wasn’t the only priority.</h2>
+        <h2 class="aws5-tested-title">Tested when studying wasn’t the only priority.</h2>
         <p>The underlying WMOL systems were developed and tested through demanding academic and professional institutions, ultra-endurance training, and periods of intense pressure where large amounts of information, physically demanding work, and emotionally taxing events had to be handled at the same time.</p>
         <p>The <strong>AWS SAA Companion App was stress-tested</strong>, and the system was used to prepare for and pass the certification in seven days, with no more than four hours of work per day, while also training for a 13.1-mile open-water swim and maintaining life outside AWS preparation.</p>
         <div class="aws5-clean-list aws5-tested-list" aria-label="What the stress test still left room for">
@@ -1022,10 +1048,9 @@ html.wmol-phone-device.wmol-phone-landscape .aws5-info-grid a[data-panel] { padd
         <p>The purpose of the test wasn’t to show that everyone should or must pass the AWS SAA in seven days, but to answer a different question:</p>
         <h3 class="aws5-tested-question">Can you use the systems and still move toward your goals even when studying isn’t the only priority in your life?</h3>
         <p class="aws5-tested-answer"><strong>The answer is yes, you can.</strong></p>
-        <p class="aws5-proof-intro">Here is the result from that test and the credential it earned.</p>
         <div class="aws5-evidence-grid">
-          <figure><img src="${STATIC_BASE}pass-result.png" loading="lazy" alt="Official AWS certification result: passing score 729, with 720 required; personal candidate numbers hidden"><figcaption>Official AWS exam result: 729 (720 required)</figcaption></figure>
-          <figure><img src="${STATIC_BASE}credential.png" loading="lazy" alt="AWS Certified Solutions Architect Associate blue Credly certification badge and issuer"><figcaption>AWS Solutions Architect – Associate credential</figcaption></figure>
+          <figure><img src="${STATIC_BASE}pass-result.png" loading="lazy" alt="Official AWS certification result: passing score 729, with 720 required; personal candidate numbers hidden"><figcaption>Official AWS exam result</figcaption></figure>
+          <figure><img src="${STATIC_BASE}credential.png" loading="lazy" alt="AWS Certified Solutions Architect Associate blue Credly certification badge and issuer"><figcaption>AWS Solutions Architect Associate credential</figcaption></figure>
         </div>
         <p class="aws5-disclaimer">Individual starting points, schedules, and preparation times will vary.</p>
       </div>`,

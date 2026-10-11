@@ -61,7 +61,7 @@
 
       <div class="pass-transition-controls">
         <button class="pass-carousel-btn" id="passTransitionPrev" type="button" aria-label="Previous image">‹</button>
-        <div class="pass-transition-gallery" id="passTransitionGallery" aria-label="PASS image gallery"></div>
+        <div class="pass-transition-gallery" id="passTransitionGallery" aria-label="PASS image gallery, scroll sideways or select a thumbnail" tabindex="0"></div>
         <button class="pass-carousel-btn" id="passTransitionNext" type="button" aria-label="Next image">›</button>
       </div>
 
@@ -382,9 +382,7 @@
 
 <section class="pass-legal" aria-labelledby="pass-legal-title">
   <div class="pass-legal-heading">
-    <p class="pass-section-kicker">Terms &amp; Privacy</p>
-    <h2 id="pass-legal-title">About Using WMOL PASS</h2>
-    <p>Review how the system works, the information it uses, and how to contact us about your account or your school's program.</p>
+    <p class="pass-section-kicker" id="pass-legal-title" role="heading" aria-level="2">Terms &amp; Privacy</p>
   </div>
 <details class="pass-legal-accordion" id="terms">
   <summary><span>Terms of Use</span><span class="pass-legal-chevron" aria-hidden="true"></span></summary>
@@ -1347,7 +1345,7 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       src: "{% static 'img/wmol-pass/03-todays-work.jpg' %}",
       alt: "WMOL PASS Today’s Work instructions and session button",
-      caption: "Open today’s session and see exactly what to work on, without planning everything again."
+      caption: "Open today’s session and see exactly what to work on without planning everything each day."
     },
     {
       src: "{% static 'img/wmol-pass/04-implementation-guide.jpg' %}",
@@ -1362,12 +1360,12 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       src: "{% static 'img/wmol-pass/06-desktop-lecturio.png' %}",
       alt: "WMOL PASS desktop app beside Lecturio course materials",
-      caption: "Keep PASS beside Lecturio or your school’s resources, and put the system to work as you study."
+      caption: "(Desktop Version) Use PASS alongside your school’s resources and put the system to work as you study."
     },
     {
       src: "{% static 'img/wmol-pass/07-weekly-reflection.jpg' %}",
       alt: "WMOL PASS weekly reflection survey on studying and progress",
-      caption: "Reflect on each week so you and your school can spot problems while there’s still time to help."
+      caption: "Reflect on each week to improve the learning system and give your school an early opportunity to offer extra support to students who need it."
     }
   ];
 
@@ -1429,16 +1427,27 @@ document.addEventListener("DOMContentLoaded", () => {
       image.src = slide.src;
       image.alt = slide.alt;
       caption.textContent = slide.caption;
-      gallery
-        .querySelectorAll(".pass-transition-thumbnail")
-        .forEach((thumbnail, thumbnailIndex) => {
-          const active = thumbnailIndex === index;
-          thumbnail.classList.toggle("is-active", active);
-          thumbnail.setAttribute(
-            "aria-current",
-            active ? "true" : "false"
-          );
-        });
+      const thumbs = Array.from(gallery.querySelectorAll(".pass-transition-thumbnail"));
+      thumbs.forEach((thumbnail, thumbnailIndex) => {
+        const active = thumbnailIndex === index;
+        thumbnail.classList.toggle("is-active", active);
+        thumbnail.setAttribute("aria-current", active ? "true" : "false");
+        thumbnail.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+      // Scroll only the thumbnail row. Never scroll or jump the entire page.
+      const selected = thumbs[index];
+      if (selected && gallery.clientWidth > 0) {
+        const galleryRect = gallery.getBoundingClientRect();
+        const selectedRect = selected.getBoundingClientRect();
+        const centeredLeft = gallery.scrollLeft + selectedRect.left - galleryRect.left
+          - (gallery.clientWidth - selected.clientWidth) / 2;
+        if (Math.abs(gallery.scrollLeft - centeredLeft) > 2) {
+          gallery.scrollTo({
+            left: Math.max(0, centeredLeft),
+            behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+          });
+        }
+      }
     }
     function showProblem(nextIndex) {
       if (!tabs.length) return;
@@ -1583,7 +1592,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let startX = 0;
     let startY = 0;
 
-    carousel?.addEventListener(
+    const swipeSurface = carousel?.querySelector('.pass-transition-frame');
+    swipeSurface?.addEventListener(
       "touchstart",
       (event) => {
         const touch = event.touches[0];
@@ -1593,7 +1603,7 @@ document.addEventListener("DOMContentLoaded", () => {
       { passive: true }
     );
 
-    carousel?.addEventListener(
+    swipeSurface?.addEventListener(
       "touchend",
       (event) => {
         if (window.wmolZoomIsActive && window.wmolZoomIsActive()) return;
@@ -1612,6 +1622,12 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       { passive: true }
     );
+
+    gallery.addEventListener('keydown', (event) => {
+      if (event.target !== gallery || !['ArrowLeft','ArrowRight'].includes(event.key)) return;
+      event.preventDefault();
+      showSlide(index + (event.key === 'ArrowRight' ? 1 : -1));
+    });
 
     buildProblemDots();
     showSlide(0);
@@ -1931,5 +1947,89 @@ if (rail.dataset.mobileCarousel === "system") {
   window.addEventListener('pageshow', openLinkedDocument);
 })();
 </script>
+
+<style id="wmol-pass-carousel-legal-compact-20261010">
+/* The seven thumbnails form ONE horizontal, swipeable row on every screen. */
+html:root #wmol-medicine.medicine-layout .pass-page .pass-transition-controls {
+  display:grid!important;
+  grid-template-columns:clamp(34px,3vw,42px) minmax(0,1fr) clamp(34px,3vw,42px)!important;
+  align-items:center!important;
+  column-gap:clamp(6px,1vw,12px)!important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-transition-controls > .pass-carousel-btn {
+  width:clamp(34px,3vw,42px)!important;
+  height:clamp(34px,3vw,42px)!important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-transition-gallery {
+  display:flex!important;
+  flex-flow:row nowrap!important;
+  grid-template-columns:none!important;
+  gap:clamp(6px,1vw,10px)!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  scroll-snap-type:x proximity;
+  scroll-padding-inline:4px;
+  overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(115,83,42,.38) transparent;
+  padding:4px 3px 8px!important;
+  margin:0!important;
+  touch-action:auto;  /* preserve native pinch zoom */
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-transition-gallery::-webkit-scrollbar {
+  height:4px;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-transition-gallery::-webkit-scrollbar-thumb {
+  border-radius:8px;
+  background:rgba(115,83,42,.38);
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-transition-gallery > .pass-transition-thumbnail {
+  box-sizing:border-box!important;
+  flex:0 0 clamp(78px,24%,122px)!important;
+  width:clamp(78px,24%,122px)!important;
+  min-width:78px!important;
+  max-width:122px!important;
+  aspect-ratio:4/3!important;
+  scroll-snap-align:start;
+  scroll-margin-inline:4px;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-transition-gallery:focus-visible {
+  outline:2px solid #886326;
+  outline-offset:2px;
+}
+/* Keep only the Terms & Privacy heading; tighten the two dropdowns and footer. */
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-heading {
+  margin-bottom:clamp(6px,1.2vw,10px)!important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-heading > .pass-section-kicker {
+  margin:0!important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page details.pass-legal-accordion {
+  margin-top:clamp(7px,1vw,10px)!important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-legal {
+  margin-bottom:clamp(12px,2vw,20px)!important;
+}
+html:root #wmol-medicine.medicine-layout .pass-page .pass-footer {
+  padding-top:clamp(6px,1vw,12px)!important;
+}
+@media (max-width:700px) {
+  html:root #wmol-medicine.medicine-layout .pass-page .pass-transition-gallery > .pass-transition-thumbnail {
+    flex-basis:clamp(78px,27%,112px)!important;
+    width:clamp(78px,27%,112px)!important;
+  }
+  html:root #wmol-medicine.medicine-layout .pass-page .pass-legal-heading {margin-bottom:6px!important;}
+  html:root #wmol-medicine.medicine-layout .pass-page details.pass-legal-accordion {margin-top:7px!important;}
+  html:root #wmol-medicine.medicine-layout .pass-page .pass-legal {margin-bottom:12px!important;}
+  html:root #wmol-medicine.medicine-layout .pass-page .pass-footer {padding-top:6px!important;}
+}
+@media (prefers-reduced-motion:reduce) {
+  html:root #wmol-medicine.medicine-layout .pass-page .pass-transition-gallery {scroll-behavior:auto!important;}
+}
+</style>
 
 {% endblock %}
