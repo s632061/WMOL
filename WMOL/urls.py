@@ -23,6 +23,7 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("tools/aws-saa/", TemplateView.as_view(template_name="landing/aws-saa.html"), name="aws_saa_companion"),
+    path("tools/shrm/", TemplateView.as_view(template_name="landing/shrm.html"), name="shrm_companion"),
     path("", include(("LandingPage.urls", "landing"), namespace="landing")),
 ]
 

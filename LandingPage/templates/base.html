@@ -50,7 +50,8 @@
             : document.getElementById("wmol-tools") ? "tools"
             : document.querySelector(".domains-page") ? "domains"
             : document.querySelector(".hsk-page") ? "hsk"
-            : document.querySelector(".aws5-page") ? "aws" : "other";
+            : document.querySelector(".aws5-page") ? "aws"
+            : document.querySelector(".shrm-page") ? "shrm" : "other";
           root.dataset.wmolSurface = surface;
           if (!phone) return;
           if (surface === "home" || surface === "domains") {
@@ -61,9 +62,9 @@
           }
           var color = surface === "home" || surface === "domains" ? "#342515"
             : surface === "medicine" ? "#f8f4e9" : surface === "tools" ? "#000000"
-            : surface === "hsk" ? "#080909" : surface === "aws" ? "#06192f" : "#020826";
-          if (surface === "hsk" || surface === "aws") {
-            var ownPage = document.querySelector(surface === "hsk" ? ".hsk-page" : ".aws5-page");
+            : surface === "hsk" ? "#080909" : surface === "aws" ? "#06192f" : surface === "shrm" ? "#1E2E3A" : "#020826";
+          if (surface === "hsk" || surface === "aws" || surface === "shrm") {
+            var ownPage = document.querySelector(surface === "hsk" ? ".hsk-page" : surface === "aws" ? ".aws5-page" : ".shrm-page");
             var ownColor = ownPage && getComputedStyle(ownPage).backgroundColor;
             if (ownColor && ownColor !== "rgba(0, 0, 0, 0)" && ownColor !== "transparent") color = ownColor;
             root.style.setProperty("--wmol-page-edge-color", color);
@@ -375,6 +376,7 @@
     })();
     </script>
     <title>{% block title %}Wang Method of Learning{% endblock %}</title>
+    {% block extra_head %}{% endblock %}
   </head>
   <body>
     <div class="wmol-phone-backdrop" aria-hidden="true"></div>

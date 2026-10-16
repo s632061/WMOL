@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Explore Tools{% endblock %}
 
+{% block extra_head %}
+<link rel="stylesheet" href="/static/css/tools-shrm.css?v=20261016-1">
+{% endblock %}
 {% block content %}
 
 <style id="aws-tools-card-final">
@@ -92,6 +95,15 @@
     <span>See progress every time you study.</span>
     <span>Walk into test day ready.</span>
   </div>
+</a>
+
+
+<a class="tool-icon-card tool-icon-card--shrm" href="/tools/shrm/" data-hub-theme="shrm">
+  <div class="tool-icon-imgwrap"><img src="/static/img/shrm/hr-certification-icon.png" alt="WMOL HR Certification Prep icon" width="1024" height="1024"></div>
+  <div class="tool-icon-name">WMOL HR Certification Prep</div>
+  <div class="tool-shrm-audience">(for SHRM Certified Professional)</div>
+  <div class="tool-icon-kicker">Learn with a clear direction. Keep room for your life.</div>
+  <div class="tool-icon-desc">Study resources, practice questions, and next steps come together so you can focus on learning and trust your preparation.</div>
 </a>
 
 </div>
