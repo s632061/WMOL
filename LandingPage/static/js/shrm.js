@@ -66,38 +66,54 @@
   });
   const footerLinks = [...page.querySelectorAll('[data-footer]')];
   const footerPanels = [...page.querySelectorAll('.hs-footer-panel')];
-  function syncFooter() {
+  const footerNav = page.querySelector('.hs-footer-nav');
+  footerNav.setAttribute('role', 'tablist');
+  footerNav.setAttribute('aria-orientation', 'horizontal');
+  footerLinks.forEach(link => link.setAttribute('role', 'tab'));
+  footerPanels.forEach(panel => {
+    panel.setAttribute('role', 'tabpanel');
+    panel.tabIndex = 0;
+  });
+  function selectFooter(id, focusTab = false) {
     footerLinks.forEach(link => {
-      const panel = document.getElementById(link.getAttribute('aria-controls'));
-      link.setAttribute('aria-expanded', String(panel.open));
+      const selected = link.getAttribute('aria-controls') === id;
+      link.setAttribute('aria-selected', String(selected));
+      link.tabIndex = selected ? 0 : -1;
+      if (selected && focusTab) link.focus({preventScroll:true});
     });
-  }
-  footerLinks.forEach(link => link.addEventListener('click', event => {
-    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
-    event.preventDefault();
-    const panel = document.getElementById(link.getAttribute('aria-controls'));
-    const open = !panel.open;
-    footerPanels.forEach(other => { other.open = other === panel && open; });
-    syncFooter();
-    if (open) panel.querySelector('summary').focus({preventScroll:true});
-    else link.focus({preventScroll:true});
-  }));
-  footerPanels.forEach(panel => panel.addEventListener('toggle', () => {
-    syncFooter();
-    if (!panel.open && panel.contains(document.activeElement)) {
-      const link = footerLinks.find(item => item.getAttribute('aria-controls') === panel.id);
-      if (link) link.focus({preventScroll:true});
+    footerPanels.forEach(panel => { panel.hidden = panel.id !== id; });
+    if (focusTab) {
+      try { window.history.replaceState(window.history.state, '', '#' + id); } catch (_) {}
     }
-  }));
-  function revealHash() {
+  }
+  footerLinks.forEach((link, index) => {
+    link.addEventListener('click', event => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
+      event.preventDefault();
+      selectFooter(link.getAttribute('aria-controls'), true);
+    });
+    link.addEventListener('keydown', event => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+      let next;
+      if (event.key === 'ArrowRight') next = (index + 1) % footerLinks.length;
+      else if (event.key === 'ArrowLeft') next = (index + footerLinks.length - 1) % footerLinks.length;
+      else if (event.key === 'Home') next = 0;
+      else if (event.key === 'End') next = footerLinks.length - 1;
+      else if (event.key === ' ') next = index;
+      else return;
+      event.preventDefault();
+      selectFooter(footerLinks[next].getAttribute('aria-controls'), true);
+    });
+  });
+  function revealHash(scroll = true) {
     const target = footerPanels.find(panel => '#' + panel.id === window.location.hash);
     if (target) {
-      footerPanels.forEach(panel => { panel.open = panel === target; });
-      syncFooter();
-      target.scrollIntoView({block:'start'});
+      selectFooter(target.id);
+      if (scroll) target.scrollIntoView({block:'start'});
     }
   }
-  window.addEventListener('hashchange', revealHash);
+  selectFooter('hs-contact');
+  window.addEventListener('hashchange', () => revealHash());
   revealHash();
   const back = page.querySelector('.hs-back');
   back.addEventListener('click', event => {
