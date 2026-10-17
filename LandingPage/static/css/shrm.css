@@ -41,7 +41,7 @@ html.wmol-shrm.wmol-phone-device.wmol-phone-landscape body > main {
 #shrmPage .hs-brand small {display:block; margin-top:4px; font-size:.75rem; font-weight:400; letter-spacing:.01em; color:var(--hs-accent);}
 #shrmPage .hs-hero {position:relative; text-align:center; max-width:976px; margin:auto; padding-block:42px 34px;}
 #shrmPage .hs-credential {color:var(--hs-accent); white-space:nowrap;}
-#shrmPage .hs-independent {font-size:.8125rem; line-height:1.65; color:var(--hs-ink); margin:12px auto 24px; text-wrap:balance;}
+#shrmPage .hs-independent {font-size:.91rem; line-height:1.65; color:var(--hs-ink); margin:12px auto 24px; text-wrap:balance;}
 #shrmPage h1 {font:400 clamp(2.1rem,4.5vw,3.55rem)/1.12 Georgia,'Times New Roman',serif; letter-spacing:-.035em; color:var(--hs-accent); margin:0 auto; max-width:800px; text-wrap:balance; overflow-wrap:normal;}
 #shrmPage .hs-subtitle {font:400 clamp(1.4rem,2.7vw,2rem)/1.3 Georgia,'Times New Roman',serif; letter-spacing:-.02em; color:var(--hs-voice); margin:0 auto 18px; text-wrap:balance;}
 #shrmPage .hs-hero-copy {font-size:calc(1.003125rem / var(--hs-density)); line-height:1.75; color:var(--hs-voice); max-width:73.2ch; margin:0 auto 24px;}
@@ -109,12 +109,12 @@ html.wmol-shrm.wmol-phone-device.wmol-phone-landscape body > main {
 #shrmPage .hs-quote {font:400 clamp(1.9rem,4vw,2.5rem)/1.25 Georgia,serif; letter-spacing:-.02em; color:var(--hs-accent); margin:0 0 16px; border:0; padding:0;}
 #shrmPage .hs-affiliation {font-size:.6875rem; line-height:1.7; color:var(--hs-ink); max-width:94ch; margin:0 auto; text-wrap:balance;}
 #shrmPage .hs-footer {padding-block:20px max(30px,env(safe-area-inset-bottom)); border-top:1px solid var(--hs-line);}
-#shrmPage .hs-footer-row {display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:start; gap:16px;}
+#shrmPage .hs-footer-row {display:grid; grid-template-columns:max-content minmax(0,1fr); align-items:start; gap:16px;}
 #shrmPage .hs-footer-brand {font-size:var(--hs-label-size); font-weight:400; color:var(--hs-voice); line-height:1.6; margin:0; text-align:center; justify-self:start;}
 #shrmPage .hs-footer-brand span {display:block;}
-#shrmPage .hs-footer-nav {grid-column:2; display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:center; gap:0 20px; min-width:0; margin:0;}
+#shrmPage .hs-footer-nav {grid-column:2; display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:flex-end; justify-self:end; gap:0 20px; min-width:0; max-width:100%; margin:0;}
 /* The text underline is independent of the generous invisible touch target. */
-#shrmPage .hs-footer-nav a {display:inline-flex; align-items:flex-start; min-height:44px; padding-block:1px 12px; font-size:var(--hs-label-size); line-height:1.7; text-decoration-line:underline; text-decoration-color:transparent; text-decoration-thickness:1px; text-underline-offset:4px; white-space:nowrap;}
+#shrmPage .hs-footer-nav a {display:inline-flex; align-items:flex-start; min-height:44px; padding-block:0 12px; font-size:var(--hs-label-size); line-height:1.6; text-decoration-line:underline; text-decoration-color:transparent; text-decoration-thickness:1px; text-underline-offset:4px; white-space:nowrap;}
 #shrmPage .hs-footer-nav a[aria-selected="true"] {text-decoration-color:var(--hs-accent);}
 #shrmPage .hs-footer-panel {max-width:700px; margin:24px auto 0; scroll-margin-top:20px;}
 #shrmPage .hs-footer-content {padding-block:0 16px;}
@@ -128,8 +128,7 @@ html.wmol-shrm.wmol-phone-device.wmol-phone-landscape body > main {
   #shrmPage .hs-questions + .hs-questions details:first-child {border-top:0;}
   #shrmPage .hs-thumbnails {grid-template-columns:repeat(4,minmax(0,1fr)); max-width:470px;}
   #shrmPage .hs-pricing-disclosure {margin-top:0; border-top:0;}
-  #shrmPage .hs-footer-row {grid-template-columns:minmax(0,1fr); gap:14px;}
-  #shrmPage .hs-footer-nav {grid-column:1; justify-self:center;}
+  #shrmPage .hs-footer-row {gap:14px;}
   #shrmPage .hs-footer-nav {column-gap:12px;}
   #shrmPage .hs-footer-panel {max-width:100%;}
 }
@@ -165,4 +164,12 @@ html.wmol-shrm.wmol-phone-device.wmol-phone-landscape body > main {
 }
 @supports not (zoom: .9) {
   #shrmPage {--hs-density:1;}
+}
+/* Desktop pricing alignment: retain phone pricing padding.
+   Each upper column is (full width - 40px gap) / 2. Its 7% inset is
+   therefore 3.5% of the full width minus 1.4px. */
+@media(min-width:761px) {
+  html:not(.wmol-phone-device) #shrmPage .hs-pricing-disclosure > summary {
+    padding-inline:calc(3.5% - 1.4px);
+  }
 }
