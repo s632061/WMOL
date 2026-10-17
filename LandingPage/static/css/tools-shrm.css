@@ -1,16 +1,63 @@
-/* Fourth Systems card. Preserve the existing hub and phone sizing rules. */
-html:root #wmol-tools .tool-icon-card--shrm .tool-icon-name {color:#4a4a78 !important; -webkit-text-fill-color:#4a4a78 !important; background:none !important;}
-html:root #wmol-tools .tool-icon-card--shrm .tool-shrm-audience {font-size:.875rem; line-height:1.35; color:#425766; margin-top:5px;}
+/* Systems additions. Keep the shared rail and existing display-density policy. */
+html:root #wmol-tools .tool-icon-card--shrm .tool-icon-name {
+  color:#4a4a78 !important; -webkit-text-fill-color:#4a4a78 !important; background:none !important;
+}
+html:root #wmol-tools .tool-icon-card--shrm .tool-shrm-audience {
+  font-size:.875rem; line-height:1.35; color:#425766; margin-top:5px;
+}
 html:root #wmol-tools .tool-icon-card--shrm .tool-icon-kicker {color:#274d48;}
-html:root #wmol-tools .tool-icon-card--shrm .tool-icon-imgwrap img {width:100%; height:auto; display:block; border-radius:18%;}
+html:root #wmol-tools .tool-icon-card--shrm .tool-icon-imgwrap img {border-radius:18%;}
 html:root #wmol-tools .tool-icon-card--shrm {border-color:rgba(104,163,152,.4);}
-html:root #wmol-tools .tool-icon-card--shrm:is(:hover,:focus-visible) {outline:2px solid #68A398; outline-offset:3px;}
+html:root #wmol-tools .tool-icon-card--shrm:focus-visible {outline:2px solid #68A398; outline-offset:3px;}
+
+/* Three desktop cards per row; the fourth follows in normal grid flow.
+   Content sets row height, and the hub scrolls to keep the fourth card reachable. */
 @media(min-width:701px) {
   html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid {
-    grid-template-columns:repeat(2,minmax(0,1fr)) !important; max-width:840px !important;
-  }
-  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid .tool-icon-card {
-    aspect-ratio:auto !important; min-height:var(--tool-card-min-height,0) !important; height:auto !important; overflow:visible !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important; max-width:1140px !important;
   }
 }
-html:root.wmol-phone-device #wmol-tools .tool-icon-card--shrm .tool-shrm-audience {font-size:14px !important; line-height:1.3 !important;}
+html:root #wmol-tools.tools-layout > .tools-hub {
+  overflow-y:auto !important; overflow-x:hidden !important;
+  /* Remove the inset white shadow that remained over every dark hover theme. */
+  box-shadow:0 22px 60px rgba(0,0,0,.20) !important;
+  background-clip:border-box;
+}
+html:root #wmol-tools.tools-layout > .tools-hub[data-hub-theme] {border-color:transparent !important;}
+html:root #wmol-tools.tools-layout > .tools-hub[data-hub-theme]::before {
+  inset:0 !important; border-radius:inherit;
+}
+
+/* SHRM uses the same full-hub theme mechanism as HSK, PASS, and AWS. */
+#wmol-tools.tools-layout[data-hub-theme="shrm"]::after {
+  opacity:1; position:fixed; inset:0; width:100%; height:100dvh;
+  background:#1E2E3A url('/static/img/shrm/shrm-ambient-dark-v2.png') center / cover no-repeat;
+}
+#wmol-tools .tools-hub[data-hub-theme="shrm"],
+#wmol-tools .tools-hub[data-hub-theme="shrm"]::before {
+  background:radial-gradient(900px 520px at 55% 18%,rgba(104,163,152,.12),transparent 62%),#1E2E3A !important;
+  color:#DDE3E9;
+}
+#wmol-tools .tools-hub[data-hub-theme="shrm"]::before {opacity:1;}
+#wmol-tools .tools-hub[data-hub-theme="shrm"] .tools-hub-title {
+  color:#68A398 !important; -webkit-text-fill-color:#68A398 !important;
+  text-shadow:0 12px 34px rgba(0,0,0,.35);
+}
+#wmol-tools .tools-hub[data-hub-theme="shrm"] .tools-hub-title::after {background:#68A398 !important;}
+#wmol-tools .tools-hub[data-hub-theme="shrm"] :is(.tools-hub-subtitle,.tools-hub-description--combined) {
+  color:#B9B8E6 !important; -webkit-text-fill-color:#B9B8E6 !important; opacity:1 !important;
+}
+#wmol-tools .tools-hub[data-hub-theme="shrm"] .tool-icon-card--shrm {
+  background:#f8f4e9 !important; border:1px solid #68A398 !important;
+  box-shadow:0 18px 42px rgba(0,0,0,.24) !important;
+}
+#wmol-tools .tools-hub[data-hub-theme="shrm"] .tool-icon-card--shrm::before {
+  opacity:1 !important;
+  background:radial-gradient(520px 240px at 22% 18%,rgba(104,163,152,.24),transparent 72%) !important;
+}
+html:root.wmol-phone-device #wmol-tools .tool-icon-card--shrm .tool-shrm-audience {
+  font-size:14px !important; line-height:1.3 !important;
+}
+@media(prefers-reduced-motion:reduce) {
+  #wmol-tools.tools-layout::after, #wmol-tools .tools-hub::before {transition:none !important;}
+}

@@ -1,0 +1,41 @@
+/* Loaded on BOTH ends of the existing native morph. Keep the approved timing,
+   directional panels, and single navigation owner. Capture the blue rail as one
+   opaque surface: separate transparent text/logo snapshots exposed rectangles
+   and lost the live banner's clipping. */
+html:root[data-wmol-nav-mode="morph"] :is(
+  .wml-home .rail-medicine,
+  .tools-layout .rail-tools,
+  .medicine-layout .rail-medicine
+) {
+  background-color:#020826 !important;
+  border:0 !important; outline:0 !important; box-shadow:none !important;
+  overflow:hidden !important;
+}
+html:root[data-wmol-nav-mode="morph"] :is(
+  .wml-home .rail-medicine,
+  .tools-layout .rail-tools,
+  .medicine-layout .rail-medicine
+) :is(.wml-title,.rail-image-wrap,.wml-cta) {
+  view-transition-name:none !important;
+}
+html:root[data-wmol-nav-mode="morph"]::view-transition {background:#020826 !important;}
+html:root[data-wmol-nav-mode="morph"]::view-transition-group(med-rail),
+html:root[data-wmol-nav-mode="morph"]::view-transition-image-pair(med-rail) {
+  background:#020826 !important; isolation:isolate; overflow:clip;
+  border:0 !important; outline:0 !important; box-shadow:none !important;
+}
+html:root[data-wmol-nav-mode="morph"]::view-transition-old(med-rail),
+html:root[data-wmol-nav-mode="morph"]::view-transition-new(med-rail) {
+  width:100%; height:100%; object-fit:fill; mix-blend-mode:normal !important;
+  border:0 !important; outline:0 !important; box-shadow:none !important;
+}
+html:root[data-wmol-nav-mode="morph"]::view-transition-old(med-rail) {
+  animation:none !important; opacity:1;
+}
+@keyframes wmol-rail-surface-in {from {opacity:0;} to {opacity:1;}}
+html:root[data-wmol-nav-mode="morph"]::view-transition-new(med-rail) {
+  animation:wmol-rail-surface-in 740ms cubic-bezier(.22,1,.36,1) both !important;
+}
+@media(prefers-reduced-motion:reduce) {
+  html:root[data-wmol-nav-mode="morph"]::view-transition-new(med-rail) {animation:none !important;}
+}
