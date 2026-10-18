@@ -1,8 +1,8 @@
 /* Public release configuration. No keys, credentials, or purchase tokens here.
-   Add the actual images before setting screenshotsReady/resultReady to true.
+   Eight supplied carousel screenshots are installed. Keep resultReady false until the certification image is supplied.
    Only set a download URL after checking that it serves the matching platform. */
 window.WMOL_SHRM_CONFIG = Object.freeze({
-  screenshotsReady: false,
+  screenshotsReady: true,
   resultReady: false,
   assetBase: "/static/img/shrm/",
   resultFile: "shrm-result.png",

@@ -43,13 +43,16 @@
     const url = safeURL(assetBase + (result ? config.resultFile : img.dataset.asset), true);
     if (!url) return;
     const fallback = img.nextElementSibling;
+    const evidence = result ? img.closest('[data-evidence-slot]') : null;
     img.addEventListener('load', () => {
       img.hidden = false;
       if (fallback) fallback.hidden = true;
+      if (evidence) evidence.hidden = false;
     });
     img.addEventListener('error', () => {
       img.hidden = true;
       if (fallback) fallback.hidden = false;
+      if (evidence) evidence.hidden = true;
     });
     img.decoding = 'async';
     img.src = url;
