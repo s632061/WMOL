@@ -1,23 +1,23 @@
-/* WMOL Harbor website. Page-scoped to leave the other product surfaces intact. */
+/* WMOL Harbor light palette. Page-scoped to leave other product surfaces intact. */
 html.wmol-shrm, html.wmol-shrm body, html:has(.shrm-page), html:has(.shrm-page) body {
-  background:#1E2E3A !important; color-scheme:dark; height:auto !important;
+  background:#F5F7F9 !important; color-scheme:light; height:auto !important;
   min-height:100%; overflow:visible !important;
 }
 html.wmol-shrm body > main, html:has(.shrm-page) body > main {
   display:block; width:100%; max-width:none; height:auto !important; min-height:100vh;
   margin:0; padding:0; overflow:visible !important;
 }
-html.wmol-shrm .wmol-phone-backdrop {background:#1E2E3A !important;}
+html.wmol-shrm .wmol-phone-backdrop {background:#F5F7F9 !important;}
 /* Retain the shared portrait-width phone composition when rotated, while
    allowing the entire long page to remain reachable in the shorter window. */
 html.wmol-shrm.wmol-phone-device.wmol-phone-landscape body > main {
   height:auto !important; min-height:100vh !important; overflow:visible !important;
 }
 #shrmPage {
-  --hs-density:.9; --hs-label-size:1rem; --hs-bg:#1E2E3A; --hs-ink:#DDE3E9; --hs-muted:rgba(221,227,233,.76);
-  --hs-voice:#B9B8E6; --hs-voice-muted:#9FA2CC; --hs-accent:#68A398;
-  --hs-line:rgba(221,227,233,.20); --hs-wash:rgba(221,227,233,.055);
-  --hs-card:rgba(221,227,233,.045); --hs-accent-soft:rgba(104,163,152,.16);
+  --hs-density:.9; --hs-label-size:1rem; --hs-bg:#F5F7F9; --hs-ink:#3D4A55; --hs-muted:rgba(61,74,85,.68);
+  --hs-voice:#5C628F; --hs-voice-muted:#696E90; --hs-accent:#68A398;
+  --hs-line:rgba(61,74,85,.22); --hs-wash:rgba(61,74,85,.055);
+  --hs-card:rgba(61,74,85,.045); --hs-accent-soft:rgba(104,163,152,.16);
   isolation:isolate; position:relative; width:100%; min-width:0;
   background:var(--hs-bg); color:var(--hs-ink); font:1rem/1.65 Arial,Helvetica,sans-serif;
   overflow-wrap:anywhere; text-align:left; -webkit-text-fill-color:currentColor;
