@@ -594,46 +594,8 @@
 
 
 
-/* Batch 6 calibration: keep the three-column hero readable across laptop and large-monitor widths. */
-@media (min-width:701px) and (max-width:1180px) and (orientation:landscape){
-  .aws5-safe-bar{height:54px;min-height:54px;padding-inline:18px;}
-  .aws5-hero{
-    width:min(88vw,1260px);
-    padding:16px 18px 24px;
-    gap:18px;
-    grid-template-columns:minmax(230px,.8fr) minmax(330px,1fr) minmax(230px,.8fr);
-  }
-  .aws5-title{font-size:clamp(2.4rem,3.55vw,3.15rem);}
-  .aws5-cert-name{font-size:.95rem;margin-top:.7rem;margin-bottom:16px;}
-  .aws5-outcomes{gap:3px;margin-bottom:12px;}
-  .aws5-outcomes p{font-size:clamp(.82rem,1.16vw,.96rem);}
-  .aws5-thesis{font-size:clamp(.96rem,1.22vw,1.08rem);margin-bottom:14px;}
-  .aws5-platform-link{min-height:40px;padding:7px 9px;font-size:.8rem;}
-  .aws5-active-image-button,.aws5-thumbnail-grid{height:clamp(270px,24vw,350px);}
-  .aws5-preview-caption{font-size:.78rem;min-height:2.5em;}
-  .aws5-info-zone{
-    width:min(88vw,1260px);
-    padding:18px;
-    gap:20px;
-    grid-template-columns:minmax(330px,.8fr) minmax(0,1.15fr);
-    grid-template-areas:
-      "grid panel"
-      "footer panel";
-  }
-  .aws5-info-grid{grid-template-rows:repeat(3,110px);gap:8px;}
-  .aws5-info-grid :is(button, a[data-panel]){padding:10px 7px;font-size:clamp(.98rem,1.02vw,1.16rem);}
-  .aws5-info-shell,.aws5-info-panel{min-height:0;}
-  .aws5-info-panel{min-height:400px;max-height:560px;padding:22px;}
-  .aws5-footer{min-height:38px;margin-top:28px;font-size:clamp(1.22rem,1.42vw,1.55rem);}
-  .aws5-info-panel h2{font-size:clamp(1.45rem,2.3vw,1.95rem);margin-bottom:11px;}
-  .aws5-info-panel h3{font-size:clamp(1rem,1.5vw,1.18rem);}
-  .aws5-info-panel p{font-size:clamp(.88rem,1.15vw,1rem);line-height:1.48;}
-  .aws5-clean-list span{font-size:clamp(.86rem,1.1vw,.96rem);}
-  .aws5-evidence-grid img{height:165px;}
-}
-
 /* Extra-short laptop windows: keep the full three-part hero readable before the details begin. */
-@media (min-width:701px) and (max-height:720px) and (orientation:landscape){
+@media (min-width:1281px) and (max-height:720px) and (orientation:landscape){
   .aws5-safe-bar{height:48px;min-height:48px;}
   .aws5-hero{padding-top:14px;padding-bottom:22px;gap:14px;}
   .aws5-title{font-size:clamp(2.1rem,3.35vw,2.85rem);}
@@ -668,8 +630,9 @@
   .aws5-evidence-grid img{height:240px;}
 }
 
-/* Tall / portrait desktop: hero becomes top-down; details become grid-over-panel. */
-@media (min-width:701px) and (orientation:portrait){
+/* Stack split-screen windows as well as portrait monitors. Orientation alone
+   does not provide enough room for the three-column desktop composition. */
+@media (min-width:701px) and (max-width:1280px), (min-width:701px) and (orientation:portrait){
   .aws5-info-left{display:contents;}
   .aws5-info-grid{grid-area:grid;}
   .aws5-info-shell{grid-area:panel;}
@@ -691,6 +654,7 @@
   .aws5-active-preview,.aws5-thumbnail-grid{max-width:none;margin:0;width:100%;justify-self:stretch;}
   .aws5-platform-link{min-height:56px;font-size:1rem;}
   .aws5-active-image-button,.aws5-thumbnail-grid{height:min(52vh,620px);}
+  .aws5-preview-caption{font-size:clamp(.9rem,1.5vw,1rem);}
   .aws5-info-zone{
     width:min(92vw,930px);
     grid-template-columns:1fr;
@@ -703,11 +667,12 @@
   }
   .aws5-info-grid{grid-template-rows:repeat(3,120px);}
   .aws5-info-grid :is(button, a[data-panel]){font-size:clamp(1.1rem,1.95vw,1.32rem);}
-  .aws5-info-shell{min-height:460px;}
-  .aws5-info-panel{min-height:460px;max-height:62vh;padding:30px;}
+  .aws5-info-shell{min-height:0;height:auto;}
+  .aws5-info-panel{height:auto;min-height:0;max-height:none;padding:30px;overflow:visible;}
   .aws5-panel{max-width:none;}
   .aws5-info-panel h2{font-size:clamp(1.8rem,3.3vw,2.5rem);}
   .aws5-info-panel p{font-size:clamp(1rem,1.9vw,1.22rem);}
+  .aws5-legal-split{grid-template-columns:minmax(0,1fr);}
 }
 
 /* Mobile: hero top-down; 3×3 question board; answer appears below and page scrolls normally. */
@@ -755,9 +720,9 @@
    FINAL HORIZONTAL SCALE RESTORATION
    Restore the approved ~67%-zoom visual density at normal zoom
    on BOTH laptop and large horizontal desktop/monitor layouts.
-   Portrait/mobile rules above are intentionally untouched.
+   Only wide landscape windows use this density; compact windows stack above.
    ========================================================= */
-@media (min-width:701px) and (orientation:landscape){
+@media (min-width:1281px) and (orientation:landscape){
   .aws5-hero{
     width:min(67vw,1500px)!important;
     padding:18px 0 26px!important;
@@ -877,7 +842,7 @@
 }
 
 /* Keep extra-short laptop windows compact without changing portrait/mobile. */
-@media (min-width:701px) and (max-height:720px) and (orientation:landscape){
+@media (min-width:1281px) and (max-height:720px) and (orientation:landscape){
   .aws5-hero,
   .aws5-info-zone{
     width:min(67vw,1180px)!important;
@@ -899,7 +864,7 @@
 }
 
 /* Final landscape readability pass: enlarge only descriptive copy, not headings. */
-@media (min-width:701px) and (orientation:landscape){
+@media (min-width:1281px) and (orientation:landscape){
   .aws5-info-panel p:not(.aws5-panel-kicker):not(.aws5-disclaimer):not(.aws5-legal-note):not(.aws5-contact-email):not(.aws5-price):not(.aws5-legal-updated){
     font-size:clamp(1.30rem,1.35vw,1.78rem);
     line-height:1.5;
@@ -939,7 +904,7 @@ html.wmol-phone-device.wmol-phone-landscape .aws5-info-grid a[data-panel] { padd
 .aws5-evidence-grid figcaption { font-size:clamp(.78rem,.88vw,.97rem)!important; line-height:1.35; text-align:center; }
 .aws5-evidence-grid figure { min-width:0; }
 .aws5-proof-intro { margin-top:16px!important; }
-@media (min-width:701px) and (orientation:landscape) {
+@media (min-width:1281px) and (orientation:landscape) {
   .aws5-evidence-grid img { height:clamp(168px,12vw,235px)!important; }
 }
 @media (max-width:700px) {
@@ -1244,7 +1209,8 @@ html.wmol-phone-device #awsSaaPageV5 .aws5-info-panel .aws5-tested-answer {
     }
     if(legalAnchor()) window.history.replaceState(null,'',window.location.pathname+window.location.search);
     renderPanel(button.dataset.panel);
-    if(window.matchMedia('(max-width:700px)').matches){
+    // Follow the actual stacked layout on phones, split windows, and portrait monitors.
+    if(getComputedStyle(document.querySelector('.aws5-info-left')).display==='contents'){
       requestAnimationFrame(()=>{
         document.querySelector('.aws5-info-shell')?.scrollIntoView({behavior:'smooth',block:'start'});
       });
