@@ -52,10 +52,11 @@ html.wmol-shrm.wmol-phone-device.wmol-phone-landscape body > main {
 #shrmPage .hs-download[href]:hover {background:var(--hs-accent-soft); border-color:var(--hs-accent);}
 #shrmPage .hs-tour {margin:0 0 42px;}
 #shrmPage .hs-slide {margin:0;}
-#shrmPage .hs-stage {display:flex; align-items:center; justify-content:center; padding:26px; border-radius:24px; background:var(--hs-card); min-height:440px;}
-#shrmPage .hs-shot {position:relative; display:grid; place-items:center; border:1px solid var(--hs-line); border-radius:15px; background:var(--hs-bg); max-width:100%; overflow:hidden;}
-#shrmPage .hs-shot.hs-portrait {width:218px; aspect-ratio:9/16;}
-#shrmPage .hs-shot.hs-landscape {width:min(100%,680px); aspect-ratio:16/9;}
+#shrmPage .hs-stage {display:flex; align-items:center; justify-content:center; padding:18px; min-height:492px;}
+#shrmPage .hs-shot {position:relative; display:grid; place-items:center; padding:0; border:1px solid var(--hs-line); border-radius:15px; background:var(--hs-bg); max-width:100%; overflow:hidden; box-shadow:0 0 0 12px var(--hs-card); cursor:zoom-in; appearance:none;}
+#shrmPage .hs-shot:disabled {cursor:default; opacity:1;}
+#shrmPage .hs-shot.hs-portrait {width:210px; aspect-ratio:var(--hs-shot-ratio,997 / 2048);}
+#shrmPage .hs-shot.hs-landscape {width:min(100%,680px); aspect-ratio:var(--hs-shot-ratio,1917 / 1015);}
 #shrmPage .hs-shot img {display:block; width:100%; height:100%; object-fit:contain; position:absolute; inset:0;}
 #shrmPage .hs-placeholder {padding:20px; text-align:center; color:var(--hs-muted);}
 #shrmPage .hs-placeholder > span {display:block; font:400 1.4rem/1.3 Georgia,serif; color:var(--hs-ink); margin-bottom:12px;}
@@ -137,11 +138,59 @@ html.wmol-shrm.wmol-phone-device.wmol-phone-landscape body > main {
   #shrmPage .hs-hero {padding-block:32px 28px;}
   #shrmPage .hs-platforms {display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; max-width:340px; margin:auto;}
   #shrmPage .hs-download {min-width:0;}
-  #shrmPage .hs-stage {min-height:392px; padding:18px 12px; border-radius:18px;}
+  #shrmPage .hs-stage {min-height:468px; padding:18px 12px;}
   #shrmPage .hs-shot.hs-portrait {width:198px;}
   #shrmPage .hs-footer-nav {column-gap:9px;}
   #shrmPage .hs-footer-row {column-gap:10px;}
 }
+
+/* Phones use their actual layout viewport, without the desktop zoom/over-width
+   combination. Keep browser pinch zoom available and retain portrait composition
+   when the shared phone shell is rotated. Relative type sizing retains the
+   approved compact text without scaling the page's coordinate system. */
+html.wmol-shrm.wmol-phone-device {font-size:90%;}
+html.wmol-shrm.wmol-phone-device #shrmPage {--hs-density:1;}
+html.wmol-shrm.wmol-phone-device #shrmPage .hs-wrap {width:100%; max-width:1120px; zoom:1;}
+html.wmol-shrm.wmol-phone-device #shrmPage .hs-hero-copy {font-size:calc(1.003125rem / .9);}
+@media(max-width:760px) {
+  html.wmol-shrm {font-size:90%;}
+  #shrmPage {--hs-density:1;}
+  #shrmPage .hs-wrap {width:100%; zoom:1;}
+  #shrmPage .hs-hero-copy {font-size:calc(1.003125rem / .9);}
+}
+html.wmol-shrm, html.wmol-shrm body {width:100%; max-width:100%; margin:0; overflow-x:clip !important;}
+html.wmol-shrm body > main {min-width:0; max-width:100%;}
+html.wmol-shrm.wmol-phone-device.wmol-phone-landscape #shrmPage .hs-two-columns {grid-template-columns:minmax(0,1fr); gap:0;}
+html.wmol-shrm.wmol-phone-device.wmol-phone-landscape #shrmPage .hs-thumbnails {grid-template-columns:repeat(4,minmax(0,1fr));}
+
+/* Native top-layer viewer lives outside the zoomed content wrapper. Controls,
+   image, and caption occupy separate rows, including on short phone screens. */
+html.wmol-shrm.hs-viewer-open, html.wmol-shrm.hs-viewer-open body {overflow:hidden !important;}
+#shrmPage .hs-viewer {
+  position:fixed; inset:0; box-sizing:border-box; margin:0;
+  width:100%; max-width:none; height:100vh; height:100dvh; max-height:none;
+  padding:max(12px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));
+  border:0; background:transparent; color:#F5F7F9; overflow:hidden;
+  grid-template-columns:minmax(0,1fr); grid-template-rows:auto minmax(0,1fr) auto; gap:12px;
+  font:1rem/1.5 Arial,Helvetica,sans-serif; text-align:center;
+}
+#shrmPage .hs-viewer:not([open]) {display:none;}
+#shrmPage .hs-viewer[open] {display:grid;}
+#shrmPage .hs-viewer::backdrop {background:rgba(25,39,49,.76);}
+#shrmPage .hs-viewer-toolbar {display:flex; align-items:center; justify-content:space-between; gap:12px; min-width:0;}
+#shrmPage .hs-viewer-zoom {display:flex; align-items:center; gap:8px;}
+#shrmPage .hs-viewer button {display:grid; place-items:center; min-width:44px; min-height:44px; padding:6px 12px; border:1px solid rgba(245,247,249,.4); border-radius:6px; background:rgba(25,39,49,.84); color:#F5F7F9; line-height:1; font-size:1rem;}
+#shrmPage .hs-viewer button:disabled {opacity:.4; cursor:default;}
+#shrmPage .hs-viewer button:not(:disabled):hover {background:#3D4A55;}
+#shrmPage .hs-viewer .hs-viewer-close {font-size:1.6rem; padding:0;}
+#shrmPage .hs-viewer-viewport {min-width:0; min-height:0; overflow:auto; overscroll-behavior:contain; touch-action:pan-x pan-y pinch-zoom; border-radius:8px;}
+#shrmPage .hs-viewer-canvas {display:flex; align-items:center; justify-content:center; width:max-content; height:max-content; min-width:100%; min-height:100%; padding:8px;}
+#shrmPage .hs-viewer-image {display:block; flex:none; width:auto; height:auto; max-width:none; max-height:none; border:0; border-radius:6px; object-fit:contain; user-select:none; -webkit-user-drag:none;}
+#shrmPage .hs-viewer.is-zoomed .hs-viewer-viewport {cursor:grab;}
+#shrmPage .hs-viewer.is-panning .hs-viewer-viewport {cursor:grabbing;}
+#shrmPage .hs-viewer-caption {width:min(100%,850px); justify-self:center; max-height:22vh; max-height:22dvh; overflow:auto; overscroll-behavior:contain; text-align:center;}
+#shrmPage .hs-viewer-caption h2 {font:400 clamp(1.1rem,2vw,1.4rem)/1.3 Georgia,serif; color:#F5F7F9; margin:0 0 6px;}
+#shrmPage .hs-viewer-caption p {font-size:.9375rem; color:#F5F7F9; line-height:1.5; margin:0;}
 @media(max-width:350px) {
   #shrmPage .hs-footer-row {row-gap:12px;}
   #shrmPage .hs-footer-nav {width:100%; column-gap:14px;}
@@ -150,7 +199,7 @@ html.wmol-shrm.wmol-phone-device.wmol-phone-landscape body > main {
   #shrmPage *, #shrmPage *::before, #shrmPage *::after {scroll-behavior:auto !important; transition:none !important; animation:none !important;}
 }
 
-/* One local 90% content surface. Backdrop and browser zoom remain independent. */
+/* Desktop keeps its local 90% content surface; phones use normal layout sizing. */
 #shrmPage, #shrmPage * {caret-color:transparent !important;}
 #shrmPage :is(input,textarea,[contenteditable]:not([contenteditable="false"])),
 #shrmPage [contenteditable]:not([contenteditable="false"]) * {caret-color:auto !important;}

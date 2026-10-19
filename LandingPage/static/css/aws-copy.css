@@ -1,0 +1,49 @@
+/* AWS text roles: cyan identifies sections and actions; white carries the
+   conversation and ordinary labels. This stylesheet changes color only. */
+#awsSaaPageV5 {
+  --aws5-voice:var(--aws5-text);
+  --aws5-label:var(--aws5-teal);
+}
+
+/* Readable voice in every information panel and product preview. */
+#awsSaaPageV5 .aws5-info-panel :is(h2,h3,h4,p,li,strong),
+#awsSaaPageV5 :is(.aws5-clean-list,.aws5-inline-row) span,
+#awsSaaPageV5 :is(.aws5-thesis,.aws5-cert-name,.aws5-preview-caption),
+#awsSaaPageV5 .aws5-outcomes p,
+#awsSaaPageV5 .aws5-preview-modal p,
+#awsSaaPageV5 .aws5-footer {
+  color:var(--aws5-voice);
+  -webkit-text-fill-color:currentColor;
+}
+
+/* The short section title is distinct from the conversational heading below it.
+   Specificity also fixes the old paragraph rule overriding the kicker color. */
+#awsSaaPageV5 .aws5-info-panel .aws5-panel-kicker,
+#awsSaaPageV5 .aws5-info-panel .aws5-price {
+  color:var(--aws5-label) !important;
+  -webkit-text-fill-color:currentColor;
+}
+
+/* Keep the established AWS tile behavior and contrasting selected state. */
+#awsSaaPageV5 .aws5-info-grid :is(button,a[data-panel]) {
+  color:var(--aws5-teal-soft);
+  -webkit-text-fill-color:currentColor;
+}
+#awsSaaPageV5 .aws5-info-grid :is(button,a[data-panel]).is-active {
+  color:var(--aws5-ink);
+}
+#awsSaaPageV5 .aws5-info-grid :is(button,a[data-panel]) > span {color:inherit;}
+
+/* Descriptive labels, platform names, and policy copy are neutral white. */
+#awsSaaPageV5 .aws5-platform-link :is(span,small) {color:var(--aws5-text);}
+#awsSaaPageV5 .aws5-info-panel :is(.aws5-disclaimer,.aws5-legal-note,.aws5-legal-updated),
+#awsSaaPageV5 .aws5-evidence-grid figcaption,
+#awsSaaPageV5 .aws5-info-panel .aws5-legal-doc-title {
+  color:var(--aws5-text) !important;
+  -webkit-text-fill-color:currentColor;
+}
+#awsSaaPageV5 .aws5-info-panel a,
+#awsSaaPageV5 .aws5-contact-email a {
+  color:var(--aws5-label);
+  -webkit-text-fill-color:currentColor;
+}

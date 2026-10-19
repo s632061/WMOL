@@ -1,0 +1,28 @@
+/* Keep the existing AWS viewer and its caption. Give the close control its own
+   row, so it cannot cover a portrait screenshot on a short or narrow screen. */
+#aws5PreviewModal {
+  box-sizing:border-box;
+  width:100%; max-width:100%; height:100vh; height:100dvh;
+  grid-template-columns:minmax(0,1fr);
+  grid-template-rows:44px minmax(0,1fr) auto;
+  gap:12px;
+  padding:max(12px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));
+  overflow:hidden;
+}
+#aws5PreviewModal.is-open {display:grid;}
+#aws5PreviewModalClose {
+  position:static; grid-row:1; justify-self:end; align-self:start;
+  box-sizing:border-box; display:grid; place-items:center;
+  width:44px; height:44px; min-height:44px; margin:0; padding:0;
+  line-height:1; font-size:24px;
+}
+#aws5PreviewModalImage {
+  grid-row:2; display:block; justify-self:center; align-self:center;
+  width:100%; height:100%; min-width:0; min-height:0;
+  max-width:100%; max-height:100%; object-fit:contain;
+}
+#aws5PreviewModalCaption {
+  grid-row:3; justify-self:center; min-width:0;
+  width:min(100%,760px); max-width:100%; max-height:22vh; max-height:22dvh;
+  margin:0; overflow:auto; overflow-wrap:anywhere; overscroll-behavior:contain;
+}
