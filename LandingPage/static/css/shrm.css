@@ -165,7 +165,7 @@ html.wmol-shrm body > main {min-width:0; max-width:100%;}
 html.wmol-shrm.wmol-phone-device.wmol-phone-landscape #shrmPage .hs-two-columns {grid-template-columns:minmax(0,1fr); gap:0;}
 html.wmol-shrm.wmol-phone-device.wmol-phone-landscape #shrmPage .hs-thumbnails {grid-template-columns:repeat(4,minmax(0,1fr));}
 
-/* Native top-layer viewer lives outside the zoomed content wrapper. Controls,
+/* Native top-layer viewer lives outside the zoomed content wrapper. Close button,
    image, and caption occupy separate rows, including on short phone screens. */
 html.wmol-shrm.hs-viewer-open, html.wmol-shrm.hs-viewer-open body {overflow:hidden !important;}
 #shrmPage .hs-viewer {
@@ -179,11 +179,9 @@ html.wmol-shrm.hs-viewer-open, html.wmol-shrm.hs-viewer-open body {overflow:hidd
 #shrmPage .hs-viewer:not([open]) {display:none;}
 #shrmPage .hs-viewer[open] {display:grid;}
 #shrmPage .hs-viewer::backdrop {background:rgba(25,39,49,.76);}
-#shrmPage .hs-viewer-toolbar {display:flex; align-items:center; justify-content:space-between; gap:12px; min-width:0;}
-#shrmPage .hs-viewer-zoom {display:flex; align-items:center; gap:8px;}
+#shrmPage .hs-viewer-toolbar {display:flex; align-items:center; justify-content:flex-end; gap:12px; min-width:0;}
 #shrmPage .hs-viewer button {display:grid; place-items:center; min-width:44px; min-height:44px; padding:6px 12px; border:1px solid rgba(245,247,249,.4); border-radius:6px; background:rgba(25,39,49,.84); color:#F5F7F9; line-height:1; font-size:1rem;}
-#shrmPage .hs-viewer button:disabled {opacity:.4; cursor:default;}
-#shrmPage .hs-viewer button:not(:disabled):hover {background:#3D4A55;}
+#shrmPage .hs-viewer button:hover {background:#3D4A55;}
 #shrmPage .hs-viewer .hs-viewer-close {font-size:1.6rem; padding:0;}
 #shrmPage .hs-viewer-viewport {min-width:0; min-height:0; overflow:auto; overscroll-behavior:contain; touch-action:pan-x pan-y pinch-zoom; border-radius:8px;}
 #shrmPage .hs-viewer-canvas {display:flex; align-items:center; justify-content:center; width:max-content; height:max-content; min-width:100%; min-height:100%; padding:8px;}

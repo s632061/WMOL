@@ -42,9 +42,6 @@
   const viewerImage = viewer.querySelector('.hs-viewer-image');
   const viewerTitle = viewer.querySelector('#hsViewerTitle');
   const viewerCaption = viewer.querySelector('#hsViewerCaption');
-  const zoomIn = viewer.querySelector('[data-zoom-in]');
-  const zoomOut = viewer.querySelector('[data-zoom-out]');
-  const zoomFit = viewer.querySelector('[data-zoom-fit]');
   const closePreview = viewer.querySelector('[data-close-preview]');
   let zoom = 1;
   let opener = null;
@@ -60,9 +57,6 @@
     viewerImage.style.width = `${Math.max(1, viewerImage.naturalWidth * fit * zoom)}px`;
     viewerImage.style.height = `${Math.max(1, viewerImage.naturalHeight * fit * zoom)}px`;
     viewer.classList.toggle('is-zoomed', zoom > 1);
-    zoomOut.disabled = zoom <= 1;
-    zoomIn.disabled = zoom >= 4;
-    zoomFit.textContent = zoom === 1 ? 'Fit' : `${Math.round(zoom * 100)}%`;
     viewport.scrollLeft = zoom === 1 ? 0 : centerX * viewport.scrollWidth - viewport.clientWidth / 2;
     viewport.scrollTop = zoom === 1 ? 0 : centerY * viewport.scrollHeight - viewport.clientHeight / 2;
   }
@@ -110,9 +104,6 @@
     if (backdropStart && zoom === 1 && (event.target === viewer || event.target === viewport || event.target === canvas)) viewer.close();
     backdropStart = false;
   });
-  zoomIn.addEventListener('click', () => sizePreview(zoom + .5));
-  zoomOut.addEventListener('click', () => sizePreview(zoom - .5));
-  zoomFit.addEventListener('click', () => sizePreview(1));
   viewerImage.addEventListener('dblclick', () => sizePreview(zoom > 1 ? 1 : 2));
   viewer.addEventListener('keydown', event => {
     if (event.ctrlKey || event.metaKey || event.altKey) return;
