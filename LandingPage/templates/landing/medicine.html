@@ -80,51 +80,20 @@
         <p><strong class="pass-use-label">For medical students,</strong> PASS has helped them get better academic results while spending significantly less time studying.</p>
         <p><strong class="pass-use-label">For medical schools,</strong> the same system has helped increase incoming student retention, give faculty a chance to detect struggling students earlier, and help decrease remediation burden before things are already too late.</p>
       </div>
-        {% comment %}
-        Add verified public URLs below only when the web app and installers are hosted.
-        The mobile URL can point to a page with both published store links.
-        Empty URLs render disabled buttons, never broken or placeholder downloads.
-        {% endcomment %}
-        {% with pass_web_url="" pass_windows_url="" pass_mac_url="" pass_mobile_url="" %}
         <nav class="pass-platforms" aria-label="Use WMOL PASS on your device">
-          {% if pass_web_url %}
-          <a class="pass-platform-button" href="{{ pass_web_url }}">
-            <span>Download for Web</span>
+          <a class="pass-platform-button" href="https://apps.apple.com/us/app/wmol-pass/id6803724230">
+            <span>Download for iPhone</span>
           </a>
-          {% else %}
-          <button class="pass-platform-button" type="button" disabled aria-label="Download for Web">
-            <span>Download for Web</span>
+          <button class="pass-platform-button" type="button" disabled aria-label="Android (Coming soon)">
+            <span>Android (Coming soon)</span>
           </button>
-          {% endif %}
-          {% if pass_windows_url %}
-          <a class="pass-platform-button" href="{{ pass_windows_url }}">
+          <a class="pass-platform-button" href="https://apps.microsoft.com/store/detail/9MW53054V9RM?cid=DevShareMCLPCS">
             <span>Download for Windows</span>
           </a>
-          {% else %}
-          <button class="pass-platform-button" type="button" disabled aria-label="Download for Windows">
-            <span>Download for Windows</span>
-          </button>
-          {% endif %}
-          {% if pass_mac_url %}
-          <a class="pass-platform-button" href="{{ pass_mac_url }}">
+          <a class="pass-platform-button" href="https://apps.apple.com/us/app/wmol-pass/id6803724230">
             <span>Download for Mac</span>
           </a>
-          {% else %}
-          <button class="pass-platform-button" type="button" disabled aria-label="Download for Mac">
-            <span>Download for Mac</span>
-          </button>
-          {% endif %}
-          {% if pass_mobile_url %}
-          <a class="pass-platform-button" href="{{ pass_mobile_url }}">
-            <span>Download for Mobile</span>
-          </a>
-          {% else %}
-          <button class="pass-platform-button" type="button" disabled aria-label="Download for Mobile">
-            <span>Download for Mobile</span>
-          </button>
-          {% endif %}
         </nav>
-        {% endwith %}
       </div>
     </div>
   </div>
