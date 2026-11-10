@@ -1,0 +1,71 @@
+/* WMOL Tools — v11 visible brown card-only scroll rail.
+   Scope: Tools page, desktop/tablet only. Card/rail sizing and hover themes stay v10.
+   The visual rail is OUTSIDE the grid scroll box, so it remains visible in Edge
+   even when Windows is set to auto-hide native scrollbars. */
+@media (min-width:701px) and (min-height:601px) {
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout.tools-scroll-v11-ready .tools-hub-density-surface > .tools-grid {
+    /* Keep the real browser scrolling for wheel, touchpad and keyboard. */
+    scrollbar-width:none !important;
+    -ms-overflow-style:none !important;
+    scrollbar-gutter:auto !important;
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout.tools-scroll-v11-ready .tools-hub-density-surface > .tools-grid::-webkit-scrollbar {
+    width:0 !important;
+    height:0 !important;
+    display:none !important;
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout > .tools-hub > .tools-scroll-v11-rail {
+    position:absolute !important;
+    z-index:80 !important;
+    right:clamp(12px,1.13vw,21px) !important;
+    top:0;
+    width:16px;
+    border:0;
+    margin:0;
+    padding:0;
+    background:transparent;
+    overflow:visible;
+    touch-action:none;
+    cursor:pointer;
+    user-select:none;
+    -webkit-user-select:none;
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-scroll-v11-rail::before {
+    content:"";
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:4px;
+    border-radius:999px;
+    background:rgba(104,65,39,.42);
+    box-shadow:0 0 0 1px rgba(255,247,243,.22);
+    pointer-events:none;
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-scroll-v11-thumb {
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    display:block;
+    border-radius:999px;
+    width:8px;
+    min-height:35px;
+    background:#785137;
+    box-shadow:0 0 0 2px rgba(255,247,243,.6);
+    pointer-events:none;
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-scroll-v11-rail:is(:hover,:focus-visible) .tools-scroll-v11-thumb {
+    background:#9b6647;
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-scroll-v11-rail:focus-visible {
+    outline:2px solid #c99759 !important;
+    outline-offset:2px !important;
+    border-radius:8px;
+  }
+}
+/* On phones and very short windows, v10 deliberately uses normal scrolling.
+   Don't add an extraneous rail over those layouts. */
+@media (max-width:700px), (max-height:600px) {
+  #wmol-tools.tools-layout .tools-scroll-v11-rail {display:none !important;}
+}
