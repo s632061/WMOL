@@ -1,0 +1,143 @@
+/* WMOL Tools: proportional desktop composition + complete Security+ theme.
+   Scope: /tools/ only. Does not modify app pages, rail, mobile portrait, or billing.
+   User-approved starting point: desktop 125%-zoom visual rhythm, with the frame
+   itself at browser 100%; three intentional cards per row at desktop widths. */
+
+/* The Security+ hover owns the entire brown surround AND the inner panel.
+   The common Tools script sets data-hub-theme on .tools-layout and .tools-hub. */
+#wmol-tools.tools-layout[data-hub-theme="securityplus"]::after {
+  position:fixed!important;
+  inset:0!important;
+  width:100%!important;
+  height:100dvh!important;
+  opacity:1!important;
+  background:
+    radial-gradient(1000px 700px at 66% 12%,rgba(255,138,121,.19),transparent 65%),
+    linear-gradient(145deg,#161D2B 0%,#222B3B 55%,#101622 100%)!important;
+}
+#wmol-tools.tools-layout[data-hub-theme="securityplus"] > .tools-hub {
+  border-color:transparent!important;
+  background:
+    radial-gradient(1100px 650px at 78% 20%,rgba(255,138,121,.14),transparent 70%),
+    linear-gradient(135deg,#212B3B 0%,#161D2B 100%)!important;
+}
+#wmol-tools.tools-layout[data-hub-theme="securityplus"] > .tools-hub::before,
+#wmol-tools.tools-layout > .tools-hub[data-hub-theme="securityplus"]::before {
+  inset:0!important;
+  opacity:1!important;
+  background:
+    radial-gradient(1100px 650px at 78% 20%,rgba(255,138,121,.14),transparent 70%),
+    linear-gradient(135deg,#212B3B 0%,#161D2B 100%)!important;
+}
+#wmol-tools.tools-layout .tools-hub[data-hub-theme="securityplus"] .tools-hub-title::after {
+  background:#FF8A79!important;
+}
+
+/* Remove the extra highlighted slogan from SHRM and Security+ in HTML.
+   Restore the same normal-weight description rhythm used by the other cards. */
+#wmol-tools.tools-layout .tool-icon-card--shrm .tool-icon-desc,
+#wmol-tools.tools-layout .tool-icon-card--securityplus .tool-icon-desc {
+  margin-top:clamp(10px, .9vw, 15px)!important;
+  font-weight:400!important;
+  font-style:normal!important;
+}
+
+/* Responsive layout applies to AVAILABLE CSS viewport width rather than physical
+   monitor pixels / devicePixelRatio; preserve ordinary browser zoom and scrolling. */
+@media (min-width:901px) and (orientation:landscape) {
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout > .tools-hub {
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+  }
+  /* Counter the older 75%/90%/125% nested zoom rules. The frame and rail never zoom. */
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout > .tools-hub > .tools-hub-density-surface {
+    container:wmol-tools-content / inline-size;
+    zoom:1!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    min-height:0!important;
+    height:auto!important;
+    top:0!important;
+    left:auto!important;
+    margin:0!important;
+    padding:0 0 28px!important;
+    transform:none!important;
+    box-sizing:border-box!important;
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-hub-hero,
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid {
+    width:100%!important;
+    max-width:none!important;
+    min-width:0!important;
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid {
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:clamp(19px,2cqw,34px)!important;
+    align-items:stretch!important;
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid .tool-icon-card {
+    width:100%!important;
+    max-width:none!important;
+    min-width:0!important;
+    min-height:var(--tool-card-min-height, 0px)!important;
+    height:auto!important;
+    padding:clamp(18px,1.8cqw,30px)!important;
+    overflow:visible!important;
+    aspect-ratio:auto!important;
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-hub-title {
+    font-size:clamp(38px,4.25cqw,68px)!important;
+    line-height:1.08!important;
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-hub-subtitle {
+    font-size:clamp(17px,1.5cqw,26px)!important;
+    line-height:1.4!important;
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-hub-description,
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-hub-description strong {
+    font-size:clamp(18px,1.62cqw,28px)!important;
+    line-height:1.42!important;
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid .tool-icon-imgwrap {
+    width:clamp(120px,12.2cqw,215px)!important;
+    max-width:100%!important;
+    height:auto!important;
+    aspect-ratio:1/1!important;
+    margin:0 0 clamp(12px,1.18cqw,20px)!important;
+    position:relative!important;
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid .tool-icon-name,
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid .tool-pass-audience {
+    font-size:clamp(18px,1.8cqw,30px)!important;
+    line-height:1.19!important;
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid :is(.tool-icon-desc,.tool-icon-kicker,.tool-pass-description,.tool-aws-benefits) {
+    font-size:clamp(16px,1.6cqw,27px)!important;
+    line-height:1.4!important;
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid :is(.tool-pass-expanded-name,.tool-aws-expanded-name,.tool-shrm-audience,.tool-securityplus-audience) {
+    font-size:clamp(15px,1.42cqw,23px)!important;
+    line-height:1.32!important;
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid .tool-icon-card--shrm .tool-icon-desc,
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid .tool-icon-card--securityplus .tool-icon-desc {
+    margin-top:clamp(11px,1.05cqw,19px)!important;
+  }
+}
+
+/* Half-size laptop window: reflow rather than preserve a squeezed 3-column canvas. */
+@media (min-width:701px) and (max-width:900px) {
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    max-width:none!important;
+    margin-inline:0!important;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  #wmol-tools.tools-layout::after,
+  #wmol-tools.tools-layout .tools-hub::before {transition:none!important;}
+}
