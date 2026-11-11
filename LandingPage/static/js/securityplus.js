@@ -20,10 +20,14 @@
  ];
  const slideImg=root.querySelector('[data-sp-slide-image]');const place=root.querySelector('[data-sp-gallery-placeholder]');
  const stage=root.querySelector('[data-sp-tour-frame]');const title=root.querySelector('[data-sp-slide-title]');const caption=root.querySelector('[data-sp-slide-caption]');
- const thumbs=[...root.querySelectorAll('[data-sp-thumb]')];let active=0;let renderVersion=0;
+ const thumbs=[...root.querySelectorAll('[data-sp-thumb]')];const dotsBox=root.querySelector('[data-sp-dots]');const progress=root.querySelector('[data-sp-slide-count]');
+ const dots=captions.map((_,i)=>{const button=document.createElement('button');button.type='button';button.className='sp-dot';button.setAttribute('aria-label','Show gallery slide '+(i+1)+' of '+captions.length);button.addEventListener('click',()=>show(i));dotsBox?.appendChild(button);return button;});
+ let active=0;let renderVersion=0;
  function show(index){if(index<0||index>=captions.length)return;active=index;const current=++renderVersion;const [h,p,short]=captions[index];title.textContent=h;caption.textContent=p;place.querySelector('strong').textContent=short;place.hidden=false;slideImg.hidden=true;slideImg.removeAttribute('src');const slot=(config.slides||[])[index]||[];const shape=slot[1]||'portrait';stage.dataset.shape=shape;
   if(config.screenshotReady && slot[0]){const im=new Image();im.onload=()=>{if(current!==renderVersion)return;slideImg.src=im.src;slideImg.alt='Security+ Companion App — '+short;slideImg.hidden=false;place.hidden=true;};im.onerror=()=>{if(current!==renderVersion)return;slideImg.hidden=true;place.hidden=false;};im.src=base+slot[0];}
   root.querySelector('[data-sp-prev]').disabled=index===0;root.querySelector('[data-sp-next]').disabled=index===captions.length-1;
+  if(progress)progress.textContent=(index+1)+'/'+captions.length;
+  dots.forEach((b,i)=>{const selected=i===index;b.classList.toggle('is-current',selected);b.setAttribute('aria-pressed',String(selected));b.setAttribute('aria-label',(selected?'Current gallery slide ':'Show gallery slide ')+(i+1)+' of '+captions.length);});
   thumbs.forEach((b,k)=>{const n=index+k-1;const isValid=n>=0&&n<captions.length;b.disabled=!isValid;b.hidden=!isValid;b.dataset.active=String(k===1);if(!isValid){b.textContent='';return;}const item=captions[n];b.dataset.target=String(n);b.replaceChildren();const icon=document.createElement('b');icon.textContent=String(n+1).padStart(2,'0');const label=document.createElement('small');label.textContent=item[2];b.append(icon,label);b.setAttribute('aria-label','Show image '+(n+1)+': '+item[2]);if(config.screenshotReady && (config.slides||[])[n]?.[0]){const thumb=new Image();thumb.alt='';thumb.loading='lazy';thumb.onload=()=>{if(+b.dataset.target===n && !b.hidden) b.insertBefore(thumb,icon)};thumb.src=base+config.slides[n][0];}}
   );
  }

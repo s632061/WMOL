@@ -12,6 +12,6 @@ window.WMOL_SECURITYPLUS_CONFIG = Object.freeze({
     ['tour-09-exam-phase.png','portrait']
   ]),
   downloads: Object.freeze({iPhone:'',Android:'',Windows:'',macOS:''}),
-  monthlyUSD: null,
+  monthlyUSD: 34.99,
   policiesVerified: false
 });

@@ -1,0 +1,8 @@
+/* Security+ v16 legal view: exact app copy, legible and fully scrollable. */
+#securityplusPage .sp-footer-panel .sp-legal-exact {max-height:min(65vh,620px);min-height:180px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;padding-right:clamp(8px,1.2vw,18px);}
+#securityplusPage .sp-legal-full {margin:0;white-space:pre-wrap;overflow-wrap:anywhere;word-break:normal;tab-size:2;color:#27303d;font:400 clamp(13px,1.05vw,15px)/1.72 Arial,Helvetica,sans-serif;}
+#securityplusPage .sp-legal-exact:focus-within {outline-offset:3px;}
+@media (max-width:650px) {
+ #securityplusPage .sp-footer-panel .sp-legal-exact {max-height:65dvh;padding-right:8px;}
+ #securityplusPage .sp-legal-full {font-size:13px;line-height:1.68;}
+}
