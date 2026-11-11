@@ -1,0 +1,42 @@
+/* WMOL Tools v13: restore approved pre-v12 phone dimensions and spacing.
+   Keep desktop/portrait-monitor cards and rail exactly as in v12.
+   This stylesheet is deliberately mobile-only. */
+@media (max-width:700px) {
+  /* Before v12 the title/underline was followed immediately by the subtitle.
+     v12 moved the subtitle into the grid but left the grid's 18px top margin.
+     Remove ONLY that added spacing, not the original text or card geometry. */
+  #wmol-tools.tools-layout.tools-scroll-v12-active .tools-hub-density-surface > .tools-grid {
+    margin-top:0 !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding-inline:0 !important;
+    gap:16px !important;
+    grid-auto-rows:max-content !important;
+  }
+  #wmol-tools.tools-layout.tools-scroll-v12-active .tools-hub-density-surface > .tools-grid > .tools-scroll-v12-intro {
+    margin:0 !important;
+    padding:0 !important;
+    min-height:0 !important;
+  }
+  /* The whole brown rail was never requested for phone. Let the cards use
+     their original full column, icon widths and native touch hit areas. */
+  #wmol-tools.tools-layout > .tools-hub > .tools-scroll-v11-rail,
+  #wmol-tools.tools-layout.tools-scroll-v12-active > .tools-hub > .tools-scroll-v11-rail {
+    display:none !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+  }
+  /* The browser should not chain card scrolling into the document canvas. */
+  #wmol-tools.tools-layout.tools-scroll-v12-active .tools-hub-density-surface > .tools-grid {
+    overscroll-behavior-y:none !important;
+  }
+}
+
+/* Finger taps are shorter than a desktop hover. Show the established
+   whole-board theme promptly on touch without delaying navigation. */
+@media (hover:none) and (pointer:coarse) {
+  #wmol-tools.tools-layout::after,
+  #wmol-tools.tools-layout > .tools-hub::before {
+    transition:opacity 60ms linear !important;
+  }
+}
