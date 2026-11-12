@@ -1,0 +1,65 @@
+/* WMOL Security+ v17 — exact scoped gallery alignment, desktop width, keystones, Back, and static caret checks.
+ * Does not change AWS, SHRM, PASS, or Tools styles. Mobile layouts retain native reflow and zoom. */
+#securityplusPage {caret-color:transparent;}
+#securityplusPage :where(h1,h2,h3,h4,p,span,li,small,strong,b,blockquote,summary,output) {caret-color:transparent!important;}
+
+/* Symmetric back arrow and label: do not let inherited typography change alignment. */
+#securityplusPage .sp-back {display:inline-grid!important;grid-template-columns:18px max-content;align-items:center;justify-content:center;column-gap:10px;gap:10px;line-height:18px!important;min-height:44px;padding:11px 15px!important;}
+#securityplusPage .sp-back-icon {display:block;align-self:center;justify-self:center;width:18px;height:18px;flex:none;margin:0;transform:none!important;vertical-align:middle;}
+#securityplusPage .sp-back span{display:block;line-height:18px!important;margin:0;padding:0;transform:none!important;white-space:nowrap;}
+
+/* Keystone: broader top, narrower base, matching the Coral arch icon. */
+#securityplusPage .sp-benefits span::before{clip-path:polygon(0 0,100% 0,81% 100%,19% 100%)!important;}
+
+/* Arrows align with the dot ROW, not with dots plus the progress counter. */
+#securityplusPage .sp-tour-controls {display:flex;align-items:flex-start;justify-content:flex-start;flex-wrap:wrap;gap:clamp(12px,1.6vw,22px);width:100%;margin-top:27px;}
+#securityplusPage .sp-tour-navigation{display:grid;grid-template-columns:43px 118px 43px;align-items:start;column-gap:10px;justify-content:start;flex:0 0 auto;}
+#securityplusPage .sp-tour-navigation .sp-tour-arrow{width:43px;height:43px;flex:none;align-self:start;justify-self:center;margin:0;}
+#securityplusPage .sp-dot-group{min-width:118px;width:118px;display:grid;grid-template-rows:43px 15px;justify-items:center;gap:3px;align-items:start;}
+#securityplusPage .sp-dot-row{height:43px;min-height:43px;display:flex;align-items:center;justify-content:center;gap:6px;}
+#securityplusPage .sp-slide-count{display:block;min-height:15px;height:15px;line-height:15px;text-align:center;margin:0;padding:0;}
+#securityplusPage .sp-thumb-strip{margin:0;align-self:start;display:grid;grid-template-columns:repeat(3,60px);gap:7px;justify-content:start;}
+#securityplusPage .sp-thumb{width:60px;min-height:75px;}
+/* Keep exact price layout/copy styling across Security+ and the established SHRM pattern. */
+#securityplusPage .sp-price-answer .sp-pricing-head{font-size:16px;line-height:1.6;font-weight:400;margin-bottom:18px;}
+#securityplusPage .sp-price-answer .sp-pricing-head strong{font-weight:700;}
+#securityplusPage .sp-price-answer .sp-start-copy{margin-top:16px;}
+
+/* Proportionally bounded desktop composition: ~75% of the former 1240px working width.
+ * Responsive vertical/phone windows reflow normally. This does not disable browser zoom. */
+@media (min-width:1024px){
+  #securityplusPage .sp-bounded {width:min(calc(100% - 64px),940px);}
+  #securityplusPage .sp-hero-grid{grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:5.2%;}
+  #securityplusPage .sp-hero h1{font-size:clamp(43px,4.1vw,65px);}
+  #securityplusPage .sp-folio{width:min(100%,300px);}
+  #securityplusPage .sp-tour-grid{grid-template-columns:minmax(230px,.9fr) minmax(0,1.1fr);gap:clamp(28px,4vw,55px);}
+  #securityplusPage .sp-tour-copy h2{font-size:clamp(31px,3.3vw,43px);}
+  #securityplusPage .sp-tour-copy h3{font-size:clamp(25px,2.5vw,32px);}
+  #securityplusPage .sp-info h2{font-size:clamp(35px,3.5vw,49px);}
+}
+@media (min-width:701px) and (max-width:1023px){
+  #securityplusPage .sp-tour-controls{gap:12px;}
+  #securityplusPage .sp-tour-navigation{grid-template-columns:40px 108px 40px;column-gap:8px;}
+  #securityplusPage .sp-tour-navigation .sp-tour-arrow{width:40px;height:40px;}
+  #securityplusPage .sp-dot-group{width:108px;min-width:108px;grid-template-rows:40px 15px;}
+  #securityplusPage .sp-dot-row{height:40px;min-height:40px;}
+  #securityplusPage .sp-thumb-strip{grid-template-columns:repeat(3,55px);gap:5px;}
+  #securityplusPage .sp-thumb{width:55px;}
+}
+@media (max-width:700px){
+  #securityplusPage .sp-tour-controls{gap:13px;}
+  #securityplusPage .sp-tour-navigation{grid-template-columns:39px 102px 39px;column-gap:8px;}
+  #securityplusPage .sp-tour-navigation .sp-tour-arrow{width:39px;height:39px;}
+  #securityplusPage .sp-dot-group{width:102px;min-width:102px;grid-template-rows:39px 15px;gap:4px;}
+  #securityplusPage .sp-dot-row{height:39px;min-height:39px;gap:5px;}
+  #securityplusPage .sp-thumb-strip{grid-template-columns:repeat(3,55px);gap:5px;}
+  #securityplusPage .sp-thumb{width:55px;min-height:72px;}
+}
+@media (max-width:350px){
+  #securityplusPage .sp-tour-navigation{grid-template-columns:38px 99px 38px;column-gap:6px;}
+  #securityplusPage .sp-dot-group{width:99px;min-width:99px;grid-template-rows:38px 15px;}
+  #securityplusPage .sp-tour-navigation .sp-tour-arrow{width:38px;height:38px;}
+  #securityplusPage .sp-dot-row{height:38px;min-height:38px;gap:4px;}
+  #securityplusPage .sp-thumb-strip{grid-template-columns:repeat(3,50px);gap:4px;}
+  #securityplusPage .sp-thumb{width:50px;min-height:68px;}
+}
