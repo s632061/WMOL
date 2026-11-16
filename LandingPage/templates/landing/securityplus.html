@@ -9,7 +9,9 @@
 <link rel="stylesheet" href="/static/css/securityplus-v17.css?v=20261111-17">
 <link rel="stylesheet" href="/static/css/securityplus-v18.css?v=20261116-18">
 <script src="/static/js/securityplus-config.js?v=20261116-18" defer></script>
-<script src="/static/js/securityplus.js?v=20261116-18" defer></script>
+<link rel="stylesheet" href="/static/css/securityplus-v19.css?v=20261116-19">
+<script src="/static/js/securityplus.js?v=20261116-19" defer></script>
+<script src="/static/js/securityplus-gallery-v19.js?v=20261116-19" defer></script>
 {% endblock %}
 {% block content %}
 <article id="securityplusPage" class="sp-page">
@@ -19,8 +21,8 @@
 <div class="sp-benefits"><span>Study what's most important</span><span>Keep practice and review connected</span><span>Fit preparation around life</span><span>Always know what to do next</span></div>
 <div class="sp-platforms" aria-label="App download options"><a class="sp-platform" data-sp-platform="iPhone" aria-disabled="true"><span>iPhone</span><small>Coming soon</small></a><a class="sp-platform" data-sp-platform="Android" aria-disabled="true"><span>Android</span><small>Coming soon</small></a><a class="sp-platform" data-sp-platform="Windows" aria-disabled="true"><span>Windows</span><small>Coming soon</small></a><a class="sp-platform" data-sp-platform="macOS" aria-disabled="true"><span>macOS</span><small>Coming soon</small></a></div>
 <p class="sp-independence">An independent WMOL study app. Not an official CompTIA product.</p></div>
-<div class="sp-hero-stage"><div class="sp-folio"><div class="sp-folio-label"><span>SECURITY+ COMPANION</span><span>App homepage</span></div><div class="sp-hero-device"><img data-sp-hero-image src="/static/img/securityplus/screenshots-v18/welcome-dark.jpg" width="990" height="2048" alt="Security+ Companion dark homepage welcoming William" fetchpriority="high"><div data-sp-hero-placeholder hidden><p class="sp-missing">Homepage image unavailable.</p></div></div><div class="sp-folio-foot">Layered protection / Coral &amp; Ink</div></div></div>
-</div></section><section class="sp-tour" aria-label="Explore the Security+ Companion" data-sp-tour tabindex="0"><div class="sp-bounded sp-tour-grid"><div class="sp-tour-frame" data-sp-tour-frame data-shape="portrait"><div class="sp-screen"><img data-sp-slide-image src="/static/img/securityplus/screenshots-v18/welcome-dark.jpg" width="990" height="2048" alt="Security+ Companion App — Welcome"><div class="sp-gallery-placeholder" data-sp-gallery-placeholder hidden><img src="/static/img/securityplus/coral-arch-icon.png" alt=""><strong>Welcome</strong><small>Image unavailable. Please try again.</small></div></div></div><div class="sp-tour-copy"><h2>Inside the Security+ Companion</h2><h3 data-sp-slide-title>Always know what to do next</h3><p data-sp-slide-caption>See how the system works, open your study plan, and get started from day one.</p><p class="sp-full-image-link"><a data-sp-full-image href="/static/img/securityplus/screenshots-v18/welcome-dark.jpg" target="_blank" rel="noopener" aria-label="Open full-size welcome screenshot">View full-size screenshot</a></p><div class="sp-tour-controls" aria-label="Product gallery">
+<div class="sp-hero-stage"><div class="sp-folio"><div class="sp-folio-label"><span>SECURITY+ COMPANION</span></div><div class="sp-hero-device"><img data-sp-hero-image src="/static/img/securityplus/screenshots-v18/welcome-dark.jpg" width="990" height="2048" alt="Security+ Companion dark homepage welcoming William" fetchpriority="high"><div data-sp-hero-placeholder hidden><p class="sp-missing">Homepage image unavailable.</p></div></div></div></div>
+</div></section><section class="sp-tour" aria-label="Explore the Security+ Companion" data-sp-tour tabindex="0"><div class="sp-bounded sp-tour-grid"><div class="sp-tour-frame" data-sp-tour-frame data-shape="portrait"><button type="button" class="sp-screen" data-sp-open-preview aria-haspopup="dialog" aria-controls="spViewer" aria-label="Enlarge screenshot: Welcome"><img data-sp-slide-image src="/static/img/securityplus/screenshots-v18/welcome-dark.jpg" width="990" height="2048" alt="Security+ Companion App — Welcome"><span class="sp-gallery-placeholder" data-sp-gallery-placeholder hidden><img src="/static/img/securityplus/coral-arch-icon.png" alt=""><strong>Welcome</strong><small>Image unavailable. Please try again.</small></span></button></div><div class="sp-tour-copy"><h2>Inside the Security+ Companion</h2><div class="sp-slide-copy" data-sp-slide-copy><div class="sp-slide-description is-current"><h3 data-sp-slide-title>Always know what to do next</h3><p data-sp-slide-caption>See how the system works, open your study plan, and get started from day one.</p></div></div><div class="sp-tour-controls" aria-label="Product gallery">
   <div class="sp-tour-navigation" aria-label="Gallery navigation">
     <button class="sp-tour-arrow" data-sp-prev type="button" aria-label="Previous gallery image" disabled>‹</button>
     <div class="sp-dot-group"><div class="sp-dot-row" data-sp-dots role="group" aria-label="Choose a slide"></div><output class="sp-slide-count" data-sp-slide-count aria-live="polite">1/8</output></div>
@@ -61,5 +63,10 @@
 <section class="sp-footer-panel" role="tabpanel" id="sp-panel-terms" data-sp-panel="terms" aria-labelledby="sp-tab-terms" hidden>{% include 'landing/securityplus-terms.html' %}</section>
 <section class="sp-footer-panel" role="tabpanel" id="sp-panel-privacy" data-sp-panel="privacy" aria-labelledby="sp-tab-privacy" hidden>{% include 'landing/securityplus-privacy.html' %}</section>
 <p class="sp-footnote">Independent preparation. WMOL is not affiliated with, endorsed, sponsored or approved by CompTIA or other certification issuers.</p>
-</div></footer></article>
+</div></footer><dialog id="spViewer" class="sp-viewer" aria-labelledby="spViewerTitle" aria-describedby="spViewerCaption">
+  <div class="sp-viewer-toolbar"><button type="button" class="sp-viewer-close" data-close-preview aria-label="Close image viewer" autofocus>×</button></div>
+  <div class="sp-viewer-viewport" tabindex="0" aria-label="Screenshot. Pinch or use browser zoom to enlarge."><div class="sp-viewer-canvas"><img class="sp-viewer-image" alt="" draggable="false"></div></div>
+  <div class="sp-viewer-caption"><h2 id="spViewerTitle"></h2><p id="spViewerCaption"></p></div>
+</dialog>
+</article>
 {% endblock %}

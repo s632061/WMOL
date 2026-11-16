@@ -1,0 +1,13 @@
+/* Download links share each app's accent; Android stays visibly unavailable. */
+#awsSaaPageV5 .aws5-platform-link span {color:var(--aws5-teal)!important;}
+#awsSaaPageV5 .aws5-platform-link[href] {cursor:pointer;transition:background .18s ease,border-color .18s ease,box-shadow .18s ease;}
+#awsSaaPageV5 .aws5-platform-link[href]:hover {background:#174368;border-color:var(--aws5-teal);box-shadow:0 0 0 1px var(--aws5-teal);}
+#awsSaaPageV5 .aws5-platform-link[aria-disabled="true"] {cursor:default;background:rgba(17,42,68,.6);}
+#shrmPage .hs-download {border-color:#77a99e;background:#e7f1ed;opacity:1;}
+#shrmPage .hs-download span {color:#39796d;font-weight:700;}
+#shrmPage .hs-download small {color:#3d5952;}
+#shrmPage .hs-download[href] {cursor:pointer;box-shadow:0 2px 5px rgba(40,81,71,.10);transition:background .18s ease,border-color .18s ease,box-shadow .18s ease;}
+#shrmPage .hs-download[href]:hover {background:#d5e9e2;border-color:#39796d;box-shadow:0 0 0 1px #39796d;}
+#shrmPage .hs-download[aria-disabled="true"] {cursor:default;background:#f0f5f3;box-shadow:none;}
+#shrmPage .hs-download[href]:focus-visible {outline:2px solid #39796d;outline-offset:4px;}
+@media(prefers-reduced-motion:reduce){#awsSaaPageV5 .aws5-platform-link[href],#shrmPage .hs-download[href]{transition:none;}}
