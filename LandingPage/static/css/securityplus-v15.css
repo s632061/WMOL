@@ -1,0 +1,39 @@
+/* Security+ v15: exact requested visual refinements, isolated from other WMOL pages. */
+#securityplusPage .sp-back{gap:11px;padding-inline:14px;white-space:nowrap}
+#securityplusPage .sp-back-icon{width:18px;height:18px;flex:none;display:block}
+#securityplusPage .sp-hero-copy{min-width:0}
+#securityplusPage .sp-benefits span::before{content:"";display:block;flex:0 0 12px;width:12px;height:12px;margin-top:1px;background:linear-gradient(135deg,#ffc5b4 0%,#ff8a79 76%);clip-path:polygon(18% 0%,82% 0%,100% 100%,0% 100%);}
+#securityplusPage .sp-platforms{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;width:100%;}
+#securityplusPage .sp-platform{min-width:0;min-height:65px;width:100%;padding:9px 12px;border:1px solid #ff8a79;background:#9f4035;color:#fff7f3!important;-webkit-text-fill-color:#fff7f3!important;justify-content:center;}
+#securityplusPage .sp-platform span,#securityplusPage .sp-platform small{color:#fff7f3!important;-webkit-text-fill-color:#fff7f3!important;}
+#securityplusPage .sp-platform small{opacity:.92}
+#securityplusPage .sp-platform[href]:hover{background:#b65044;border-color:#ffc1b5}
+#securityplusPage .sp-price{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+#securityplusPage .sp-price [data-sp-price]{font:400 34px/1.2 Georgia,'Times New Roman',serif;color:#ce6253}
+#securityplusPage .sp-price span{font-size:14px;color:#5d5056}
+/* Gallery: arrows bracket all nine dots; counter is centered under dots; three thumbnail slots stay at right. */
+#securityplusPage .sp-tour-controls{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:18px;width:100%;margin-top:27px;flex-wrap:nowrap}
+#securityplusPage .sp-tour-navigation{display:flex;align-items:center;justify-content:flex-start;gap:11px;min-width:0}
+#securityplusPage .sp-tour-arrow{flex:0 0 43px}
+#securityplusPage .sp-dot-group{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:118px;gap:7px}
+#securityplusPage .sp-dot-row{display:flex;align-items:center;justify-content:center;gap:6px;min-height:17px}
+#securityplusPage .sp-dot{appearance:none;cursor:pointer;box-sizing:border-box;width:7px;height:7px;min-width:7px;min-height:7px;padding:0;margin:0;border:0;border-radius:99px;background:#d7c2b9;transition:background .15s,transform .15s}
+#securityplusPage .sp-dot.is-current{background:#e87362;transform:scale(1.4)}
+#securityplusPage .sp-dot:focus-visible{outline:2px solid #9f4035;outline-offset:5px}
+#securityplusPage .sp-slide-count{display:block;font:600 11px/1.2 Arial,Helvetica,sans-serif;color:#a7594c;letter-spacing:.1em;text-align:center;min-height:13px}
+#securityplusPage .sp-thumb-strip{margin:0;grid-template-columns:repeat(3,60px);gap:7px}
+#securityplusPage .sp-thumb{width:60px;min-height:75px}
+#securityplusPage .sp-thumb img{max-width:40px;height:41px}
+@media(max-width:900px){#securityplusPage .sp-tour-controls{grid-template-columns:1fr;gap:15px;justify-items:start}#securityplusPage .sp-thumb-strip{justify-content:start}}
+@media(max-width:570px){
+  #securityplusPage .sp-platforms{grid-template-columns:repeat(2,minmax(0,1fr));}
+  #securityplusPage .sp-tour-navigation{gap:9px}
+  #securityplusPage .sp-tour-arrow{flex-basis:39px}
+  #securityplusPage .sp-dot-group{min-width:100px}
+  #securityplusPage .sp-dot-row{gap:5px}
+  #securityplusPage .sp-tour-controls{gap:18px}
+  #securityplusPage .sp-thumb-strip{grid-template-columns:repeat(3,61px);gap:7px}
+  #securityplusPage .sp-thumb{width:61px;min-height:74px}
+}
+@media(max-width:350px){#securityplusPage .sp-tour-navigation{gap:7px}#securityplusPage .sp-thumb-strip{grid-template-columns:repeat(3,54px)}#securityplusPage .sp-thumb{width:54px}}
+@media(prefers-reduced-motion:reduce){#securityplusPage .sp-dot{transition:none}}

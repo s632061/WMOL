@@ -1,0 +1,12 @@
+/* Small, cross-route boundary safeguard. Preserve the existing scroll owners,
+   page transitions, browser pinch zoom, and natural in-page scrolling. */
+html:root,
+html:root body {
+  overscroll-behavior-y:none !important;
+}
+/* On iPhones the Tools canvas was forcibly black. Match the existing brown
+   frame behind the board so an OS-controlled pull no longer reveals black. */
+html:root.wmol-phone-device[data-wmol-surface="tools"],
+html:root.wmol-phone-device[data-wmol-surface="tools"] body {
+  background-color:#5a3b26 !important;
+}

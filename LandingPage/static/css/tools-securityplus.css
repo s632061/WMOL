@@ -1,0 +1,21 @@
+/* Security+ Tools hub extension; scoped to one card and its own selected theme. */
+#wmol-tools .tool-icon-card--securityplus{color:#161D2B;transition:border-color .2s,box-shadow .2s,background .2s;}
+#wmol-tools .tool-icon-card--securityplus .tool-icon-imgwrap{overflow:hidden;border-radius:24%;}
+#wmol-tools .tool-icon-card--securityplus .tool-icon-imgwrap img{max-width:100%;height:auto;object-fit:contain;}
+#wmol-tools .tool-icon-card--securityplus .tool-icon-name--securityplus{color:#c76353;font-weight:700;}
+#wmol-tools .tool-icon-card--securityplus .tool-securityplus-audience{font-size:clamp(.79rem,.82vw,.92rem);line-height:1.36;color:#726369;margin:5px 0;}
+#wmol-tools .tool-icon-card--securityplus .tool-icon-kicker{font-weight:700;color:#ba5f4f;}
+#wmol-tools .tool-icon-card--securityplus .tool-icon-desc{line-height:1.45;color:#4b4a51;}
+#wmol-tools .tool-icon-card--securityplus:is(:hover,:focus-visible){border-color:#FF8A79!important;box-shadow:0 0 0 2px #FF8A7950,0 18px 35px #161D2B21!important;background:#fff7f3!important;}
+/* Existing Tools JS sets the hub and layout theme. Extend the complete backdrop, not the card alone. */
+#wmol-tools.tools-layout[data-hub-theme="securityplus"] .tools-hub,
+#wmol-tools.tools-layout .tools-hub[data-hub-theme="securityplus"]{background:radial-gradient(ellipse at 78% 20%,#384153 0%,#161D2B 82%)!important;color:#fff7f3!important;transition:background .25s ease;}
+#wmol-tools.tools-layout[data-hub-theme="securityplus"] .tools-hub-title,
+#wmol-tools.tools-layout[data-hub-theme="securityplus"] .tools-hub-subtitle,
+#wmol-tools.tools-layout .tools-hub[data-hub-theme="securityplus"] .tools-hub-title,
+#wmol-tools.tools-layout .tools-hub[data-hub-theme="securityplus"] .tools-hub-subtitle{color:#FF8A79!important;-webkit-text-fill-color:#FF8A79!important;}
+#wmol-tools.tools-layout[data-hub-theme="securityplus"] .tools-hub-description,
+#wmol-tools.tools-layout[data-hub-theme="securityplus"] .tools-hub-description strong,
+#wmol-tools.tools-layout .tools-hub[data-hub-theme="securityplus"] .tools-hub-description,
+#wmol-tools.tools-layout .tools-hub[data-hub-theme="securityplus"] .tools-hub-description strong{color:#fff7f3!important;-webkit-text-fill-color:#fff7f3!important;}
+#wmol-tools.tools-layout[data-hub-theme="securityplus"] .tool-icon-card:not(:hover):not(:focus-visible){background:#fff7f3!important;}

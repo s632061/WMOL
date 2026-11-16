@@ -1,0 +1,146 @@
+/* WMOL Tools v12 — scroll-reveal intro; Back and "Select Your System" stay.
+   Owns only the Tools page; keeps v9 card density and portrait-desktop layout.
+   v12 JS moves the existing two intro paragraphs inside the scrollable card
+   region only on responsive layouts that can use the scroll-reveal interaction.
+   Without JS, the original v11 layout and scrolling remain intact. */
+
+/* The left-aligned title and its theme-sensitive underline stay in the fixed
+   heading region. Do not style the Back button or the actual card dimensions. */
+#wmol-tools.tools-layout.tools-scroll-v12-active .tools-hub-density-surface > .tools-hub-hero {
+  flex:0 0 auto !important;
+  min-height:0 !important;
+  margin-bottom:0 !important;
+}
+
+/* An empty placeholder is never a grid row on the approved portrait desktop
+   or short-height fallback. This prevents any change to the 100%-zoom view. */
+#wmol-tools.tools-layout .tools-hub-density-surface > .tools-grid > .tools-scroll-v12-intro {
+  display:none !important;
+}
+#wmol-tools.tools-layout.tools-scroll-v12-active .tools-hub-density-surface > .tools-grid > .tools-scroll-v12-intro {
+  display:block !important;
+}
+
+/* Preserve the existing typography/colors because these are MOVED original
+   paragraphs, not replacement content. The natural scroll hides the text;
+   opacity follows actual scrolling and reverses automatically on the way up. */
+#wmol-tools.tools-layout.tools-scroll-v12-active .tools-hub-density-surface > .tools-grid > .tools-scroll-v12-intro {
+  grid-column:1 / -1 !important;
+  min-width:0 !important;
+  width:100% !important;
+  max-width:100% !important;
+  align-self:start !important;
+  margin:0 0 var(--tools-v12-intro-gap-fix, 0px) !important;
+  padding:0 !important;
+  opacity:var(--tools-v12-intro-opacity, 1);
+  will-change:opacity;
+  pointer-events:auto;
+}
+
+/* At wide sizes, the original row gap is roomier than the pre-v12 hero-to-grid
+   gap; compensate only the NEW first grid row. None of the cards are changed. */
+@media (min-width:901px) and (orientation:landscape) {
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout.tools-scroll-v12-active {
+    --tools-v12-intro-gap-fix:calc(18px - clamp(19px,2cqw,34px));
+  }
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout.tools-scroll-v12-active .tools-hub-density-surface > .tools-grid {
+    margin-top:0 !important;
+  }
+}
+
+/* Tablet and desktop inner-scroll layouts already belong to v10; the only
+   change is moving the two paragraphs from the pinned heading into that grid. */
+@media (min-width:701px) {
+  html:root:not(.wmol-phone-device) #wmol-tools.tools-layout.tools-scroll-v12-active .tools-hub-density-surface > .tools-grid {
+    scroll-behavior:auto !important;
+  }
+}
+
+/* Phones: keep the same board, same one-column card sizes, and native touch
+   gestures. Make the card region the scroll owner so Back/title do not leave.
+   This is active only after JS establishes the responsive-safe v12 state. */
+@media (max-width:700px) {
+  #wmol-tools.tools-layout.tools-scroll-v12-active > .tools-hub {
+    display:flex !important;
+    flex-direction:column !important;
+    overflow:hidden !important;
+  }
+  #wmol-tools.tools-layout.tools-scroll-v12-active > .tools-hub > .tools-back {
+    flex:0 0 auto !important;
+  }
+  #wmol-tools.tools-layout.tools-scroll-v12-active > .tools-hub > .tools-hub-density-surface {
+    display:flex !important;
+    flex-direction:column !important;
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    max-height:100% !important;
+    overflow:hidden !important;
+  }
+  #wmol-tools.tools-layout.tools-scroll-v12-active .tools-hub-density-surface > .tools-grid {
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+    align-content:start !important;
+    grid-auto-rows:max-content !important;
+    padding-bottom:18px !important;
+    scrollbar-width:none !important;
+    scrollbar-gutter:auto !important;
+  }
+  #wmol-tools.tools-layout.tools-scroll-v12-active .tools-hub-density-surface > .tools-grid::-webkit-scrollbar {
+    width:0 !important;
+    display:none !important;
+  }
+  #wmol-tools.tools-layout.tools-scroll-v12-active .tools-hub-density-surface > .tools-hub-hero {
+    margin-bottom:0 !important;
+    padding-bottom:0 !important;
+  }
+}
+
+/* On phones, use a discreet, narrow version of the same warm-brown rail.
+   It is added only by JS when the grid genuinely scrolls. */
+@media (max-width:700px) {
+  #wmol-tools.tools-layout.tools-scroll-v12-active > .tools-hub > .tools-scroll-v11-rail {
+    position:absolute !important;
+    display:block !important; /* overrides v11's phone-only hide rule */
+    right:2px !important;
+    width:20px !important; /* comfortable touch target, 6px visible thumb */
+    z-index:80 !important;
+    background:transparent !important;
+    touch-action:none;
+    cursor:pointer;
+    user-select:none;
+  }
+  #wmol-tools.tools-layout.tools-scroll-v12-active .tools-scroll-v11-rail::before {
+    content:"";
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:3px;
+    border-radius:999px;
+    background:rgba(104,65,39,.42);
+    pointer-events:none;
+  }
+  #wmol-tools.tools-layout.tools-scroll-v12-active .tools-scroll-v11-thumb {
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    width:6px;
+    min-height:28px;
+    border-radius:999px;
+    background:#785137;
+    pointer-events:none;
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  #wmol-tools.tools-layout.tools-scroll-v12-active .tools-scroll-v12-intro {
+    will-change:auto;
+    opacity:1 !important;
+  }
+}
