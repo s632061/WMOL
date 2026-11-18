@@ -1,0 +1,149 @@
+/* WMOL Tools card parity v20 | 2026-11-18
+   Page-scoped visual parity: all five cards use the AWS title, subtitle,
+   description scales; the same Security+ description gap; and PASS-sized
+   square icon frames.  Preserve existing themes, routes and scroll behavior. */
+
+html:root #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid > .tool-icon-card {
+  --wmol-card-icon: 124px;
+  --wmol-card-title: clamp(18px, 1.8cqw, 30px);
+  --wmol-card-subtitle: clamp(15px, 1.42cqw, 23px);
+  --wmol-card-body: clamp(16px, 1.6cqw, 27px);
+  --wmol-card-desc-gap: clamp(11px, 1.05cqw, 19px);
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  gap: 0 !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Image mark: identical frame and artwork fit, no product-specific stretch. */
+html:root #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid > .tool-icon-card .tool-icon-imgwrap {
+  display: grid !important;
+  place-items: center !important;
+  position: relative !important;
+  width: min(100%, var(--wmol-card-icon)) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-width: 100% !important;
+  max-height: none !important;
+  aspect-ratio: 1 / 1 !important;
+  flex: 0 0 auto !important;
+  margin: 0 0 12px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border-radius: 18px !important;
+}
+html:root #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid > .tool-icon-card .tool-icon-imgwrap img {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  transform: none !important;
+}
+/* HSK's existing artwork uses an edge-to-edge black square. */
+html:root #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid > .tool-icon-card[data-hub-theme="hsk"] .tool-icon-imgwrap img {
+  object-fit: cover !important;
+}
+
+/* All five product titles match AWS SAA Companion App's approved type scale. */
+html:root #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid > .tool-icon-card .tool-icon-name {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  font-family: "Times New Roman", Georgia, serif !important;
+  font-size: var(--wmol-card-title) !important;
+  line-height: 1.19 !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  white-space: normal !important;
+  overflow-wrap: normal !important;
+}
+
+/* PASS's two parentheticals remain intact, but cease competing with the title. */
+html:root #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid > .tool-icon-card--pass .tool-pass-heading-row {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  flex-wrap: nowrap !important;
+  width: 100% !important;
+  gap: 0 !important;
+  margin: 0 !important;
+}
+html:root #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid > .tool-icon-card--pass .tool-pass-heading-row .tool-icon-name--pass {
+  flex: 0 0 auto !important;
+  width: 100% !important;
+}
+
+/* AWS, PASS, HR, Security+ parentheticals and the HSK tagline: one scale. */
+html:root #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid > .tool-icon-card :is(
+  .tool-icon-kicker,
+  .tool-pass-audience,
+  .tool-pass-expanded-name,
+  .tool-aws-expanded-name,
+  .tool-shrm-audience,
+  .tool-securityplus-audience
+) {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  font-size: var(--wmol-card-subtitle) !important;
+  line-height: 1.32 !important;
+  margin: 4px 0 0 !important;
+  padding: 0 !important;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+}
+html:root #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid > .tool-icon-card--pass .tool-pass-expanded-name {
+  margin-top: 1px !important;
+}
+
+/* Descriptions: same scale, leading and Security+ spacing, preserving copy. */
+html:root #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid > .tool-icon-card :is(
+  .tool-icon-desc,
+  .tool-pass-description,
+  .tool-aws-benefits
+) {
+  width: 100% !important;
+  max-width: 100% !important;
+  font-size: var(--wmol-card-body) !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  line-height: 1.40 !important;
+  margin: var(--wmol-card-desc-gap) 0 0 !important;
+  padding: 0 !important;
+  letter-spacing: normal !important;
+}
+html:root #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid > .tool-icon-card--aws .tool-aws-benefits {
+  display: grid !important;
+  gap: 0 !important;
+}
+
+/* Narrow displays still keep the existing one-column responsive layout. */
+@media (max-width: 700px) {
+  html:root #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid > .tool-icon-card {
+    --wmol-card-icon: 104px;
+    --wmol-card-title: 16px;
+    --wmol-card-subtitle: 14px;
+    --wmol-card-body: 16px;
+    --wmol-card-desc-gap: 10px;
+  }
+}
+/* Explicit phone-device mode also covers rotated phones/tablets. */
+html:root.wmol-phone-device #wmol-tools.tools-layout .tools-hub-density-surface .tools-grid > .tool-icon-card {
+  --wmol-card-icon: 104px;
+  --wmol-card-title: 16px;
+  --wmol-card-subtitle: 14px;
+  --wmol-card-body: 16px;
+  --wmol-card-desc-gap: 10px;
+}

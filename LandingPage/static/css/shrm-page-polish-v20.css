@@ -1,0 +1,25 @@
+/* HR Certification Companion | page-specific header polish, 2026-11-18.
+   Keep original nav, responsive layouts, theme, product/legal links and behavior. */
+#shrmPage .hs-back {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+}
+#shrmPage .hs-back > svg {
+  display: block !important;
+  width: 18px !important;
+  height: 18px !important;
+  flex: 0 0 18px !important;
+  align-self: center !important;
+  transform: none !important;
+}
+#shrmPage .hs-back > span {
+  display: inline-flex !important;
+  height: 18px !important;
+  align-items: center !important;
+  line-height: 18px !important;
+  vertical-align: middle !important;
+  position: relative !important;
+  top: 1px !important; /* optical center of font glyph with the SVG stroke */
+}
